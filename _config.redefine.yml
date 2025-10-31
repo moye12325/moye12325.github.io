@@ -11,13 +11,13 @@
 # Docs: https://redefine-docs.ohevan.com/basic/info
 info:
   # Site title
-  title: Theme Redefine
+  title: 码农修行手册
   # Site subtitle
-  subtitle: Redefine Your Hexo Journey.
+  subtitle: Python与量子计算之路上的心得与实践
   # Author name
-  author: The Redefine Team
+  author: moye12325
   # Site URL
-  url: https://redefine.ohevan.com
+  url: https://moye12325.github.io
 # BASIC INFORMATION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
 
@@ -100,7 +100,7 @@ global:
   open_graph:
     enable: true
     image: /images/redefine-og.webp  # default og:image
-    description: Hexo Theme Redefine, Redefine Your Hexo Journey.
+    description: moye12325的个人技术博客，专注于Python、全栈开发实战经验、编程技巧分享与深入的技术解析。
   # Google Analytics
   google_analytics:
     enable: false # Whether to enable Google Analytics
@@ -134,10 +134,13 @@ home_banner:
     light: /images/wallhaven-wqery6-light.webp # light mode
     dark: /images/wallhaven-wqery6-dark.webp # dark mode
   # Home banner title
-  title: Theme Redefine
+  title: 码农修行手册
   # Home banner subtitle
   subtitle:
-    text: [] # subtitle text, array
+    text: 
+      - Python与量子计算之路上的心得与实践
+      - 分享编程技巧与技术解析
+      - 记录全栈开发的点滴收获
     hitokoto:  # 一言配置
       enable: false # Whether to enable hitokoto
       show_author: false # Whether to show author
@@ -433,7 +436,7 @@ inject:
 plugins:
   # RSS feed. Requires hexo-generator-feed (npm i hexo-generator-feed). See https://github.com/hexojs/hexo-generator-feed
   feed:
-    enable: false # Whether to enable
+    enable: true # Whether to enable
   # Aplayer. See https://github.com/DIYgod/APlayer
   aplayer:
     enable: false # Whether to enable
