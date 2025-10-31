@@ -11,6 +11,15 @@ author: moye12325
 language: zh-CN
 timezone: Asia/Shanghai
 
+# Navigation
+menu:
+  首页: /
+  博客: /
+  随笔: /categories/随笔/
+  项目: /projects/
+  关于: /about/
+  友链: /links/
+
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 # URL
