@@ -1,3 +1,11 @@
 # System files
 .DS_Store
 Thumbs.db
+
+# Hexo
+db.json
+*.log
+node_modules/
+public/
+.deploy*/
+_multiconfig.yml
