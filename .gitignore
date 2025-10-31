@@ -1,9 +1,3 @@
-node_modules/
-public/
-.deploy_git/
-db.json
+# System files
 .DS_Store
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+Thumbs.db
