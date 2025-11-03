@@ -13,6 +13,7 @@
     "version": "8.1.0"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "hexo": "^8.0.0",
     "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
@@ -25,6 +26,7 @@
     "hexo-server": "^3.0.0",
     "hexo-theme-fluid": "^1.9.8",
     "hexo-theme-landscape": "^1.0.0",
-    "hexo-theme-redefine": "^2.8.5"
+    "hexo-theme-redefine": "^2.8.5",
+    "slugify": "^1.6.6"
   }
 }
