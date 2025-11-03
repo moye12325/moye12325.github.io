@@ -1,241 +1,336 @@
 const fs = require('fs');
 const path = require('path');
+const matter = require('gray-matter');
+const slugify = require('slugify');
 
-// File paths
-const POSTS_DIR = path.join(__dirname, '../source/_drafts/posts');
-const NOTES_DIR = path.join(__dirname, '../source/_drafts/notes');
-const TARGET_POSTS_DIR = path.join(__dirname, '../source/_posts');
-const TARGET_NOTES_DIR = path.join(__dirname, '../source/_posts/notes');
+// Paths
+const DRAFTS_POSTS_DIR = path.join(__dirname, '../source/_drafts/posts');
+const DRAFTS_NOTES_DIR = path.join(__dirname, '../source/_drafts/notes');
+const POSTS_DIR = path.join(__dirname, '../source/_posts');
+const NOTES_DIR = path.join(__dirname, '../source/_posts/notes');
+const BACKUP_DIR = path.join(__dirname, '../.backup_drafts');
 
-// Read meta.json files
-const POSTS_META_PATH = path.join(POSTS_DIR, '_meta.json');
-const NOTES_META_PATH = path.join(NOTES_DIR, '_meta.json');
-
-// Utility: Format date from ISO string to YYYY-MM-DD HH:mm:ss
-function formatDate(isoString) {
-  if (!isoString) return null;
-  const date = new Date(isoString);
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const dd = String(date.getDate()).padStart(2, '0');
-  const hh = String(date.getHours()).padStart(2, '0');
-  const min = String(date.getMinutes()).padStart(2, '0');
-  const ss = String(date.getSeconds()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
-}
-
-// Utility: Generate safe filename from slug or title
-function generateFileName(slug, title) {
-  if (slug && slug !== 'null') {
-    // Use slug if available
-    return `${slug}.md`;
+// Ensure target directories exist
+function ensureDir(dir) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
   }
-  // Fallback to sanitized title
-  const sanitized = title
-    .replace(/[<>:"/\\|?*\x00-\x1F]/g, '') // Remove invalid characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .substring(0, 100); // Limit length
-  return `${sanitized}.md`;
 }
 
-// Utility: Extract summary from markdown content
+// Format timestamp to YYYY-MM-DD HH:mm:ss
+function formatTimestamp(timestamp) {
+  if (!timestamp) return null;
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+// Generate safe filename from slug or title
+function generateSafeFilename(slug, title) {
+  // If slug exists and is meaningful, use it
+  if (slug && slug !== 'null' && slug !== 'undefined' && slug.trim() !== '') {
+    return slugify(slug, { lower: false, strict: false, remove: /[*+~.()'"!:@]/g });
+  }
+  
+  // Fallback to sanitized title
+  return slugify(title, { lower: false, strict: false, remove: /[*+~.()'"!:@]/g });
+}
+
+// Extract first 200 characters from markdown body for summary
 function extractSummary(content, maxLength = 200) {
-  // Remove front matter if present
-  const withoutFrontMatter = content.replace(/^---[\s\S]*?---\n*/m, '');
+  // Remove front matter
+  const { content: bodyContent } = matter(content);
+  
   // Remove markdown syntax
-  const plainText = withoutFrontMatter
-    .replace(/#+\s/g, '') // Remove headers
+  let text = bodyContent
+    .replace(/^#{1,6}\s+/gm, '') // Remove headings
+    .replace(/\*\*(.+?)\*\*/g, '$1') // Remove bold
+    .replace(/\*(.+?)\*/g, '$1') // Remove italic
+    .replace(/\[(.+?)\]\(.+?\)/g, '$1') // Remove links
+    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+    .replace(/`(.+?)`/g, '$1') // Remove inline code
     .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Replace links with text
-    .replace(/`{1,3}[^`]*`{1,3}/g, '') // Remove code blocks
-    .replace(/[*_~]/g, '') // Remove emphasis
+    .replace(/\n+/g, ' ') // Replace newlines with spaces
     .trim();
   
-  // Get first maxLength characters
-  return plainText.substring(0, maxLength).trim();
+  // Return first maxLength characters
+  return text.length > maxLength ? text.substring(0, maxLength) : text;
 }
 
-// Escape YAML value if needed
-function escapeYamlValue(value) {
-  if (!value) return '';
-  const str = String(value);
-  // Check if the value needs quoting
-  const needsQuotes = /[:\n\r{}[\]&*#?|<>=!%@`]|^\s|\s$/.test(str) || 
-                     str.includes('!!') ||
-                     str.includes('---') ||
-                     str.includes('...') ||
-                     /^(true|false|yes|no|null)$/i.test(str);
+// Backup drafts before migration
+function backupDrafts() {
+  console.log('📦 Creating backup of draft files...');
+  ensureDir(BACKUP_DIR);
   
-  if (needsQuotes) {
-    // Use double quotes and escape special characters
-    return '"' + str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"';
-  }
-  return str;
-}
-
-// Generate front matter
-function generateFrontMatter(meta, content, isNote = false) {
-  const lines = ['---'];
+  const backupPosts = path.join(BACKUP_DIR, 'posts');
+  const backupNotes = path.join(BACKUP_DIR, 'notes');
   
-  // Title
-  lines.push(`title: ${escapeYamlValue(meta.title || 'Untitled')}`);
+  ensureDir(backupPosts);
+  ensureDir(backupNotes);
   
-  // Date (created)
-  if (meta.created) {
-    lines.push(`date: ${formatDate(meta.created)}`);
-  }
-  
-  // Updated (modified)
-  if (meta.modified) {
-    lines.push(`updated: ${formatDate(meta.modified)}`);
-  }
-  
-  // Categories
-  if (isNote) {
-    lines.push(`categories:`);
-    lines.push(`  - 随笔`);
-  } else if (meta.category && meta.category.name) {
-    lines.push(`categories:`);
-    lines.push(`  - ${escapeYamlValue(meta.category.name)}`);
-  }
-  
-  // Tags
-  if (meta.tags && meta.tags.length > 0) {
-    lines.push(`tags:`);
-    meta.tags.forEach(tag => {
-      lines.push(`  - ${escapeYamlValue(tag)}`);
+  // Backup posts
+  if (fs.existsSync(DRAFTS_POSTS_DIR)) {
+    const files = fs.readdirSync(DRAFTS_POSTS_DIR);
+    files.forEach(file => {
+      const srcPath = path.join(DRAFTS_POSTS_DIR, file);
+      const destPath = path.join(backupPosts, file);
+      fs.copyFileSync(srcPath, destPath);
     });
   }
   
-  // Summary - use literal block scalar for multi-line summaries
-  const summary = meta.summary || extractSummary(content);
-  if (summary) {
-    // Check if summary is multi-line or contains special characters
-    if (summary.includes('\n') || summary.length > 80) {
-      lines.push(`summary: >`);
-      // Split into lines and indent
-      summary.split('\n').forEach(line => {
-        lines.push(`  ${line}`);
-      });
-    } else {
-      lines.push(`summary: ${escapeYamlValue(summary)}`);
-    }
+  // Backup notes
+  if (fs.existsSync(DRAFTS_NOTES_DIR)) {
+    const files = fs.readdirSync(DRAFTS_NOTES_DIR);
+    files.forEach(file => {
+      const srcPath = path.join(DRAFTS_NOTES_DIR, file);
+      const destPath = path.join(backupNotes, file);
+      fs.copyFileSync(srcPath, destPath);
+    });
   }
   
-  lines.push('---');
-  lines.push('');
-  
-  return lines.join('\n');
+  console.log('✅ Backup completed at:', BACKUP_DIR);
 }
 
-// Process markdown file
-function processMarkdownFile(filePath, meta, targetDir, isNote = false) {
-  try {
-    // Read the markdown content
-    const content = fs.readFileSync(filePath, 'utf8');
-    
-    // Remove existing front matter if any
-    const contentWithoutFrontMatter = content.replace(/^---[\s\S]*?---\n*/m, '');
-    
-    // Generate new front matter
-    const frontMatter = generateFrontMatter(meta, contentWithoutFrontMatter, isNote);
-    
-    // Combine front matter with content
-    const newContent = frontMatter + contentWithoutFrontMatter;
-    
-    // Generate target filename
-    const fileName = generateFileName(meta.slug, meta.title);
-    const targetPath = path.join(targetDir, fileName);
-    
-    // Ensure target directory exists
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-    
-    // Write the new file
-    fs.writeFileSync(targetPath, newContent, 'utf8');
-    
-    console.log(`✓ Migrated: ${meta.title} -> ${fileName}`);
-    return true;
-  } catch (error) {
-    console.error(`✗ Error processing ${meta.title}:`, error.message);
-    return false;
+// Migrate posts
+function migratePosts() {
+  console.log('\n📝 Migrating blog posts...');
+  
+  const metaPath = path.join(DRAFTS_POSTS_DIR, '_meta.json');
+  if (!fs.existsSync(metaPath)) {
+    console.log('⚠️  No _meta.json found for posts');
+    return;
   }
+  
+  const metadata = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+  let successCount = 0;
+  let skipCount = 0;
+  let errorCount = 0;
+  
+  Object.entries(metadata).forEach(([id, meta]) => {
+    try {
+      const title = meta.title;
+      const slug = meta.slug;
+      
+      // Find matching markdown file
+      const files = fs.readdirSync(DRAFTS_POSTS_DIR).filter(f => f.endsWith('.md'));
+      let matchedFile = null;
+      
+      for (const file of files) {
+        const content = fs.readFileSync(path.join(DRAFTS_POSTS_DIR, file), 'utf8');
+        const parsed = matter(content);
+        if (parsed.data.title === title || parsed.data.oid === id || file.includes(title)) {
+          matchedFile = file;
+          break;
+        }
+      }
+      
+      if (!matchedFile) {
+        console.log(`⚠️  No markdown file found for: ${title}`);
+        skipCount++;
+        return;
+      }
+      
+      const filePath = path.join(DRAFTS_POSTS_DIR, matchedFile);
+      const content = fs.readFileSync(filePath, 'utf8');
+      const parsed = matter(content);
+      
+      // Build new front matter
+      const newFrontMatter = {
+        title: title,
+        date: formatTimestamp(meta.created),
+      };
+      
+      // Add updated if exists
+      if (meta.modified) {
+        newFrontMatter.updated = formatTimestamp(meta.modified);
+      }
+      
+      // Add categories
+      if (meta.category && meta.category.name) {
+        newFrontMatter.categories = [meta.category.name];
+      }
+      
+      // Add tags
+      if (meta.tags && meta.tags.length > 0) {
+        newFrontMatter.tags = meta.tags;
+      }
+      
+      // Add summary
+      if (meta.summary && meta.summary !== null && meta.summary.trim() !== '') {
+        newFrontMatter.summary = meta.summary;
+      } else {
+        // Generate summary from first 200 chars of body
+        const autoSummary = extractSummary(content);
+        if (autoSummary) {
+          newFrontMatter.summary = autoSummary;
+        }
+      }
+      
+      // Generate safe filename
+      const safeFilename = generateSafeFilename(slug, title) + '.md';
+      const targetPath = path.join(POSTS_DIR, safeFilename);
+      
+      // Check if file already exists (idempotency)
+      if (fs.existsSync(targetPath)) {
+        console.log(`⏭️  Skipping (already exists): ${safeFilename}`);
+        skipCount++;
+        return;
+      }
+      
+      // Create new file with updated front matter
+      const newContent = matter.stringify(parsed.content, newFrontMatter);
+      
+      // Write to target location
+      fs.writeFileSync(targetPath, newContent, 'utf8');
+      console.log(`✅ Migrated: ${matchedFile} → ${safeFilename}`);
+      successCount++;
+      
+    } catch (error) {
+      console.error(`❌ Error migrating post ${meta.title}:`, error.message);
+      errorCount++;
+    }
+  });
+  
+  console.log(`\n📊 Posts migration summary:`);
+  console.log(`   Success: ${successCount}`);
+  console.log(`   Skipped: ${skipCount}`);
+  console.log(`   Errors: ${errorCount}`);
+}
+
+// Migrate notes
+function migrateNotes() {
+  console.log('\n📓 Migrating notes...');
+  
+  const metaPath = path.join(DRAFTS_NOTES_DIR, '_meta.json');
+  if (!fs.existsSync(metaPath)) {
+    console.log('⚠️  No _meta.json found for notes');
+    return;
+  }
+  
+  const metadata = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+  let successCount = 0;
+  let skipCount = 0;
+  let errorCount = 0;
+  
+  Object.entries(metadata).forEach(([id, meta]) => {
+    try {
+      const title = meta.title;
+      const nid = meta.nid;
+      
+      // Find matching markdown file
+      const files = fs.readdirSync(DRAFTS_NOTES_DIR).filter(f => f.endsWith('.md'));
+      let matchedFile = null;
+      
+      for (const file of files) {
+        const content = fs.readFileSync(path.join(DRAFTS_NOTES_DIR, file), 'utf8');
+        const parsed = matter(content);
+        if (parsed.data.title === title || parsed.data.oid === id || file.includes(title)) {
+          matchedFile = file;
+          break;
+        }
+      }
+      
+      if (!matchedFile) {
+        console.log(`⚠️  No markdown file found for: ${title}`);
+        skipCount++;
+        return;
+      }
+      
+      const filePath = path.join(DRAFTS_NOTES_DIR, matchedFile);
+      const content = fs.readFileSync(filePath, 'utf8');
+      const parsed = matter(content);
+      
+      // Build new front matter
+      const newFrontMatter = {
+        title: title,
+        date: formatTimestamp(meta.created),
+      };
+      
+      // Add updated if exists
+      if (meta.modified) {
+        newFrontMatter.updated = formatTimestamp(meta.modified);
+      }
+      
+      // Force categories to [随笔] for notes
+      newFrontMatter.categories = ['随笔'];
+      
+      // Add tags if exists
+      if (meta.tags && meta.tags.length > 0) {
+        newFrontMatter.tags = meta.tags;
+      }
+      
+      // Add summary
+      if (meta.summary && meta.summary !== null && meta.summary.trim() !== '') {
+        newFrontMatter.summary = meta.summary;
+      } else {
+        // Generate summary from first 200 chars of body
+        const autoSummary = extractSummary(content);
+        if (autoSummary) {
+          newFrontMatter.summary = autoSummary;
+        }
+      }
+      
+      // Generate safe filename (prefer using nid for notes)
+      const safeFilename = generateSafeFilename(nid ? `note-${nid}` : null, title) + '.md';
+      const targetPath = path.join(NOTES_DIR, safeFilename);
+      
+      // Check if file already exists (idempotency)
+      if (fs.existsSync(targetPath)) {
+        console.log(`⏭️  Skipping (already exists): ${safeFilename}`);
+        skipCount++;
+        return;
+      }
+      
+      // Create new file with updated front matter
+      const newContent = matter.stringify(parsed.content, newFrontMatter);
+      
+      // Write to target location
+      fs.writeFileSync(targetPath, newContent, 'utf8');
+      console.log(`✅ Migrated: ${matchedFile} → ${safeFilename}`);
+      successCount++;
+      
+    } catch (error) {
+      console.error(`❌ Error migrating note ${meta.title}:`, error.message);
+      errorCount++;
+    }
+  });
+  
+  console.log(`\n📊 Notes migration summary:`);
+  console.log(`   Success: ${successCount}`);
+  console.log(`   Skipped: ${skipCount}`);
+  console.log(`   Errors: ${errorCount}`);
 }
 
 // Main migration function
-function migrate() {
-  console.log('Starting migration...\n');
+function main() {
+  console.log('🚀 Starting draft migration...\n');
   
-  let successCount = 0;
-  let errorCount = 0;
+  // Ensure target directories exist
+  ensureDir(POSTS_DIR);
+  ensureDir(NOTES_DIR);
   
-  // Process posts
-  if (fs.existsSync(POSTS_META_PATH)) {
-    console.log('Processing posts...');
-    const postsMeta = JSON.parse(fs.readFileSync(POSTS_META_PATH, 'utf8'));
-    
-    Object.values(postsMeta).forEach(meta => {
-      // Find corresponding markdown file
-      const files = fs.readdirSync(POSTS_DIR).filter(f => 
-        f.endsWith('.md') && f !== '_meta.json'
-      );
-      
-      // Try to match by title
-      const matchingFile = files.find(f => {
-        const fileName = f.replace('.md', '');
-        return fileName === meta.title || 
-               fileName.includes(meta.title) || 
-               meta.title.includes(fileName);
-      });
-      
-      if (matchingFile) {
-        const filePath = path.join(POSTS_DIR, matchingFile);
-        const success = processMarkdownFile(filePath, meta, TARGET_POSTS_DIR, false);
-        if (success) successCount++;
-        else errorCount++;
-      } else {
-        console.log(`⚠ No matching file found for: ${meta.title}`);
-      }
-    });
-  }
+  // Backup drafts
+  backupDrafts();
   
-  // Process notes
-  if (fs.existsSync(NOTES_META_PATH)) {
-    console.log('\nProcessing notes...');
-    const notesMeta = JSON.parse(fs.readFileSync(NOTES_META_PATH, 'utf8'));
-    
-    Object.values(notesMeta).forEach(meta => {
-      // Find corresponding markdown file
-      const files = fs.readdirSync(NOTES_DIR).filter(f => 
-        f.endsWith('.md') && f !== '_meta.json'
-      );
-      
-      // Try to match by title
-      const matchingFile = files.find(f => {
-        const fileName = f.replace('.md', '');
-        return fileName === meta.title || 
-               fileName.includes(meta.title) || 
-               meta.title.includes(fileName);
-      });
-      
-      if (matchingFile) {
-        const filePath = path.join(NOTES_DIR, matchingFile);
-        const success = processMarkdownFile(filePath, meta, TARGET_NOTES_DIR, true);
-        if (success) successCount++;
-        else errorCount++;
-      } else {
-        console.log(`⚠ No matching file found for: ${meta.title}`);
-      }
-    });
-  }
+  // Migrate posts
+  migratePosts();
   
-  console.log('\n' + '='.repeat(50));
-  console.log(`Migration complete!`);
-  console.log(`✓ Success: ${successCount}`);
-  console.log(`✗ Errors: ${errorCount}`);
-  console.log('='.repeat(50));
+  // Migrate notes
+  migrateNotes();
+  
+  console.log('\n✨ Migration completed!');
+  console.log('\nNext steps:');
+  console.log('  1. Run: npx hexo clean');
+  console.log('  2. Run: npx hexo generate');
+  console.log('  3. Verify the migrated content');
+  console.log('  4. If satisfied, you can remove source/_drafts/posts and source/_drafts/notes directories');
+  console.log('\nBackup location:', BACKUP_DIR);
 }
 
 // Run migration
-migrate();
+main();
