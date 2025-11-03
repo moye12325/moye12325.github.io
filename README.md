@@ -69,6 +69,16 @@ git commit -m "your commit message"
 git push origin main
 ```
 
+### Vercel 构建与部署
+
+```bash
+npm run vercel-build
+```
+
+该脚本会先执行 `npm run clean` 再运行 Hexo 构建，生成的静态文件位于 `public/` 目录。仓库中的 `vercel.json` 会让 Vercel 使用此命令并将站点输出目录指向 `public/`，同时通过重写规则支持无后缀的整洁 URL。
+
+> 当前部署不需要额外的环境变量；默认的 Node.js 18 运行时即可完成构建。
+
 ## 📝 文章管理
 
 ### 创建新文章
