@@ -1,7 +1,9 @@
 ---
 title: Test Design Techniques
-date: 2024-08-16 15:27:43
+date: '2024-08-16 15:27:43'
 categories:
+  - 软件测试
+tags:
   - 软件测试
 ---
 ### 一、解决穷举场景

@@ -1,15 +1,18 @@
 ---
 title: Llama 2可接受使用政策
-date: 2023-08-16 15:02:26
+date: '2023-08-16 15:02:26'
 categories:
+  - Llama
+tags:
   - Llama
 summary: >
   Llama 2可接受使用政策
-  
-  Meta致力于促进其工具和功能的安全和公平使用，包括Llama 2。如果您访问或使用Llama 2，您同意遵守此可接受使用政策（“政策”）。最新的此政策副本可在ai.meta.com/llama/use-policy找到。
-  
+
+  Meta致力于促进其工具和功能的安全和公平使用，包括Llama 2。如果您访问或使用Llama
+  2，您同意遵守此可接受使用政策（“政策”）。最新的此政策副本可在ai.meta.com/llama/use-policy找到。
+
   禁止使用
-  
+
   我们希望每个人都安全和负责任地使用Llama 2。您同意您不会使用Llama 2，也不会允许他人使用Llama 2进行以下行为：
 ---
 # Llama 2可接受使用政策

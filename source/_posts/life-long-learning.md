@@ -1,18 +1,20 @@
 ---
 title: Life long learning
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 summary: >
   HW14
-  
+
   什么是Life long learning
-  
-  Life long learning意思是终身学习，是指一直使用同一个神经网络去学习不同的任务。
-  实现life long learning大致分为三方面：knowledge retention，knowledge transfer，model expansion。
-  
+
+  Life long learning意思是终身学习，是指一直使用同一个神经网络去学习不同的任务。 实现life long
+  learning大致分为三方面：knowledge retention，knowledge transfer，model expansion。
+
   为什么不让一个模型就学习一个任务，而是要让一个模型学习多个任务？
-  
+
   如果是
 ---
 # HW14

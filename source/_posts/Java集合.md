@@ -1,7 +1,9 @@
 ---
 title: Java集合
-date: 2024-09-20 15:01:20
+date: '2024-09-20 15:01:20'
 categories:
+  - Java
+tags:
   - Java
 ---
 ![](https://qiniu.kanes.top/blog/Java集合.svg)

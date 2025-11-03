@@ -1,7 +1,9 @@
 ---
 title: MVCC（Multi-Version Concurrency Control，多版本并发控制）
-date: 2024-09-22 15:01:24
+date: '2024-09-22 15:01:24'
 categories:
+  - Java
+tags:
   - Java
 ---
 **MVCC（Multi-Version Concurrency Control，多版本并发控制）** 是数据库系统中的一种并发控制机制，用来处理多个事务同时操作数据库时可能产生的冲突问题。通过 MVCC，数据库在处理并发事务时，可以在提供高并发性的同时保证事务的隔离性（特别是在 MySQL 的 InnoDB 存储引擎中，默认的隔离级别是 **可重复读**）。

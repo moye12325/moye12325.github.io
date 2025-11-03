@@ -1,11 +1,13 @@
 ---
 title: Python Class for RNN Encoder
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
   - DL李宏毅
+tags:
+  - DL李宏毅
 summary: >
-  class RNNEncoder(FairseqEncoder):
-  def init(self, args, dictionary, embedtokens):
+  class RNNEncoder(FairseqEncoder): def init(self, args, dictionary,
+  embedtokens):
       super().init(dictionary)
       self.embedtokens = embedtokens
       

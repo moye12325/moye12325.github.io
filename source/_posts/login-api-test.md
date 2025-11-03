@@ -1,26 +1,25 @@
 ---
 title: 接口测试文档：登录接口
-date: 2024-08-28 17:23:53
+date: '2024-08-28 17:23:53'
 categories:
+  - 项目测试
+tags:
   - 项目测试
 summary: >
   登录接口的接口测试
-  
+
   接口测试文档：登录接口
-  
+
   2. 测试范围
-  
+
   - POST 
-  
+
   ---
-  
+
   3. 测试环境
-  
-  - 操作系统: Ubuntu 20.04 / Windows 10
-  - 服务器: Apache Tomcat 9.0
-  - 数据库: MySQL 8.0
-  - 测试工具: Postman / Python  库 / JUnit（根据具体实现语言选择）
-  - 测试数据: 
+
+  - 操作系统: Ubuntu 20.04 / Windows 10 - 服务器: Apache Tomcat 9.0 - 数据库: MySQL 8.0 -
+  测试工具: Postman / Python  库 / JUnit（根据具体实现语言选择） - 测试数据: 
     - 正确的用户名和
 ---
 登录接口的接口测试

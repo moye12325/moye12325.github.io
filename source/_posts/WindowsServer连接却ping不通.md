@@ -1,7 +1,9 @@
 ---
 title: WindowsServer连接却ping不通
-date: 2024-07-22 18:05:10
+date: '2024-07-22 18:05:10'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 # WindowsServer连接却ping不通

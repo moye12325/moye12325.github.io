@@ -1,7 +1,9 @@
 ---
 title: LeetCode 142. 环形链表
-date: 2024-09-06 10:21:46
+date: '2024-09-06 10:21:46'
 categories:
+  - LeetCode
+tags:
   - LeetCode
 ---
 [LeetCode 141. 环形链表](https://leetcode.cn/problems/linked-list-cycle/description/)

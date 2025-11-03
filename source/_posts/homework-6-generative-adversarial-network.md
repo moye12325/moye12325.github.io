@@ -1,13 +1,16 @@
 ---
 title: Homework 6 - Generative Adversarial Network
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 summary: >
   作业六：Homework 6 - Generative Adversarial Network——使用GAN生成动漫人物脸
-  
-  This is the sample code for hw6 of 2022 Machine Learning course in National Taiwan University. 
-  
+
+  This is the sample code for hw6 of 2022 Machine Learning course in National
+  Taiwan University. 
+
   In this sample code, there are 5 section
 ---
 # 作业六：Homework 6 - Generative Adversarial Network——使用GAN生成动漫人物脸

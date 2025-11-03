@@ -1,7 +1,9 @@
 ---
 title: Java 基础
-date: 2024-09-20 08:31:00
+date: '2024-09-20 08:31:00'
 categories:
+  - Java
+tags:
   - Java
 ---
 # Java 基础

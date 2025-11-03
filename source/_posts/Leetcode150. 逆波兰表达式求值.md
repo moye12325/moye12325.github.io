@@ -1,7 +1,9 @@
 ---
 title: Leetcode150. 逆波兰表达式求值
-date: 2024-08-24 11:54:37
+date: '2024-08-24 11:54:37'
 categories:
+  - LeetCode
+tags:
   - LeetCode
 ---
 [Leetcode150. 逆波兰表达式求值](https://leetcode.cn/problems/evaluate-reverse-polish-notation/description)

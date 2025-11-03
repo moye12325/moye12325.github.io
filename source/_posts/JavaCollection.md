@@ -1,19 +1,19 @@
 ---
 title: Java集合
-date: 2024-09-20 15:01:20
-updated: 2024-10-28 11:57:14
+date: '2024-09-20 15:01:20'
+updated: '2024-10-28 11:57:14'
 categories:
+  - Java
+tags:
   - Java
 summary: >
   Java集合
-  
-  
-  
-  说明
-  - Collection 是所有集合类的顶层接口。
-  - (对付顺序的好帮手): 存储的元素是有序的、可重复的。List 接口下的常用实现有 ArrayList 和 LinkedList。
-  - (注重独一无二的性质): 存储的元素不可重复的。接口下有 HashSet、TreeSet 和 LinkedHashSet。
-  - (实现排队功能的叫号机): 按特定的排队规则来确定先后
+
+
+
+  说明 - Collection 是所有集合类的顶层接口。 - (对付顺序的好帮手): 存储的元素是有序的、可重复的。List 接口下的常用实现有
+  ArrayList 和 LinkedList。 - (注重独一无二的性质): 存储的元素不可重复的。接口下有 HashSet、TreeSet 和
+  LinkedHashSet。 - (实现排队功能的叫号机): 按特定的排队规则来确定先后
 ---
 ![](https://qiniu.kanes.top/blog/Java集合.svg)
 

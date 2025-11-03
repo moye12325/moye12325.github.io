@@ -1,7 +1,9 @@
 ---
 title: Homework 6 - Generative Adversarial Network
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 ---
 # 作业六：Homework 6 - Generative Adversarial Network——使用GAN生成动漫人物脸

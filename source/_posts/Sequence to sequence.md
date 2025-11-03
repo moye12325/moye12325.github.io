@@ -1,7 +1,9 @@
 ---
 title: Sequence to sequence
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 ---
 # Sequence to sequence

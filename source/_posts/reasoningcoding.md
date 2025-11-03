@@ -1,16 +1,19 @@
 ---
 title: reasoning≠coding
-date: 2024-12-29 12:31:50
-updated: 2025-05-08 11:51:39
+date: '2024-12-29 12:31:50'
+updated: '2025-05-08 11:51:39'
 categories:
+  - 人工智能
+tags:
   - 人工智能
 summary: >
   很多人说，reasoning=coding，o3就是最能写代码的模型。
-  
+
   我的看法是，reasoning指的是扔一个简单干净的问题，给出天才回答的能力。
-  
-  这么说吧，如果把o3扔到20世纪，一定是全世界最牛逼的理论CS科学家，3-SAT、max flow、min cut、红黑树、LU分解、KMP、各种proof-base的加密算法，轻轻松松全拿下， 一口气构建整个TCS大厦。
-  
+
+  这么说吧，如果把o3扔到20世纪，一定是全世界最牛逼的理论CS科学家，3-SAT、max flow、min
+  cut、红黑树、LU分解、KMP、各种proof-base的加密算法，轻轻松松全拿下， 一口气构建整个TCS大厦。
+
   解决TCS问题，就
 ---
 很多人说，reasoning=coding，o3就是最能写代码的模型。

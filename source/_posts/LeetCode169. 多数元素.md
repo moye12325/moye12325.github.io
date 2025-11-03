@@ -1,7 +1,9 @@
 ---
 title: LeetCode169. 多数元素
-date: 2024-08-24 12:15:15
+date: '2024-08-24 12:15:15'
 categories:
+  - LeetCode
+tags:
   - LeetCode
 ---
 [169. 多数元素](https://leetcode.cn/problems/majority-element/description/)

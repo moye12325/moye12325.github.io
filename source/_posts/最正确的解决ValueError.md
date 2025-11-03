@@ -1,7 +1,9 @@
 ---
 title: 最正确的解决ValueError
-date: 2024-07-22 17:46:56
+date: '2024-07-22 17:46:56'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 # Clash代理最正确的解决ValueError: check_hostname requires server_hostname

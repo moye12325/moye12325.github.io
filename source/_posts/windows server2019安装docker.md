@@ -1,7 +1,9 @@
 ---
 title: windows server2019安装docker
-date: 2024-07-22 18:01:07
+date: '2024-07-22 18:01:07'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 # windows server2019安装docker

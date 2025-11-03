@@ -1,7 +1,9 @@
 ---
 title: Llama 2模型细节
-date: 2023-08-16 15:02:26
+date: '2023-08-16 15:02:26'
 categories:
+  - Llama
+tags:
   - Llama
 ---
 # **模型细节**

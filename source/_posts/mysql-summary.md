@@ -1,20 +1,23 @@
 ---
 title: MySQL知识总结
-date: 2024-09-26 03:39:07
-updated: 2024-10-29 08:07:41
+date: '2024-09-26 03:39:07'
+updated: '2024-10-29 08:07:41'
 categories:
+  - Java
+tags:
   - Java
 summary: >
   MySQL
-  
+
   SQL基础
-  
+
   什么是关系型数据库？
-  
-  关系型数据库（RDB，Relational Database）就是一种建立在关系模型的基础上的数据库。关系模型表明了数据库中所存储的数据之间的联系（一对一、一对多、多对多）。
-  
-  MySQL 字段类型
-  - 数值类型：整型（TINYINT、SMALLINT、MEDIUMINT、INT 和 BIGINT）、浮点型（FLOAT 和 DOUBLE）、定点型
+
+  关系型数据库（RDB，Relational
+  Database）就是一种建立在关系模型的基础上的数据库。关系模型表明了数据库中所存储的数据之间的联系（一对一、一对多、多对多）。
+
+  MySQL 字段类型 - 数值类型：整型（TINYINT、SMALLINT、MEDIUMINT、INT 和 BIGINT）、浮点型（FLOAT 和
+  DOUBLE）、定点型
 ---
 # MySQL
 

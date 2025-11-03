@@ -1,11 +1,14 @@
 ---
 title: RabbitMQ知识总结
-date: 2024-10-29 18:15:28
-updated: 2024-10-29 18:16:06
+date: '2024-10-29 18:15:28'
+updated: '2024-10-29 18:16:06'
 categories:
   - Java
+tags:
+  - Java
 summary: >
-  RabbitMQ 是一个基于 AMQP（Advanced Message Queuing Protocol）的消息队列系统，支持高并发、可扩展，并提供多种客户端和协议支持。其核心概念包括生产者、消费者，交换器、队列和绑定。消息通过交换器路由到队列，保证了消息传输和处理的可靠性。RabbitMQ的工作模式包括简单模式、工作模式、发布订阅模式、路由模式和主题模式。消息传输使用信道来传输数据，并通过事务机制和Confirm机制保证消息的可靠性。高可用性方面，RabbitMQ提供普通集群模式和镜像集群模式。为解决延时和过期失效问题，可以设置消息的TTL和采用批量重导的方式补充丢失的数据。
+  RabbitMQ 是一个基于 AMQP（Advanced Message Queuing
+  Protocol）的消息队列系统，支持高并发、可扩展，并提供多种客户端和协议支持。其核心概念包括生产者、消费者，交换器、队列和绑定。消息通过交换器路由到队列，保证了消息传输和处理的可靠性。RabbitMQ的工作模式包括简单模式、工作模式、发布订阅模式、路由模式和主题模式。消息传输使用信道来传输数据，并通过事务机制和Confirm机制保证消息的可靠性。高可用性方面，RabbitMQ提供普通集群模式和镜像集群模式。为解决延时和过期失效问题，可以设置消息的TTL和采用批量重导的方式补充丢失的数据。
 ---
 ## 安装RabbitMQ之后，执行了rabbitmq-plugins enable rabbitmq_management，却仍然打不开管理端界面http://localhost:15672
 

@@ -1,7 +1,9 @@
 ---
 title: 深入浅出深度学习中的BatchSize
-date: 2025-02-26 01:48:04
+date: '2025-02-26 01:48:04'
 categories:
+  - 人工智能
+tags:
   - 人工智能
 ---
 ### **一、Batch Size 的核心作用**

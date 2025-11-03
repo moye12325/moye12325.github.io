@@ -1,17 +1,19 @@
 ---
 title: 深度学习-李沐-第一节
-date: 2022-08-16 15:00:46
+date: '2022-08-16 15:00:46'
 categories:
+  - DL-李沐
+tags:
   - DL-李沐
 summary: >
   conda、miniconda、anaconda的区别
-  
+
   conda
-  
+
   conda是一种通用包管理系统，旨在构建和管理任何语言和任何类型的软件。包管理与pip的使用类似，环境管理则允许用户方便地安装不同版本的python并可以快速切换。
-  
+
   Miniconda
-  
+
   只包含最基本的内容——python与conda，以及相关的必须依赖项，对于空间要求严格的用户，Miniconda是一种选择。就只包含最基本
 ---
 # conda、miniconda、anaconda的区别

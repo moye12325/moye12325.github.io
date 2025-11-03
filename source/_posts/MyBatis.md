@@ -1,18 +1,21 @@
 ---
 title: MyBatis知识总结
-date: 2024-10-29 18:14:41
+date: '2024-10-29 18:14:41'
 categories:
+  - Java
+tags:
   - Java
 summary: >
   01. MyBatis提高持久层数据处理效率
-  
+
   一、Mybatis简介
-  
+
   1.1 简介
-  
+
   https://mybatis.org/mybatis-3/zh/index.html
-  
-  MyBatis最初是Apache的一个开源项目iBatis, 2010年6月这个项目由Apache Software Foundation迁移到了Google Code。随着开发团队转投Google Code旗下， iB
+
+  MyBatis最初是Apache的一个开源项目iBatis, 2010年6月这个项目由Apache Software
+  Foundation迁移到了Google Code。随着开发团队转投Google Code旗下， iB
 ---
 # 01. MyBatis提高持久层数据处理效率
 

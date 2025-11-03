@@ -1,32 +1,25 @@
 ---
 title: Sequence to sequence
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
   - DL李宏毅
-summary: >
+tags:
+  - DL李宏毅
+summary: |
   Sequence to sequence
-  
   Batch Normalization
-  
   Transformer 
-  
   Transformer和Bert有很大联系
-  
   Sequence-to-sequence (Seq2seq)
-  
   不知道output的长度，需要机器自行决定，例如语音辨识输入语音信号，输出是语音辨识的结果  
-  
-  
-  
+
+
   语音合成
-  
   语音辨识反过来就是语音合成
-  
-  
+
   聊天机器人
-  
-  
-  
+
+
   NLP任务
 ---
 # Sequence to sequence

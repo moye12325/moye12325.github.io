@@ -1,7 +1,9 @@
 ---
 title: ZeroMQ实践
-date: 2025-05-08 01:17:25
+date: '2025-05-08 01:17:25'
 categories:
+  - Python
+tags:
   - Python
 ---
 ## ZeroMQ实践

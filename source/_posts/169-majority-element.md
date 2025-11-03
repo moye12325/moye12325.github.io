@@ -1,30 +1,24 @@
 ---
 title: LeetCode169. 多数元素
-date: 2024-08-24 12:15:15
-updated: 2024-08-24 13:14:36
+date: '2024-08-24 12:15:15'
+updated: '2024-08-24 13:14:36'
 categories:
   - LeetCode
-summary: >
+tags:
+  - LeetCode
+summary: |
   169. 多数元素
-  
   给定一个大小为 n 的数组 nums，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
-  
   你可以假设数组是非空的，并且给定的数组总是存在多数元素。
-  
+
    
-  
+
   示例 1：
-  
-  > 输入：nums = [3,2,3]
-  > 输出：3
-  > 示例 2：
-  
-  > 输入：nums = [2,2,1,1,1,2,2]
-  > 输出：2
-  
+  > 输入：nums = [3,2,3] > 输出：3 > 示例 2：
+  > 输入：nums = [2,2,1,1,1,2,2] > 输出：2
+
    
   Java
-  
   > 出现的次数大
 ---
 [169. 多数元素](https://leetcode.cn/problems/majority-element/description/)

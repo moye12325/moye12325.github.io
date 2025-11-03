@@ -1,18 +1,21 @@
 ---
 title: Spring知识总结
-date: 2024-09-26 03:41:55
-updated: 2024-10-29 14:49:27
+date: '2024-09-26 03:41:55'
+updated: '2024-10-29 14:49:27'
 categories:
+  - Java
+tags:
   - Java
 summary: >
   Spring
-  
+
   Spring
-  
-  
+
+
   Spring 是一款开源的轻量级 Java 开发框架，旨在提高开发人员的开发效率以及系统的可维护性。
-  
-  一般说 Spring 框架指的都是 Spring Framework，是很多模块的集合，使用这些模块可以协助开发，比如说 Spring 支持 IoC（Inversion of Control:控制反转） 和 AOP(Aspect-Oriented Program
+
+  一般说 Spring 框架指的都是 Spring Framework，是很多模块的集合，使用这些模块可以协助开发，比如说 Spring 支持
+  IoC（Inversion of Control:控制反转） 和 AOP(Aspect-Oriented Program
 ---
 # Spring
 

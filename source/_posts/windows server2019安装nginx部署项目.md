@@ -1,7 +1,9 @@
 ---
 title: windows server2019安装nginx部署项目
-date: 2024-07-22 18:02:56
+date: '2024-07-22 18:02:56'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 # windows安装nginx部署项目

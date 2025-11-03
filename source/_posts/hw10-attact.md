@@ -1,18 +1,21 @@
 ---
 title: HW10  Attact
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 summary: >
   HW10  Attact
-  
-  
+
+
   任务描述
-  
-  ● Those are methodologies which you should be familiar with first  这些是您应该首先熟悉的方法
-  
+
+  ● Those are methodologies which you should be familiar with first 
+  这些是您应该首先熟悉的方法
+
   ○ Attack objective: Non-targeted attack  攻击目标：非目标攻击
-  
+
   ○ Attack constraint: L-infinity norm and Par
 ---
 # HW10  Attact

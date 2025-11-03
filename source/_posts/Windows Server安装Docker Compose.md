@@ -1,7 +1,9 @@
 ---
 title: Windows Server安装Docker Compose
-date: 2024-07-22 18:04:39
+date: '2024-07-22 18:04:39'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 # Windows Server安装Docker Compose

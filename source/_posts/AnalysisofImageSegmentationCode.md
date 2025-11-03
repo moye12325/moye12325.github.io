@@ -1,28 +1,27 @@
 ---
 title: 图像分割代码分析
-date: 2025-01-17 05:58:41
+date: '2025-01-17 05:58:41'
 categories:
   - 人工智能
 tags:
   - 算法
 summary: >
   UNetPlusPlus 图像分割代码分析
-  
+
   训练代码与解释
-  
-  
-  
+
+
+
   1. 数据预处理和加载
-  
-  
-  
-  - Resize: 将图像和掩码调整为新的尺寸 ，这里是对原始尺寸  进行缩小。
-  - ToTensor: 将图像和掩码转换为 PyTorch 张量，并将像素值归一化到[0, 1]范围。
-  
-  
-  
-  - ImageSegmentationDataset: 自定义的数据集类，负责加载图像和对应的掩码。
-  - Da
+
+
+
+  - Resize: 将图像和掩码调整为新的尺寸 ，这里是对原始尺寸  进行缩小。 - ToTensor: 将图像和掩码转换为 PyTorch
+  张量，并将像素值归一化到[0, 1]范围。
+
+
+
+  - ImageSegmentationDataset: 自定义的数据集类，负责加载图像和对应的掩码。 - Da
 ---
 # UNetPlusPlus 图像分割代码分析
 

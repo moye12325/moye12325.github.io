@@ -1,7 +1,9 @@
 ---
 title: wallhaven壁纸网站爬虫
-date: 2024-07-18 14:10:07
+date: '2024-07-18 14:10:07'
 categories:
+  - 爬虫代码
+tags:
   - 爬虫代码
 ---
 # wallhaven壁纸网站爬虫

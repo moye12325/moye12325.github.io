@@ -1,18 +1,21 @@
 ---
 title: ZeroMQ实践
-date: 2025-05-08 01:17:25
-updated: 2025-10-30 08:03:08
+date: '2025-05-08 01:17:25'
+updated: '2025-10-30 08:03:08'
 categories:
+  - Python
+tags:
   - Python
 summary: >
   ZeroMQ实践
-  
-  
+
+
   ZeroMQ，是一个高性能的异步消息库或并发框架。将复杂的底层网络通信细节抽象化，提供了一系列灵活的消息模式，让构建复杂的分布式应用变得更简单。
-  
+
   ZeroMQ 的核心理念：模式、抽象与性能
-  
-  与传统的中心化消息 Broker 不同，ZeroMQ 倡导一种更加去中心化 (brokerless) 或分布式的设计理念（当然，也可以基于它构建 Broker）。它的核心优势在于：
+
+  与传统的中心化消息 Broker 不同，ZeroMQ 倡导一种更加去中心化 (brokerless) 或分布式的设计理念（当然，也可以基于它构建
+  Broker）。它的核心优势在于：
 ---
 ## ZeroMQ实践
 

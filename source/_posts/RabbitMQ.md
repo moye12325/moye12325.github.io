@@ -1,7 +1,9 @@
 ---
 title: RabbitMQ
-date: 2024-07-22 17:59:40
+date: '2024-07-22 17:59:40'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 ## 安装RabbitMQ之后，执行了rabbitmq-plugins enable rabbitmq_management，却仍然打不开管理端界面http://localhost:15672

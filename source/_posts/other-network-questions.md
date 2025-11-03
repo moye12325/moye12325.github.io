@@ -1,20 +1,23 @@
 ---
 title: 计算机网络
-date: 2024-10-28 16:42:27
+date: '2024-10-28 16:42:27'
 categories:
+  - Java
+tags:
   - Java
 summary: >
   计算机网络基础
-  
+
   网络分层模型
-  
-  
-  
-  
+
+
+
+
   常见网络协议
-  
-  - HTTP（Hypertext Transfer Protocol，超文本传输协议）：基于 TCP 协议，是一种用于传输超文本和多媒体内容的协议，主要是为 Web 浏览器与 Web 服务器之间的通信而设计的。当我们使用浏览器浏览网页的时候，我们网页就是通过 HTTP 请求进行加载的。
-  - SMTP（Simple Mail Transfer
+
+  - HTTP（Hypertext Transfer Protocol，超文本传输协议）：基于 TCP 协议，是一种用于传输超文本和多媒体内容的协议，主要是为
+  Web 浏览器与 Web 服务器之间的通信而设计的。当我们使用浏览器浏览网页的时候，我们网页就是通过 HTTP 请求进行加载的。 - SMTP（Simple
+  Mail Transfer
 ---
 ## [计算机网络基础](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80)
 

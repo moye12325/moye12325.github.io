@@ -1,7 +1,9 @@
 ---
 title: LeetCode3153. 所有数对中数位差之和
-date: 2024-08-30 10:50:37
+date: '2024-08-30 10:50:37'
 categories:
+  - LeetCode
+tags:
   - LeetCode
 ---
 ## 3153. 所有数对中数位差之和

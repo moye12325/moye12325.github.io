@@ -1,7 +1,9 @@
 ---
 title: 深度学习-李沐-第十一节-OptimizationAlgorithms
-date: 2022-08-16 15:00:46
+date: '2022-08-16 15:00:46'
 categories:
+  - DL-李沐
+tags:
   - DL-李沐
 ---
 # 优化算法

@@ -1,17 +1,20 @@
 ---
-title: "PyTorch `.pth` 转 ONNX：从模型训练到跨平台部署"
-date: 2025-02-17 02:20:43
+title: PyTorch `.pth` 转 ONNX：从模型训练到跨平台部署
+date: '2025-02-17 02:20:43'
 categories:
+  - 人工智能
+tags:
   - 人工智能
 summary: >
   PyTorch  转 ONNX：从模型训练到跨平台部署
-  
+
   在深度学习里，模型的格式决定了它的可用性。
-  
+
   如果你是 PyTorch 用户，你可能熟悉  文件，它用于存储训练好的模型。
-  
-  但当你想在不同的环境（如 TensorRT、OpenVINO、ONNX Runtime）部署模型时， 可能并不适用。这时，ONNX（Open Neural Network Exchange）就必不可少。
-  
+
+  但当你想在不同的环境（如 TensorRT、OpenVINO、ONNX Runtime）部署模型时， 可能并不适用。这时，ONNX（Open Neural
+  Network Exchange）就必不可少。
+
   本文目录：
 ---
 # **PyTorch `.pth` 转 ONNX：从模型训练到跨平台部署**
