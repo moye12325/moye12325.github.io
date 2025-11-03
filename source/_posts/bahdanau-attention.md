@@ -1,25 +1,27 @@
 ---
 title: 深度学习-李沐-第十节-BahdanauAttention
-date: 2022-08-16 15:00:46
+date: '2022-08-16 15:00:46'
 categories:
+  - DL-李沐
+tags:
   - DL-李沐
 summary: >
   Bahdanau注意力
-  
+
   一个没有严格单向对齐限制的可微注意力模型。在预测词元时，如果不是所有输入词元都相关，模型将仅对齐（或参与）输入序列中与当前预测相关的部分。这是通过将上下文变量视为注意力集中的输出来实现的。
-  
-  
-  
+
+
+
   模型
-  
-  
-  
+
+
+
   定义注意力解码器
-  
+
   以下AttentionDecoder类定义了带有注意力机制解码器的基本接口。
-  
-  
-  
+
+
+
   在接下来的Seq2SeqAttentionDecoder类中实
 ---
 # Bahdanau注意力

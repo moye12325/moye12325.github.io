@@ -1,30 +1,21 @@
 ---
 title: 词性对照表
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
   - DL李宏毅
-summary: >
+tags:
+  - DL李宏毅
+summary: |
   jieba、hanlp词性对照表
-  
   jieba
-  
   - a 形容词  
     - ad 副形词  
     - ag 形容词性语素  
     - an 名形词  
-  - b 区别词  
-  - c 连词  
-  - d 副词  
+  - b 区别词   - c 连词   - d 副词  
     - df   
     - dg 副语素  
-  - e 叹词  
-  - f 方位词  
-  - g 语素  
-  - h 前接成分  
-  - i 成语 
-  - j 简称略称  
-  - k 后接成分  
-  - l
+  - e 叹词   - f 方位词   - g 语素   - h 前接成分   - i 成语  - j 简称略称   - k 后接成分   - l
 ---
 # jieba、hanlp词性对照表
 

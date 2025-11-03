@@ -1,31 +1,33 @@
 ---
 title: Domain Adaptation
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 summary: >
   Domain Adaptation
-  
+
   本质是一个二元分类器
-  
-  
-  
+
+
+
   Domain Adaptation技术,也可以看做是 Transfer Learning 的一种
   在A任务上学习的技能可以用在B上，一个Domain上学到的用在另一个Domain上
-  
+
   Domain Shift
-  
-  
-  
-  
-  
+
+
+
+
+
   只有少许标注需要做Adaptation
-  
-  
-  
+
+
+
   怎么找出这样的一个Feature Extractor呢？
-  
-  
+
+
   把一个
 ---
 # Domain Adaptation

@@ -1,7 +1,9 @@
 ---
 title: Redis知识总结
-date: 2024-09-23 11:21:31
+date: '2024-09-23 11:21:31'
 categories:
+  - Java
+tags:
   - Java
 ---
 # Redis

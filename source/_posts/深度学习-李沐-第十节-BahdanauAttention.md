@@ -1,7 +1,9 @@
 ---
 title: 深度学习-李沐-第十节-BahdanauAttention
-date: 2022-08-16 15:00:46
+date: '2022-08-16 15:00:46'
 categories:
+  - DL-李沐
+tags:
   - DL-李沐
 ---
 # Bahdanau注意力

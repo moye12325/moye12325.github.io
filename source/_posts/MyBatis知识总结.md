@@ -1,7 +1,9 @@
 ---
 title: MyBatis
-date: 2024-07-22 16:59:11
+date: '2024-07-22 16:59:11'
 categories:
+  - Java
+tags:
   - Java
 ---
 MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生 SQL 查询，将接口和 Java 的实体类映射成数据库中的记录。

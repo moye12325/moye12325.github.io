@@ -1,25 +1,26 @@
 ---
 title: 李宏毅第二节
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 summary: >
   Lecture 2:What to do if my network fails to train
-  
+
   PRE1
-  
+
   训练的三个过程
-  
-  
-  
-  1. 写出有未知数的function： \theta表示未知的参数
-  2. 定义Loss：Loss的输入是一组参数，判断这组参数好不好
-  3. 找\theta：使得Loss的值越小越好
-  
+
+
+
+  1. 写出有未知数的function： \theta表示未知的参数 2. 定义Loss：Loss的输入是一组参数，判断这组参数好不好 3.
+  找\theta：使得Loss的值越小越好
+
   优化训练
-  
-  
-  
+
+
+
   1. 检查training data的loss，loss值比较大
 ---
 # Lecture 2:What to do if my network fails to train

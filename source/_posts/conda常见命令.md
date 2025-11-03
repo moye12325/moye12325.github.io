@@ -1,7 +1,9 @@
 ---
 title: conda常见命令
-date: 2024-07-22 17:47:41
+date: '2024-07-22 17:47:41'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 # An In-Depth Guide to Conda Commands

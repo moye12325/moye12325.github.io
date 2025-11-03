@@ -1,19 +1,16 @@
 ---
 title: LeetCode3142. 判断矩阵是否满足条件
-date: 2024-08-30 10:58:48
-updated: 2024-08-30 10:59:16
+date: '2024-08-30 10:58:48'
+updated: '2024-08-30 10:59:16'
 categories:
   - LeetCode
-summary: >
+tags:
+  - LeetCode
+summary: |
   3142. 判断矩阵是否满足条件
-  
   https://leetcode.cn/problems/check-if-grid-satisfies-conditions/description/
-  
   给你一个大小为  的二维矩阵 。你需要判断每一个格子  是否满足以下条件：
-  
-  - 如果它下面的格子存在，那么它需要等于它下面的格子，即 。
-  - 如果它右边的格子存在，那么它需要不等于它右边的格子，即 。
-  
+  - 如果它下面的格子存在，那么它需要等于它下面的格子，即 。 - 如果它右边的格子存在，那么它需要不等于它右边的格子，即 。
   如
 ---
 ## 3142. 判断矩阵是否满足条件

@@ -1,7 +1,9 @@
 ---
 title: Llama 2可接受使用政策
-date: 2023-08-16 15:02:26
+date: '2023-08-16 15:02:26'
 categories:
+  - Llama
+tags:
   - Llama
 ---
 # Llama 2可接受使用政策

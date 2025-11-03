@@ -1,26 +1,26 @@
 ---
 title: Explainable AI
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
   - DL李宏毅
-summary: >
+tags:
+  - DL李宏毅
+summary: |
   Explainable AI
-  
-  
+
   白马做出算术题是因为它察觉到周围观众的情绪而做对，并不是因为真的会做数学题
-  
-  
+
   Why we need Explainable ML?
-  
-  
-  
+
+
+
    法律要求贷款发行人解释他们的模型。
    医疗诊断模式对人的生命负责。 它可以是一个黑匣子吗？
    如果在法庭上使用模型，我们必须确保模型以非歧视的方式行事
    如果自动驾驶汽车突然出现异常，我们需要解释原因。
-  
-  
-  
+
+
+
   模型如果具有
 ---
 # Explainable AI

@@ -3,14 +3,14 @@ title: '深度学习-李沐-第十四节-BERT: Bidirectional Encoder Representat
 date: '2022-08-16 15:00:46'
 categories:
   - DL-李沐
+tags:
+  - DL-李沐
 summary: >-
   BERT来自Transformers的双向编码器表示 1.
   在预训练之后，输出可以被认为是一个矩阵，其中每一行都是一个表示预定义词表中词的向量。事实上，这些词嵌入模型都是与上下文无关的。 2. BERT
   是“Bidirectional Encoder Representations from
   Transformers”的首字母缩写，整体是一个自编码语言模型（Autoencoder LM），并且其设
 ---
-
-
 # BERT来自Transformers的双向编码器表示
 
 1. 在预训练之后，输出可以被认为是一个矩阵，其中每一行都是一个表示预定义词表中词的向量。事实上，这些词嵌入模型都是与上下文无关的。

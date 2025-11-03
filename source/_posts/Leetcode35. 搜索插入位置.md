@@ -1,7 +1,9 @@
 ---
 title: Leetcode35. 搜索插入位置
-date: 2024-08-24 13:26:07
+date: '2024-08-24 13:26:07'
 categories:
+  - LeetCode
+tags:
   - LeetCode
 ---
 [Leetcode35. 搜索插入位置](https://leetcode.cn/problems/search-insert-position/description/)

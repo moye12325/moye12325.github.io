@@ -1,16 +1,19 @@
 ---
 title: Introduction of Deep Reinforcement Learning (RL)
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 summary: >
   Introduction of Deep Reinforcement Learning (RL)强化学习
-  
+
   强化学习与监督学习
-  
+
   监督学习
-  
-  监督学习（supervised learning） 假设我们有大量被标注的数据，比如汽车、飞机、椅子这些被标注的图片，这些图片都要满足独立同分布，即它们之间是没有关联关系的。假设我们训练一个分类器，比如神经网络。为了分辨输入的图片中是汽车还是飞机，在训练过程
+
+  监督学习（supervised learning）
+  假设我们有大量被标注的数据，比如汽车、飞机、椅子这些被标注的图片，这些图片都要满足独立同分布，即它们之间是没有关联关系的。假设我们训练一个分类器，比如神经网络。为了分辨输入的图片中是汽车还是飞机，在训练过程
 ---
 # Introduction of Deep Reinforcement Learning (RL)强化学习
 

@@ -1,7 +1,9 @@
 ---
 title: Navicat查看密码
-date: 2024-07-22 17:49:50
+date: '2024-07-22 17:49:50'
 categories:
+  - 所遇问题
+tags:
   - 所遇问题
 ---
 # Navicat中怎么查看数据库密码

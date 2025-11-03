@@ -1,7 +1,9 @@
 ---
 title: 小白也能懂的Python协程与asyncio指南
-date: 2025-04-25 06:07:12
+date: '2025-04-25 06:07:12'
 categories:
+  - Python
+tags:
   - Python
 ---
 # 小白也能懂的Python协程与asyncio指南

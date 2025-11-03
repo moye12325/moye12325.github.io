@@ -1,37 +1,23 @@
 ---
 title: Leetcode35. 搜索插入位置
-date: 2024-08-24 13:26:07
+date: '2024-08-24 13:26:07'
 categories:
   - LeetCode
-summary: >
+tags:
+  - LeetCode
+summary: |
   Leetcode35. 搜索插入位置
-  
   题目描述
-  
   给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
-  
   请必须使用时间复杂度为  的算法。
-  
   示例 1:
-  
-  - 输入： , 
-  - 输出： 
-  
+  - 输入： ,  - 输出： 
   示例 2:
-  
-  - 输入： , 
-  - 输出： 
-  
+  - 输入： ,  - 输出： 
   示例 3:
-  
-  - 输入： , 
-  - 输出： 
-  
+  - 输入： ,  - 输出： 
   提示：
-  
-  - 
-  - 
-  -  为 无重复元素
+  -  -  -  为 无重复元素
 ---
 [Leetcode35. 搜索插入位置](https://leetcode.cn/problems/search-insert-position/description/)
 

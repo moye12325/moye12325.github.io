@@ -1,18 +1,18 @@
 ---
 title: Spring中Bean的理解
-date: 2024-09-23 13:08:05
-updated: 2024-09-23 13:22:21
+date: '2024-09-23 13:08:05'
+updated: '2024-09-23 13:22:21'
 categories:
   - Java
-summary: >
+tags:
+  - Java
+summary: |
   在 Spring 框架中，Bean 是一个核心概念，也是很多功能的基础。
-  
   2. 如何理解 Spring 中的 Bean？
-  
-  
+
   1. Bean 是由 Spring 容器管理的对象：
      当告诉 Spring 容器应该如何创建一个对象（通过配置或注解），Spring 就会在运行时帮你创建并管理这个对象。这意味着不需要自己手动去创建这个对象，Spring 会在合适的时机提供。
-  
+
   2. Bean 是有
 ---
 在 Spring 框架中，**Bean** 是一个核心概念，也是很多功能的基础。

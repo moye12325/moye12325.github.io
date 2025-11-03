@@ -1,7 +1,9 @@
 ---
 title: Redis八股总结
-date: 2024-09-26 03:40:48
+date: '2024-09-26 03:40:48'
 categories:
+  - Java
+tags:
   - Java
 ---
 # Redis

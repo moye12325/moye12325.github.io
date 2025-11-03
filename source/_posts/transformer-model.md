@@ -1,16 +1,18 @@
 ---
 title: 深度学习-李沐-第十节-TransformerModel
-date: 2022-08-16 15:00:46
+date: '2022-08-16 15:00:46'
 categories:
+  - DL-李沐
+tags:
   - DL-李沐
 summary: >
   Transformer
-  
+
   transformer模型完全基于注意力机制，没有任何卷积层或循环神经网络层，transformer最初是应用于在文本数据上的序列到序列学习，但现在已经推广到各种现代的深度学习中，例如语言、视觉、语音和强化学习领域。
-  
+
   模型架构
-  
-  
+
+
   transformer的编码器和解码器是基于自注意力的模块叠加而成的，源（输入）序列和目标（输出）序列的嵌入（embedding）表示将加上
 ---
 # Transformer

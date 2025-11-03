@@ -1,20 +1,11 @@
 ---
 title: 开始介绍-Machine Learning Spring 2022
-date: 2022-08-16 15:01:08
+date: '2022-08-16 15:01:08'
 categories:
   - DL李宏毅
-summary: >
-  MachineLearning
-  
-  介绍
-  
-  机器学习春季：https://speech.ee.ntu.edu.tw/hylee/ml/2022-spring.php
-  
-  学习计划
-  
-   7月11日	Lecture 1:Introduction of Deep Learning
-   7月14日	Lecture 2:What to do if my network fails to train
-   7月17日
+tags:
+  - DL李宏毅
+summary: "MachineLearning\n介绍\n机器学习春季：https://speech.ee.ntu.edu.tw/hylee/ml/2022-spring.php\n学习计划\n\n 7月11日\tLecture 1:Introduction of Deep Learning\n 7月14日\tLecture 2:What to do if my network fails to train\n 7月17日\n"
 ---
 # MachineLearning
 

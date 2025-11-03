@@ -1,8 +1,10 @@
 ---
 title: 比赛记录
-date: 2022-08-16 15:01:08
-updated: 2024-08-09 03:50:02
+date: '2022-08-16 15:01:08'
+updated: '2024-08-09 03:50:02'
 categories:
+  - DL李宏毅
+tags:
   - DL李宏毅
 summary: >
   比赛记录总结：经过六次修改模型参数和结构，从初始分数0.60875提高到0.79425。关键修改包括调整d_model在224-512之间，使用Conformer模型结合Transformer和CNN，以及增加训练次数。最终改动包括ConformerBlock、self_Attentive_pooling和AMsoftmax。论文提到d_model不宜过高也不易过低。

@@ -1,23 +1,19 @@
 ---
 title: 深度学习-李沐-第九节-门控循环单元（GRU）
-date: 2022-08-16 15:00:46
+date: '2022-08-16 15:00:46'
 categories:
   - DL-李沐
-summary: >
+tags:
+  - DL-李沐
+summary: |
   门控循环单元（GRU）
-  
   GRU（Gate Recurrent Unit）是循环神经网络（Recurrent Neural Network, RNN）的一种。
-  
   GRU输入输出结构
-  
-  
+
   GRU的输入输出结构与普通的RNN是一样的。
-  
   GRU的内部结构
-  
-  
-  首先，我们先通过上一个传输下来的状态 h( t-1) 和当前节点的输入xt来获取两个门控状态。  
-  其中 r 控制重置的门控（reset gat
+
+  首先，我们先通过上一个传输下来的状态 h( t-1) 和当前节点的输入xt来获取两个门控状态。   其中 r 控制重置的门控（reset gat
 ---
 # 门控循环单元（GRU）
 
