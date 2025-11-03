@@ -1,0 +1,537 @@
+---
+title: 去哪儿旅行测试开发笔试编程题
+date: 2024-10-10 08:51:40
+updated: 2024-10-14 13:06:15
+categories:
+  - 笔试记录
+summary: >
+  题 1
+  题目描述
+  
+  给出两个整数 ，可以对其进行任意次加倍操作。每次操作可以令  或 ，目的是使得最终的  最小（ 的绝对值最小），输出最小绝对值。
+  
+  输入描述
+  
+  每个测试文件均包含多组测试数据。
+  
+  - 第一行输入一个整数  (1 ≤ T ≤ 10^5)，代表数据组数。
+  - 每组测试数据描述如下：在一行上输入两个整数  (−10^9 ≤ a, b ≤ 10^9)，代表初始数字。
+  
+  
+  输出描述
+  
+  对
+---
+## 题 1
+### 题目描述
+
+给出两个整数 `a, b`，可以对其进行任意次加倍操作。每次操作可以令 `a = 2 × a` 或 `b = 2 × b`，目的是使得最终的 `|a − b|` 最小（`a − b` 的绝对值最小），输出最小绝对值。
+
+### 输入描述
+
+每个测试文件均包含多组测试数据。
+
+- 第一行输入一个整数 `T` (1 ≤ T ≤ 10^5)，代表数据组数。
+- 每组测试数据描述如下：在一行上输入两个整数 `a, b` (−10^9 ≤ a, b ≤ 10^9)，代表初始数字。
+
+
+### 输出描述
+
+对于每一组测试数据，在一行上输出一个整数，代表最小绝对值。
+
+### 思路
+
+**算法思路：**
+
+1. **处理特殊情况：**  
+   * 如果 `a = b`，直接输出 `0`。  
+   * 如果 `a = 0` 或 `b = 0`，输出另一个数的绝对值。  
+   * 如果 `a` 和 `b` 异号，无法通过乘以正数（2 的幂）来改变符号，最小差值为 `|a| + |b|`。
+   
+2. **一般情况：**  
+   * 当 `a` 和 `b` 同号且均不为零时，我们可以通过对 `a` 或 `b` 进行若干次加倍，使其接近另一个数。  
+   * 计算 `s = log2(|b / a|)`。  
+   * 取 `k = round(s)`（取整到最近的整数）。  
+   * 在 `k-1` 到 `k+1` 的范围内枚举 `k`，计算对应的差值，更新最小值。
+
+**注意事项：**
+
+* **防止溢出：** 在进行乘法时，可能会超出 `long` 的范围，需要在乘法前进行检查。
+* **精度问题：** 在计算对数和幂时，使用 `double` 类型，注意精度误差。
+* **效率优化：** 由于 `T` 很大，需要确保每组测试数据的时间复杂度为 `O(1)`。
+
+
+**完整代码如下：**
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        int T=in.nextInt();
+        while(T-->0){
+            long a=in.nextLong();
+            long b=in.nextLong();
+            if(a==b){
+                System.out.println(0);
+                continue;
+            }
+            long minDiff = Long.MAX_VALUE;
+            if(a==0 || b==0){
+                minDiff = Math.abs(a==0?b:a);
+                System.out.println(minDiff);
+                continue;
+            }
+            if((a>0 && b<0) || (a<0 && b>0)){
+                minDiff = Math.abs(a)+Math.abs(b);
+                System.out.println(minDiff);
+                continue;
+            }
+            // 调整 a
+            minDiff = Math.abs(a-b);
+            double s = Math.log(Math.abs((double)b / a)) / Math.log(2);
+            int k = (int)Math.round(s);
+            for(int i = k-1; i <= k+1; i++){
+                if(i<0 || i>60) continue;
+                try{
+                    long a2 = multiplyWithCheck(a, 1L << i);
+                    long diff = Math.abs(a2 - b);
+                    if(diff < minDiff) minDiff = diff;
+                }catch(Exception e){
+                    // 溢出，跳过
+                }
+            }
+            // 调整 b
+            s = Math.log(Math.abs((double)a / b)) / Math.log(2);
+            k = (int)Math.round(s);
+            for(int i = k-1; i <= k+1; i++){
+                if(i<0 || i>60) continue;
+                try{
+                    long b2 = multiplyWithCheck(b, 1L << i);
+                    long diff = Math.abs(a - b2);
+                    if(diff < minDiff) minDiff = diff;
+                }catch(Exception e){
+                    // 溢出，跳过
+                }
+            }
+            System.out.println(minDiff);
+        }
+        in.close();
+    }
+    
+    // 检查乘法是否溢出
+    public static long multiplyWithCheck(long x, long y) throws Exception{
+        if(x > 0 && y > 0 && x > Long.MAX_VALUE / y) throw new Exception("Overflow");
+        if(x > 0 && y < 0 && y < Long.MIN_VALUE / x) throw new Exception("Overflow");
+        if(x < 0 && y > 0 && x < Long.MIN_VALUE / y) throw new Exception("Overflow");
+        if(x < 0 && y < 0 && x < Long.MAX_VALUE / y) throw new Exception("Overflow");
+        return x * y;
+    }
+}
+```
+
+**代码说明：**
+
+1. **特殊情况处理：**  
+   * 当 `a = b` 时，差值为 `0`。  
+   * 当 `a = 0` 或 `b = 0` 时，差值为另一个数的绝对值。  
+   * 当 `a` 和 `b` 异号时，无法通过乘以正数改变符号，差值为二者绝对值之和。
+
+2. **一般情况处理：**  
+   * **调整 `a`：**  
+     - 计算 `s = log2(|b / a|)`。  
+     - 取 `k = round(s)`，在 `k-1` 到 `k+1` 的范围内枚举 `i`。  
+     - 对于每个 `i`，计算 `a2 = a × 2^i`，并更新最小差值。  
+   * **调整 `b`：**  
+     - 类似地，计算 `s = log2(|a / b|)`。  
+     - 取 `k = round(s)`，在 `k-1` 到 `k+1` 的范围内枚举 `i`。  
+     - 对于每个 `i`，计算 `b2 = b × 2^i`，并更新最小差值。
+
+3. **防止溢出：**  
+   * 在乘法运算前，使用 `multiplyWithCheck` 方法检查是否会溢出。  
+   * 如果溢出，则捕获异常并跳过该计算。
+
+4. **输出结果：**  
+   * 对于每组测试数据，输出计算得到的最小绝对值。
+
+
+## 题 2
+
+### 题目描述
+
+
+n 个小石子排成了一列，第 `i` 个石子上写有正整数 `a_i`，小 M 需要一个个取走它们。每次只能取走当前的第一个石子或最后一个石子。第 `i` 次取石子获得的分数为：`(i * a_j) ⊕ S`，其中 `a_j` 为取走的石子的数字，`S` 为剩余石子上数字的异或和，`⊕` 代表按位异或运算。
+
+其中，`S` 为剩余石子上数字的异或和，`⊕` 代表按位异或运算。
+
+**注：** 一个集合 `S = {a_1,⋯,a_n}` 中所有数字的异或和被定义为 `a_1 ⊕ a_2 ⊕⋯⊕ a_n`，其中 `⊕` 为按位异或运算，若 `S` 为空集，则异或和定义为 `0`。
+
+小 M 希望他获得的分数最大，且要求你输出方案。如果有多种方案，任意输出一种即可。
+
+
+### 输入描述
+
+第一行一个正整数 `n`，代表石子数量，保证` 1 ≤ n ≤ 10^3`。
+
+第二行 n 个正整数` a_i`，代表石子上的数字，保证` 0 ≤ a_i ≤ 2^31`。
+
+### 输出描述
+
+第一行输出一个整数，表示能获得的最大分数。
+
+第二行输出 n 个正整数，表示方案，即依次输出每一步操作取走的石子的编号。
+
+### 示例 1
+
+**输入**
+
+```
+5
+1 2 3 4 5
+```
+
+**输出**
+
+```
+61
+1 2 3 4 5
+```
+
+**解释**
+
+样例输出的方案为：
+
+第一次取走 1，获得的分数为 (1 × 1) ⊕ (2 ⊕ 3 ⊕ 4 ⊕ 5) = 1。
+
+第二次取走 2，获得的分数为 (2 × 2) ⊕ (3 ⊕ 4 ⊕ 5) = 6。
+
+第三次取走 3，获得的分数为 (3 × 3) ⊕ (4 ⊕ 5) = 8。
+
+第四次取走 4，获得的分数为 (4 × 4) ⊕ 5 = 21。
+
+第五次取走 5，获得的分数为 (5 × 5) ⊕ 0 = 25。
+
+总分为 1 + 6 + 8 + 21 + 25 = 61，可以证明这是能达到的最高分数。
+
+### 示例 2
+
+**输入**
+
+```
+10
+711 586 770 990 832 203 957 707 110 949
+```
+
+**输出**
+
+```
+40979
+10 9 8 7 6 5 4 3 2 1
+```
+
+### 思路
+
+**思路分析：**
+
+于典型的区间 DP 问题。
+
+**主要思路：**
+
+* **状态定义：** 定义 `dp[l][r]` 为在剩余石子从位置 `l` 到 `r` 时，能够获得的最大分数。
+* **状态转移：** 每次可以选择取左边或右边的石子，根据选择更新 `dp[l][r]`。
+* **关键点：**  
+  * **计算第 `k` 次操作：** 当前是第几次操作，`k` 的值需要准确计算。  
+  * **计算剩余石子的异或和 `S`：** 使用前缀异或和数组，方便快速计算任意区间的异或和。
+
+**实现步骤：**
+
+1. **预处理前缀异或和：** 使用一维数组 `prefixXor` 预处理从第一个石子到第 `i` 个石子的异或和。
+2. **初始化 DP 数组：** 创建二维数组 `dp[l][r]` 和 `choice[l][r]`，用于存储最大得分和选择方案。
+3. **动态规划递推：** 遍历所有可能的区间长度，从短到长，更新 `dp[l][r]`。  
+   * **计算当前操作数 `k`：** `k = n - (r - l + 1) + 1`。  
+   * **计算取左边石子的得分：**  
+         * 剩余石子的异或和 `S_left = prefixXor[r] ^ prefixXor[l]`。  
+         * 得分 `temp1 = ((k * a[l]) ^ S_left) + dp[l+1][r]`。  
+   * **计算取右边石子的得分：**  
+        * 剩余石子的异或和 `S_right = prefixXor[r-1] ^ (l > 0 ? prefixXor[l-1] : 0)`。  
+          * 得分 `temp2 = ((k * a[r]) ^ S_right) + dp[l][r-1]`。  
+   * **更新 DP 数组：** 选择得分较大的方案，记录得分和选择。
+4. **重构选择方案：** 根据 `choice[l][r]` 数组，逆序重建取石子的方案。
+
+**完整代码如下：**
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    static int n;
+    static long[] a;
+    static long[][] dp;
+    static int[][] choice;
+    static long[] prefixXor;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        n = scanner.nextInt();
+        a = new long[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextLong();
+        }
+        dp = new long[n][n];
+        choice = new int[n][n];
+        prefixXor = new long[n];
+
+        // 预处理前缀异或和
+        prefixXor[0] = a[0];
+        for (int i = 1; i < n; i++) {
+            prefixXor[i] = prefixXor[i - 1] ^ a[i];
+        }
+
+        // 动态规划
+        for (int len = 1; len <= n; len++) {
+            for (int l = 0; l <= n - len; l++) {
+                int r = l + len - 1;
+                int k = n - len + 1; // 当前操作数
+
+                if (l == r) {
+                    // 只有一个石子
+                    dp[l][r] = (k * a[l]) ^ 0;
+                    choice[l][r] = 0; // 无所谓，只有一个选择
+                } else {
+                    // 取左边
+                    long S_left = prefixXor[r] ^ prefixXor[l];
+                    long temp1 = ((k * a[l]) ^ S_left) + dp[l + 1][r];
+
+                    // 取右边
+                    long S_right = prefixXor[r - 1] ^ (l > 0 ? prefixXor[l - 1] : 0);
+                    long temp2 = ((k * a[r]) ^ S_right) + dp[l][r - 1];
+
+                    if (temp1 > temp2) {
+                        dp[l][r] = temp1;
+                        choice[l][r] = 0; // 取左边
+                    } else {
+                        dp[l][r] = temp2;
+                        choice[l][r] = 1; // 取右边
+                    }
+                }
+            }
+        }
+
+        // 输出结果
+        System.out.println(dp[0][n - 1]);
+
+        // 重构方案
+        int l = 0, r = n - 1;
+        StringBuilder sb = new StringBuilder();
+        while (l <= r) {
+            if (choice[l][r] == 0) {
+                sb.append((l + 1) + " ");
+                l++;
+            } else {
+                sb.append((r + 1) + " ");
+                r--;
+            }
+        }
+        System.out.println(sb.toString().trim());
+    }
+}
+```
+
+**注意事项：**
+
+* **关于 `k` 的计算：** 在剩余石子从位置 `l` 到 `r` 时，已经取走的石子数量为 `n - (r - l + 1)`，因此当前的操作数 `k = n - (r - l + 1) + 1`。
+* **关于异或和的计算：** 使用前缀异或和数组，可以在 O(1) 时间内计算任意区间的异或和。  
+  * **计算区间 `[l, r]` 的异或和：** `prefixXor[r] ^ (l > 0 ? prefixXor[l - 1] : 0)`。
+* **运算符优先级：** 在计算中，确保使用括号来明确运算顺序，避免因优先级导致的错误。
+
+## 题 3
+
+### 题目描述
+
+
+n 个城市之间通过 m 条航线联结，其中第 `i` 条航线双向连接着城市 `u_i` 和城市 `v_i`，票价为 `w_i`。同时也有 `k` 条铁路线，第 `j` 条铁路线双向连接城市 `a_j` 和城市 `b_j`，票价为 `c_j`。
+
+小 N 要从城市 `s` 出发旅行，且中途必须途径城市 `r` 作为中转站。由于时间匆忙，小 N 使用某个出行 APP 进行了一番搜索，发现直飞票非常昂贵，于是他考虑采用 APP 提供的转机/转火车的方案。然而，还有一点特别的是，小 N 不喜欢坐火车，他只接受最多坐 1 次火车的方案。
+
+请你为小 N 规划一条中转路线，使得他的总开销最小。
+
+### 输入描述
+
+第一行输入六个整数 n, m, k, s, t, r，其中：
+- n (1 ≤ n ≤ 10^5)：表示城市的数量。
+- m (1 ≤ m ≤ 2×10^5)：表示航线的数量。
+- k (0 ≤ k ≤ 2×10^5)：表示铁路线的数量。
+- s, t, r (1 ≤ s, t, r ≤ n)：表示小 N 的起点城市、终点城市和中转城市。
+
+- 接下来 `m` 行，每行三个整数 `u_i`, `v_i`, `w_i`，表示第 `i` 条航线连接城市 `u_i` 和 `v_i`，票价为 `w_i`。
+- 然后 `k` 行，每行三个整数 `a_j`, `b_j`, `c_j`，表示第 `j` 条铁路线连接城市 `a_j` 和 `b_j`，票价为 `c_j`。
+
+### 输出描述
+
+在一行上输出一个整数，代表答案。
+
+### 示例
+
+**输入**
+
+```
+4 5 3 2 1 3
+1 3 5  
+1 4 10  
+1 2 1  
+2 4 3
+3 4 8
+1 3 1
+1 2 4
+3 4 1
+```
+
+**输出**
+```
+7
+```
+
+**说明**  
+- 此时 s = 2, t = 1, r = 3。
+- 从 2 到 3 通过 2 → 1 的飞机（开销为 1）和 1 → 3 的火车（开销为 1）实现；
+从 3 到 1 通过坐一次飞机（开销为 5）实现。
+- 总开销为 1 + 1 + 5 = 7。
+
+### 思路
+
+> 使用带状态的 Dijkstra 算法，需要考虑以下两个条件：
+- 是否已经使用过一次铁路线 (usedRailwayFlag)。
+- 是否已经经过了中转城市 r (passedRFlag)。
+
+- 将每个节点的状态表示为 (cost, city, usedRailwayFlag, passedRFlag)。
+- 由于每个标志位有 2 个可能的值，所以每个城市的状态总数为 4，算法的复杂度在可接受范围内。
+
+```java
+import java.util.*;
+
+public class Main {
+    static class Edge {
+        int to;
+        long weight;
+        boolean isRailway;
+
+        Edge(int to, long weight, boolean isRailway) {
+            this.to = to;
+            this.weight = weight;
+            this.isRailway = isRailway;
+        }
+    }
+
+    static class State implements Comparable<State> {
+        int city;
+        int usedRailwayFlag;
+        int passedRFlag;
+        long cost;
+
+        State(int city, int usedRailwayFlag, int passedRFlag, long cost) {
+            this.city = city;
+            this.usedRailwayFlag = usedRailwayFlag;
+            this.passedRFlag = passedRFlag;
+            this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(State other) {
+            return Long.compare(this.cost, other.cost);
+        }
+    }
+
+    static final long INF = Long.MAX_VALUE / 2;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int k = sc.nextInt();
+        int s = sc.nextInt() - 1;
+        int t = sc.nextInt() - 1;
+        int r = sc.nextInt() - 1;
+
+        List<Edge>[] adj = new ArrayList[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+
+        // 读取航线信息
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt() - 1;
+            int v = sc.nextInt() - 1;
+            long w = sc.nextLong();
+            adj[u].add(new Edge(v, w, false));
+            adj[v].add(new Edge(u, w, false));
+        }
+
+        // 读取铁路线信息
+        for (int i = 0; i < k; i++) {
+            int u = sc.nextInt() - 1;
+            int v = sc.nextInt() - 1;
+            long c = sc.nextLong();
+            adj[u].add(new Edge(v, c, true));
+            adj[v].add(new Edge(u, c, true));
+        }
+
+        long[][][] dist = new long[n][2][2];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dist[i][0], INF);
+            Arrays.fill(dist[i][1], INF);
+        }
+
+        int initialPassedRFlag = (s == r) ? 1 : 0;
+        dist[s][0][initialPassedRFlag] = 0;
+
+        PriorityQueue<State> pq = new PriorityQueue<>();
+        pq.add(new State(s, 0, initialPassedRFlag, 0));
+
+        while (!pq.isEmpty()) {
+            State cur = pq.poll();
+
+            if (cur.city == t && cur.passedRFlag == 1) {
+                System.out.println(cur.cost);
+                return;
+            }
+
+            if (dist[cur.city][cur.usedRailwayFlag][cur.passedRFlag] < cur.cost)
+                continue;
+
+            for (Edge e : adj[cur.city]) {
+                int nextCity = e.to;
+                int nextUsedRailwayFlag = cur.usedRailwayFlag;
+                int nextPassedRFlag = cur.passedRFlag;
+                long nextCost = cur.cost + e.weight;
+
+                if (nextCity == r) nextPassedRFlag = 1;
+
+                if (e.isRailway) {
+                    if (cur.usedRailwayFlag == 1) continue;
+                    nextUsedRailwayFlag = 1;
+                }
+
+                if (dist[nextCity][nextUsedRailwayFlag][nextPassedRFlag] > nextCost) {
+                    dist[nextCity][nextUsedRailwayFlag][nextPassedRFlag] = nextCost;
+                    pq.add(new State(nextCity, nextUsedRailwayFlag, nextPassedRFlag, nextCost));
+                }
+            }
+        }
+
+        // 如果无法找到满足条件的路径，输出 -1
+        System.out.println(-1);
+    }
+}
+```
+
+> 解释：
+- 邻接表构建：使用邻接表来表示图结构，每条边标记为飞机航线或铁路线。
+- 状态表示：在 Dijkstra 算法中，每个状态包括当前城市、是否使用过铁路线、是否经过中转城市 r、当前总花费。
+- 优先队列：使用优先队列以保证每次扩展的都是当前花费最小的状态。
+
+> 状态转移：当遍历到一条边时，检查该边是否为铁路线以及是否已经使用过铁路线。更新 passedRFlag，如果到达了城市 r。如果条件满足且新的花费更小，则更新状态并加入队列。
+终止条件：当到达目的城市 t 且已经经过中转城市 r 时，输出当前的总花费。
+
+> 注意事项：
+如果起点城市 s 就是中转城市 r，则初始状态的 passedRFlag 应设为 1。
+如果无法找到符合条件的路径，则输出 -1。

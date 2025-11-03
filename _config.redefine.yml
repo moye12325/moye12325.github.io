@@ -205,24 +205,28 @@ navbar:
     pages: 1000px #other pages
   # Navbar links
   links:
-    Home: 
+    首页: 
       path: / 
       icon: fa-regular fa-house # can be empty
     博客: 
-      path: /archives 
       icon: fa-regular fa-book # can be empty
+      submenus:
+        全部文章: /archives/
+        分类: /categories/
+        标签: /tags/
+        归档: /archives/
     随笔: 
-      path: /notes 
+      path: /categories/随笔/ 
       icon: fa-regular fa-pen # can be empty
     项目: 
       path: /projects 
       icon: fa-regular fa-folder # can be empty
-    友链: 
-      path: /links 
-      icon: fa-regular fa-link # can be empty
     关于: 
       path: /about 
       icon: fa-regular fa-user # can be empty
+    友链: 
+      path: /links 
+      icon: fa-regular fa-link # can be empty
     # Status: 
     #   path: https://status.ohevan.com/
     #   icon: fa-regular fa-chart-bar
