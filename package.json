@@ -2,12 +2,16 @@
   "name": "hexo-site",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.17.0 <19"
+  },
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "migrate": "node scripts/migrate-drafts.js"
+    "migrate": "node scripts/migrate-drafts.js",
+    "vercel-build": "npm run clean && npm run build"
   },
   "hexo": {
     "version": "8.1.0"

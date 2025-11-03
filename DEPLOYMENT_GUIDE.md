@@ -45,6 +45,13 @@ This will:
 - Push to the `gh-pages` branch of your repository
 - Update your live site at https://moye12325.github.io
 
+### Optional: Deploy with Vercel
+```bash
+npm run vercel-build
+```
+
+This command mirrors the Vercel build pipeline by cleaning and regenerating the site into the `public/` directory. The included `vercel.json` tells Vercel to run this script and serve static assets from `public/`, applying rewrites so routes like `/archives` resolve to the generated `index.html` files. No additional environment variables are required for the build.
+
 ## Verification Checklist
 
 After deployment, verify:
