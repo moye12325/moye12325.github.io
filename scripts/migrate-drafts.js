@@ -1,7 +1,25 @@
 const fs = require('fs');
 const path = require('path');
-const matter = require('gray-matter');
-const slugify = require('slugify');
+
+// Try to load gray-matter, but don't fail if it's not available
+let matter;
+try {
+  matter = require('gray-matter');
+} catch (e) {
+  console.warn('Warning: gray-matter module not found. Migration script will not work.');
+  console.warn('To use migration, run: npm install gray-matter');
+  matter = null;
+}
+
+// Try to load slugify, but don't fail if it's not available
+let slugify;
+try {
+  slugify = require('slugify');
+} catch (e) {
+  console.warn('Warning: slugify module not found. Migration script will not work.');
+  console.warn('To use migration, run: npm install slugify');
+  slugify = null;
+}
 
 // Paths
 const DRAFTS_POSTS_DIR = path.join(__dirname, '../source/_drafts/posts');
@@ -308,21 +326,30 @@ function migrateNotes() {
 
 // Main migration function
 function main() {
+  // Check if required modules are available
+  if (!matter || !slugify) {
+    console.error('❌ Error: Required modules are not installed.');
+    if (!matter) console.error('  - gray-matter');
+    if (!slugify) console.error('  - slugify');
+    console.error('Please install them with: npm install gray-matter slugify');
+    process.exit(1);
+  }
+
   console.log('🚀 Starting draft migration...\n');
-  
+
   // Ensure target directories exist
   ensureDir(POSTS_DIR);
   ensureDir(NOTES_DIR);
-  
+
   // Backup drafts
   backupDrafts();
-  
+
   // Migrate posts
   migratePosts();
-  
+
   // Migrate notes
   migrateNotes();
-  
+
   console.log('\n✨ Migration completed!');
   console.log('\nNext steps:');
   console.log('  1. Run: npx hexo clean');
@@ -332,5 +359,7 @@ function main() {
   console.log('\nBackup location:', BACKUP_DIR);
 }
 
-// Run migration
-main();
+// Run migration only if this file is executed directly
+if (require.main === module) {
+  main();
+}
