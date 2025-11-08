@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://moye12325.github.io/2024/10/29/rabbitmq-messaging/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ知识总结">
+<meta property="og:url" content="https://moye12325.github.io/2024/10/29/rabbitmq-messaging/index.html">
+<meta property="og:site_name" content="码农修行手册">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moye12325.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2024-10-29T10:15:28.000Z">
+<meta property="article:modified_time" content="2024-10-29T10:16:06.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moye12325.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            RabbitMQ知识总结 | 码农修行手册
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"moye12325.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                码农修行手册
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">18</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">356</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">RabbitMQ知识总结</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv7</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-10-29 18:15:28</span>
+        <span class="mobile">2024-10-29 18:15:28</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-10-29 18:16:06</span>
+            <span class="mobile">2024-10-29 18:16:06</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/Java/">Java</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="安装RabbitMQ之后，执行了rabbitmq-plugins-enable-rabbitmq-management，却仍然打不开管理端界面http-localhost-15672"><a href="#安装RabbitMQ之后，执行了rabbitmq-plugins-enable-rabbitmq-management，却仍然打不开管理端界面http-localhost-15672" class="headerlink" title="安装RabbitMQ之后，执行了rabbitmq-plugins enable rabbitmq_management，却仍然打不开管理端界面http://localhost:15672"></a>安装RabbitMQ之后，执行了rabbitmq-plugins enable rabbitmq_management，却仍然打不开管理端界面<a class="link"   target="_blank" rel="noopener" href="http://localhost:15672/" >http://localhost:15672<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><p>执行了 <code>rabbitmq-plugins enable rabbitmq_management</code> 命令后，仍然无法打开 RabbitMQ 管理端界面，可能是由于以下几个原因造成的：</p>
+<ol>
+<li><p><strong>RabbitMQ 服务未启动</strong>：确保 RabbitMQ 服务正在运行。可以通过以下命令检查 RabbitMQ 服务的状态：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status rabbitmq-server</span><br></pre></td></tr></table></figure></div>
+<p>如果服务未启动，可以通过以下命令启动服务：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start rabbitmq-server</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>防火墙问题</strong>：确保防火墙没有阻止端口 15672。可以临时关闭防火墙以排除这一问题：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ufw <span class="built_in">disable</span></span><br></pre></td></tr></table></figure></div>
+<p>或者添加规则允许端口 15672：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ufw allow 15672</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>监听地址问题</strong>：RabbitMQ 默认监听所有接口地址。如果您的 RabbitMQ 配置文件 <code>rabbitmq.config</code> 中指定了不同的监听地址，可能需要修改为 <code>0.0.0.0</code> 或您的本地 IP 地址。配置文件通常位于 <code>/etc/rabbitmq/rabbitmq.config</code>。</p>
+</li>
+<li><p><strong>插件是否正确启用</strong>：确保插件正确启用，可以通过以下命令列出已启用的插件：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins list</span><br></pre></td></tr></table></figure></div>
+<p>确认 <code>rabbitmq_management</code> 插件在已启用插件列表中。</p>
+</li>
+<li><p><strong>查看日志</strong>：检查 RabbitMQ 的日志文件以获取更多信息。日志文件通常位于 <code>/var/log/rabbitmq/</code> 目录下，可以查看 <code>rabbit@&lt;hostname&gt;.log</code> 和 <code>rabbit@&lt;hostname&gt;-sasl.log</code> 文件中的内容。</p>
+</li>
+<li><p><strong>重新启用插件</strong>：尝试禁用并重新启用 <code>rabbitmq_management</code> 插件：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">disable</span> rabbitmq_management</span><br><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>如果以上步骤仍未解决问题，请提供更多的错误信息或日志内容以便进一步诊断。</p>
+<h2 id="系统是windows"><a href="#系统是windows" class="headerlink" title="系统是windows"></a>系统是windows</h2><p>在 Windows 上安装 RabbitMQ 并启用管理插件后，如果无法访问管理界面 <a href="http://localhost:15672，请按以下步骤进行故障排除：">http://localhost:15672，请按以下步骤进行故障排除：</a></p>
+<ol>
+<li><p><strong>确保 RabbitMQ 服务已启动</strong>：</p>
+<ul>
+<li>打开任务管理器，查看 RabbitMQ 服务是否正在运行。</li>
+<li>或者在命令提示符中输入以下命令查看服务状态：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start | find <span class="string">&quot;RabbitMQ&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+<li>如果服务未启动，可以手动启动服务：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>确认管理插件已启用</strong>：</p>
+<ul>
+<li>在命令提示符中输入以下命令查看已启用的插件：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins list</span><br></pre></td></tr></table></figure></div></li>
+<li>确认 <code>rabbitmq_management</code> 插件在启用的插件列表中。如果未启用，请启用它：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>检查端口占用情况</strong>：</p>
+<ul>
+<li>确保端口 15672 未被其他程序占用。可以使用以下命令查看端口占用情况：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -aon | findstr :15672</span><br></pre></td></tr></table></figure></div></li>
+<li>如果发现端口被其他程序占用，需要停止该程序或更改 RabbitMQ 管理插件的端口。</li>
+</ul>
+</li>
+<li><p><strong>防火墙设置</strong>：</p>
+<ul>
+<li>确保 Windows 防火墙没有阻止端口 15672。可以临时关闭防火墙以排除这一问题：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh advfirewall <span class="built_in">set</span> allprofiles state off</span><br></pre></td></tr></table></figure></div></li>
+<li>或者在防火墙设置中添加入站规则，允许端口 15672。</li>
+</ul>
+</li>
+<li><p><strong>检查 RabbitMQ 日志</strong>：</p>
+<ul>
+<li>查看 RabbitMQ 的日志文件以获取更多信息。默认情况下，日志文件位于 <code>%APPDATA%\RabbitMQ\log</code> 目录下。检查 <code>rabbit@&lt;hostname&gt;.log</code> 和 <code>rabbit@&lt;hostname&gt;-sasl.log</code> 文件中的内容。</li>
+</ul>
+</li>
+<li><p><strong>重新启用管理插件</strong>：</p>
+<ul>
+<li>尝试禁用并重新启用 <code>rabbitmq_management</code> 插件：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">disable</span> rabbitmq_management</span><br><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>检查配置文件</strong>：</p>
+<ul>
+<li>检查 RabbitMQ 的配置文件 <code>rabbitmq.config</code> 中是否有任何与管理插件相关的设置。如果配置文件中指定了监听地址，确保它包含 <code>0.0.0.0</code> 或本地 IP 地址。</li>
+</ul>
+</li>
+</ol>
+<p>如果以上步骤仍未解决问题，请提供更多的错误信息或日志内容以便进一步诊断。</p>
+<p>在 RabbitMQ 中，插件列表中的状态标记解释如下：</p>
+<ul>
+<li><code>[ ]</code> 表示插件未启用。</li>
+<li><code>[e]</code> 表示插件是其他插件依赖的，并已隐式启用。</li>
+<li><code>[E]</code> 表示插件已显式启用。</li>
+</ul>
+<p>在你的情况下：</p>
+<ul>
+<li><code>[E] rabbitmq_management</code> 表示 <code>rabbitmq_management</code> 插件已显式启用。</li>
+<li><code>[e] rabbitmq_management_agent</code> 表示 <code>rabbitmq_management_agent</code> 插件是 <code>rabbitmq_management</code> 插件依赖的，因此已隐式启用。</li>
+<li><code>[e] rabbitmq_web_dispatch</code> 表示 <code>rabbitmq_web_dispatch</code> 插件也是 <code>rabbitmq_management</code> 插件依赖的，因此已隐式启用。</li>
+</ul>
+<p>尽管这些插件已启用，你仍然无法访问管理界面。接下来，可以尝试以下步骤进行进一步的故障排除：</p>
+<h3 id="1-确认-RabbitMQ-服务已启动"><a href="#1-确认-RabbitMQ-服务已启动" class="headerlink" title="1. 确认 RabbitMQ 服务已启动"></a>1. 确认 RabbitMQ 服务已启动</h3><p>确保 RabbitMQ 服务正在运行：</p>
+<ol>
+<li>打开命令提示符（以管理员身份运行）。</li>
+<li>输入以下命令检查 RabbitMQ 服务状态：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start | find <span class="string">&quot;RabbitMQ&quot;</span></span><br></pre></td></tr></table></figure></div>
+确保 RabbitMQ 服务在运行。如果未运行，可以手动启动服务：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h3 id="2-检查端口占用情况"><a href="#2-检查端口占用情况" class="headerlink" title="2. 检查端口占用情况"></a>2. 检查端口占用情况</h3><p>确保端口 15672 未被其他程序占用：</p>
+<ol>
+<li>在命令提示符中输入以下命令查看端口占用情况：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -aon | findstr :15672</span><br></pre></td></tr></table></figure></div></li>
+<li>如果发现端口被其他程序占用，需要停止该程序或更改 RabbitMQ 管理插件的端口。</li>
+</ol>
+<h3 id="3-查看-RabbitMQ-日志"><a href="#3-查看-RabbitMQ-日志" class="headerlink" title="3. 查看 RabbitMQ 日志"></a>3. 查看 RabbitMQ 日志</h3><p>检查 RabbitMQ 的日志文件以获取更多信息。日志文件通常位于 <code>%APPDATA%\RabbitMQ\log</code> 目录下。查看 <code>rabbit@&lt;hostname&gt;.log</code> 和 <code>rabbit@&lt;hostname&gt;-sasl.log</code> 文件中的内容，看看是否有任何错误信息。</p>
+<h3 id="4-确认-RabbitMQ-节点状态"><a href="#4-确认-RabbitMQ-节点状态" class="headerlink" title="4. 确认 RabbitMQ 节点状态"></a>4. 确认 RabbitMQ 节点状态</h3><p>确保 RabbitMQ 节点正在正常运行：</p>
+<ol>
+<li>在命令提示符中输入以下命令查看节点状态：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl status</span><br></pre></td></tr></table></figure></div>
+确认节点状态正常，没有错误信息。</li>
+</ol>
+<h3 id="5-重新启用管理插件"><a href="#5-重新启用管理插件" class="headerlink" title="5. 重新启用管理插件"></a>5. 重新启用管理插件</h3><p>尝试禁用并重新启用 <code>rabbitmq_management</code> 插件：</p>
+<ol>
+<li>在命令提示符中输入以下命令禁用管理插件：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">disable</span> rabbitmq_management</span><br></pre></td></tr></table></figure></div></li>
+<li>然后重新启用管理插件：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h3 id="6-检查配置文件"><a href="#6-检查配置文件" class="headerlink" title="6. 检查配置文件"></a>6. 检查配置文件</h3><p>检查 RabbitMQ 的配置文件 <code>rabbitmq.config</code> 中是否有任何与管理插件相关的设置。确保配置文件没有错误，并且正确配置了监听地址。配置文件通常位于 RabbitMQ 安装目录的 <code>etc/rabbitmq</code> 子目录中。</p>
+<p>通过以上步骤逐步排查问题，应该能够找出并解决 RabbitMQ 管理界面无法访问的问题。如果仍然遇到问题，请提供更多的日志信息或错误消息，以便进一步诊断。</p>
+<h2 id="rabbitmqctl-status"><a href="#rabbitmqctl-status" class="headerlink" title="rabbitmqctl status"></a>rabbitmqctl status</h2><p>在命令提示符中运行 <code>rabbitmqctl status</code> 命令可以帮助你查看 RabbitMQ 节点的状态，并提供关于服务器的有用信息。这是你应该在命令提示符中执行的步骤：</p>
+<ol>
+<li>打开命令提示符（以管理员身份运行）。</li>
+<li>导航到 RabbitMQ 的 <code>sbin</code> 目录。假设 RabbitMQ 安装在 <code>D:\Program Files\RabbitMQ Server\rabbitmq_server-3.12.13</code> 目录中，输入以下命令：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="string">&quot;D:\Program Files\RabbitMQ Server\rabbitmq_server-3.12.13\sbin&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+<li>运行 <code>rabbitmqctl status</code> 命令：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl status</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>此命令将输出有关 RabbitMQ 节点的详细状态信息，包括版本、节点名称、启用的插件、进程 ID 等。</p>
+<h3 id="示例输出"><a href="#示例输出" class="headerlink" title="示例输出"></a>示例输出</h3><p>正常情况下，你会看到类似于以下的输出：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Status of node rabbit@your-hostname ...</span><br><span class="line">Runtime</span><br><span class="line"></span><br><span class="line">OS PID: 12345</span><br><span class="line">OS: Windows</span><br><span class="line">...</span><br><span class="line">Plugins</span><br><span class="line">Running plugins: </span><br><span class="line"> * rabbitmq_management</span><br><span class="line"> * rabbitmq_management_agent</span><br><span class="line"> * rabbitmq_web_dispatch</span><br><span class="line">...</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="可能的问题和解决方案"><a href="#可能的问题和解决方案" class="headerlink" title="可能的问题和解决方案"></a>可能的问题和解决方案</h3><ol>
+<li><p><strong>无法联系节点</strong>：</p>
+<ul>
+<li>如果你看到 <code>failed to contact node rabbit@your-hostname</code>，这通常意味着 RabbitMQ 节点未启动或网络配置有问题。</li>
+<li>确保 RabbitMQ 服务已启动：<code>net start RabbitMQ</code></li>
+<li>确保主机名解析正确，可以尝试使用 <code>127.0.0.1</code> 或 <code>localhost</code>。</li>
+</ul>
+</li>
+<li><p><strong>节点未启动</strong>：</p>
+<ul>
+<li>如果 RabbitMQ 节点未启动，可以尝试重新启动 RabbitMQ 服务：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net stop RabbitMQ</span><br><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>插件未启用或配置错误</strong>：</p>
+<ul>
+<li>确保 <code>rabbitmq_management</code> 插件已启用并正确配置。</li>
+<li>尝试禁用并重新启用管理插件：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">disable</span> rabbitmq_management</span><br><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>日志检查</strong>：</p>
+<ul>
+<li>检查日志文件中是否有任何错误信息。日志文件通常位于 <code>%APPDATA%\RabbitMQ\log</code> 目录下。</li>
+</ul>
+</li>
+</ol>
+<p>请执行上述命令，并分享 <code>rabbitmqctl status</code> 命令的输出，以便进一步诊断和解决问题。</p>
+<p>D:\Program Files\RabbitMQ Server\rabbitmq_server-3 Error: unable to perform an operation on node ‘rab ns below. Most common reasons for this are: * Target node is unreachable (e.g. due to hostnam * CLI tool fails to authenticate with the server * Target node is not running In addition to the diagnostics info below: * See the CLI, clustering and networking guides o * Consult server logs on node rabbit@DESKTOP-QHP9 * If target node is configured to use long node n DIAGNOSTICS &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; attempted to contact: [‘rabbit@DESKTOP-QHP9QTC’] rabbit@DESKTOP-QHP9QTC: * connected to epmd (port 4369) on DESKTOP-QHP9Q * epmd reports node ‘rabbit’ uses port 25672 for * TCP connection succeeded but Erlang distributi * suggestion: check if the Erlang cookie is iden * suggestion: check if all server nodes and CLI * suggestion: check if inter-node connections ma t * suggestion: see the CLI, clustering and netwo Current node details: * node name: ‘rabbitmqcli-363-rabbit@DESKTOP-QHP9 * effective user’s home directory: c:&#x2F;Users&#x2F;19423 * Erlang cookie hash: JS8ISKmqZdJN69PIbYuGOw&#x3D;&#x3D;<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/RabbitMQ_image_1.png"
+                     
+                ></p>
+<p>你的 RabbitMQ 节点存在通信问题，可能是由于 Erlang cookie 不匹配或网络配置问题。以下是一些详细的故障排除步骤：</p>
+<h3 id="1-检查-Erlang-Cookie"><a href="#1-检查-Erlang-Cookie" class="headerlink" title="1. 检查 Erlang Cookie"></a>1. 检查 Erlang Cookie</h3><p>Erlang cookie 是用于节点间通信的安全凭证。CLI 工具和 RabbitMQ 节点需要使用相同的 cookie。</p>
+<h4 id="检查并同步-Erlang-Cookie"><a href="#检查并同步-Erlang-Cookie" class="headerlink" title="检查并同步 Erlang Cookie"></a>检查并同步 Erlang Cookie</h4><ol>
+<li><p><strong>找到 Erlang Cookie 文件位置</strong>：</p>
+<ul>
+<li>默认情况下，Erlang cookie 文件位于用户的主目录下。路径通常是 <code>C:\Users\&lt;username&gt;\.erlang.cookie</code>。</li>
+</ul>
+</li>
+<li><p><strong>确保 CLI 和节点使用相同的 Erlang Cookie</strong>：</p>
+<ul>
+<li>打开 <code>C:\Users\&lt;username&gt;\.erlang.cookie</code> 文件，确保文件内容一致。</li>
+<li>如果内容不一致，将 RabbitMQ 节点的 cookie 内容复制到 CLI 用户的 cookie 文件中。</li>
+</ul>
+</li>
+</ol>
+<h4 id="更改-RabbitMQ-节点的-Cookie-文件位置"><a href="#更改-RabbitMQ-节点的-Cookie-文件位置" class="headerlink" title="更改 RabbitMQ 节点的 Cookie 文件位置"></a>更改 RabbitMQ 节点的 Cookie 文件位置</h4><ol>
+<li><p><strong>找到 RabbitMQ 节点的 cookie 文件</strong>：</p>
+<ul>
+<li>RabbitMQ 服务运行用户的 home 目录下的 <code>.erlang.cookie</code> 文件。对于 Windows 服务用户，路径通常是 <code>C:\Windows\System32\config\systemprofile\.erlang.cookie</code>。</li>
+</ul>
+</li>
+<li><p><strong>将内容同步</strong>：</p>
+<ul>
+<li>确保 <code>C:\Windows\System32\config\systemprofile\.erlang.cookie</code> 文件和 <code>C:\Users\&lt;username&gt;\.erlang.cookie</code> 文件内容一致。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-检查主机名解析和网络配置"><a href="#2-检查主机名解析和网络配置" class="headerlink" title="2. 检查主机名解析和网络配置"></a>2. 检查主机名解析和网络配置</h3><p>确保主机名解析正确并且网络配置无误。</p>
+<ol>
+<li><p><strong>检查主机名解析</strong>：</p>
+<ul>
+<li>确保主机名 <code>DESKTOP-QHP9QTC</code> 可以正确解析。可以在命令提示符中执行 <code>ping DESKTOP-QHP9QTC</code> 确认主机名解析。</li>
+</ul>
+</li>
+<li><p><strong>检查防火墙和端口</strong>：</p>
+<ul>
+<li>确保防火墙没有阻止 RabbitMQ 使用的端口（4369 和 25672）。可以临时关闭防火墙以排除这一问题：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh advfirewall <span class="built_in">set</span> allprofiles state off</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ol>
+<h3 id="3-重新启动-RabbitMQ-服务"><a href="#3-重新启动-RabbitMQ-服务" class="headerlink" title="3. 重新启动 RabbitMQ 服务"></a>3. 重新启动 RabbitMQ 服务</h3><p>尝试重新启动 RabbitMQ 服务以确保配置生效。</p>
+<ol>
+<li><p><strong>停止 RabbitMQ 服务</strong>：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net stop RabbitMQ</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>启动 RabbitMQ 服务</strong>：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h3 id="4-检查日志文件"><a href="#4-检查日志文件" class="headerlink" title="4. 检查日志文件"></a>4. 检查日志文件</h3><p>查看 RabbitMQ 日志文件以获取更多信息。日志文件通常位于 <code>%APPDATA%\RabbitMQ\log</code> 目录下。检查 <code>rabbit@&lt;hostname&gt;.log</code> 和 <code>rabbit@&lt;hostname&gt;-sasl.log</code> 文件中的内容。</p>
+<h3 id="5-检查配置文件"><a href="#5-检查配置文件" class="headerlink" title="5. 检查配置文件"></a>5. 检查配置文件</h3><p>确保 RabbitMQ 的配置文件正确配置了节点名称和其他参数。配置文件通常位于 RabbitMQ 安装目录的 <code>etc\rabbitmq</code> 子目录中。</p>
+<h3 id="示例操作步骤"><a href="#示例操作步骤" class="headerlink" title="示例操作步骤"></a>示例操作步骤</h3><ol>
+<li><p>同步 Erlang cookie：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> <span class="string">&quot;C:\Windows\System32\config\systemprofile\.erlang.cookie&quot;</span></span><br><span class="line"><span class="built_in">type</span> <span class="string">&quot;C:\Users\&lt;username&gt;\.erlang.cookie&quot;</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>验证主机名解析：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping DESKTOP-QHP9QTC</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>重新启动 RabbitMQ 服务：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net stop RabbitMQ</span><br><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查看日志文件：<br>打开 <code>%APPDATA%\RabbitMQ\log</code> 目录下的日志文件。</p>
+</li>
+</ol>
+<p>执行这些步骤后，再次尝试访问 RabbitMQ 管理界面，并使用 <code>rabbitmqctl status</code> 检查节点状态。</p>
+<h2 id="RabbitMQ-节点的-cookie-与-Erlang-Cookie确实不一致，应该把谁的复制给谁"><a href="#RabbitMQ-节点的-cookie-与-Erlang-Cookie确实不一致，应该把谁的复制给谁" class="headerlink" title="RabbitMQ 节点的 cookie 与 Erlang Cookie确实不一致，应该把谁的复制给谁"></a>RabbitMQ 节点的 cookie 与 Erlang Cookie确实不一致，应该把谁的复制给谁</h2><p>为了解决 Erlang cookie 不一致的问题，确保 RabbitMQ 服务用户和命令行工具使用相同的 cookie 文件。通常，我们将命令行工具用户的 cookie 复制到 RabbitMQ 服务用户的 cookie 文件中。这是因为命令行工具通常会使用当前用户的 home 目录中的 cookie，而 RabbitMQ 服务用户的 cookie 文件可能位于系统目录中。</p>
+<h3 id="步骤如下："><a href="#步骤如下：" class="headerlink" title="步骤如下："></a>步骤如下：</h3><h4 id="1-确定当前命令行工具用户的-cookie-文件"><a href="#1-确定当前命令行工具用户的-cookie-文件" class="headerlink" title="1. 确定当前命令行工具用户的 cookie 文件"></a>1. 确定当前命令行工具用户的 cookie 文件</h4><p>命令行工具用户的 cookie 文件通常位于：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\&lt;your-username&gt;\.erlang.cookie</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="2-确定-RabbitMQ-服务用户的-cookie-文件"><a href="#2-确定-RabbitMQ-服务用户的-cookie-文件" class="headerlink" title="2. 确定 RabbitMQ 服务用户的 cookie 文件"></a>2. 确定 RabbitMQ 服务用户的 cookie 文件</h4><p>RabbitMQ 服务用户的 cookie 文件通常位于：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\config\systemprofile\.erlang.cookie</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="3-将命令行工具用户的-cookie-复制到-RabbitMQ-服务用户的-cookie-文件中"><a href="#3-将命令行工具用户的-cookie-复制到-RabbitMQ-服务用户的-cookie-文件中" class="headerlink" title="3. 将命令行工具用户的 cookie 复制到 RabbitMQ 服务用户的 cookie 文件中"></a>3. 将命令行工具用户的 cookie 复制到 RabbitMQ 服务用户的 cookie 文件中</h4><ol>
+<li><strong>打开命令提示符（以管理员身份运行）</strong>。</li>
+<li><strong>查看命令行工具用户的 cookie 文件内容</strong>：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> <span class="string">&quot;C:\Users\&lt;your-username&gt;\.erlang.cookie&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+<li><strong>将内容复制到 RabbitMQ 服务用户的 cookie 文件中</strong>：<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy <span class="string">&quot;C:\Users\&lt;your-username&gt;\.erlang.cookie&quot;</span> <span class="string">&quot;C:\Windows\System32\config\systemprofile\.erlang.cookie&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h3 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h3><p>假设你的用户名是 <code>your-username</code>，具体步骤如下：</p>
+<ol>
+<li><p><strong>查看命令行工具用户的 cookie 文件内容</strong>：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> <span class="string">&quot;C:\Users\your-username\.erlang.cookie&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>记下显示的内容。</p>
+</li>
+<li><p><strong>将内容复制到 RabbitMQ 服务用户的 cookie 文件中</strong>：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy <span class="string">&quot;C:\Users\your-username\.erlang.cookie&quot;</span> <span class="string">&quot;C:\Windows\System32\config\systemprofile\.erlang.cookie&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h3 id="重新启动-RabbitMQ-服务"><a href="#重新启动-RabbitMQ-服务" class="headerlink" title="重新启动 RabbitMQ 服务"></a>重新启动 RabbitMQ 服务</h3><p>为了确保配置生效，重新启动 RabbitMQ 服务：</p>
+<ol>
+<li><p><strong>停止 RabbitMQ 服务</strong>：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net stop RabbitMQ</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>启动 RabbitMQ 服务</strong>：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>执行 <code>rabbitmqctl status</code> 命令，验证是否可以成功获取 RabbitMQ 节点的状态：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl status</span><br></pre></td></tr></table></figure></div>
+
+<p>通过以上步骤，确保 Erlang cookie 一致性问题得到解决，然后再尝试访问 RabbitMQ 管理界面。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> RabbitMQ知识总结</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2024-10-29 18:15:28</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2024-10-29 18:16:06
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://moye12325.github.io/2024/10/29/rabbitmq-messaging/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/11/20/notes/%E8%AE%B0%E5%BD%95-2024-%E5%B9%B4%E7%AC%AC-325-%E5%A4%A9/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">记录 2024 年第 325 天</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/10/29/MyBatis/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">MyBatis知识总结</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">RabbitMQ知识总结</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85RabbitMQ%E4%B9%8B%E5%90%8E%EF%BC%8C%E6%89%A7%E8%A1%8C%E4%BA%86rabbitmq-plugins-enable-rabbitmq-management%EF%BC%8C%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%89%93%E4%B8%8D%E5%BC%80%E7%AE%A1%E7%90%86%E7%AB%AF%E7%95%8C%E9%9D%A2http-localhost-15672"><span class="nav-text">安装RabbitMQ之后，执行了rabbitmq-plugins enable rabbitmq_management，却仍然打不开管理端界面http:&#x2F;&#x2F;localhost:15672</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%98%AFwindows"><span class="nav-text">系统是windows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A1%AE%E8%AE%A4-RabbitMQ-%E6%9C%8D%E5%8A%A1%E5%B7%B2%E5%90%AF%E5%8A%A8"><span class="nav-text">1. 确认 RabbitMQ 服务已启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%A3%80%E6%9F%A5%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-text">2. 检查端口占用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9F%A5%E7%9C%8B-RabbitMQ-%E6%97%A5%E5%BF%97"><span class="nav-text">3. 查看 RabbitMQ 日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%A1%AE%E8%AE%A4-RabbitMQ-%E8%8A%82%E7%82%B9%E7%8A%B6%E6%80%81"><span class="nav-text">4. 确认 RabbitMQ 节点状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%87%8D%E6%96%B0%E5%90%AF%E7%94%A8%E7%AE%A1%E7%90%86%E6%8F%92%E4%BB%B6"><span class="nav-text">5. 重新启用管理插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%A3%80%E6%9F%A5%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">6. 检查配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rabbitmqctl-status"><span class="nav-text">rabbitmqctl status</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E8%BE%93%E5%87%BA"><span class="nav-text">示例输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">可能的问题和解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A3%80%E6%9F%A5-Erlang-Cookie"><span class="nav-text">1. 检查 Erlang Cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%A3%80%E6%9F%A5%E4%B8%BB%E6%9C%BA%E5%90%8D%E8%A7%A3%E6%9E%90%E5%92%8C%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="nav-text">2. 检查主机名解析和网络配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8-RabbitMQ-%E6%9C%8D%E5%8A%A1"><span class="nav-text">3. 重新启动 RabbitMQ 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%A3%80%E6%9F%A5%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="nav-text">4. 检查日志文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%A3%80%E6%9F%A5%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">5. 检查配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-text">示例操作步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ-%E8%8A%82%E7%82%B9%E7%9A%84-cookie-%E4%B8%8E-Erlang-Cookie%E7%A1%AE%E5%AE%9E%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%BA%94%E8%AF%A5%E6%8A%8A%E8%B0%81%E7%9A%84%E5%A4%8D%E5%88%B6%E7%BB%99%E8%B0%81"><span class="nav-text">RabbitMQ 节点的 cookie 与 Erlang Cookie确实不一致，应该把谁的复制给谁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-text">步骤如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="nav-text">例子：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8-RabbitMQ-%E6%9C%8D%E5%8A%A1"><span class="nav-text">重新启动 RabbitMQ 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-text">验证</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 356 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>

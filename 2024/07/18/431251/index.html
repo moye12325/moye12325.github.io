@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://moye12325.github.io/2024/07/18/431251/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02. 队列">
+<meta property="og:url" content="https://moye12325.github.io/2024/07/18/431251/index.html">
+<meta property="og:site_name" content="码农修行手册">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moye12325.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2024-07-18T06:19:37.000Z">
+<meta property="article:modified_time" content="2025-11-08T09:08:59.597Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="队列">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moye12325.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            02. 队列 | 码农修行手册
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"moye12325.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                码农修行手册
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">18</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">356</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">02. 队列</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv7</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-07-18 14:19:37</span>
+        <span class="mobile">2024-07-18 14:19:37</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-11-08 17:08:59</span>
+            <span class="mobile">2025-11-08 17:08:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="队列：优雅的数据结构"><a href="#队列：优雅的数据结构" class="headerlink" title="队列：优雅的数据结构"></a>队列：优雅的数据结构</h1><p>队列是一种经典的数据结构，它以先进先出（First In First Out，FIFO）的方式管理数据。</p>
+<p>在计算机科学中，队列被广泛应用于各种场景，从操作系统任务调度到网络通信，都能看到它的身影。</p>
+<h2 id="1-队列的基本概念"><a href="#1-队列的基本概念" class="headerlink" title="1. 队列的基本概念"></a>1. 队列的基本概念</h2><p>队列是一种线性数据结构，具有两个主要操作：入队（enqueue）和出队（dequeue）。数据项从队尾入队，从队头出队，保证了先进入队列的元素先被取出。这种特性使得队列非常适用于需要按照顺序处理的问题。</p>
+<h2 id="2-队列的实现"><a href="#2-队列的实现" class="headerlink" title="2. 队列的实现"></a>2. 队列的实现</h2><h3 id="2-1-队列的实现思路"><a href="#2-1-队列的实现思路" class="headerlink" title="2.1 队列的实现思路"></a>2.1 队列的实现思路</h3><blockquote>
+<p>队列本身是有序列表，若使用数组结构存储队列数据，则队列数据声明如下图，其中maxSize是该队列的最大容量。</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/2.%E9%98%9F%E5%88%97_image_1.png"
+                     
+                ></p>
+<blockquote>
+<p>队列的输入、输出分别从前后端来处理，因此需要两个变量front、rear分别记录队列前后端的下标，front会随着数据输出而改变，而rear则随着数据输入而改变。</p>
+</blockquote>
+<blockquote>
+<p>数据存入称为addQueue：</p>
+<ol>
+<li>队尾指针往后移: rear+1, front &#x3D;&#x3D; rear时队列为空</li>
+<li>队尾指针rear小于队列的最大标maxSize-1，则将数据存入rear所指的数组元组中，否则无法存入数据。rear &#x3D;&#x3D; maxSize-1时，队列满。</li>
+</ol>
+</blockquote>
+<h3 id="2-2-Java实现队列的基本结构"><a href="#2-2-Java实现队列的基本结构" class="headerlink" title="2.2 Java实现队列的基本结构"></a>2.2 Java实现队列的基本结构</h3><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ArrayQueue</span> &#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> maxSize;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> front;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> rear;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] arr;<span class="comment">//该数组用于存放数据，模拟队列  </span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">//创建队列的构造器  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ArrayQueue</span><span class="params">(<span class="type">int</span> arrMaxSize)</span> &#123;  </span><br><span class="line">        maxSize = arrMaxSize;  </span><br><span class="line">        arr = <span class="keyword">new</span> <span class="title class_">int</span>[maxSize];  </span><br><span class="line">        front = -<span class="number">1</span>;<span class="comment">//指向队列头部，分析出front是指向队列头的前一个位置  </span></span><br><span class="line">        rear = -<span class="number">1</span>;<span class="comment">//指向队列尾部，指向队列尾的数据（即就是队列最后一个数据）  </span></span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//判断队列是否满  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isFull</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> rear == maxSize - <span class="number">1</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//判断队列是否为空  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isEmpty</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> rear == front;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//添加数据到队列  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addQueue</span><span class="params">(<span class="type">int</span> n)</span> &#123;  </span><br><span class="line">        <span class="comment">//判断队列是否满  </span></span><br><span class="line">        <span class="keyword">if</span> (isFull()) &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;队列满，不能加入数据&quot;</span>);  </span><br><span class="line">            <span class="keyword">return</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        rear++;<span class="comment">//让rear后移  </span></span><br><span class="line">        arr[rear] = n;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//获取队列的数据，出队列  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getQueue</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">//判断队列是否为空  </span></span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) &#123;  </span><br><span class="line">            <span class="comment">//通过抛出异常  </span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;队列空，不能取数据&quot;</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">        front++;<span class="comment">//front后移  </span></span><br><span class="line">        <span class="keyword">return</span> arr[front];  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//显示队列的所有数据  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showQueue</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">//遍历  </span></span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;队列空的，没有数据&quot;</span>);  </span><br><span class="line">            <span class="keyword">return</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;  </span><br><span class="line">            System.out.printf(<span class="string">&quot;arr[%d]=%d\n&quot;</span>, i, arr[i]);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//显示队列的头数据，注意不是取出数据  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">headQueue</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">//判断  </span></span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) &#123;  </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;队列空的，没有数据&quot;</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> arr[front + <span class="number">1</span>];  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;  </span><br><span class="line">        <span class="comment">//测试一把  </span></span><br><span class="line">        System.out.println(<span class="string">&quot;测试数组模拟队列的案例~~~&quot;</span>);  </span><br><span class="line">        <span class="comment">//创建一个队列  </span></span><br><span class="line">        <span class="type">ArrayQueue</span> <span class="variable">queue</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArrayQueue</span>(<span class="number">3</span>);  </span><br><span class="line">        <span class="type">char</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&#x27; &#x27;</span>;<span class="comment">//接收用户输入  </span></span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);  </span><br><span class="line">        <span class="type">boolean</span> <span class="variable">loop</span> <span class="operator">=</span> <span class="literal">true</span>;  </span><br><span class="line">        <span class="comment">//输出一个菜单  </span></span><br><span class="line">        <span class="keyword">while</span> (loop) &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;s(show):显示队列&quot;</span>);  </span><br><span class="line">            System.out.println(<span class="string">&quot;e(exit):退出程序&quot;</span>);  </span><br><span class="line">            System.out.println(<span class="string">&quot;a(add):添加数据到队列&quot;</span>);  </span><br><span class="line">            System.out.println(<span class="string">&quot;g(get):从队列取出数据&quot;</span>);  </span><br><span class="line">            System.out.println(<span class="string">&quot;h(head):查看队列头的数据&quot;</span>);  </span><br><span class="line">            <span class="comment">//接收一个字符  </span></span><br><span class="line">            key = scanner.next().charAt(<span class="number">0</span>);  </span><br><span class="line">            <span class="keyword">switch</span> (key) &#123;  </span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;s&#x27;</span>:<span class="comment">//显示队列  </span></span><br><span class="line">                    queue.showQueue();  </span><br><span class="line">                    <span class="keyword">break</span>;  </span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;a&#x27;</span>:<span class="comment">//添加数据到队列  </span></span><br><span class="line">                    System.out.println(<span class="string">&quot;输出一个数&quot;</span>);  </span><br><span class="line">                    <span class="type">int</span> <span class="variable">value</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">                    queue.addQueue(value);  </span><br><span class="line">                    <span class="keyword">break</span>;  </span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;g&#x27;</span>:<span class="comment">//从队列取出数据  </span></span><br><span class="line">                    <span class="keyword">try</span> &#123;  </span><br><span class="line">                        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> queue.getQueue();  </span><br><span class="line">                        System.out.printf(<span class="string">&quot;取出的数据是%d\n&quot;</span>, res);  </span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">                        System.out.println(e.getMessage());  </span><br><span class="line">                    &#125;  </span><br><span class="line">                    <span class="keyword">break</span>;  </span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;h&#x27;</span>:<span class="comment">//查看队列头的数据  </span></span><br><span class="line">                    <span class="keyword">try</span> &#123;  </span><br><span class="line">                        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> queue.headQueue();  </span><br><span class="line">                        System.out.printf(<span class="string">&quot;队列头的数据是%d\n&quot;</span>, res);  </span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">                        System.out.println(e.getMessage());  </span><br><span class="line">                    &#125;  </span><br><span class="line">                    <span class="keyword">break</span>;  </span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;e&#x27;</span>:<span class="comment">//退出  </span></span><br><span class="line">                    scanner.close();  </span><br><span class="line">                    loop = <span class="literal">false</span>;  </span><br><span class="line">                    <span class="keyword">break</span>;  </span><br><span class="line">                <span class="keyword">default</span>:  </span><br><span class="line">                    <span class="keyword">break</span>;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">        System.out.println(<span class="string">&quot;程序退出~~~&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-3-Python实现队列的基本结构"><a href="#2-3-Python实现队列的基本结构" class="headerlink" title="2.3 Python实现队列的基本结构"></a>2.3 Python实现队列的基本结构</h3><p>队列可以使用数组或链表等数据结构来实现。以下是一个简单的队列实现示例（使用Python）：</p>
+<div class="code-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">```python</span></span><br><span class="line"><span class="code">class Queue:</span></span><br><span class="line"><span class="code">    def __init__(self):</span></span><br><span class="line"><span class="code">        self.items = []</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">    def is_empty(self):</span></span><br><span class="line"><span class="code">        return len(self.items) == 0</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">    def enqueue(self, item):</span></span><br><span class="line"><span class="code">        self.items.append(item)</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">    def dequeue(self):</span></span><br><span class="line"><span class="code">        if not self.is_empty():</span></span><br><span class="line"><span class="code">            return self.items.pop(0)</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">    def size(self):</span></span><br><span class="line"><span class="code">        return len(self.items)</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-4示例：使用队列解决问题"><a href="#2-4示例：使用队列解决问题" class="headerlink" title="2.4示例：使用队列解决问题"></a>2.4示例：使用队列解决问题</h3><h4 id="场景：打印任务队列"><a href="#场景：打印任务队列" class="headerlink" title="场景：打印任务队列"></a>场景：打印任务队列</h4><p>考虑一个打印任务队列的场景。当多个打印任务同时到达，我们希望它们按照先来先服务的原则依次完成打印。使用队列可以轻松实现这一需求。</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个打印任务队列</span></span><br><span class="line">print_queue = Queue()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 入队打印任务</span></span><br><span class="line">print_queue.enqueue(<span class="string">&quot;Print Document 1&quot;</span>)</span><br><span class="line">print_queue.enqueue(<span class="string">&quot;Print Document 2&quot;</span>)</span><br><span class="line">print_queue.enqueue(<span class="string">&quot;Print Document 3&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 出队并执行打印</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">not</span> print_queue.is_empty():</span><br><span class="line">    current_task = print_queue.dequeue()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Printing:&quot;</span>, current_task)</span><br></pre></td></tr></table></figure></div>
+
+<p>这个示例展示了队列在处理按顺序到达的任务时的便利性。</p>
+<h2 id="3-环形队列"><a href="#3-环形队列" class="headerlink" title="3. 环形队列"></a>3. 环形队列</h2><blockquote>
+<p>循环队列是队列的一种变体，它通过循环使用数组或链表的空间，使得队列可以在队尾和队头之间形成环形结构。在这篇文章中，我们将深入研究循环队列的基本概念、实现方式以及在实际应用中的优势。</p>
+</blockquote>
+<h3 id="实现思路："><a href="#实现思路：" class="headerlink" title="实现思路："></a>实现思路：</h3><ol>
+<li>front指向队列的第一个元素，初始值默认为0</li>
+<li>rear指向队列最后一个元素的后一个位置，初始值为0。空出空间作为约定。</li>
+<li>当队列满时，（rear+1）% maxSize &#x3D;&#x3D; front</li>
+<li>当队列空时，rear &#x3D;&#x3D; front</li>
+<li>队列中有效的数据个数，（rear+maxSize-front）% maxSize</li>
+</ol>
+<h3 id="3-1-循环队列的基本概念"><a href="#3-1-循环队列的基本概念" class="headerlink" title="3.1 循环队列的基本概念"></a>3.1 循环队列的基本概念</h3><blockquote>
+<p>与普通队列不同，循环队列在队尾和队头之间建立了连接，形成了一个环。这意味着当队尾指针到达数组的末尾时，它可以循环回到数组的开头，从而更好地利用存储空间。</p>
+</blockquote>
+<h3 id="3-2-Java实现环形队列的基本结构"><a href="#3-2-Java实现环形队列的基本结构" class="headerlink" title="3.2 Java实现环形队列的基本结构"></a>3.2 Java实现环形队列的基本结构</h3><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CircleArrayQueue</span> &#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> maxSize;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> front;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> rear;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] arr;<span class="comment">//该数组用于存放数据，模拟队列  </span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">//创建队列的构造器  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CircleArrayQueue</span><span class="params">(<span class="type">int</span> arrMaxSize)</span> &#123;  </span><br><span class="line">        maxSize = arrMaxSize;  </span><br><span class="line">        arr = <span class="keyword">new</span> <span class="title class_">int</span>[maxSize];  </span><br><span class="line">        front = <span class="number">0</span>;<span class="comment">//指向队列头部，分析出front是指向队列头的前一个位置  </span></span><br><span class="line">        rear = <span class="number">0</span>;<span class="comment">//指向队列尾部，指向队列尾的数据（即就是队列最后一个数据）  </span></span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//判断队列是否满  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isFull</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> (rear + <span class="number">1</span>) % maxSize == front;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//判断队列是否为空  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isEmpty</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> rear == front;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//添加数据到队列  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addQueue</span><span class="params">(<span class="type">int</span> n)</span> &#123;  </span><br><span class="line">        <span class="comment">//判断队列是否满  </span></span><br><span class="line">        <span class="keyword">if</span> (isFull()) &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;队列满，不能加入数据&quot;</span>);  </span><br><span class="line">            <span class="keyword">return</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        arr[rear] = n;  </span><br><span class="line">        rear = (rear + <span class="number">1</span>) % maxSize;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//获取队列的数据，出队列  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getQueue</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">//判断队列是否为空  </span></span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) &#123;  </span><br><span class="line">            <span class="comment">//通过抛出异常  </span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;队列空，不能取数据&quot;</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="type">int</span> <span class="variable">value</span> <span class="operator">=</span> arr[front];  </span><br><span class="line">        front = (front + <span class="number">1</span>) % maxSize;  </span><br><span class="line">        <span class="keyword">return</span> value;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//显示队列的所有数据  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showQueue</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">//遍历  </span></span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;队列空的，没有数据&quot;</span>);  </span><br><span class="line">            <span class="keyword">return</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> front; i &lt; front + size(); i++) &#123;  </span><br><span class="line">            System.out.printf(<span class="string">&quot;arr[%d]=%d\n&quot;</span>, i % maxSize, arr[i % maxSize]);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//当前队列的有效数据  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">size</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> (rear + maxSize - front) % maxSize;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-3-Python实现环形队列的基本结构"><a href="#3-3-Python实现环形队列的基本结构" class="headerlink" title="3.3 Python实现环形队列的基本结构"></a>3.3 Python实现环形队列的基本结构</h3><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CircularQueue</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, capacity</span>):</span><br><span class="line">        <span class="variable language_">self</span>.capacity = capacity</span><br><span class="line">        <span class="variable language_">self</span>.queue = [<span class="literal">None</span>] * capacity</span><br><span class="line">        <span class="variable language_">self</span>.front = <span class="variable language_">self</span>.rear = -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">is_empty</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.front == -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">is_full</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> (<span class="variable language_">self</span>.rear + <span class="number">1</span>) % <span class="variable language_">self</span>.capacity == <span class="variable language_">self</span>.front</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">enqueue</span>(<span class="params">self, item</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.is_full():</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Queue is full. Cannot enqueue.&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="variable language_">self</span>.is_empty():</span><br><span class="line">                <span class="variable language_">self</span>.front = <span class="variable language_">self</span>.rear = <span class="number">0</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="variable language_">self</span>.rear = (<span class="variable language_">self</span>.rear + <span class="number">1</span>) % <span class="variable language_">self</span>.capacity</span><br><span class="line">            <span class="variable language_">self</span>.queue[<span class="variable language_">self</span>.rear] = item</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">dequeue</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.is_empty():</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Queue is empty. Cannot dequeue.&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            removed_item = <span class="variable language_">self</span>.queue[<span class="variable language_">self</span>.front]</span><br><span class="line">            <span class="keyword">if</span> <span class="variable language_">self</span>.front == <span class="variable language_">self</span>.rear:</span><br><span class="line">                <span class="variable language_">self</span>.front = <span class="variable language_">self</span>.rear = -<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="variable language_">self</span>.front = (<span class="variable language_">self</span>.front + <span class="number">1</span>) % <span class="variable language_">self</span>.capacity</span><br><span class="line">            <span class="keyword">return</span> removed_item</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-4-示例：使用循环队列解决问题"><a href="#3-4-示例：使用循环队列解决问题" class="headerlink" title="3.4 示例：使用循环队列解决问题"></a>3.4 示例：使用循环队列解决问题</h3><h4 id="场景：循环缓冲区"><a href="#场景：循环缓冲区" class="headerlink" title="场景：循环缓冲区"></a>场景：循环缓冲区</h4><p>考虑一个循环缓冲区的场景，其中数据按顺序写入循环队列，当队列满时，新的数据会覆盖最早的数据。</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个容量为 5 的循环队列</span></span><br><span class="line">circular_queue = CircularQueue(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 入队数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">8</span>):</span><br><span class="line">    circular_queue.enqueue(<span class="string">f&quot;Data <span class="subst">&#123;i&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 出队并显示队列内容</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">not</span> circular_queue.is_empty():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Dequeue:&quot;</span>, circular_queue.dequeue())</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-5-循环队列的优势"><a href="#3-5-循环队列的优势" class="headerlink" title="3.5 循环队列的优势"></a>3.5 循环队列的优势</h3><h4 id="3-5-1-更高的空间利用率"><a href="#3-5-1-更高的空间利用率" class="headerlink" title="3.5.1 更高的空间利用率"></a>3.5.1 更高的空间利用率</h4><p>由于循环队列的环形结构，它能够更好地利用存储空间，减少了不必要的内存浪费。</p>
+<h4 id="3-5-2-简化指针操作"><a href="#3-5-2-简化指针操作" class="headerlink" title="3.5.2 简化指针操作"></a>3.5.2 简化指针操作</h4><p>循环队列通过使用取余运算简化了指针的操作，使得队头和队尾的指针移动更加高效。</p>
+<h3 id="3-6-循环队列的应用场景"><a href="#3-6-循环队列的应用场景" class="headerlink" title="3.6 循环队列的应用场景"></a>3.6 循环队列的应用场景</h3><h4 id="3-6-1-缓存"><a href="#3-6-1-缓存" class="headerlink" title="3.6.1 缓存"></a>3.6.1 缓存</h4><p>循环队列常用于缓存系统中，用于处理数据的轮转和更新。</p>
+<h4 id="3-6-2-实时数据处理"><a href="#3-6-2-实时数据处理" class="headerlink" title="3.6.2 实时数据处理"></a>3.6.2 实时数据处理</h4><p>在需要按时间顺序处理数据的场景中，循环队列能够提供高效的数据流管理。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 02. 队列</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2024-07-18 14:19:37</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-11-08 17:08:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://moye12325.github.io/2024/07/18/431251/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">#数据结构</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E9%98%9F%E5%88%97/">#队列</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/07/18/02.%20%E9%98%9F%E5%88%97/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">02. 队列</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/07/18/01.%20%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">01. 稀疏数组</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">02. 队列</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%9F%E5%88%97%EF%BC%9A%E4%BC%98%E9%9B%85%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">队列：优雅的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%98%9F%E5%88%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1. 队列的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%98%9F%E5%88%97%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">2. 队列的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E9%98%9F%E5%88%97%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="nav-text">2.1 队列的实现思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Java%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-text">2.2 Java实现队列的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Python%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-text">2.3 Python实现队列的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8%E9%98%9F%E5%88%97%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="nav-text">2.4示例：使用队列解决问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%8E%AF%E5%BD%A2%E9%98%9F%E5%88%97"><span class="nav-text">3. 环形队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="nav-text">实现思路：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">3.1 循环队列的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Java%E5%AE%9E%E7%8E%B0%E7%8E%AF%E5%BD%A2%E9%98%9F%E5%88%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-text">3.2 Java实现环形队列的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Python%E5%AE%9E%E7%8E%B0%E7%8E%AF%E5%BD%A2%E9%98%9F%E5%88%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-text">3.3 Python实现环形队列的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="nav-text">3.4 示例：使用循环队列解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-text">3.5 循环队列的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">3.6 循环队列的应用场景</span></a></li></ol></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 356 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>

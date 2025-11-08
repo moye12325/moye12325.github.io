@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://moye12325.github.io/2024/08/18/美团笔试一/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="美团笔试一">
+<meta property="og:url" content="https://moye12325.github.io/2024/08/18/%E7%BE%8E%E5%9B%A2%E7%AC%94%E8%AF%95%E4%B8%80/index.html">
+<meta property="og:site_name" content="码农修行手册">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moye12325.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2024-08-18T02:09:34.000Z">
+<meta property="article:modified_time" content="2025-11-08T09:08:59.613Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="笔试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moye12325.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            美团笔试一 | 码农修行手册
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"moye12325.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                码农修行手册
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">18</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">356</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">美团笔试一</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv7</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-08-18 10:09:34</span>
+        <span class="mobile">2024-08-18 10:09:34</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-11-08 17:08:59</span>
+            <span class="mobile">2025-11-08 17:08:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AC%94%E8%AF%95%E8%AE%B0%E5%BD%95/">笔试记录</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%AC%94%E8%AF%95/">笔试</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="在计算机网络中，端口号的作用是什么？"><a href="#在计算机网络中，端口号的作用是什么？" class="headerlink" title="在计算机网络中，端口号的作用是什么？"></a>在计算机网络中，端口号的作用是什么？</h2><p>在计算机网络中，端口号的作用是用来标识网络通信中的特定服务或应用程序。端口号是一个 16 位的数字（范围是 0 到 65535），每个端口号对应一个特定的网络服务或进程。</p>
+<p>当数据包通过网络传输时，端口号帮助确定数据包应该被发送到目的主机上的哪个应用程序或服务。比如：</p>
+<ul>
+<li><p><strong>端口 80</strong> 通常用于 HTTP 协议的网络通信，因此 Web 服务器通常监听端口 80。</p>
+</li>
+<li><p><strong>端口 443</strong> 则用于 HTTPS 协议，确保安全的 Web 通信。</p>
+</li>
+<li><p><strong>端口 22</strong> 通常用于 SSH 服务，用于安全地远程登录到另一台计算机。</p>
+</li>
+</ul>
+<p>端口号分为三类：</p>
+<ol>
+<li><p><strong>知名端口（Well-known Ports）</strong>：范围为 0 到 1023，通常分配给常见的网络服务，如 HTTP（80）、FTP（21）、SMTP（25）等。</p>
+</li>
+<li><p><strong>注册端口（Registered Ports）</strong>：范围为 1024 到 49151，通常分配给用户或特定的服务。</p>
+</li>
+<li><p><strong>动态或私有端口（Dynamic or Private Ports）</strong>：范围为 49152 到 65535，通常用于临时通信或客户机的自定义通信。</p>
+</li>
+</ol>
+<p>通过端口号，操作系统可以将收到的数据正确地交付到相应的应用程序，从而使网络通信得以正常进行。</p>
+<h2 id="在计算机网络中，端口号的作用是什么？-1"><a href="#在计算机网络中，端口号的作用是什么？-1" class="headerlink" title="在计算机网络中，端口号的作用是什么？"></a>在计算机网络中，端口号的作用是什么？</h2><p>A 区分主机内不同进程<br>B 加密数据传输<br>C 确保数据完整性<br>D 控制数据流量<br><strong>正确答案是 A：区分主机内不同进程</strong>。</p>
+<p>端口号的主要作用是区分同一主机内不同的网络进程或服务，使得网络数据能够被正确地传送到对应的应用程序。</p>
+<h2 id="HTTPS-协议通过使用哪些机制来确保通信的安全性（）"><a href="#HTTPS-协议通过使用哪些机制来确保通信的安全性（）" class="headerlink" title="HTTPS 协议通过使用哪些机制来确保通信的安全性（）"></a>HTTPS 协议通过使用哪些机制来确保通信的安全性（）</h2><p>A 加密和身份验证<br>B 压缩和缓存<br>C 路由和负载均衡<br>D 访问控制和权限管理</p>
+<p>正确答案是 <strong>A：加密和身份验证</strong>。</p>
+<p>HTTPS 协议通过使用加密和身份验证机制来确保通信的安全性。具体来说，HTTPS 使用 TLS（传输层安全协议）来加密数据，从而防止数据在传输过程中被窃听或篡改。此外，身份验证确保通信的双方是真实可信的，通常通过数字证书来实现。这些机制共同保障了 HTTPS 通信的安全性。</p>
+<hr>
+<h2 id="ETag-用于标识资源的唯一标识符，它可以用于（）"><a href="#ETag-用于标识资源的唯一标识符，它可以用于（）" class="headerlink" title="ETag 用于标识资源的唯一标识符，它可以用于（）"></a>ETag 用于标识资源的唯一标识符，它可以用于（）</h2><p>A 验证资源是否发生变化 B 控制缓存的过期时间 C 指定缓存的最大大小 D 加密缓存中的数据</p>
+<p>正确答案是 <strong>A：验证资源是否发生变化</strong>。</p>
+<p>ETag（实体标签）是 HTTP 协议的一部分，用于标识资源的唯一标识符。它可以帮助服务器和客户端验证资源是否发生变化，从而决定是否需要重新下载资源，优化网络带宽和缓存利用率。</p>
+<hr>
+<h2 id="在一个单道系统中，有-4-个作业-P、Q、R-和-S，执行时间分别为-2-小时、4-小时、6-小时和-8-小时，P-和-Q-同时在-0-时到达，R-和-S-在-2-小时到达，采用短作业优先算法时，平均周转时间为（）。"><a href="#在一个单道系统中，有-4-个作业-P、Q、R-和-S，执行时间分别为-2-小时、4-小时、6-小时和-8-小时，P-和-Q-同时在-0-时到达，R-和-S-在-2-小时到达，采用短作业优先算法时，平均周转时间为（）。" class="headerlink" title="在一个单道系统中，有 4 个作业 P、Q、R 和 S，执行时间分别为 2 小时、4 小时、6 小时和 8 小时，P 和 Q 同时在 0 时到达，R 和 S 在 2 小时到达，采用短作业优先算法时，平均周转时间为（）。"></a>在一个单道系统中，有 4 个作业 P、Q、R 和 S，执行时间分别为 2 小时、4 小时、6 小时和 8 小时，P 和 Q 同时在 0 时到达，R 和 S 在 2 小时到达，采用短作业优先算法时，平均周转时间为（）。</h2><p>A 15 小时 B 12 小时 C 6 小时 D 9 小时</p>
+<p>作业到达时间和执行时间如下：</p>
+<ul>
+<li><p>P: 到达时间 &#x3D; 0 小时，执行时间 &#x3D; 2 小时</p>
+</li>
+<li><p>Q: 到达时间 &#x3D; 0 小时，执行时间 &#x3D; 4 小时</p>
+</li>
+<li><p>R: 到达时间 &#x3D; 2 小时，执行时间 &#x3D; 6 小时</p>
+</li>
+<li><p>S: 到达时间 &#x3D; 2 小时，执行时间 &#x3D; 8 小时</p>
+</li>
+</ul>
+<p>根据短作业优先（SJF）算法的调度顺序如下：</p>
+<ol>
+<li><p><strong>0 小时</strong>：P 和 Q 到达。P 的执行时间较短，优先执行 P。</p>
+<ul>
+<li>P 完成时间 &#x3D; 0 + 2 &#x3D; <strong>2 小时</strong></li>
+</ul>
+</li>
+<li><p><strong>2 小时</strong>：P 完成后，R 和 S 到达，同时 Q 还未执行。此时，Q 的执行时间较短，优先执行 Q。</p>
+<ul>
+<li>Q 完成时间 &#x3D; 2 + 4 &#x3D; <strong>6 小时</strong></li>
+</ul>
+</li>
+<li><p><strong>6 小时</strong>：R 的执行时间较短，优先执行 R。</p>
+<ul>
+<li>R 完成时间 &#x3D; 6 + 6 &#x3D; <strong>12 小时</strong></li>
+</ul>
+</li>
+<li><p><strong>12 小时</strong>：最后执行 S。</p>
+<ul>
+<li>S 完成时间 &#x3D; 12 + 8 &#x3D; <strong>20 小时</strong></li>
+</ul>
+</li>
+</ol>
+<p>各作业的周转时间计算如下：</p>
+<ul>
+<li><p>P 的周转时间 &#x3D; 2 - 0 &#x3D; <strong>2 小时</strong></p>
+</li>
+<li><p>Q 的周转时间 &#x3D; 6 - 0 &#x3D; <strong>6 小时</strong></p>
+</li>
+<li><p>R 的周转时间 &#x3D; 12 - 2 &#x3D; <strong>10 小时</strong></p>
+</li>
+<li><p>S 的周转时间 &#x3D; 20 - 2 &#x3D; <strong>18 小时</strong></p>
+</li>
+</ul>
+<p>平均周转时间 &#x3D; (2 + 6 + 10 + 18) &#x2F; 4 &#x3D; 36 &#x2F; 4 &#x3D; <strong>9 小时</strong></p>
+<p>所以，正确答案是 <strong>D：9 小时</strong>。</p>
+<hr>
+<h2 id="系统中现有一个任务进程在-11-30-到达系统，如果在-14-30-开始运行这个任务进程，其运行时间为-3-小时，现求这个任务进程的响应比为（）。"><a href="#系统中现有一个任务进程在-11-30-到达系统，如果在-14-30-开始运行这个任务进程，其运行时间为-3-小时，现求这个任务进程的响应比为（）。" class="headerlink" title="系统中现有一个任务进程在 11:30 到达系统，如果在 14:30 开始运行这个任务进程，其运行时间为 3 小时，现求这个任务进程的响应比为（）。"></a>系统中现有一个任务进程在 11:30 到达系统，如果在 14:30 开始运行这个任务进程，其运行时间为 3 小时，现求这个任务进程的响应比为（）。</h2><p>A 0.5 B 2 C 1 D 1.5</p>
+<p>响应比的计算公式为：</p>
+<p>响应比=等待时间 + 运行时间运行时间响应比 &#x3D; \frac{等待时间 + 运行时间}{运行时间}响应比=运行时间等待时间 + 运行时间​</p>
+<p>在这个问题中：</p>
+<ul>
+<li><p><strong>到达时间</strong>：11:30</p>
+</li>
+<li><p><strong>开始运行时间</strong>：14:30</p>
+</li>
+<li><p><strong>运行时间</strong>：3 小时</p>
+</li>
+</ul>
+<p>首先，计算等待时间：</p>
+<ul>
+<li><strong>等待时间</strong> = 开始运行时间 - 到达时间 &#x3D; 14:30 - 11:30 &#x3D; 3 小时</li>
+</ul>
+<p>然后，应用公式计算响应比：</p>
+<p>响应比=等待时间 + 运行时间运行时间=3+33=63=2 响应比 &#x3D; \frac{等待时间 + 运行时间}{运行时间} &#x3D; \frac{3 + 3}{3} &#x3D; \frac{6}{3} &#x3D; 2 响应比=运行时间等待时间 + 运行时间​=33+3​=36​=2</p>
+<p>所以，正确答案是 <strong>B：2</strong>。</p>
+<hr>
+<h2 id="在一个物流管理系统中，需要一个功能来处理不同类型的货物运输请求，如陆运、空运或海运。该系统应能够根据运输类型的不同选择不同的处理策略。哪种设计模式最合适（）"><a href="#在一个物流管理系统中，需要一个功能来处理不同类型的货物运输请求，如陆运、空运或海运。该系统应能够根据运输类型的不同选择不同的处理策略。哪种设计模式最合适（）" class="headerlink" title="在一个物流管理系统中，需要一个功能来处理不同类型的货物运输请求，如陆运、空运或海运。该系统应能够根据运输类型的不同选择不同的处理策略。哪种设计模式最合适（）"></a>在一个物流管理系统中，需要一个功能来处理不同类型的货物运输请求，如陆运、空运或海运。该系统应能够根据运输类型的不同选择不同的处理策略。哪种设计模式最合适（）</h2><p>A 工厂方法模式 B 桥接模式 C 策略模式 D 适配器模式</p>
+<p>在这种场景中，最合适的设计模式是 <strong>C：策略模式</strong>。</p>
+<p>策略模式允许你定义一系列算法、将每个算法封装起来，并使它们可以互相替换。在物流管理系统中，不同的运输类型（如陆运、空运、海运）可以被视为不同的策略。策略模式能够让系统根据运输类型选择不同的处理策略，而不需要在代码中硬编码具体的处理逻辑。这样，系统变得更加灵活和可扩展。</p>
+<h3 id="工厂方法模式（Factory-Method-Pattern）"><a href="#工厂方法模式（Factory-Method-Pattern）" class="headerlink" title="工厂方法模式（Factory Method Pattern）"></a>工厂方法模式（Factory Method Pattern）</h3><p><strong>概念</strong>：工厂方法模式是一种创建型设计模式，它定义了一个创建对象的接口，但由子类决定要实例化的具体类是哪一个。这样，工厂方法模式让类的实例化推迟到子类中进行。</p>
+<p><strong>目的</strong>：工厂方法模式的主要目的是将对象的创建过程与其使用过程分离。通过这种方式，代码中的类可以独立于对象的创建方式。</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li><p>当你不知道对象的具体类型，或希望让子类来决定要实例化哪一个类时。</p>
+</li>
+<li><p>需要在创建对象时增加一些额外的逻辑，比如日志记录或缓存时。</p>
+</li>
+<li><p>当你有一个超类的多种变体或派生类时，而你希望代码能够在运行时自动选择使用哪一个派生类。</p>
+</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Logistics</span> &#123;  </span><br><span class="line">    <span class="comment">// 工厂方法  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> Transport <span class="title function_">createTransport</span><span class="params">()</span>;  </span><br><span class="line">​  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">planDelivery</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="type">Transport</span> <span class="variable">transport</span> <span class="operator">=</span> createTransport();  </span><br><span class="line">        transport.deliver();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">​  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RoadLogistics</span> <span class="keyword">extends</span> <span class="title class_">Logistics</span> &#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> Transport <span class="title function_">createTransport</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Truck</span>();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">​  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SeaLogistics</span> <span class="keyword">extends</span> <span class="title class_">Logistics</span> &#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> Transport <span class="title function_">createTransport</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Ship</span>();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在这个例子中，<code>Logistics</code> 是抽象类，它定义了工厂方法 <code>createTransport</code>。<code>RoadLogistics</code> 和 <code>SeaLogistics</code> 是具体实现类，它们决定了具体的运输方式。</p>
+<h3 id="策略模式（Strategy-Pattern）"><a href="#策略模式（Strategy-Pattern）" class="headerlink" title="策略模式（Strategy Pattern）"></a>策略模式（Strategy Pattern）</h3><p><strong>概念</strong>：策略模式是一种行为型设计模式，它定义了一系列算法，并将每一个算法封装起来，使它们可以互相替换。策略模式让算法的变化独立于使用算法的客户端。</p>
+<p><strong>目的</strong>：策略模式的主要目的是通过将算法的实现与其使用分离，使得可以在运行时选择或改变算法的实现。</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li><p>当你有多种算法或行为，并且这些算法可能会在运行时切换时。</p>
+</li>
+<li><p>当你希望避免使用大量的条件语句（如 <code>if-else</code> 或 <code>switch-case</code>）来选择不同的行为时。</p>
+</li>
+<li><p>当你希望能在运行时选择一种算法，而不影响使用算法的客户端代码时。</p>
+</li>
+</ul>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 策略接口  </span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">TransportStrategy</span> &#123;  </span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">transport</span><span class="params">()</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">​  </span><br><span class="line"><span class="comment">// 具体策略  </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RoadTransport</span> <span class="keyword">implements</span> <span class="title class_">TransportStrategy</span> &#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transport</span><span class="params">()</span> &#123;  </span><br><span class="line">        System.out.println(<span class="string">&quot;Transport by road&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">​  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SeaTransport</span> <span class="keyword">implements</span> <span class="title class_">TransportStrategy</span> &#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transport</span><span class="params">()</span> &#123;  </span><br><span class="line">        System.out.println(<span class="string">&quot;Transport by sea&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">​  </span><br><span class="line"><span class="comment">// 上下文类  </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ShippingContext</span> &#123;  </span><br><span class="line">    <span class="keyword">private</span> TransportStrategy strategy;  </span><br><span class="line">​  </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ShippingContext</span><span class="params">(TransportStrategy strategy)</span> &#123;  </span><br><span class="line">        <span class="built_in">this</span>.strategy = strategy;  </span><br><span class="line">    &#125;  </span><br><span class="line">​  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">executeStrategy</span><span class="params">()</span> &#123;  </span><br><span class="line">        strategy.transport();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+
+<p>在这个例子中，<code>TransportStrategy</code> 是策略接口，<code>RoadTransport</code> 和 <code>SeaTransport</code> 是具体策略实现。<code>ShippingContext</code> 是上下文类，它使用传入的策略对象来执行相应的算法。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p><strong>工厂方法模式</strong> 关注的是如何创建对象，并将对象的创建过程与使用过程分离，常用于系统的实例化管理。</p>
+</li>
+<li><p><strong>策略模式</strong> 关注的是行为或算法的封装和替换，使得不同的算法可以在运行时互相替换，常用于处理多种行为的选择问题。</p>
+</li>
+</ul>
+<p>两者的主要区别在于目的和应用场景的不同，一个用于对象的创建，一个用于算法的选择。</p>
+<hr>
+<h2 id="对关键码序列-9-27-18-36-45-54-63-进行堆排序，输出-2-个最大关键码后的剩余堆是（）"><a href="#对关键码序列-9-27-18-36-45-54-63-进行堆排序，输出-2-个最大关键码后的剩余堆是（）" class="headerlink" title="对关键码序列{9, 27, 18, 36, 45, 54, 63}进行堆排序，输出 2 个最大关键码后的剩余堆是（）"></a>对关键码序列{9, 27, 18, 36, 45, 54, 63}进行堆排序，输出 2 个最大关键码后的剩余堆是（）</h2><p>A {9, 18, 27, 36, 45}<br>B {9, 18, 45, 27, 36}<br>C {45, 9, 18, 27, 36}<br>D {45, 36, 18, 9, 27}</p>
+<p>堆排序是一种基于堆（通常是大顶堆或小顶堆）的排序算法。在这个问题中，我们要从序列中输出 2 个最大关键码后的剩余堆，因此我们需要构建一个大顶堆，并逐步取出最大值。</p>
+<p>给定序列：{9, 27, 18, 36, 45, 54, 63}</p>
+<ol>
+<li><p><strong>构建大顶堆</strong>：首先，将给定序列 {9, 27, 18, 36, 45, 54, 63} 构建为一个大顶堆。堆化过程是自底向上调整的，最后形成的堆顶元素是最大值。初始堆：markdown 复制代码 <code>9 / \ 27 18 / \ / \ 36 45 54 63</code> 经过堆化调整后形成大顶堆：markdown 复制代码 <code>63 / \ 45 54 / \ / \ 36 27 18 9</code></p>
+</li>
+<li><p><strong>第一次取出最大值</strong>：取出堆顶的 63，将堆尾 9 移到堆顶，然后重新堆化。markdown 复制代码 <code>54 / \ 45 18 / \ / 36 27 9</code></p>
+</li>
+<li><p><strong>第二次取出最大值</strong>：取出堆顶的 54，将堆尾 9 移到堆顶，然后重新堆化。markdown 复制代码 &#96; 45 &#x2F; \ 36 18 &#x2F; \ 9 27</p>
+</li>
+</ol>
+<h2 id="​现在，堆中剩下的元素为-45-36-18-9-27-，也就是答案-D：-45-36-18-9-27-。​"><a href="#​现在，堆中剩下的元素为-45-36-18-9-27-，也就是答案-D：-45-36-18-9-27-。​" class="headerlink" title="​现在，堆中剩下的元素为{45, 36, 18, 9, 27}，也就是答案 D：{45, 36, 18, 9, 27}。​  "></a>​<br>现在，堆中剩下的元素为{45, 36, 18, 9, 27}，也就是答案 <strong>D：{45, 36, 18, 9, 27}</strong>。<br>​  </h2><h2 id="以下哪个设计模式主要用于在不改变原始类的情况下扩展其功能（）"><a href="#以下哪个设计模式主要用于在不改变原始类的情况下扩展其功能（）" class="headerlink" title="以下哪个设计模式主要用于在不改变原始类的情况下扩展其功能（）"></a>以下哪个设计模式主要用于在不改变原始类的情况下扩展其功能（）</h2><p>A 装饰器模式<br>B 适配器模式<br>C 工厂模式<br>D 建造者模式  </p>
+<p>正确答案是 <strong>A：装饰器模式</strong>。<br>​</p>
+<p><strong>装饰器模式</strong><br>主要用于在不改变原始类的情况下扩展其功能。它通过将原始类包装在一个装饰类中，动态地添加额外的行为或职责，从而实现功能扩展。这种模式特别有用，因为它可以在不修改现有代码的情况下，灵活地增加新功能。<br>​</p>
+<hr>
+<h2 id="设哈希表长-m-10，有一堆数据元素，关键字分别为-14-25-36-47-58-69-80-，按照哈希函数为-H-key-key-10，如用线性探测法处理冲突，求关键字-90-填装的哈希表位置的序号是（）。"><a href="#设哈希表长-m-10，有一堆数据元素，关键字分别为-14-25-36-47-58-69-80-，按照哈希函数为-H-key-key-10，如用线性探测法处理冲突，求关键字-90-填装的哈希表位置的序号是（）。" class="headerlink" title="设哈希表长 m&#x3D;10，有一堆数据元素，关键字分别为{14, 25, 36, 47, 58, 69, 80}，按照哈希函数为 H(key)&#x3D;key%10，如用线性探测法处理冲突，求关键字 90 填装的哈希表位置的序号是（）。"></a>设哈希表长 m&#x3D;10，有一堆数据元素，关键字分别为{14, 25, 36, 47, 58, 69, 80}，按照哈希函数为 H(key)&#x3D;key%10，如用线性探测法处理冲突，求关键字 90 填装的哈希表位置的序号是（）。</h2><p>A 3 B 4 C 1 D 6  </p>
+<p>给定的哈希函数 H(key)=key%10H(key) &#x3D; key \% 10H(key)=key%10 来计算每个关键字的哈希值，并按照线性探测法处理冲突。具体步骤如下：<br>​  </p>
+<ol>
+<li><strong>计算关键字 90 的初始哈希位置</strong>：  <br>H(90)=90%10=0H(90) &#x3D; 90 \% 10 &#x3D; 0H(90)=90%10=0  </li>
+<li><strong>检查位置 0 是否已被占用</strong>：  <br>   * 先看看之前的关键字：  <br>         * 14 的哈希值：H(14)=14%10=4H(14) &#x3D; 14 \% 10 &#x3D; 4H(14)=14%10=4  <br>         * 25 的哈希值：H(25)=25%10=5H(25) &#x3D; 25 \% 10 &#x3D; 5H(25)=25%10=5  <br>         * 36 的哈希值：H(36)=36%10=6H(36) &#x3D; 36 \% 10 &#x3D; 6H(36)=36%10=6  <br>         * 47 的哈希值：H(47)=47%10=7H(47) &#x3D; 47 \% 10 &#x3D; 7H(47)=47%10=7  <br>         * 58 的哈希值：H(58)=58%10=8H(58) &#x3D; 58 \% 10 &#x3D; 8H(58)=58%10=8  <br>         * 69 的哈希值：H(69)=69%10=9H(69) &#x3D; 69 \% 10 &#x3D; 9H(69)=69%10=9  <br>         * 80 的哈希值：H(80)=80%10=0H(80) &#x3D; 80 \% 10 &#x3D; 0H(80)=80%10=0  <br>   * 位置 0 已被关键字 80 占用，因此需要进行线性探测。  </li>
+<li><strong>线性探测</strong>：  <br>   * 我们依次检查哈希表中的下一个位置（位置 1）。  <br>   * 位置 1 是空闲的，因此可以将关键字 90 放在位置 1。<br>​<br>所以，关键字 90 最终填装的位置是 <strong>C：1</strong>。<br>​</li>
+</ol>
+<hr>
+<h2 id="在编译器的目标代码生成阶段，以下哪个不是优化的主要目标是（）"><a href="#在编译器的目标代码生成阶段，以下哪个不是优化的主要目标是（）" class="headerlink" title="在编译器的目标代码生成阶段，以下哪个不是优化的主要目标是（）"></a>在编译器的目标代码生成阶段，以下哪个不是优化的主要目标是（）</h2><p>A 降低程序的功耗<br>B 减小目标代码的体积<br>C 提高目标代码的执行效率<br>D 减少程序的编译时间  </p>
+<p>正确答案是 <strong>D：减少程序的编译时间</strong>。<br>​<br>在编译器的目标代码生成阶段，优化的主要目标包括：<br>​  </p>
+<ul>
+<li><strong>降低程序的功耗</strong>（A）  </li>
+<li><strong>减小目标代码的体积</strong>（B）  </li>
+<li><strong>提高目标代码的执行效率</strong>（C）<br>​<br>然而，<strong>减少程序的编译时间</strong>（D）并不是优化的主要目标。编译时间的减少通常与编译器的性能有关，而与目标代码的优化无关。目标代码优化通常是在编译器生成目标代码时，尽可能提高生成代码的执行效率、减少体积或降低功耗，即使这些优化可能增加编译时间。<br>​<br>​<br>编译器的完整流程通常分为多个阶段，每个阶段负责不同的任务。编译器的主要任务是将源代码转换为目标代码（通常是机器代码或中间代码），以便在目标平台上执行。以下是编译器的主要阶段及其功能的详细说明：</li>
+</ul>
+<h3 id="1-词法分析（Lexical-Analysis）"><a href="#1-词法分析（Lexical-Analysis）" class="headerlink" title="1. 词法分析（Lexical Analysis）"></a>1. 词法分析（Lexical Analysis）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：将源代码转换为一系列的<strong>词法单元（Token）</strong>。词法单元是代码中的基本语法元素，比如关键字、标识符、运算符、常量等。  </li>
+<li><strong>输入</strong>：源代码（字符流）  </li>
+<li><strong>输出</strong>：词法单元序列  </li>
+<li><strong>工作方式</strong>：词法分析器会扫描源代码，识别并提取有意义的符号，如<code>int</code>、<code>x</code>、<code>=</code>, <code>10</code>, <code>;</code> 等。在这个阶段，还会处理标识符、数字、字符串等，并丢弃不必要的内容，比如注释和空白字符。</li>
+</ul>
+<h3 id="2-语法分析（Syntax-Analysis）"><a href="#2-语法分析（Syntax-Analysis）" class="headerlink" title="2. 语法分析（Syntax Analysis）"></a>2. 语法分析（Syntax Analysis）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：将词法单元序列组织成一个<strong>语法树（Parse Tree 或 Syntax Tree）</strong>，该树反映了源代码的语法结构。  </li>
+<li><strong>输入</strong>：词法单元序列  </li>
+<li><strong>输出</strong>：语法树  </li>
+<li><strong>工作方式</strong>：语法分析器根据编程语言的语法规则，检查词法单元序列是否符合语言的语法规范，并生成语法树。语法树是代码的层次结构表示，显示了各个语法元素之间的关系。</li>
+</ul>
+<h3 id="3-语义分析（Semantic-Analysis）"><a href="#3-语义分析（Semantic-Analysis）" class="headerlink" title="3. 语义分析（Semantic Analysis）"></a>3. 语义分析（Semantic Analysis）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：检查语法树的<strong>语义正确性</strong>，并执行类型检查、变量声明检查等。  </li>
+<li><strong>输入</strong>：语法树  </li>
+<li><strong>输出</strong>：注解后的语法树或中间表示  </li>
+<li><strong>工作方式</strong>：语义分析器会检查代码的实际含义。例如，它会验证变量是否已经声明、类型是否匹配、函数调用参数是否正确等。语义分析阶段还可能生成符号表，用来记录变量、函数等的类型信息和作用域。</li>
+</ul>
+<h3 id="4-中间代码生成（Intermediate-Code-Generation）"><a href="#4-中间代码生成（Intermediate-Code-Generation）" class="headerlink" title="4. 中间代码生成（Intermediate Code Generation）"></a>4. 中间代码生成（Intermediate Code Generation）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：将语法树或抽象语法树（AST）转换为一种<strong>中间表示（IR）</strong>，这种表示通常是独立于具体机器的。  </li>
+<li><strong>输入</strong>：语法树或 AST  </li>
+<li><strong>输出</strong>：中间代码（如三地址码、控制流图等）  </li>
+<li><strong>工作方式</strong>：中间代码生成器会创建一个简化的代码表示形式，这种表示通常介于源代码和目标代码之间。这一步通常是为了在后续阶段更方便地进行优化。</li>
+</ul>
+<h3 id="5-中间代码优化（Intermediate-Code-Optimization）"><a href="#5-中间代码优化（Intermediate-Code-Optimization）" class="headerlink" title="5. 中间代码优化（Intermediate Code Optimization）"></a>5. 中间代码优化（Intermediate Code Optimization）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：通过优化中间代码，提高程序执行的效率或减少代码的大小。  </li>
+<li><strong>输入</strong>：中间代码  </li>
+<li><strong>输出</strong>：优化后的中间代码  </li>
+<li><strong>工作方式</strong>：优化器会进行各种代码优化，如常量折叠、死代码消除、循环优化等。这些优化是为了在保持语义不变的前提下，使得最终生成的目标代码更加高效。</li>
+</ul>
+<h3 id="6-目标代码生成（Target-Code-Generation）"><a href="#6-目标代码生成（Target-Code-Generation）" class="headerlink" title="6. 目标代码生成（Target Code Generation）"></a>6. 目标代码生成（Target Code Generation）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：将中间代码转换为<strong>目标代码</strong>（通常是机器代码或汇编代码），能够在特定的硬件平台上执行。  </li>
+<li><strong>输入</strong>：优化后的中间代码  </li>
+<li><strong>输出</strong>：目标代码  </li>
+<li><strong>工作方式</strong>：目标代码生成器会把中间代码翻译成具体平台的机器指令。这一步还涉及寄存器分配、内存布局等，确保生成的代码能有效地运行在目标硬件上。</li>
+</ul>
+<h3 id="7-目标代码优化（Target-Code-Optimization）"><a href="#7-目标代码优化（Target-Code-Optimization）" class="headerlink" title="7. 目标代码优化（Target Code Optimization）"></a>7. 目标代码优化（Target Code Optimization）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：对目标代码进行<strong>进一步优化</strong>，特别是那些针对特定硬件平台的优化。  </li>
+<li><strong>输入</strong>：初步生成的目标代码  </li>
+<li><strong>输出</strong>：优化后的目标代码  </li>
+<li><strong>工作方式</strong>：这一阶段的优化通常针对硬件架构，如寄存器使用优化、指令调度、流水线优化等，目的是进一步提高代码的执行效率。</li>
+</ul>
+<h3 id="8-汇编和链接（Assembly-and-Linking）"><a href="#8-汇编和链接（Assembly-and-Linking）" class="headerlink" title="8. 汇编和链接（Assembly and Linking）"></a>8. 汇编和链接（Assembly and Linking）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：将生成的目标代码汇编为<strong>可执行文件</strong>，并解决代码中的外部依赖（如库函数）。  </li>
+<li><strong>输入</strong>：目标代码  </li>
+<li><strong>输出</strong>：可执行文件或库文件  </li>
+<li><strong>工作方式</strong>：汇编器将目标代码转换为机器指令，并打包成二进制格式。链接器会将不同的代码模块或库文件连接起来，解决符号引用，生成最终的可执行文件。</li>
+</ul>
+<h3 id="9-加载和执行（Loading-and-Execution）"><a href="#9-加载和执行（Loading-and-Execution）" class="headerlink" title="9. 加载和执行（Loading and Execution）"></a>9. 加载和执行（Loading and Execution）</h3><p>​  </p>
+<ul>
+<li><strong>目的</strong>：加载可执行文件到内存中并开始执行。  </li>
+<li><strong>输入</strong>：可执行文件  </li>
+<li><strong>输出</strong>：程序运行结果  </li>
+<li><strong>工作方式</strong>：当用户或操作系统请求执行程序时，加载器将程序加载到内存，并根据指令逐条执行。</li>
+</ul>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>编译器的完整流程是一个复杂的过程，从源代码的输入到最终可执行文件的生成，每个阶段都有其特定的任务和挑战。词法分析、语法分析和语义分析是编译器前端的主要阶段，它们负责理解和处理源代码的语法和语义。中间代码生成和优化，以及目标代码生成和优化，则属于编译器后端，主要负责生成高效的机器代码。最终，通过汇编和链接，将代码转化为可执行文件，使得程序可以在目标平台上运行。<br>​ </p>
+<hr>
+<h2 id="在用-KMP-算法进行模式匹配时，若是指向模式串”mnopmn”的指针在指到第-5-个字符”m”时发生失配，则指针回溯的位置为（）。注：字符串中字符从字符数据-1-号位开始存储，也即从-1-开始编号。"><a href="#在用-KMP-算法进行模式匹配时，若是指向模式串”mnopmn”的指针在指到第-5-个字符”m”时发生失配，则指针回溯的位置为（）。注：字符串中字符从字符数据-1-号位开始存储，也即从-1-开始编号。" class="headerlink" title="在用 KMP 算法进行模式匹配时，若是指向模式串”mnopmn”的指针在指到第 5 个字符”m”时发生失配，则指针回溯的位置为（）。注：字符串中字符从字符数据 1 号位开始存储，也即从 1 开始编号。"></a>在用 KMP 算法进行模式匹配时，若是指向模式串”mnopmn”的指针在指到第 5 个字符”m”时发生失配，则指针回溯的位置为（）。注：字符串中字符从字符数据 1 号位开始存储，也即从 1 开始编号。</h2><p>A 1 B 2 C 3 D 4  </p>
+<p>在 KMP 算法中，失配后指针的回溯位置由部分匹配表（也称为前缀函数表）决定。部分匹配表的值表示在失配时，模式串中已经匹配的部分中最长的相同前缀和后缀的长度。<br>​<br>给定模式串为 “mnopmn”，我们首先构建它的部分匹配表（前缀函数表）。<br>​  </p>
+<h3 id="模式串-“mnopmn”-的前缀函数表计算过程："><a href="#模式串-“mnopmn”-的前缀函数表计算过程：" class="headerlink" title="模式串 “mnopmn” 的前缀函数表计算过程："></a>模式串 “mnopmn” 的前缀函数表计算过程：</h3><p>​  </p>
+<ol>
+<li><strong>字符 “m”</strong>: 没有前缀和后缀匹配，部分匹配值为 0。  </li>
+<li><strong>字符 “n”</strong>: 没有前缀和后缀匹配，部分匹配值为 0。  </li>
+<li><strong>字符 “o”</strong>: 没有前缀和后缀匹配，部分匹配值为 0。  </li>
+<li><strong>字符 “p”</strong>: 没有前缀和后缀匹配，部分匹配值为 0。  </li>
+<li><strong>字符 “m”</strong>: 前缀 “m” 和后缀 “m” 匹配，部分匹配值为 1。  </li>
+<li><strong>字符 “n”</strong>: 前缀 “mn” 和后缀 “mn” 匹配，部分匹配值为 2。<br>​<br>所以，模式串 “mnopmn” 的部分匹配表如下：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>字符位置</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符</td>
+<td>m</td>
+<td>n</td>
+<td>o</td>
+<td>p</td>
+<td>m</td>
+<td>n</td>
+</tr>
+<tr>
+<td>前缀函数值</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>​</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="分析失配情况："><a href="#分析失配情况：" class="headerlink" title="分析失配情况："></a>分析失配情况：</h3><p>​<br>在匹配过程中，指针指向第 5 个字符 “m” 时发生失配。<br>​  </p>
+<ul>
+<li>失配发生在第 5 个字符 “m”，前缀函数表的值为 1。  </li>
+<li>根据 KMP 算法的规则，指针需要回溯到前缀函数表中值为 1 的位置（也就是相同的前缀和后缀的长度为 1），即回溯到模式串的第 2 个字符。<br>​<br>因此，失配时指针回溯的位置是 <strong>B：2</strong>。<br>​</li>
+</ul>
+<hr>
+<h2 id="代码需要经过一系列步骤编译成机器指令，根据完成任务不同，可以将编译器的组成部分划分为前端与后端。下列选项是编译器前端在编译源程序时编译的顺序，正确的是（）"><a href="#代码需要经过一系列步骤编译成机器指令，根据完成任务不同，可以将编译器的组成部分划分为前端与后端。下列选项是编译器前端在编译源程序时编译的顺序，正确的是（）" class="headerlink" title="代码需要经过一系列步骤编译成机器指令，根据完成任务不同，可以将编译器的组成部分划分为前端与后端。下列选项是编译器前端在编译源程序时编译的顺序，正确的是（）"></a>代码需要经过一系列步骤编译成机器指令，根据完成任务不同，可以将编译器的组成部分划分为前端与后端。下列选项是编译器前端在编译源程序时编译的顺序，正确的是（）</h2><p>A 词法分析器-&gt;语法分析器-&gt;中间代码生成器<br>B 语法分析器-&gt;词法分析器-&gt;中间代码生成器<br>C 词法分析器-&gt;中间代码生成器-&gt;语法分析器<br>D 语法分析器-&gt;中间代码生成器-&gt;词法分析器  </p>
+<p>正确答案是 <strong>A：词法分析器 -&gt; 语法分析器 -&gt; 中间代码生成器</strong>。<br>​<br>解释如下：<br>​  </p>
+<ol>
+<li><strong>词法分析器</strong>：首先，词法分析器将源代码转化为词法单元（tokens）。它识别出代码中的关键字、标识符、操作符等基本元素。  </li>
+<li><strong>语法分析器</strong>：然后，语法分析器接收词法分析器生成的词法单元序列，构建语法树或抽象语法树（AST），验证代码是否符合语言的语法规则。  </li>
+<li><strong>中间代码生成器</strong>：最后，中间代码生成器根据语法树生成中间代码，这种代码独立于具体机器平台，方便后续的优化和目标代码生成。<br>​<br>所以，正确的编译顺序是 <strong>词法分析器 -&gt; 语法分析器 -&gt; 中间代码生成器</strong>。<br>​</li>
+</ol>
+<hr>
+<h2 id="不同的数据存放区存放的数据和对应的管理方法是不同的。对于某些数据，如果在编译期间就可以确定数据对象的大小和数据对象的数目，在编译期间为数据对象分配存储空间，这些数据对应的存储分配策略是（）"><a href="#不同的数据存放区存放的数据和对应的管理方法是不同的。对于某些数据，如果在编译期间就可以确定数据对象的大小和数据对象的数目，在编译期间为数据对象分配存储空间，这些数据对应的存储分配策略是（）" class="headerlink" title="不同的数据存放区存放的数据和对应的管理方法是不同的。对于某些数据，如果在编译期间就可以确定数据对象的大小和数据对象的数目，在编译期间为数据对象分配存储空间，这些数据对应的存储分配策略是（）"></a>不同的数据存放区存放的数据和对应的管理方法是不同的。对于某些数据，如果在编译期间就可以确定数据对象的大小和数据对象的数目，在编译期间为数据对象分配存储空间，这些数据对应的存储分配策略是（）</h2><p>A 栈式存储分配<br>B 堆式存储分配<br>C 动态存储分配<br>D 静态存储分配  </p>
+<p>正确答案是 <strong>D：静态存储分配</strong>。<br>​<br><strong>静态存储分配</strong> 是在编译期间确定数据对象的大小和数目，并为其分配存储空间的策略。这种分配方式通常适用于全局变量、静态变量和常量，这些数据在程序的整个生命周期内都存在，并且存储位置在程序加载时已经确定。<br>​<br><strong>栈式存储分配</strong> 通常用于局部变量，函数调用时在栈上分配空间，函数返回后释放。<br>​<br><strong>堆式存储分配</strong> 则用于动态内存分配，通常使用<code>malloc</code>、<code>new</code>等在运行时分配内存，使用<code>free</code>、<code>delete</code>释放内存。<br>​<br><strong>动态存储分配</strong> 是在运行时根据需求动态分配和释放存储空间，通常涉及堆式存储。<br>​</p>
+<hr>
+<h2 id="下列选项中只要其中一个表中存在匹配，则返回行的-SQL-JOIN-的-类型是（）。"><a href="#下列选项中只要其中一个表中存在匹配，则返回行的-SQL-JOIN-的-类型是（）。" class="headerlink" title="下列选项中只要其中一个表中存在匹配，则返回行的 SQL JOIN 的 类型是（）。"></a>下列选项中只要其中一个表中存在匹配，则返回行的 SQL JOIN 的 类型是（）。</h2><p>A INNER JOIN<br>B LEFT JOIN<br>C RIGHT JOIN<br>D FULL JOIN  </p>
+<p>正确答案是 <strong>D：FULL JOIN</strong>。<br>​<br><strong>FULL JOIN</strong>（或称 FULL OUTER JOIN）返回的是左右两个表中所有匹配的记录，以及在两个表中没有匹配到的记录。只要任一表中存在匹配，都会返回结果，未匹配到的地方则用 <code>NULL</code> 填充。<br>​<br>具体来说：<br>​  </p>
+<ul>
+<li><strong>INNER JOIN</strong> 只返回两个表中匹配的记录。  </li>
+<li><strong>LEFT JOIN</strong> 返回左表的所有记录以及左右表中匹配的记录，右表未匹配的部分用 <code>NULL</code> 填充。  </li>
+<li><strong>RIGHT JOIN</strong> 返回右表的所有记录以及左右 k 表中匹配的记录，左表未匹配的部分用 <code>NULL</code> 填充。  </li>
+<li><strong>FULL JOIN</strong> 返回两个表中的所有记录，无论是否匹配，只要存在记录就会被返回。<br>​<br>因此，<strong>FULL JOIN</strong> 是只要其中一个表中存在匹配就返回行的 JOIN 类型。<br>​</li>
+</ul>
+<hr>
+<h2 id="已知某个-Mysql-数据库里面有一个帖子表，这个表会存储帖子的各种信息，请问以下哪种情况对应的列不适合建索引"><a href="#已知某个-Mysql-数据库里面有一个帖子表，这个表会存储帖子的各种信息，请问以下哪种情况对应的列不适合建索引" class="headerlink" title="已知某个 Mysql 数据库里面有一个帖子表，这个表会存储帖子的各种信息，请问以下哪种情况对应的列不适合建索引"></a>已知某个 Mysql 数据库里面有一个帖子表，这个表会存储帖子的各种信息，请问以下哪种情况对应的列不适合建索引</h2><p>A 帖子表中存储帖子内容的列<br>B 帖子表中存储帖子作者性别的列<br>C 帖子表中存储帖子作者 id 的列<br>D 帖子表中存储表示帖子状态的列，所有可能值不超过 10 种  </p>
+<p>正确答案是 <strong>A：帖子表中存储帖子内容的列</strong>。<br>​  </p>
+<h3 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h3><p>​  </p>
+<ul>
+<li><strong>帖子内容的列</strong> 通常存储大块的文本数据（如文章内容、评论等），这些数据占用较大的存储空间。为这样的列建立索引会导致索引文件非常庞大，不仅占用大量磁盘空间，还会降低插入、更新操作的性能。因此，通常不建议为大文本或 BLOB 列建立索引。<br>​</li>
+</ul>
+<h3 id="其他选项："><a href="#其他选项：" class="headerlink" title="其他选项："></a>其他选项：</h3><p>​  </p>
+<ul>
+<li><strong>帖子作者性别的列</strong>：性别通常只有两个或少数几个值（例如“男”或“女”），属于低基数（Low Cardinality）列，为这样的列建立索引通常意义不大，因为索引选择性较低。  </li>
+<li><strong>帖子作者 ID 的列</strong>：这通常是一个高基数（High Cardinality）的列（即每个帖子可能由不同的作者发布），为这样的列建立索引是有意义的，有助于快速查找特定作者的帖子。  </li>
+<li><strong>表示帖子状态的列</strong>：如果状态的可能值较少（不超过 10 种），也是低基数列，索引的效果可能不如高基数列明显，但在某些查询条件下可能仍然有用，如查询某特定状态的所有帖子。<br>​<br>因此，<strong>A 选项</strong>中存储大量文本内容的列最不适合建索引。</li>
+</ul>
+<hr>
+<h2 id="什么情况下建立索引"><a href="#什么情况下建立索引" class="headerlink" title="什么情况下建立索引"></a>什么情况下建立索引</h2><p>建立索引的主要目的是提高数据库查询的性能，但索引并不是在任何情况下都适合使用。以下是一些适合建立索引的情况：<br>​  </p>
+<h3 id="1-频繁用于查询条件（WHERE-子句）中的列"><a href="#1-频繁用于查询条件（WHERE-子句）中的列" class="headerlink" title="1. 频繁用于查询条件（WHERE 子句）中的列"></a>1. <strong>频繁用于查询条件（WHERE 子句）中的列</strong></h3><p>​  </p>
+<ul>
+<li>如果某列经常出现在查询的<code>WHERE</code>子句中，并且选择性较高（即能够过滤掉大量数据），那么为该列建立索引可以显著提高查询效率。  </li>
+<li>例如：用户 ID、订单 ID 等。</li>
+</ul>
+<h3 id="2-经常用于-JOIN-操作的列"><a href="#2-经常用于-JOIN-操作的列" class="headerlink" title="2. 经常用于 JOIN 操作的列"></a>2. <strong>经常用于 JOIN 操作的列</strong></h3><p>​  </p>
+<ul>
+<li>在涉及多表连接（JOIN）的查询中，常常用作连接条件的列适合建立索引。这可以加速表之间的连接操作。  </li>
+<li>例如：在用户表和订单表之间用用户 ID 进行 JOIN 操作时，为用户 ID 建立索引可以提高性能。</li>
+</ul>
+<h3 id="3-用于排序（ORDER-BY）或分组（GROUP-BY）的列"><a href="#3-用于排序（ORDER-BY）或分组（GROUP-BY）的列" class="headerlink" title="3. 用于排序（ORDER BY）或分组（GROUP BY）的列"></a>3. <strong>用于排序（ORDER BY）或分组（GROUP BY）的列</strong></h3><p>​  </p>
+<ul>
+<li>如果某列经常用于<code>ORDER BY</code>或<code>GROUP BY</code>操作，建立索引可以减少排序或分组操作所需的时间。  </li>
+<li>例如：订单日期、创建时间等。</li>
+</ul>
+<h3 id="4-唯一性约束的列"><a href="#4-唯一性约束的列" class="headerlink" title="4. 唯一性约束的列"></a>4. <strong>唯一性约束的列</strong></h3><p>​  </p>
+<ul>
+<li>对于必须唯一的列（如主键或具有 UNIQUE 约束的列），索引是必要的，以确保数据的唯一性和快速检索。  </li>
+<li>例如：用户表中的邮箱地址、用户名等。</li>
+</ul>
+<h3 id="5-经常用于范围查询的列"><a href="#5-经常用于范围查询的列" class="headerlink" title="5. 经常用于范围查询的列"></a>5. <strong>经常用于范围查询的列</strong></h3><p>​  </p>
+<ul>
+<li>如果某列经常用于范围查询（如<code>BETWEEN</code>、<code>&lt;</code>、<code>&gt;</code>等），为该列建立索引有助于加快范围查询的速度。  </li>
+<li>例如：年龄、日期范围等。</li>
+</ul>
+<h3 id="6-用于覆盖索引的列"><a href="#6-用于覆盖索引的列" class="headerlink" title="6. 用于覆盖索引的列"></a>6. <strong>用于覆盖索引的列</strong></h3><p>​  </p>
+<ul>
+<li>覆盖索引指的是包含了查询所需的所有列的索引。对于特定的查询，如果索引包含了所有的查询列，则可以避免回表操作，直接从索引中返回结果。  </li>
+<li>例如：复合索引（如包含用户 ID、订单日期的复合索引）可以加速特定查询。</li>
+</ul>
+<h3 id="7-高基数（High-Cardinality）列"><a href="#7-高基数（High-Cardinality）列" class="headerlink" title="7. 高基数（High Cardinality）列"></a>7. <strong>高基数（High Cardinality）列</strong></h3><p>​  </p>
+<ul>
+<li>高基数列是指具有大量唯一值的列。为这种列建立索引通常会带来显著的查询性能提升。  </li>
+<li>例如：订单 ID、用户 ID 等。</li>
+</ul>
+<h3 id="需要注意的情况："><a href="#需要注意的情况：" class="headerlink" title="需要注意的情况："></a>需要注意的情况：</h3><p>​  </p>
+<ul>
+<li><strong>低基数列</strong>：如性别、状态（有少量可能值）等列的选择性较差，索引的效果不明显，可能不适合建立索引。  </li>
+<li><strong>频繁更新的列</strong>：如果某列的数据经常被更新，为该列建立索引可能会影响写操作的性能，因为每次更新都需要维护索引。  </li>
+<li><strong>大文本或 BLOB 列</strong>：如长篇文章、图像数据等，索引会占用大量存储空间，不推荐在这些列上建立索引。</li>
+</ul>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>​<br>索引的主要目的是加速数据检索操作，但也会带来额外的存储和维护开销。因此，是否建立索引应该基于列的用途、查询频率、数据的分布和性能需求综合考虑。  </p>
+<hr>
+<h2 id="下列哪些运算不会排序（）"><a href="#下列哪些运算不会排序（）" class="headerlink" title="下列哪些运算不会排序（）"></a>下列哪些运算不会排序（）</h2><p>A GROUP BY 子句<br>B ORDER BY 子句<br>C 聚合函数（SUM、COUNT、AVG、MAX、MIN）<br>D BETWEEN  </p>
+<p>正确答案是 <strong>C：聚合函数（SUM、COUNT、AVG、MAX、MIN）</strong> 和 <strong>D：BETWEEN</strong>。  </p>
+<h3 id="解释："><a href="#解释：" class="headerlink" title="解释："></a>解释：</h3><ul>
+<li><strong>A. GROUP BY 子句</strong>：<code>GROUP BY</code> 会对结果集进行排序，以便将相同的值分组在一起。因此，它会涉及排序操作。  </li>
+<li><strong>B. ORDER BY 子句</strong>：<code>ORDER BY</code> 显式要求对结果集进行排序，按照指定的列进行升序或降序排列，因此它肯定会排序。  </li>
+<li><strong>C. 聚合函数（SUM、COUNT、AVG、MAX、MIN）</strong>：这些聚合函数通常在查询的聚合阶段执行，并不要求对结果集进行排序。它们直接在数据上进行计算，并输出聚合结果。例如，<code>SUM</code> 计算总和、<code>COUNT</code> 计算行数、<code>AVG</code> 计算平均值、<code>MAX</code> 和 <code>MIN</code> 计算最大值和最小值，均不涉及排序操作。  </li>
+<li><strong>D. BETWEEN</strong>：<code>BETWEEN</code> 是一个范围查询操作符，用于查找在指定范围内的值。它只是一个过滤条件，不要求对结果集进行排序。<br>​<br>因此，<strong>C. 聚合函数</strong> 和 <strong>D. BETWEEN</strong> 都不会进行排序操作。</li>
+</ul>
+<hr>
+<h2 id="编程题-1"><a href="#编程题-1" class="headerlink" title="编程题 1"></a>编程题 1</h2><p>小美拿到了一个 n ∗ n 的矩阵，其中每个元素是 0 或者 1。小美认为一个矩形区域是完美的，当且仅当该区域内 0 的数量恰好等于 1 的数量。现在，小美希望你回答有多少个 i ∗ i 的完美矩形区域。你需要回答 1 ≤ i ≤ n 的所有答案。第一行输入一个正整数 n，代表矩阵大小。接下来的 n 行，每行输入一个长度为 n 的 01 串，用来表示矩阵。$1 \leq n \leq 200$ 输出 n 行，第 i 行输出 i*i 的完美矩形区域的数量  </p>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>​<br>我们需要找到矩阵中每个可能的$(i \times i)$ 子矩形区域（对于 $(1 \leq i \leq n)$），并计算每个子矩形区域中 0 和 1 的数量是否相等。</p>
+<h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><p>​</p>
+<ol>
+<li><strong>前缀和</strong>：构建两个前缀和矩阵，一个记录 0 的数量，另一个记录 1 的数量。前缀和矩阵可以帮助我们在常数时间内计算任意子矩形区域内 0 或 1 的数量。  </li>
+<li><strong>遍历所有子矩形</strong>：对于每个$(i \times i)$ 子矩形区域，我们可以利用前缀和矩阵快速计算该区域内 0 和 1 的数量，并检查它们是否相等。  </li>
+<li><strong>统计结果</strong>：对每个可能的 i 计算符合条件的 $(i \times i)$ 子矩形的数量。</li>
+</ol>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><p>下面是使用 Java 实现上述问题的代码：  </p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PerfectRectangles</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;  </span><br><span class="line">    <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 输入矩阵大小  </span></span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">    scanner.nextLine();  <span class="comment">// 跳过换行符  </span></span><br><span class="line">      </span><br><span class="line">    <span class="type">int</span>[][] matrix = <span class="keyword">new</span> <span class="title class_">int</span>[n][n];  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 输入矩阵  </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;  </span><br><span class="line">        <span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> scanner.nextLine();  </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; n; j++) &#123;  </span><br><span class="line">            matrix[i][j] = line.charAt(j) - <span class="string">&#x27;0&#x27;</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 计算并输出每个大小的完美矩形数量  </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">size</span> <span class="operator">=</span> <span class="number">1</span>; size &lt;= n; size++) &#123;  </span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> countPerfectRectangles(matrix, n, size);  </span><br><span class="line">        System.out.println(count);  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    scanner.close();  </span><br><span class="line">&#125;  </span><br><span class="line">​  </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">countPerfectRectangles</span><span class="params">(<span class="type">int</span>[][] matrix, <span class="type">int</span> n, <span class="type">int</span> size)</span> &#123;  </span><br><span class="line">    <span class="comment">// 前缀和矩阵  </span></span><br><span class="line">    <span class="type">int</span>[][] prefixZero = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>][n + <span class="number">1</span>];  </span><br><span class="line">    <span class="type">int</span>[][] prefixOne = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>][n + <span class="number">1</span>];  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 计算前缀和  </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= n; j++) &#123;  </span><br><span class="line">            prefixZero[i][j] = prefixZero[i - <span class="number">1</span>][j] + prefixZero[i][j - <span class="number">1</span>] - prefixZero[i - <span class="number">1</span>][j - <span class="number">1</span>] + (matrix[i - <span class="number">1</span>][j - <span class="number">1</span>] == <span class="number">0</span> ? <span class="number">1</span> : <span class="number">0</span>);  </span><br><span class="line">            prefixOne[i][j] = prefixOne[i - <span class="number">1</span>][j] + prefixOne[i][j - <span class="number">1</span>] - prefixOne[i - <span class="number">1</span>][j - <span class="number">1</span>] + (matrix[i - <span class="number">1</span>][j - <span class="number">1</span>] == <span class="number">1</span> ? <span class="number">1</span> : <span class="number">0</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 计算符合条件的矩形数量  </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> size; i &lt;= n; i++) &#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> size; j &lt;= n; j++) &#123;  </span><br><span class="line">            <span class="type">int</span> <span class="variable">zeroCount</span> <span class="operator">=</span> prefixZero[i][j] - prefixZero[i - size][j] - prefixZero[i][j - size] + prefixZero[i - size][j - size];  </span><br><span class="line">            <span class="type">int</span> <span class="variable">oneCount</span> <span class="operator">=</span> prefixOne[i][j] - prefixOne[i - size][j] - prefixOne[i][j - size] + prefixOne[i - size][j - size];  </span><br><span class="line">              </span><br><span class="line">            <span class="keyword">if</span> (zeroCount == oneCount) &#123;  </span><br><span class="line">                count++;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">return</span> count;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="代码解释："><a href="#代码解释：" class="headerlink" title="代码解释："></a>代码解释：</h3><ul>
+<li><strong>前缀和矩阵</strong>：在<code>countPerfectRectangles</code>方法中，首先计算每个前缀和矩阵（<code>prefixZero</code>和<code>prefixOne</code>），分别存储矩阵中 0 和 1 的前缀和。这样可以快速计算任意子矩形内的 0 和 1 的数量。  </li>
+<li><strong>子矩形计数</strong>：对于每个可能的矩形大小，代码遍历整个矩阵，检查每个子矩形区域内 0 和 1 的数量是否相等。如果相等，则计数加 1。</li>
+</ul>
+<h3 id="输入输出："><a href="#输入输出：" class="headerlink" title="输入输出："></a>输入输出：</h3><p>在运行该程序时，输入矩阵大小<code>n</code>和矩阵的 01 字符串。程序将计算并输出每个<code>i*i</code>矩形区域中完美矩形的数量，从<code>1&lt;=i&lt;=n</code>。  </p>
+<h3 id="复杂度："><a href="#复杂度：" class="headerlink" title="复杂度："></a>复杂度：</h3><p>该算法的时间复杂度是<code>O(n^4)</code>，因为要遍历所有可能的<code>i*i</code>矩形区域并检查其内的 0 和 1 的数量。对于<code>n</code>最大为 200 的情况，算法在合理范围内可以接受。</p>
+<hr>
+<h2 id="编程题-2"><a href="#编程题-2" class="headerlink" title="编程题 2"></a>编程题 2</h2><p>小美拿到了一个由正整数组成的数组，但其中有一些元素是未知的（用 0 来表示）。现在小美想知道，如果那些未知的元素在区间 $[ l , r ]$ 范围内随机取值的话，数组所有元素之和的最小值和最大值分别是多少？共有 q q 次询问。第一行输入两个正整数 n,q，代表数组大小和询问次数。第二行输入 n 个整数 $a_i$，其中如果输入的 $a_i$ 为 0，那么说明 $a_i$ 是未知的。接下来的 q 行，每行输入两个正整数 l,r，代表一次询问。$1\leq n$ , $q \leq 10^5$ , $0 \leq a_i$ , $\leq 10^9$ , $1\leq l \leq r \leq 10^9$ 输出 q 行，每行输出两个正整数，代表所有元素之和的最小值和最大值。  </p>
+<p>这个问题要求计算数组在多个查询下的元素之和的最小值和最大值。对于每个查询，我们要处理数组中值为<code>0</code>的元素，并将它们视为在指定区间 <code>[l, r]</code> 中的某个值。  </p>
+<h3 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h3><ol>
+<li><strong>初始化数组总和</strong>：首先，我们计算数组中所有非 0 元素的总和，因为这些值是固定的，无论查询区间是什么，它们都会对最小值和最大值产生同样的贡献。  </li>
+<li><strong>处理<code>0</code>值元素</strong>：对于每个查询 <code>[l, r]</code>，我们要计算数组中的<code>0</code>值元素如果取<code>l</code>和<code>r</code>，分别会导致总和的最小值和最大值：    <ul>
+<li>对于最小值，假设所有<code>0</code>元素都取<code>l</code>。    </li>
+<li>对于最大值，假设所有<code>0</code>元素都取<code>r</code>。</li>
+</ul>
+</li>
+<li><strong>输出结果</strong>：对于每个查询，输出总和的最小值和最大值。</li>
+</ol>
+<h3 id="实现代码-1"><a href="#实现代码-1" class="headerlink" title="实现代码"></a>实现代码</h3><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;  </span><br><span class="line">    <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 输入数组大小和询问次数  </span></span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">    <span class="type">int</span> <span class="variable">q</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">  </span><br><span class="line">    <span class="type">int</span>[] arr = <span class="keyword">new</span> <span class="title class_">int</span>[n];  </span><br><span class="line">    <span class="type">long</span> <span class="variable">sumFixed</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 固定元素的总和  </span></span><br><span class="line">    <span class="type">int</span> <span class="variable">zeroCount</span> <span class="operator">=</span> <span class="number">0</span>;  <span class="comment">// 0 元素的个数  </span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 输入数组元素并计算固定元素的总和  </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;  </span><br><span class="line">        arr[i] = scanner.nextInt();  </span><br><span class="line">        <span class="keyword">if</span> (arr[i] == <span class="number">0</span>) &#123;  </span><br><span class="line">            zeroCount++;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            sumFixed += arr[i];  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 处理每个查询  </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; q; i++) &#123;  </span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">        <span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 最小值：假设所有 0 都取值为 l  </span></span><br><span class="line">        <span class="type">long</span> <span class="variable">minSum</span> <span class="operator">=</span> sumFixed + (<span class="type">long</span>) zeroCount * l;  </span><br><span class="line">        <span class="comment">// 最大值：假设所有 0 都取值为 r  </span></span><br><span class="line">        <span class="type">long</span> <span class="variable">maxSum</span> <span class="operator">=</span> sumFixed + (<span class="type">long</span>) zeroCount * r;  </span><br><span class="line">  </span><br><span class="line">        System.out.println(minSum + <span class="string">&quot; &quot;</span> + maxSum);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    scanner.close();  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><ul>
+<li><strong>sumFixed</strong>：这个变量存储数组中所有非 0 元素的总和。  </li>
+<li><strong>zeroCount</strong>：这个变量存储数组中值为 0 的元素个数。</li>
+</ul>
+<p>对于每次查询 <code>[l, r]</code>：  </p>
+<ul>
+<li><strong>最小值计算</strong>：假设所有<code>0</code>都取值为<code>l</code>，因此最小值为<code>sumFixed + zeroCount * l</code>。  </li>
+<li><strong>最大值计算</strong>：假设所有<code>0</code>都取值为<code>r</code>，因此最大值为<code>sumFixed + zeroCount * r</code>。</li>
+</ul>
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><ul>
+<li><strong>时间复杂度</strong>：构建初始总和和计算<code>zeroCount</code>的时间复杂度为<code>O(n)</code>。每次查询的时间复杂度为<code>O(1)</code>，因此总时间复杂度为<code>O(n + q)</code>，能够处理最大规模的数据。</li>
+</ul>
+<p>这个算法能够有效处理<code>n</code>和<code>q</code>都为 10^5 级别的输入。  </p>
+<hr>
+<p>如果有用例超时，通常是因为对于大规模输入，算法的效率不够高。在当前的解决方案中，我们计算最小值和最大值的过程实际上是<code>O(1)</code>，主要耗时在输入和输出处理上。然而，有可能是因为输入输出处理不够高效，导致在大规模数据上出现了性能问题。  </p>
+<p>以下是几种优化方案：  </p>
+<h3 id="1-优化输入输出："><a href="#1-优化输入输出：" class="headerlink" title="1. 优化输入输出："></a>1. <strong>优化输入输出</strong>：</h3><ul>
+<li>对于大规模数据，Java 的<code>Scanner</code>在处理输入时可能较慢，可以尝试使用更快的输入输出方式，如<code>BufferedReader</code>和<code>BufferedWriter</code>。</li>
+</ul>
+<h3 id="优化后的代码："><a href="#优化后的代码：" class="headerlink" title="优化后的代码："></a>优化后的代码：</h3><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.BufferedReader; </span><br><span class="line"><span class="keyword">import</span> java.io.BufferedWriter; </span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader; </span><br><span class="line"><span class="keyword">import</span> java.io.OutputStreamWriter; </span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;  </span><br><span class="line">    <span class="type">BufferedReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));  </span><br><span class="line">    <span class="type">BufferedWriter</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(System.out));  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 读取数组大小和询问次数  </span></span><br><span class="line">    String[] input = reader.readLine().split(<span class="string">&quot; &quot;</span>);  </span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> Integer.parseInt(input[<span class="number">0</span>]);  </span><br><span class="line">    <span class="type">int</span> <span class="variable">q</span> <span class="operator">=</span> Integer.parseInt(input[<span class="number">1</span>]);  </span><br><span class="line">  </span><br><span class="line">    <span class="type">long</span> <span class="variable">sumFixed</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 固定元素的总和  </span></span><br><span class="line">    <span class="type">int</span> <span class="variable">zeroCount</span> <span class="operator">=</span> <span class="number">0</span>;  <span class="comment">// 0 元素的个数  </span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 读取数组并计算固定元素的总和  </span></span><br><span class="line">    String[] arr = reader.readLine().split(<span class="string">&quot; &quot;</span>);  </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;  </span><br><span class="line">        <span class="type">int</span> <span class="variable">value</span> <span class="operator">=</span> Integer.parseInt(arr[i]);  </span><br><span class="line">        <span class="keyword">if</span> (value == <span class="number">0</span>) &#123;  </span><br><span class="line">            zeroCount++;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            sumFixed += value;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 处理每个查询  </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; q; i++) &#123;  </span><br><span class="line">        String[] range = reader.readLine().split(<span class="string">&quot; &quot;</span>);  </span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> Integer.parseInt(range[<span class="number">0</span>]);  </span><br><span class="line">        <span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> Integer.parseInt(range[<span class="number">1</span>]);  </span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 最小值：假设所有 0 都取值为 l  </span></span><br><span class="line">        <span class="type">long</span> <span class="variable">minSum</span> <span class="operator">=</span> sumFixed + (<span class="type">long</span>) zeroCount * l;  </span><br><span class="line">        <span class="comment">// 最大值：假设所有 0 都取值为 r  </span></span><br><span class="line">        <span class="type">long</span> <span class="variable">maxSum</span> <span class="operator">=</span> sumFixed + (<span class="type">long</span>) zeroCount * r;  </span><br><span class="line">  </span><br><span class="line">        writer.write(minSum + <span class="string">&quot; &quot;</span> + maxSum + <span class="string">&quot;\n&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 刷新输出缓冲区  </span></span><br><span class="line">    writer.flush();  </span><br><span class="line">    writer.close();  </span><br><span class="line">    reader.close();  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+
+<h3 id="2-减少内存分配："><a href="#2-减少内存分配：" class="headerlink" title="2. 减少内存分配："></a>2. <strong>减少内存分配</strong>：</h3><ul>
+<li>尽量减少在循环中的字符串处理操作和对象创建，可以通过复用数组或字符串缓冲区来避免不必要的内存分配。</li>
+</ul>
+<h3 id="3-并行化计算："><a href="#3-并行化计算：" class="headerlink" title="3. 并行化计算："></a>3. <strong>并行化计算</strong>：</h3><ul>
+<li>如果运行环境支持多线程，并且查询数量非常大，可以考虑将查询并行化处理。不过在大多数竞赛环境下，可能不允许使用多线程。</li>
+</ul>
+<h3 id="4-避免多次拆分字符串："><a href="#4-避免多次拆分字符串：" class="headerlink" title="4. 避免多次拆分字符串："></a>4. <strong>避免多次拆分字符串</strong>：</h3><ul>
+<li>避免在循环中多次调用<code>split()</code>方法，可以将输入的字符串拆分操作集中在一起处理。</li>
+</ul>
+<hr>
+<h2 id="编程题-3"><a href="#编程题-3" class="headerlink" title="编程题 3"></a>编程题 3</h2><p>假设美团的工号是由 18 位数字组成的，由以下规则组成：前面 6 位代表是哪个部门 7-14 位代表是出生日期，范围是 1900.01.01-2023.12.31 , 15-17 位代表是哪个组，不能是完全一样的 3 位数字 18 位是一位的校验和，假设是 x x，则需要满足<br>[(x + a_1 + a_2 + a_3 + a_4 + … + a_{17}) \mod 8 &#x3D; 1]，a 1 − a 17 代表了前面的 17 位数字 现在需要写一份代码，判断输入的工号是否符合对应的规则。提示：出生日期这里需要判断闰年。闰年判断的条件是能被 4 整除，但不能被 100 整除；或能被 400 整除。第一行输入一个整数 n($1 \leq n \leq 10$) 接下来 n 行，每行输入一个字符串，表示一个合法的部门。如果工号不属于合法部门的话，则认为这个工号不符合规则。接下来输入一个整数 m($1 \leq m \leq 10$) 接下来 m 行，每行输入一个字符串，表示需要验证的工号。如果不满足上述任一个规则，输出 “error” ，都满足的话输出 “ok”   </p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet; <span class="keyword">import</span> java.util.Scanner; <span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;  </span><br><span class="line">    <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 输入合法部门  </span></span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">    Set&lt;String&gt; validDepartments = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();  </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;  </span><br><span class="line">        validDepartments.add(scanner.next());  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 输入需要验证的工号  </span></span><br><span class="line">    <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> scanner.nextInt();  </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; m; i++) &#123;  </span><br><span class="line">        <span class="type">String</span> <span class="variable">employeeNumber</span> <span class="operator">=</span> scanner.next();  </span><br><span class="line">        <span class="keyword">if</span> (isValidEmployeeNumber(employeeNumber, validDepartments)) &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;ok&quot;</span>);  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            System.out.println(<span class="string">&quot;error&quot;</span>);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    scanner.close();  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isValidEmployeeNumber</span><span class="params">(String employeeNumber, Set&lt;String&gt; validDepartments)</span> &#123;  </span><br><span class="line">    <span class="keyword">if</span> (employeeNumber.length() != <span class="number">18</span>) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 验证部门  </span></span><br><span class="line">    <span class="type">String</span> <span class="variable">department</span> <span class="operator">=</span> employeeNumber.substring(<span class="number">0</span>, <span class="number">6</span>);  </span><br><span class="line">    <span class="keyword">if</span> (!validDepartments.contains(department)) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 验证出生日期  </span></span><br><span class="line">    <span class="type">String</span> <span class="variable">birthDate</span> <span class="operator">=</span> employeeNumber.substring(<span class="number">6</span>, <span class="number">14</span>);  </span><br><span class="line">    <span class="keyword">if</span> (!isValidDate(birthDate)) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 验证组号  </span></span><br><span class="line">    <span class="type">String</span> <span class="variable">group</span> <span class="operator">=</span> employeeNumber.substring(<span class="number">14</span>, <span class="number">17</span>);  </span><br><span class="line">    <span class="keyword">if</span> (group.charAt(<span class="number">0</span>) == group.charAt(<span class="number">1</span>) &amp;&amp; group.charAt(<span class="number">1</span>) == group.charAt(<span class="number">2</span>)) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 验证校验和  </span></span><br><span class="line">    <span class="type">int</span> <span class="variable">checksum</span> <span class="operator">=</span> Character.getNumericValue(employeeNumber.charAt(<span class="number">17</span>));  </span><br><span class="line">    <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> checksum;  </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">17</span>; i++) &#123;  </span><br><span class="line">        sum += Character.getNumericValue(employeeNumber.charAt(i));  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">if</span> (sum % <span class="number">8</span> != <span class="number">1</span>) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isValidDate</span><span class="params">(String date)</span> &#123;  </span><br><span class="line">    <span class="keyword">if</span> (date.length() != <span class="number">8</span>) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="type">int</span> <span class="variable">year</span> <span class="operator">=</span> Integer.parseInt(date.substring(<span class="number">0</span>, <span class="number">4</span>));  </span><br><span class="line">    <span class="type">int</span> <span class="variable">month</span> <span class="operator">=</span> Integer.parseInt(date.substring(<span class="number">4</span>, <span class="number">6</span>));  </span><br><span class="line">    <span class="type">int</span> <span class="variable">day</span> <span class="operator">=</span> Integer.parseInt(date.substring(<span class="number">6</span>, <span class="number">8</span>));  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> (year &lt; <span class="number">1900</span> || year &gt; <span class="number">2023</span>) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> (month &lt; <span class="number">1</span> || month &gt; <span class="number">12</span>) &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="type">int</span>[] daysInMonth = &#123;<span class="number">31</span>, <span class="number">28</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>&#125;;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 闰年判断  </span></span><br><span class="line">    <span class="keyword">if</span> (isLeapYear(year)) &#123;  </span><br><span class="line">        daysInMonth[<span class="number">1</span>] = <span class="number">29</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> day &gt;= <span class="number">1</span> &amp;&amp; day &lt;= daysInMonth[month - <span class="number">1</span>];  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isLeapYear</span><span class="params">(<span class="type">int</span> year)</span> &#123;  </span><br><span class="line">    <span class="keyword">return</span> (year % <span class="number">4</span> == <span class="number">0</span> &amp;&amp; year % <span class="number">100</span> != <span class="number">0</span>) || (year % <span class="number">400</span> == <span class="number">0</span>);  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="代码功能描述："><a href="#代码功能描述：" class="headerlink" title="代码功能描述："></a>代码功能描述：</h3><ol>
+<li><strong>部门验证</strong>：前 6 位代表部门，使用集合<code>Set</code>来存储合法的部门编号，判断是否在集合中。  </li>
+<li><strong>出生日期验证</strong>：7-14 位代表出生日期，验证日期是否在合法的范围内，并判断是否为有效日期。还包括闰年的判断。  </li>
+<li><strong>组号验证</strong>：15-17 位代表组号，组号不能是完全相同的 3 位数字。  </li>
+<li><strong>校验和验证</strong>：18 位校验和计算，确保 <code>(x + a1 + a2 + ... + a17) % 8 == 1</code>。</li>
+</ol>
+<h3 id="复杂度分析："><a href="#复杂度分析：" class="headerlink" title="复杂度分析："></a>复杂度分析：</h3><p>​  </p>
+<ul>
+<li>时间复杂度主要取决于输入的工号数量，验证一个工号的时间复杂度为 O(1)，因此总时间复杂度为 O(m)，其中 m 为工号数量。  </li>
+<li>使用<code>Set</code>来验证部门，使得部门验证的时间复杂度为 O(1)。</li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 美团笔试一</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2024-08-18 10:09:34</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-11-08 17:08:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://moye12325.github.io/2024/08/18/美团笔试一/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%AC%94%E8%AF%95/">#笔试</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/08/18/perfect-rectangles/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">美团笔试一</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/08/16/Test%20Design%20Techniques/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Test Design Techniques</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">美团笔试一</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%EF%BC%8C%E7%AB%AF%E5%8F%A3%E5%8F%B7%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">在计算机网络中，端口号的作用是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%EF%BC%8C%E7%AB%AF%E5%8F%A3%E5%8F%B7%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F-1"><span class="nav-text">在计算机网络中，端口号的作用是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS-%E5%8D%8F%E8%AE%AE%E9%80%9A%E8%BF%87%E4%BD%BF%E7%94%A8%E5%93%AA%E4%BA%9B%E6%9C%BA%E5%88%B6%E6%9D%A5%E7%A1%AE%E4%BF%9D%E9%80%9A%E4%BF%A1%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%EF%BC%88%EF%BC%89"><span class="nav-text">HTTPS 协议通过使用哪些机制来确保通信的安全性（）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ETag-%E7%94%A8%E4%BA%8E%E6%A0%87%E8%AF%86%E8%B5%84%E6%BA%90%E7%9A%84%E5%94%AF%E4%B8%80%E6%A0%87%E8%AF%86%E7%AC%A6%EF%BC%8C%E5%AE%83%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%BA%8E%EF%BC%88%EF%BC%89"><span class="nav-text">ETag 用于标识资源的唯一标识符，它可以用于（）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%8D%95%E9%81%93%E7%B3%BB%E7%BB%9F%E4%B8%AD%EF%BC%8C%E6%9C%89-4-%E4%B8%AA%E4%BD%9C%E4%B8%9A-P%E3%80%81Q%E3%80%81R-%E5%92%8C-S%EF%BC%8C%E6%89%A7%E8%A1%8C%E6%97%B6%E9%97%B4%E5%88%86%E5%88%AB%E4%B8%BA-2-%E5%B0%8F%E6%97%B6%E3%80%814-%E5%B0%8F%E6%97%B6%E3%80%816-%E5%B0%8F%E6%97%B6%E5%92%8C-8-%E5%B0%8F%E6%97%B6%EF%BC%8CP-%E5%92%8C-Q-%E5%90%8C%E6%97%B6%E5%9C%A8-0-%E6%97%B6%E5%88%B0%E8%BE%BE%EF%BC%8CR-%E5%92%8C-S-%E5%9C%A8-2-%E5%B0%8F%E6%97%B6%E5%88%B0%E8%BE%BE%EF%BC%8C%E9%87%87%E7%94%A8%E7%9F%AD%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95%E6%97%B6%EF%BC%8C%E5%B9%B3%E5%9D%87%E5%91%A8%E8%BD%AC%E6%97%B6%E9%97%B4%E4%B8%BA%EF%BC%88%EF%BC%89%E3%80%82"><span class="nav-text">在一个单道系统中，有 4 个作业 P、Q、R 和 S，执行时间分别为 2 小时、4 小时、6 小时和 8 小时，P 和 Q 同时在 0 时到达，R 和 S 在 2 小时到达，采用短作业优先算法时，平均周转时间为（）。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%8E%B0%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E8%BF%9B%E7%A8%8B%E5%9C%A8-11-30-%E5%88%B0%E8%BE%BE%E7%B3%BB%E7%BB%9F%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%9C%A8-14-30-%E5%BC%80%E5%A7%8B%E8%BF%90%E8%A1%8C%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%E8%BF%9B%E7%A8%8B%EF%BC%8C%E5%85%B6%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E4%B8%BA-3-%E5%B0%8F%E6%97%B6%EF%BC%8C%E7%8E%B0%E6%B1%82%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%93%8D%E5%BA%94%E6%AF%94%E4%B8%BA%EF%BC%88%EF%BC%89%E3%80%82"><span class="nav-text">系统中现有一个任务进程在 11:30 到达系统，如果在 14:30 开始运行这个任务进程，其运行时间为 3 小时，现求这个任务进程的响应比为（）。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E4%B8%80%E4%B8%AA%E7%89%A9%E6%B5%81%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%B8%AD%EF%BC%8C%E9%9C%80%E8%A6%81%E4%B8%80%E4%B8%AA%E5%8A%9F%E8%83%BD%E6%9D%A5%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%B4%A7%E7%89%A9%E8%BF%90%E8%BE%93%E8%AF%B7%E6%B1%82%EF%BC%8C%E5%A6%82%E9%99%86%E8%BF%90%E3%80%81%E7%A9%BA%E8%BF%90%E6%88%96%E6%B5%B7%E8%BF%90%E3%80%82%E8%AF%A5%E7%B3%BB%E7%BB%9F%E5%BA%94%E8%83%BD%E5%A4%9F%E6%A0%B9%E6%8D%AE%E8%BF%90%E8%BE%93%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%B8%8D%E5%90%8C%E9%80%89%E6%8B%A9%E4%B8%8D%E5%90%8C%E7%9A%84%E5%A4%84%E7%90%86%E7%AD%96%E7%95%A5%E3%80%82%E5%93%AA%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%9C%80%E5%90%88%E9%80%82%EF%BC%88%EF%BC%89"><span class="nav-text">在一个物流管理系统中，需要一个功能来处理不同类型的货物运输请求，如陆运、空运或海运。该系统应能够根据运输类型的不同选择不同的处理策略。哪种设计模式最合适（）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F%EF%BC%88Factory-Method-Pattern%EF%BC%89"><span class="nav-text">工厂方法模式（Factory Method Pattern）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%EF%BC%88Strategy-Pattern%EF%BC%89"><span class="nav-text">策略模式（Strategy Pattern）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E5%85%B3%E9%94%AE%E7%A0%81%E5%BA%8F%E5%88%97-9-27-18-36-45-54-63-%E8%BF%9B%E8%A1%8C%E5%A0%86%E6%8E%92%E5%BA%8F%EF%BC%8C%E8%BE%93%E5%87%BA-2-%E4%B8%AA%E6%9C%80%E5%A4%A7%E5%85%B3%E9%94%AE%E7%A0%81%E5%90%8E%E7%9A%84%E5%89%A9%E4%BD%99%E5%A0%86%E6%98%AF%EF%BC%88%EF%BC%89"><span class="nav-text">对关键码序列{9, 27, 18, 36, 45, 54, 63}进行堆排序，输出 2 个最大关键码后的剩余堆是（）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%8B%E7%8E%B0%E5%9C%A8%EF%BC%8C%E5%A0%86%E4%B8%AD%E5%89%A9%E4%B8%8B%E7%9A%84%E5%85%83%E7%B4%A0%E4%B8%BA-45-36-18-9-27-%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%AD%94%E6%A1%88-D%EF%BC%9A-45-36-18-9-27-%E3%80%82%E2%80%8B"><span class="nav-text">​现在，堆中剩下的元素为{45, 36, 18, 9, 27}，也就是答案 D：{45, 36, 18, 9, 27}。​  </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E4%B8%8B%E5%93%AA%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E5%9C%A8%E4%B8%8D%E6%94%B9%E5%8F%98%E5%8E%9F%E5%A7%8B%E7%B1%BB%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E6%89%A9%E5%B1%95%E5%85%B6%E5%8A%9F%E8%83%BD%EF%BC%88%EF%BC%89"><span class="nav-text">以下哪个设计模式主要用于在不改变原始类的情况下扩展其功能（）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%93%88%E5%B8%8C%E8%A1%A8%E9%95%BF-m-10%EF%BC%8C%E6%9C%89%E4%B8%80%E5%A0%86%E6%95%B0%E6%8D%AE%E5%85%83%E7%B4%A0%EF%BC%8C%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E5%88%AB%E4%B8%BA-14-25-36-47-58-69-80-%EF%BC%8C%E6%8C%89%E7%85%A7%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E4%B8%BA-H-key-key-10%EF%BC%8C%E5%A6%82%E7%94%A8%E7%BA%BF%E6%80%A7%E6%8E%A2%E6%B5%8B%E6%B3%95%E5%A4%84%E7%90%86%E5%86%B2%E7%AA%81%EF%BC%8C%E6%B1%82%E5%85%B3%E9%94%AE%E5%AD%97-90-%E5%A1%AB%E8%A3%85%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8%E4%BD%8D%E7%BD%AE%E7%9A%84%E5%BA%8F%E5%8F%B7%E6%98%AF%EF%BC%88%EF%BC%89%E3%80%82"><span class="nav-text">设哈希表长 m&#x3D;10，有一堆数据元素，关键字分别为{14, 25, 36, 47, 58, 69, 80}，按照哈希函数为 H(key)&#x3D;key%10，如用线性探测法处理冲突，求关键字 90 填装的哈希表位置的序号是（）。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%9B%AE%E6%A0%87%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E9%98%B6%E6%AE%B5%EF%BC%8C%E4%BB%A5%E4%B8%8B%E5%93%AA%E4%B8%AA%E4%B8%8D%E6%98%AF%E4%BC%98%E5%8C%96%E7%9A%84%E4%B8%BB%E8%A6%81%E7%9B%AE%E6%A0%87%E6%98%AF%EF%BC%88%EF%BC%89"><span class="nav-text">在编译器的目标代码生成阶段，以下哪个不是优化的主要目标是（）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%EF%BC%88Lexical-Analysis%EF%BC%89"><span class="nav-text">1. 词法分析（Lexical Analysis）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%EF%BC%88Syntax-Analysis%EF%BC%89"><span class="nav-text">2. 语法分析（Syntax Analysis）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%EF%BC%88Semantic-Analysis%EF%BC%89"><span class="nav-text">3. 语义分析（Semantic Analysis）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%EF%BC%88Intermediate-Code-Generation%EF%BC%89"><span class="nav-text">4. 中间代码生成（Intermediate Code Generation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%EF%BC%88Intermediate-Code-Optimization%EF%BC%89"><span class="nav-text">5. 中间代码优化（Intermediate Code Optimization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%9B%AE%E6%A0%87%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%EF%BC%88Target-Code-Generation%EF%BC%89"><span class="nav-text">6. 目标代码生成（Target Code Generation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E7%9B%AE%E6%A0%87%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%EF%BC%88Target-Code-Optimization%EF%BC%89"><span class="nav-text">7. 目标代码优化（Target Code Optimization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E6%B1%87%E7%BC%96%E5%92%8C%E9%93%BE%E6%8E%A5%EF%BC%88Assembly-and-Linking%EF%BC%89"><span class="nav-text">8. 汇编和链接（Assembly and Linking）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%8A%A0%E8%BD%BD%E5%92%8C%E6%89%A7%E8%A1%8C%EF%BC%88Loading-and-Execution%EF%BC%89"><span class="nav-text">9. 加载和执行（Loading and Execution）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E7%94%A8-KMP-%E7%AE%97%E6%B3%95%E8%BF%9B%E8%A1%8C%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D%E6%97%B6%EF%BC%8C%E8%8B%A5%E6%98%AF%E6%8C%87%E5%90%91%E6%A8%A1%E5%BC%8F%E4%B8%B2%E2%80%9Dmnopmn%E2%80%9D%E7%9A%84%E6%8C%87%E9%92%88%E5%9C%A8%E6%8C%87%E5%88%B0%E7%AC%AC-5-%E4%B8%AA%E5%AD%97%E7%AC%A6%E2%80%9Dm%E2%80%9D%E6%97%B6%E5%8F%91%E7%94%9F%E5%A4%B1%E9%85%8D%EF%BC%8C%E5%88%99%E6%8C%87%E9%92%88%E5%9B%9E%E6%BA%AF%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%B8%BA%EF%BC%88%EF%BC%89%E3%80%82%E6%B3%A8%EF%BC%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E5%AD%97%E7%AC%A6%E4%BB%8E%E5%AD%97%E7%AC%A6%E6%95%B0%E6%8D%AE-1-%E5%8F%B7%E4%BD%8D%E5%BC%80%E5%A7%8B%E5%AD%98%E5%82%A8%EF%BC%8C%E4%B9%9F%E5%8D%B3%E4%BB%8E-1-%E5%BC%80%E5%A7%8B%E7%BC%96%E5%8F%B7%E3%80%82"><span class="nav-text">在用 KMP 算法进行模式匹配时，若是指向模式串”mnopmn”的指针在指到第 5 个字符”m”时发生失配，则指针回溯的位置为（）。注：字符串中字符从字符数据 1 号位开始存储，也即从 1 开始编号。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F%E4%B8%B2-%E2%80%9Cmnopmn%E2%80%9D-%E7%9A%84%E5%89%8D%E7%BC%80%E5%87%BD%E6%95%B0%E8%A1%A8%E8%AE%A1%E7%AE%97%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-text">模式串 “mnopmn” 的前缀函数表计算过程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E5%A4%B1%E9%85%8D%E6%83%85%E5%86%B5%EF%BC%9A"><span class="nav-text">分析失配情况：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%9C%80%E8%A6%81%E7%BB%8F%E8%BF%87%E4%B8%80%E7%B3%BB%E5%88%97%E6%AD%A5%E9%AA%A4%E7%BC%96%E8%AF%91%E6%88%90%E6%9C%BA%E5%99%A8%E6%8C%87%E4%BB%A4%EF%BC%8C%E6%A0%B9%E6%8D%AE%E5%AE%8C%E6%88%90%E4%BB%BB%E5%8A%A1%E4%B8%8D%E5%90%8C%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%B0%86%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86%E5%88%92%E5%88%86%E4%B8%BA%E5%89%8D%E7%AB%AF%E4%B8%8E%E5%90%8E%E7%AB%AF%E3%80%82%E4%B8%8B%E5%88%97%E9%80%89%E9%A1%B9%E6%98%AF%E7%BC%96%E8%AF%91%E5%99%A8%E5%89%8D%E7%AB%AF%E5%9C%A8%E7%BC%96%E8%AF%91%E6%BA%90%E7%A8%8B%E5%BA%8F%E6%97%B6%E7%BC%96%E8%AF%91%E7%9A%84%E9%A1%BA%E5%BA%8F%EF%BC%8C%E6%AD%A3%E7%A1%AE%E7%9A%84%E6%98%AF%EF%BC%88%EF%BC%89"><span class="nav-text">代码需要经过一系列步骤编译成机器指令，根据完成任务不同，可以将编译器的组成部分划分为前端与后端。下列选项是编译器前端在编译源程序时编译的顺序，正确的是（）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E6%94%BE%E5%8C%BA%E5%AD%98%E6%94%BE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%92%8C%E5%AF%B9%E5%BA%94%E7%9A%84%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95%E6%98%AF%E4%B8%8D%E5%90%8C%E7%9A%84%E3%80%82%E5%AF%B9%E4%BA%8E%E6%9F%90%E4%BA%9B%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%9C%A8%E7%BC%96%E8%AF%91%E6%9C%9F%E9%97%B4%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%A1%AE%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%92%8C%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%95%B0%E7%9B%AE%EF%BC%8C%E5%9C%A8%E7%BC%96%E8%AF%91%E6%9C%9F%E9%97%B4%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1%E5%88%86%E9%85%8D%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%EF%BC%8C%E8%BF%99%E4%BA%9B%E6%95%B0%E6%8D%AE%E5%AF%B9%E5%BA%94%E7%9A%84%E5%AD%98%E5%82%A8%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%E6%98%AF%EF%BC%88%EF%BC%89"><span class="nav-text">不同的数据存放区存放的数据和对应的管理方法是不同的。对于某些数据，如果在编译期间就可以确定数据对象的大小和数据对象的数目，在编译期间为数据对象分配存储空间，这些数据对应的存储分配策略是（）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E5%88%97%E9%80%89%E9%A1%B9%E4%B8%AD%E5%8F%AA%E8%A6%81%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA%E8%A1%A8%E4%B8%AD%E5%AD%98%E5%9C%A8%E5%8C%B9%E9%85%8D%EF%BC%8C%E5%88%99%E8%BF%94%E5%9B%9E%E8%A1%8C%E7%9A%84-SQL-JOIN-%E7%9A%84-%E7%B1%BB%E5%9E%8B%E6%98%AF%EF%BC%88%EF%BC%89%E3%80%82"><span class="nav-text">下列选项中只要其中一个表中存在匹配，则返回行的 SQL JOIN 的 类型是（）。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5%E6%9F%90%E4%B8%AA-Mysql-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%87%8C%E9%9D%A2%E6%9C%89%E4%B8%80%E4%B8%AA%E5%B8%96%E5%AD%90%E8%A1%A8%EF%BC%8C%E8%BF%99%E4%B8%AA%E8%A1%A8%E4%BC%9A%E5%AD%98%E5%82%A8%E5%B8%96%E5%AD%90%E7%9A%84%E5%90%84%E7%A7%8D%E4%BF%A1%E6%81%AF%EF%BC%8C%E8%AF%B7%E9%97%AE%E4%BB%A5%E4%B8%8B%E5%93%AA%E7%A7%8D%E6%83%85%E5%86%B5%E5%AF%B9%E5%BA%94%E7%9A%84%E5%88%97%E4%B8%8D%E9%80%82%E5%90%88%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">已知某个 Mysql 数据库里面有一个帖子表，这个表会存储帖子的各种信息，请问以下哪种情况对应的列不适合建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="nav-text">原因：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%80%89%E9%A1%B9%EF%BC%9A"><span class="nav-text">其他选项：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-text">什么情况下建立索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%A2%91%E7%B9%81%E7%94%A8%E4%BA%8E%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%EF%BC%88WHERE-%E5%AD%90%E5%8F%A5%EF%BC%89%E4%B8%AD%E7%9A%84%E5%88%97"><span class="nav-text">1. 频繁用于查询条件（WHERE 子句）中的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BB%8F%E5%B8%B8%E7%94%A8%E4%BA%8E-JOIN-%E6%93%8D%E4%BD%9C%E7%9A%84%E5%88%97"><span class="nav-text">2. 经常用于 JOIN 操作的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%94%A8%E4%BA%8E%E6%8E%92%E5%BA%8F%EF%BC%88ORDER-BY%EF%BC%89%E6%88%96%E5%88%86%E7%BB%84%EF%BC%88GROUP-BY%EF%BC%89%E7%9A%84%E5%88%97"><span class="nav-text">3. 用于排序（ORDER BY）或分组（GROUP BY）的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%94%AF%E4%B8%80%E6%80%A7%E7%BA%A6%E6%9D%9F%E7%9A%84%E5%88%97"><span class="nav-text">4. 唯一性约束的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%BB%8F%E5%B8%B8%E7%94%A8%E4%BA%8E%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%E7%9A%84%E5%88%97"><span class="nav-text">5. 经常用于范围查询的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%94%A8%E4%BA%8E%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%97"><span class="nav-text">6. 用于覆盖索引的列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E9%AB%98%E5%9F%BA%E6%95%B0%EF%BC%88High-Cardinality%EF%BC%89%E5%88%97"><span class="nav-text">7. 高基数（High Cardinality）列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%9A"><span class="nav-text">需要注意的情况：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E5%88%97%E5%93%AA%E4%BA%9B%E8%BF%90%E7%AE%97%E4%B8%8D%E4%BC%9A%E6%8E%92%E5%BA%8F%EF%BC%88%EF%BC%89"><span class="nav-text">下列哪些运算不会排序（）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="nav-text">解释：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E9%A2%98-1"><span class="nav-text">编程题 1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="nav-text">具体步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="nav-text">代码解释：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%9A"><span class="nav-text">输入输出：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9A"><span class="nav-text">复杂度：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E9%A2%98-2"><span class="nav-text">编程题 2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="nav-text">解决思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81-1"><span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A"><span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-text">复杂度分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BC%98%E5%8C%96%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%9A"><span class="nav-text">1. 优化输入输出：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="nav-text">优化后的代码：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%87%8F%E5%B0%91%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%EF%BC%9A"><span class="nav-text">2. 减少内存分配：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B9%B6%E8%A1%8C%E5%8C%96%E8%AE%A1%E7%AE%97%EF%BC%9A"><span class="nav-text">3. 并行化计算：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%81%BF%E5%85%8D%E5%A4%9A%E6%AC%A1%E6%8B%86%E5%88%86%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%9A"><span class="nav-text">4. 避免多次拆分字符串：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E9%A2%98-3"><span class="nav-text">编程题 3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0%EF%BC%9A"><span class="nav-text">代码功能描述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90%EF%BC%9A"><span class="nav-text">复杂度分析：</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 356 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>

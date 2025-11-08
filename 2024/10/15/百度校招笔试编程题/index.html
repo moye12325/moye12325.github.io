@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://moye12325.github.io/2024/10/15/百度校招笔试编程题/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="百度校招笔试编程题">
+<meta property="og:url" content="https://moye12325.github.io/2024/10/15/%E7%99%BE%E5%BA%A6%E6%A0%A1%E6%8B%9B%E7%AC%94%E8%AF%95%E7%BC%96%E7%A8%8B%E9%A2%98/index.html">
+<meta property="og:site_name" content="码农修行手册">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moye12325.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2024-10-15T03:34:11.000Z">
+<meta property="article:modified_time" content="2025-11-08T09:08:59.613Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moye12325.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            百度校招笔试编程题 | 码农修行手册
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"moye12325.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                码农修行手册
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">18</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">356</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">百度校招笔试编程题</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv7</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-10-15 11:34:11</span>
+        <span class="mobile">2024-10-15 11:34:11</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-11-08 17:08:59</span>
+            <span class="mobile">2025-11-08 17:08:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AC%94%E8%AF%95%E8%AE%B0%E5%BD%95/">笔试记录</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="题-1"><a href="#题-1" class="headerlink" title="题 1"></a>题 1</h1><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>整数 1 ~ n，计算选择 k 个数能够获得多少积分。<br>计分规则：初始积分为 0，对于被选取的整数 i，如果 i + 1 没选取，则积分加 1。</p>
+<h4 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述"></a>输入描述</h4><p>每个测试文件中包含多组测试数据。</p>
+<ul>
+<li>第一行输入一个整数 T (1 ≤ T ≤ 10^5) 代表数据组数。</li>
+<li>每组测试数据描述如下：<ul>
+<li>在一行上输入两个整数 n, k (1 ≤ n, k ≤ 10^12; k &lt; n)，含义和题面描述一致。</li>
+</ul>
+</li>
+</ul>
+<h4 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述"></a>输出描述</h4><p>对于每一组测试数据，在一行上输出一个整数，代表最多能够获得的积分。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><h5 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2</span><br><span class="line">1 1</span><br><span class="line">4 2</span><br></pre></td></tr></table></figure></div>
+
+<h5 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ul>
+<li>第一个样例选择 1，积分为 1。</li>
+<li>第二个样例一种可行方案为 1, 3，积分为 2。</li>
+</ul>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>在这道题中，需要从整数 1 到 ( n ) 中选择 ( k ) 个数，使得按照题目给定的计分规则，能够获得最大的积分。计分规则如下：</p>
+<ul>
+<li>初始积分为 0。</li>
+<li>对于被选取的整数 ( i )，如果 ( i + 1 ) 未被选取，则积分加 1。</li>
+</ul>
+<p>目标是<strong>最大化积分</strong>。</p>
+<h4 id="目标分析"><a href="#目标分析" class="headerlink" title="目标分析"></a>目标分析</h4><p>为了最大化积分：</p>
+<ol>
+<li><strong>尽可能多地让被选取的整数 ( i ) 满足 ( i + 1 ) 未被选取</strong>，因为这样每个这样的 ( i ) 都能为积分加 1。</li>
+<li><strong>在选择 ( k ) 个数的前提下，最大化满足上述条件的整数数量</strong>。</li>
+</ol>
+<h4 id="关键观察"><a href="#关键观察" class="headerlink" title="关键观察"></a>关键观察</h4><ul>
+<li><strong>每一个被选取的数 ( i )，如果 ( i + 1 ) 未被选取，就能为积分加 1</strong>。</li>
+<li><strong>因此，我们需要尽量避免选择连续的数</strong>，因为如果 ( i ) 和 ( i + 1 ) 都被选取，( i ) 就不能为积分贡献分数。</li>
+</ul>
+<p>但是，由于我们必须选取 ( k ) 个数，当 ( k ) 较大时，我们无法避免选择相邻的数。</p>
+<h4 id="最大积分的计算"><a href="#最大积分的计算" class="headerlink" title="最大积分的计算"></a>最大积分的计算</h4><p>为了计算最大积分，需要考虑两种情况：</p>
+<ol>
+<li><p><strong>当 ( k \leq n - k + 1 ) 时</strong>：</p>
+<ul>
+<li>可以安排选择的 ( k ) 个数，使得它们之间尽可能不相邻。</li>
+<li>例如，选择位置为奇数的数：1, 3, 5, …</li>
+<li>此时，<strong>最大积分为 ( k )</strong>，因为每个被选取的数后面都有一个未被选取的数（除非是最后一个数）。</li>
+</ul>
+</li>
+<li><p><strong>当 ( k &gt; n - k + 1 ) 时</strong>：</p>
+<ul>
+<li>无法避免选择相邻的数，因为需要选取的数太多了。</li>
+<li>此时，能够满足 ( i + 1 ) 未被选取的 ( i ) 的数量受到限制。</li>
+<li>实际上，<strong>最大积分为 ( n - k + 1 )</strong>。<ul>
+<li>这是因为在最优情况下，可以安排使得相邻的被选取数尽可能少。</li>
+<li>但是由于总共只有 ( n - k ) 个未被选取的数，因此最多只能有 ( n - k + 1 ) 个位置满足 ( i + 1 ) 未被选取。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h4><p>综上所述，<strong>最大积分可以表示为</strong>：</p>
+<p>$$<br>\text{最大积分} &#x3D; \min(k, n - k + 1)<br>$$</p>
+<ul>
+<li>当 $k \leq n - k + 1$ 时，最大积分为 $k$。</li>
+<li>当 $k &gt; n - k + 1$ 时，最大积分为 $n - k + 1$。</li>
+</ul>
+<h4 id="示例验证"><a href="#示例验证" class="headerlink" title="示例验证"></a>示例验证</h4><p><strong>示例 1：</strong></p>
+<ul>
+<li>输入：$n &#x3D; 4, k &#x3D; 2$</li>
+<li>计算：$\min(2, 4 - 2 + 1) &#x3D; \min(2, 3) &#x3D; 2$</li>
+<li>最大积分为 2。</li>
+<li>选取的数可以是 1 和 3，积分为 2。</li>
+</ul>
+<p><strong>示例 2：</strong></p>
+<ul>
+<li>输入：$n &#x3D; 5, k &#x3D; 4$</li>
+<li>计算：$\min(4, 5 - 4 + 1) &#x3D; \min(4, 2) &#x3D; 2$</li>
+<li>最大积分为 2。</li>
+<li>无论如何安排，由于需要选取 4 个数，只能有最多 2 个数满足 $i + 1$ 未被选取。</li>
+</ul>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">maxScore</span><span class="params">(<span class="type">long</span> n, <span class="type">long</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Math.min(k, n - k + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));</span><br><span class="line">        <span class="type">int</span> <span class="variable">T</span> <span class="operator">=</span> Integer.parseInt(br.readLine().trim());</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">while</span> (T-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            String[] parts = br.readLine().trim().split(<span class="string">&quot; &quot;</span>);</span><br><span class="line">            <span class="type">long</span> <span class="variable">n</span> <span class="operator">=</span> Long.parseLong(parts[<span class="number">0</span>]);</span><br><span class="line">            <span class="type">long</span> <span class="variable">k</span> <span class="operator">=</span> Long.parseLong(parts[<span class="number">1</span>]);</span><br><span class="line">            <span class="type">long</span> <span class="variable">res</span> <span class="operator">=</span> maxScore(n, k);</span><br><span class="line">            sb.append(res).append(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(sb.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="深入理解"><a href="#深入理解" class="headerlink" title="深入理解"></a>深入理解</h3><h4 id="为什么最大积分是-min-k-n-k-1-？"><a href="#为什么最大积分是-min-k-n-k-1-？" class="headerlink" title="为什么最大积分是 $ \min(k, n - k + 1) $？"></a>为什么最大积分是 $ \min(k, n - k + 1) $？</h4><ul>
+<li><p><strong>未被选取的数的数量为 $ n - k $</strong>。</p>
+</li>
+<li><p><strong>在最优情况下，被选取的数与未被选取的数交替排列</strong>，以最大化满足 $ i + 1 $ 未被选取的条件。</p>
+</li>
+<li><p><strong>总共有 $ n - k + 1 $ 个位置可以放置满足条件的被选取数</strong>。</p>
+<ul>
+<li>因为每两个未被选取的数之间可以放置一个被选取的数。</li>
+<li>再加上开头可以放置一个被选取的数。</li>
+</ul>
+</li>
+<li><p><strong>当 $ k \leq n - k + 1 $ 时</strong>，有足够的位置放置所有的 $ k $ 个被选取的数，使其满足 $ i + 1 $ 未被选取。</p>
+</li>
+<li><p><strong>当 $ k &gt; n - k + 1 $ 时</strong>，无法避免有一些被选取的数后面紧跟着另一个被选取的数（即 $ i + 1 $ 被选取了），因此这些 $ i $ 无法为积分贡献分数。</p>
+</li>
+</ul>
+<h4 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h4><p><strong>例子 1：$ n &#x3D; 7, k &#x3D; 3 $</strong></p>
+<ul>
+<li>$ n - k + 1 &#x3D; 7 - 3 + 1 &#x3D; 5 $</li>
+<li>最大积分为 $ \min(3, 5) &#x3D; 3 $</li>
+<li>我们可以选择 1, 3, 5，积分为 3。</li>
+</ul>
+<p><strong>例子 2：$ n &#x3D; 7, k &#x3D; 5 $</strong></p>
+<ul>
+<li>$ n - k + 1 &#x3D; 7 - 5 + 1 &#x3D; 3 $</li>
+<li>最大积分为 $ \min(5, 3) &#x3D; 3 $</li>
+<li>无法避免有相邻的被选取数。</li>
+<li>最大积分为 3。</li>
+</ul>
+<hr>
+<h2 id="题-2"><a href="#题-2" class="headerlink" title="题 2"></a>题 2</h2><h3 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h3><p>长度为 n，只包含小写字母的字符串 $S$，下标从 1 开始。进行 n 次操作，第 i 次操作将 $S_i$ 移动到字符串末尾。输出 n 次操作后的字符串。</p>
+<p>例如字符串 <code>abqde</code>：</p>
+<ul>
+<li>第一步 <code>&quot;bqdea&quot;</code></li>
+<li>第二步 <code>&quot;bdeaq&quot;</code></li>
+<li>第三步 <code>&quot;bdaqe&quot;</code></li>
+<li>第四步 <code>&quot;bdaqe&quot;</code></li>
+<li>第五步 <code>&quot;bdaeq&quot;</code></li>
+</ul>
+<h3 id="输入描述-1"><a href="#输入描述-1" class="headerlink" title="输入描述"></a>输入描述</h3><p>在一行上输入一个由小写字母构成的字符串，长度记为 $n$ $(1 \le n \le 10^6)$。</p>
+<h3 id="输出描述-1"><a href="#输出描述-1" class="headerlink" title="输出描述"></a>输出描述</h3><p>在一行上输出一个字符串，表示操作后的字符串。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例 1"></a>示例 1</h4><h5 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paectc</span><br></pre></td></tr></table></figure></div>
+<h5 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">accept</span><br></pre></td></tr></table></figure></div>
+
+<h5 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h5><ul>
+<li>第一步：<code>aectcp</code></li>
+<li>第二步：<code>actcpe</code></li>
+<li>第三步：<code>accpet</code></li>
+<li>第四步：<code>acceptp</code></li>
+<li>第五步：<code>accept</code></li>
+<li>第六步：<code>accept</code></li>
+</ul>
+<h4 id="示例-2"><a href="#示例-2" class="headerlink" title="示例 2"></a>示例 2</h4><h5 id="输入-2"><a href="#输入-2" class="headerlink" title="输入"></a>输入</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abqde</span><br></pre></td></tr></table></figure></div>
+<h5 id="输出-2"><a href="#输出-2" class="headerlink" title="输出"></a>输出</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bdaeq</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>要高效地解决这个问题，我们需要一种能够在 $ O(n \log n) $ 时间内模拟操作的算法，因为字符串长度 $ n \leq 10^6 $。关键的观察是，在每一步操作 $ i $ 中，我们将当前字符串中第 $ i $ 个字符移动到字符串末尾。这意味着字符的位置在每次操作后都会改变。</p>
+<p>使用随机平衡树（Treap），在 $ O(\log n) $ 时间内执行拆分和合并操作。这种数据结构非常适合需要高效移动元素的序列。</p>
+<p><strong>算法思路：</strong></p>
+<ol>
+<li><p><strong>初始化 Treap：</strong> 将字符串的索引（从 0 到 $ n-1 $）插入到 Treap 中，表示字符的位置。</p>
+</li>
+<li><p><strong>执行操作：</strong></p>
+<ul>
+<li>对于每次操作 $ i $：<ul>
+<li><strong>拆分</strong> Treap，将其在位置 $ i-1 $ 和 $ i $ 处分为三部分：<ul>
+<li><strong>左部分（Left）：</strong> 位置在 $ i-1 $ 之前的节点。</li>
+<li><strong>中间部分（Middle）：</strong> 第 $ i $ 个位置的节点（需要移动的字符）。</li>
+<li><strong>右部分（RightRest）：</strong> 位置在 $ i $ 之后的节点。</li>
+</ul>
+</li>
+<li><strong>合并</strong>左部分和右部分，形成新的 Treap，不包含第 $ i $ 个字符。</li>
+<li><strong>将中间部分</strong>附加到新的 Treap 末尾。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>构建最终字符串：</strong></p>
+<ul>
+<li>在所有操作完成后，对 Treap 进行中序遍历，获取字符索引的最终序列。</li>
+<li>将这些索引映射回原字符串中的字符，形成最终的字符串。</li>
+</ul>
+</li>
+</ol>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">TreapNode</span> &#123;</span><br><span class="line">        <span class="type">int</span> index;</span><br><span class="line">        <span class="type">int</span> priority;</span><br><span class="line">        <span class="type">int</span> size;</span><br><span class="line">        TreapNode left, right;</span><br><span class="line"></span><br><span class="line">        TreapNode(<span class="type">int</span> index) &#123;</span><br><span class="line">            <span class="built_in">this</span>.index = index;</span><br><span class="line">            <span class="built_in">this</span>.priority = rand.nextInt();</span><br><span class="line">            <span class="built_in">this</span>.size = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="type">Random</span> <span class="variable">rand</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">    <span class="keyword">static</span> TreapNode root;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">update</span><span class="params">(TreapNode node)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node != <span class="literal">null</span>) &#123;</span><br><span class="line">            node.size = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (node.left != <span class="literal">null</span>) node.size += node.left.size;</span><br><span class="line">            <span class="keyword">if</span> (node.right != <span class="literal">null</span>) node.size += node.right.size;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> TreapNode[] split(TreapNode node, <span class="type">int</span> k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TreapNode</span>[]&#123;<span class="literal">null</span>, <span class="literal">null</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">leftSize</span> <span class="operator">=</span> (node.left != <span class="literal">null</span>) ? node.left.size : <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (k &lt;= leftSize) &#123;</span><br><span class="line">            TreapNode[] res = split(node.left, k);</span><br><span class="line">            node.left = res[<span class="number">1</span>];</span><br><span class="line">            update(node);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TreapNode</span>[]&#123;res[<span class="number">0</span>], node&#125;;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            TreapNode[] res = split(node.right, k - leftSize - <span class="number">1</span>);</span><br><span class="line">            node.right = res[<span class="number">0</span>];</span><br><span class="line">            update(node);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TreapNode</span>[]&#123;node, res[<span class="number">1</span>]&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> TreapNode <span class="title function_">merge</span><span class="params">(TreapNode left, TreapNode right)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (left == <span class="literal">null</span> || right == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">return</span> (left != <span class="literal">null</span>) ? left : right;</span><br><span class="line">        <span class="keyword">if</span> (left.priority &gt; right.priority) &#123;</span><br><span class="line">            left.right = merge(left.right, right);</span><br><span class="line">            update(left);</span><br><span class="line">            <span class="keyword">return</span> left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right.left = merge(left, right.left);</span><br><span class="line">            update(right);</span><br><span class="line">            <span class="keyword">return</span> right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">inOrderTraversal</span><span class="params">(TreapNode node, <span class="type">int</span>[] result, <span class="type">int</span>[] idx)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node != <span class="literal">null</span>) &#123;</span><br><span class="line">            inOrderTraversal(node.left, result, idx);</span><br><span class="line">            result[idx[<span class="number">0</span>]++] = node.index;</span><br><span class="line">            inOrderTraversal(node.right, result, idx);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));</span><br><span class="line">        <span class="type">char</span>[] S = br.readLine().toCharArray();</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> S.length;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化 Treap，插入索引 0 到 n-1</span></span><br><span class="line">        root = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            root = merge(root, <span class="keyword">new</span> <span class="title class_">TreapNode</span>(i));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 执行 n 次操作</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="comment">// 在位置 i 处拆分</span></span><br><span class="line">            TreapNode[] split1 = split(root, i);</span><br><span class="line">            <span class="type">TreapNode</span> <span class="variable">Left</span> <span class="operator">=</span> split1[<span class="number">0</span>];</span><br><span class="line">            <span class="type">TreapNode</span> <span class="variable">Right</span> <span class="operator">=</span> split1[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 拆分 Right，得到 Middle 和 RightRest</span></span><br><span class="line">            TreapNode[] split2 = split(Right, <span class="number">1</span>);</span><br><span class="line">            <span class="type">TreapNode</span> <span class="variable">Middle</span> <span class="operator">=</span> split2[<span class="number">0</span>];</span><br><span class="line">            <span class="type">TreapNode</span> <span class="variable">RightRest</span> <span class="operator">=</span> split2[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 合并 Left 和 RightRest</span></span><br><span class="line">            <span class="type">TreapNode</span> <span class="variable">merged</span> <span class="operator">=</span> merge(Left, RightRest);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 将 Middle 附加到末尾</span></span><br><span class="line">            root = merge(merged, Middle);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 收集结果</span></span><br><span class="line">        <span class="type">int</span>[] resultIndices = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        inOrderTraversal(root, resultIndices, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0</span>&#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 构建最终字符串</span></span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> idx : resultIndices) &#123;</span><br><span class="line">            sb.append(S[idx]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(sb.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>代码说明：</strong></p>
+<ul>
+<li><p><strong>TreapNode 类：</strong> 表示 Treap 中的节点，包含索引、优先级（用于平衡）、子树大小，以及左、右子节点。</p>
+</li>
+<li><p><strong>update() 方法：</strong> 更新节点的子树大小。</p>
+</li>
+<li><p><strong>split() 方法：</strong> 根据给定位置 ( k )，将 Treap 拆分为两个 Treap。</p>
+</li>
+<li><p><strong>merge() 方法：</strong> 合并两个 Treap，保持 Treap 的性质。</p>
+</li>
+<li><p><strong>inOrderTraversal() 方法：</strong> 中序遍历 Treap，收集节点的索引。</p>
+</li>
+<li><p><strong>主逻辑：</strong></p>
+<ul>
+<li>读取输入字符串，初始化 Treap。</li>
+<li>执行 ( n ) 次操作，每次根据算法更新 Treap。</li>
+<li>在所有操作完成后，对 Treap 进行中序遍历，获取最终的字符索引序列。</li>
+<li>根据索引序列构建并输出最终的字符串。</li>
+</ul>
+</li>
+</ul>
+<h2 id="题-3"><a href="#题-3" class="headerlink" title="题 3"></a>题 3</h2><h3 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h3><p>Ame9 最近沉迷麻将。Ame9 喜欢万子清一色（只包含万子牌的胡牌），他决定只胡万子清一色。</p>
+<p>普通的麻将游戏中，万子牌有 1<del>9 种，每种牌有 4 张，我们用数字 1</del>9 表示，1 表示一万，2 表示二万，以此类推。而本题中一共有 n 种万字牌，使用数字 1~n 表示。</p>
+<p>胡牌，是麻将中的胜利条件。要达成这个条件，手中 14 张牌必须组成四个面子 + 一对对子（不考虑七对子）。</p>
+<p>对子即两张相同的牌。</p>
+<p>面子又分为顺子和刻子两种：</p>
+<ul>
+<li><strong>顺子</strong>：三张连续的牌，如 123 或 567</li>
+<li><strong>刻子</strong>：三张相同的牌，如 333 或 999</li>
+</ul>
+<p>无论是顺子还是刻子，均可以构成胡牌所需的面子。</p>
+<p>举例：</p>
+<ul>
+<li><code>112233355577999</code> 是胡牌</li>
+<li><code>112233344467899</code> 是胡牌</li>
+<li><code>112233344467999</code> 不是胡牌</li>
+</ul>
+<p>现在给出一个正整数 n (1 ≤ n ≤ 13)，假设 Ame9 只能使用 1 至 n 之间的万子牌胡牌，请问他有几种不同的胡牌牌型？两种牌型要是不同的，当且仅当存在一种牌型中的牌和另一种牌型中的枚数不同。</p>
+<h3 id="输入描述-2"><a href="#输入描述-2" class="headerlink" title="输入描述"></a>输入描述</h3><p>一行一个正整数 $n$ $(1 \le n \le 13)$。</p>
+<h3 id="输出描述-2"><a href="#输出描述-2" class="headerlink" title="输出描述"></a>输出描述</h3><p>一行一个整数，代表胡牌牌型的种数。</p>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><h4 id="示例-1-1"><a href="#示例-1-1" class="headerlink" title="示例 1"></a>示例 1</h4><h5 id="输入-3"><a href="#输入-3" class="headerlink" title="输入"></a>输入</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1</span><br></pre></td></tr></table></figure></div>
+<h5 id="输出-3"><a href="#输出-3" class="headerlink" title="输出"></a>输出</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0</span><br></pre></td></tr></table></figure></div>
+<h5 id="说明-2"><a href="#说明-2" class="headerlink" title="说明"></a>说明</h5><p>4 张一万凑不齐 14 张牌，当然没有胡牌牌型。</p>
+<h4 id="示例-2-1"><a href="#示例-2-1" class="headerlink" title="示例 2"></a>示例 2</h4><h5 id="输入-4"><a href="#输入-4" class="headerlink" title="输入"></a>输入</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure></div>
+<h5 id="输出-4"><a href="#输出-4" class="headerlink" title="输出"></a>输出</h5><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10</span><br></pre></td></tr></table></figure></div>
+<h5 id="说明-3"><a href="#说明-3" class="headerlink" title="说明"></a>说明</h5><p>合适的胡牌牌型为：</p>
+<ul>
+<li>11222333434444</li>
+<li>11122233334444</li>
+<li>11112223334444</li>
+<li>等等…</li>
+</ul>
+<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>本题要求计算使用编号为 1 到 ( n ) 的万子牌（每种牌有 4 张）构成的胡牌牌型的总数。胡牌的条件是手中 14 张牌必须组成 <strong>4 个面子</strong>（顺子或刻子）加 <strong>1 对对子</strong>。</p>
+<p>由于每种牌的张数有限（最多 4 张），并且牌的编号范围为 1 到 ( n )，需要计算满足以下条件的不同牌型数量：</p>
+<ul>
+<li>每种牌的数量在 0 到 4 之间。</li>
+<li>所有牌的总张数为 14。</li>
+<li>牌可以分解为 4 个面子和 1 对对子。</li>
+</ul>
+<p><strong>总体思路：</strong></p>
+<ol>
+<li><p><strong>生成所有可能的牌数量组合：</strong></p>
+<ul>
+<li>每种牌的数量在 0 到 4 之间。</li>
+<li>所有牌的总张数为 14。</li>
+<li>通过递归的方法生成所有可能的牌数量组合（即每种牌使用了多少张）。</li>
+</ul>
+</li>
+<li><p><strong>对于每一种牌数量组合，尝试所有可能的对子：</strong></p>
+<ul>
+<li>对于每种牌，如果数量不少于 2，可以作为对子。</li>
+<li>减去对子所用的 2 张牌，剩余的牌需要能分解为 4 个面子。</li>
+</ul>
+</li>
+<li><p><strong>检查剩余的牌能否分解为 4 个面子：</strong></p>
+<ul>
+<li>使用递归和记忆化搜索（Memoization）的方法，检查剩余的牌是否能被分解为面子。</li>
+<li>面子可以是顺子（3 张连续的牌）或刻子（3 张相同的牌）。</li>
+</ul>
+</li>
+<li><p><strong>统计满足条件的牌型数量：</strong></p>
+<ul>
+<li>如果剩余的牌能被分解为 4 个面子，则该牌数量组合是一个有效的胡牌牌型。</li>
+<li>累计有效的牌型数量。</li>
+</ul>
+</li>
+</ol>
+<h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">static</span> Map&lt;String, Boolean&gt; memo = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">totalHands</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        n = sc.nextInt();</span><br><span class="line">        sc.close();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果总牌数不足 14 张，无法胡牌</span></span><br><span class="line">        <span class="keyword">if</span> (n * <span class="number">4</span> &lt; <span class="number">14</span>) &#123;</span><br><span class="line">            System.out.println(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span>[] counts = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>]; <span class="comment">// counts[1..n], counts[0] unused</span></span><br><span class="line">        generateCounts(<span class="number">1</span>, counts, <span class="number">0</span>);</span><br><span class="line">        System.out.println(totalHands);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成所有可能的牌数量组合</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">generateCounts</span><span class="params">(<span class="type">int</span> pos, <span class="type">int</span>[] counts, <span class="type">int</span> sum)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (pos &gt; n) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sum == <span class="number">14</span>) &#123;</span><br><span class="line">                checkHand(counts);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>; cnt &lt;= <span class="number">4</span>; cnt++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sum + cnt &gt; <span class="number">14</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            counts[pos] = cnt;</span><br><span class="line">            generateCounts(pos + <span class="number">1</span>, counts, sum + cnt);</span><br><span class="line">            counts[pos] = <span class="number">0</span>; <span class="comment">// 回溯</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查当前牌数量组合是否为有效的胡牌牌型</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">checkHand</span><span class="params">(<span class="type">int</span>[] counts)</span> &#123;</span><br><span class="line">        <span class="comment">// 尝试每一种可能的对子</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (counts[i] &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">                counts[i] -= <span class="number">2</span>; <span class="comment">// 减去对子</span></span><br><span class="line">                <span class="keyword">if</span> (canFormMelds(counts)) &#123;</span><br><span class="line">                    totalHands++;</span><br><span class="line">                    counts[i] += <span class="number">2</span>; <span class="comment">// 还原</span></span><br><span class="line">                    <span class="keyword">break</span>; <span class="comment">// 一个对子成功即可，不用继续尝试</span></span><br><span class="line">                &#125;</span><br><span class="line">                counts[i] += <span class="number">2</span>; <span class="comment">// 还原</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查剩余的牌能否分解为 4 个面子</span></span><br><span class="line">    <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">canFormMelds</span><span class="params">(<span class="type">int</span>[] counts)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> Arrays.toString(counts);</span><br><span class="line">        <span class="keyword">if</span> (memo.containsKey(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> memo.get(key);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查是否所有牌都用完了</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isEmpty</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (counts[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                isEmpty = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty) &#123;</span><br><span class="line">            memo.put(key, <span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 尝试组成刻子</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (counts[i] &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">                counts[i] -= <span class="number">3</span>;</span><br><span class="line">                <span class="keyword">if</span> (canFormMelds(counts)) &#123;</span><br><span class="line">                    counts[i] += <span class="number">3</span>;</span><br><span class="line">                    memo.put(key, <span class="literal">true</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                counts[i] += <span class="number">3</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 尝试组成顺子</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n - <span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (counts[i] &gt; <span class="number">0</span> &amp;&amp; counts[i + <span class="number">1</span>] &gt; <span class="number">0</span> &amp;&amp; counts[i + <span class="number">2</span>] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                counts[i]--;</span><br><span class="line">                counts[i + <span class="number">1</span>]--;</span><br><span class="line">                counts[i + <span class="number">2</span>]--;</span><br><span class="line">                <span class="keyword">if</span> (canFormMelds(counts)) &#123;</span><br><span class="line">                    counts[i]++;</span><br><span class="line">                    counts[i + <span class="number">1</span>]++;</span><br><span class="line">                    counts[i + <span class="number">2</span>]++;</span><br><span class="line">                    memo.put(key, <span class="literal">true</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                counts[i]++;</span><br><span class="line">                counts[i + <span class="number">1</span>]++;</span><br><span class="line">                counts[i + <span class="number">2</span>]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        memo.put(key, <span class="literal">false</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="代码说明"><a href="#代码说明" class="headerlink" title="代码说明"></a>代码说明</h3><ul>
+<li><p><strong><code>main</code> 方法：</strong></p>
+<ul>
+<li>读取输入的 ( n ) 值。</li>
+<li>判断总牌数是否足够组成 14 张牌，如果不足，直接输出 0。</li>
+<li>初始化牌数量数组 <code>counts</code>，长度为 ( n + 1 )，其中 <code>counts[0]</code> 不使用。</li>
+<li>调用 <code>generateCounts</code> 方法，开始生成所有可能的牌数量组合。</li>
+</ul>
+</li>
+<li><p><strong><code>generateCounts</code> 方法：</strong></p>
+<ul>
+<li>递归地生成每种牌可能的数量（0 到 4），并确保总牌数为 14。</li>
+<li>当遍历到第 ( n + 1 ) 种牌时，检查当前组合的总牌数是否为 14。<ul>
+<li>如果是，调用 <code>checkHand</code> 方法检查该组合是否为有效的胡牌牌型。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong><code>checkHand</code> 方法：</strong></p>
+<ul>
+<li>遍历每一种可能的对子（数量不少于 2 的牌）。</li>
+<li>减去对子所用的 2 张牌，调用 <code>canFormMelds</code> 方法检查剩余的牌能否分解为 4 个面子。</li>
+<li>如果可以，累加有效的牌型数量 <code>totalHands</code>，并跳出循环（因为只需要找到一个有效的组合即可）。</li>
+<li>无论结果如何，都要还原牌的数量（回溯）。</li>
+</ul>
+</li>
+<li><p><strong><code>canFormMelds</code> 方法：</strong></p>
+<ul>
+<li>使用字符串形式的 <code>counts</code> 作为键，在 <code>memo</code> 中进行记忆化搜索，避免重复计算。</li>
+<li>检查是否所有牌都用完了，如果是，返回 <code>true</code>。</li>
+<li>尝试组成刻子（3 张相同的牌）：<ul>
+<li>如果某种牌的数量不少于 3，尝试减去 3 张牌，并递归调用 <code>canFormMelds</code>。</li>
+</ul>
+</li>
+<li>尝试组成顺子（3 张连续的牌）：<ul>
+<li>从牌编号 1 遍历到 ( n - 2 )，如果连续的三种牌数量都不少于 1，尝试减去这些牌，并递归调用 <code>canFormMelds</code>。</li>
+</ul>
+</li>
+<li>如果上述尝试都失败，返回 <code>false</code>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><p><strong>记忆化搜索（Memoization）：</strong></p>
+<ul>
+<li>使用 <code>HashMap</code> 来保存已经计算过的牌数量组合的结果，避免重复计算，提高效率。</li>
+<li>由于每种牌的数量在 0 到 4 之间，牌的编号在 1 到 ( n ) 之间，<code>counts</code> 数组的可能取值有限。</li>
+</ul>
+</li>
+<li><p><strong>递归与回溯：</strong></p>
+<ul>
+<li>在尝试组成刻子或顺子时，需要修改 <code>counts</code> 数组，递归调用后要及时还原（回溯）。</li>
+</ul>
+</li>
+<li><p><strong>边界条件：</strong></p>
+<ul>
+<li>在组成顺子时，需要注意不能越界，因此循环只需到 ( n - 2 )。</li>
+</ul>
+</li>
+<li><p><strong>优化：</strong></p>
+<ul>
+<li>当找到一个有效的对子和面子组合后，可以立即计数并跳出对子尝试的循环，因为同一牌数量组合下，不需要重复尝试不同的对子。</li>
+</ul>
+</li>
+</ul>
+<h3 id="超时，通过-80-用例，优化"><a href="#超时，通过-80-用例，优化" class="headerlink" title="超时，通过 80% 用例，优化"></a>超时，通过 80% 用例，优化</h3><blockquote>
+<p>耗时主要是在记忆化搜索的过程中，减少哈希表的开销，提高效率。</p>
+</blockquote>
+<ul>
+<li><strong>使用整数编码代替字符串作为哈希表的键：</strong><ul>
+<li>由于每种牌的数量在 0 到 4 之间，我们可以将每种牌的数量看作 5 进制的位数，使用一个 <code>long</code> 型整数来唯一表示当前的牌数量状态。</li>
+<li>这样可以避免使用字符串作为键所带来的大量内存和时间开销。</li>
+</ul>
+</li>
+</ul>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> n;</span><br><span class="line">    <span class="keyword">static</span> Map&lt;Long, Boolean&gt; memo = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">totalHands</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="comment">// 使用 BufferedReader 读取输入</span></span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(System.in));</span><br><span class="line">        n = Integer.parseInt(br.readLine().trim());</span><br><span class="line">        br.close();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果总牌数不足 14 张，无法胡牌</span></span><br><span class="line">        <span class="keyword">if</span> (n * <span class="number">4</span> &lt; <span class="number">14</span>) &#123;</span><br><span class="line">            System.out.println(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span>[] counts = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>]; <span class="comment">// counts[1..n], counts[0] 不使用</span></span><br><span class="line">        generateCounts(<span class="number">1</span>, counts, <span class="number">0</span>);</span><br><span class="line">        System.out.println(totalHands);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成所有可能的牌数量组合</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">generateCounts</span><span class="params">(<span class="type">int</span> pos, <span class="type">int</span>[] counts, <span class="type">int</span> sum)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (pos &gt; n) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sum == <span class="number">14</span>) &#123;</span><br><span class="line">                checkHand(counts);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>; cnt &lt;= <span class="number">4</span>; cnt++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sum + cnt &gt; <span class="number">14</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            counts[pos] = cnt;</span><br><span class="line">            generateCounts(pos + <span class="number">1</span>, counts, sum + cnt);</span><br><span class="line">            counts[pos] = <span class="number">0</span>; <span class="comment">// 回溯</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查当前牌数量组合是否为有效的胡牌牌型</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">checkHand</span><span class="params">(<span class="type">int</span>[] counts)</span> &#123;</span><br><span class="line">        <span class="comment">// 尝试每一种可能的对子</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (counts[i] &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">                counts[i] -= <span class="number">2</span>; <span class="comment">// 减去对子</span></span><br><span class="line">                <span class="keyword">if</span> (canFormMelds(counts)) &#123;</span><br><span class="line">                    totalHands++;</span><br><span class="line">                    counts[i] += <span class="number">2</span>; <span class="comment">// 还原</span></span><br><span class="line">                    <span class="keyword">break</span>; <span class="comment">// 一个对子成功即可，不用继续尝试</span></span><br><span class="line">                &#125;</span><br><span class="line">                counts[i] += <span class="number">2</span>; <span class="comment">// 还原</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 编码当前的 counts 数组为一个唯一的 long 型整数</span></span><br><span class="line">    <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">encode</span><span class="params">(<span class="type">int</span>[] counts)</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">code</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            code = code * <span class="number">5</span> + counts[i]; <span class="comment">// 因为每个 counts[i] 在 0 到 4 之间，使用 5 进制</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查剩余的牌能否分解为 4 个面子</span></span><br><span class="line">    <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">canFormMelds</span><span class="params">(<span class="type">int</span>[] counts)</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">key</span> <span class="operator">=</span> encode(counts);</span><br><span class="line">        <span class="keyword">if</span> (memo.containsKey(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> memo.get(key);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查是否所有牌都用完了</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isEmpty</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (counts[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                isEmpty = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty) &#123;</span><br><span class="line">            memo.put(key, <span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 尝试组成刻子</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (counts[i] &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">                counts[i] -= <span class="number">3</span>;</span><br><span class="line">                <span class="keyword">if</span> (canFormMelds(counts)) &#123;</span><br><span class="line">                    counts[i] += <span class="number">3</span>;</span><br><span class="line">                    memo.put(key, <span class="literal">true</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                counts[i] += <span class="number">3</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 尝试组成顺子</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n - <span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">while</span> (counts[i] &gt; <span class="number">0</span> &amp;&amp; counts[i + <span class="number">1</span>] &gt; <span class="number">0</span> &amp;&amp; counts[i + <span class="number">2</span>] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                counts[i]--;</span><br><span class="line">                counts[i + <span class="number">1</span>]--;</span><br><span class="line">                counts[i + <span class="number">2</span>]--;</span><br><span class="line">                <span class="keyword">if</span> (canFormMelds(counts)) &#123;</span><br><span class="line">                    counts[i]++;</span><br><span class="line">                    counts[i + <span class="number">1</span>]++;</span><br><span class="line">                    counts[i + <span class="number">2</span>]++;</span><br><span class="line">                    memo.put(key, <span class="literal">true</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                counts[i]++;</span><br><span class="line">                counts[i + <span class="number">1</span>]++;</span><br><span class="line">                counts[i + <span class="number">2</span>]++;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// 避免重复尝试相同的顺子</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        memo.put(key, <span class="literal">false</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="代码说明-1"><a href="#代码说明-1" class="headerlink" title="代码说明"></a>代码说明</h3><ul>
+<li><p><strong>编码函数 <code>encode</code>：</strong></p>
+<ul>
+<li>将 <code>counts</code> 数组编码为一个唯一的 <code>long</code> 型整数。</li>
+<li>因为每个 <code>counts[i]</code> 的取值范围是 0 到 4，所以可以将其视为 5 进制的位数。</li>
+<li>这样可以高效地将整个数组状态转换为一个整数，方便在哈希表中存储和查找。</li>
+</ul>
+</li>
+<li><p><strong>优化 <code>canFormMelds</code> 方法：</strong></p>
+<ul>
+<li>使用 <code>long</code> 型整数作为键，减少了字符串的创建和比较操作，提高了哈希表的性能。</li>
+<li>在尝试组成顺子时，使用 <code>while</code> 循环尽可能多地减少连续的牌数，避免重复状态。<ul>
+<li><strong>注意：</strong> 在减少牌数后，需要立即还原，以保证不会影响后续的计算。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><ul>
+<li><p><strong>时间复杂度：</strong></p>
+<ul>
+<li>由于牌的种类和每种牌的数量有限，状态空间虽然较大（约为 (5^{13})），但实际有效状态数量远小于此值。</li>
+<li>通过记忆化搜索和状态编码，大大减少了重复计算。</li>
+<li>优化后，程序能够在合理的时间内处理所有可能的状态。</li>
+</ul>
+</li>
+<li><p><strong>空间复杂度：</strong></p>
+<ul>
+<li>使用了一个 <code>Map&lt;Long, Boolean&gt;</code> 来存储状态，由于状态数在可控范围内，内存占用不会过大。</li>
+</ul>
+</li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 百度校招笔试编程题</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2024-10-15 11:34:11</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-11-08 17:08:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://moye12325.github.io/2024/10/15/百度校招笔试编程题/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/10/15/baidu-campus-recruitment-programming-questions/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">百度校招笔试编程题</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/10/14/notes/note-7/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">记录 2024 年第 288 天</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">百度校招笔试编程题</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98-1"><span class="nav-text">题 1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3"><span class="nav-text">深入理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98-2"><span class="nav-text">题 2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0-1"><span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0-1"><span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98-3"><span class="nav-text">题 3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%8F%8F%E8%BF%B0-2"><span class="nav-text">输入描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%8F%8F%E8%BF%B0-2"><span class="nav-text">输出描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-2"><span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-1"><span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%B4%E6%98%8E"><span class="nav-text">代码说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%EF%BC%8C%E9%80%9A%E8%BF%87-80-%E7%94%A8%E4%BE%8B%EF%BC%8C%E4%BC%98%E5%8C%96"><span class="nav-text">超时，通过 80% 用例，优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%B4%E6%98%8E-1"><span class="nav-text">代码说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="nav-text">性能分析</span></a></li></ol></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 356 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>

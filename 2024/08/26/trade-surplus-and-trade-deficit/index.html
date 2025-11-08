@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://moye12325.github.io/2024/08/26/trade-surplus-and-trade-deficit/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="美元潮汐">
+<meta property="og:url" content="https://moye12325.github.io/2024/08/26/trade-surplus-and-trade-deficit/index.html">
+<meta property="og:site_name" content="码农修行手册">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moye12325.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2024-08-26T06:18:12.000Z">
+<meta property="article:modified_time" content="2024-08-26T06:24:39.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moye12325.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            美元潮汐 | 码农修行手册
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"moye12325.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                码农修行手册
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">18</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">356</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">美元潮汐</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv7</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-08-26 14:18:12</span>
+        <span class="mobile">2024-08-26 14:18:12</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-08-26 14:24:39</span>
+            <span class="mobile">2024-08-26 14:24:39</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/">默认分类</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="美元潮汐"><a href="#美元潮汐" class="headerlink" title="美元潮汐"></a>美元潮汐</h1><p>“美元潮汐”是用来描述美元流动和国际资本市场变化的经济现象。涉及到美元的供应、需求以及其在全球市场上的波动性对其他经济体的影响。</p>
+<h3 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. <strong>背景</strong></h3><p>美元是全球最主要的储备货币和国际贸易的结算货币。许多国家的中央银行持有大量美元资产，全球商品（如石油）也主要以美元计价。</p>
+<h3 id="2-美元潮汐的形成"><a href="#2-美元潮汐的形成" class="headerlink" title="2. 美元潮汐的形成"></a>2. <strong>美元潮汐的形成</strong></h3><ul>
+<li><strong>美联储的货币政策</strong>：当美联储实施量化宽松（QE）或降低利率时，美元的供应量增加，这通常会导致美元贬值。相反，当美联储收紧货币政策（如提高利率）时，美元供应减少，美元通常升值。</li>
+<li><strong>全球投资者行为</strong>：在低利率环境下，投资者往往会寻找更高收益的投资机会，将资金从美元资产转移到新兴市场或其他高收益资产。当美联储提高利率时，这些资金可能会回流到美国，导致美元升值。</li>
+<li><strong>全球经济状况</strong>：全球经济的健康状况会影响美元的需求。例如，在全球经济不确定或动荡时期，投资者通常会将资金转向被认为更安全的美元资产，推高美元的价值。</li>
+</ul>
+<h3 id="3-影响"><a href="#3-影响" class="headerlink" title="3. 影响"></a>3. <strong>影响</strong></h3><ul>
+<li><strong>新兴市场的影响</strong>：当美元升值时，新兴市场往往面临资本外流、货币贬值和偿债成本增加的压力。这些市场中的企业和政府如果借入了大量美元债务，可能会在美元升值时遭受严重的财务压力。</li>
+<li><strong>全球贸易</strong>：美元升值会使以美元计价的商品变得更贵，从而影响全球贸易流动和商品价格。对于依赖出口的国家，美元升值可能会减少其出口竞争力。</li>
+<li><strong>大宗商品价格</strong>：由于大宗商品通常以美元计价，美元的波动直接影响这些商品的价格。例如，美元升值通常会压低石油和黄金等商品的价格，反之亦然。</li>
+</ul>
+<h3 id="4-周期性和未来趋势"><a href="#4-周期性和未来趋势" class="headerlink" title="4. 周期性和未来趋势"></a>4. <strong>周期性和未来趋势</strong></h3><p>美元潮汐具有一定的周期性，常与美国经济周期、美联储的政策调整以及全球经济状况密切相关。</p>
+<h2 id="美元加息与本国资产价值下降"><a href="#美元加息与本国资产价值下降" class="headerlink" title="美元加息与本国资产价值下降"></a>美元加息与本国资产价值下降</h2><h3 id="1-资本流动与资产价格"><a href="#1-资本流动与资产价格" class="headerlink" title="1. 资本流动与资产价格"></a>1. <strong>资本流动与资产价格</strong></h3><p>当美联储加息时，美国的利率上升，这使得美元资产（如美国国债）的收益率提高。对于全球投资者来说，美国国债等美元资产变得更有吸引力，资本因此流入美国市场。</p>
+<p>导致连锁反应：</p>
+<ul>
+<li><strong>资本外流</strong>：其他国家的资本（特别是新兴市场）可能会流出本国市场，转而投向美国。资本外流会导致这些国家的股市、房地产等资产的需求下降，从而压低这些资产的价格。</li>
+<li><strong>流动性减少</strong>：当资本流出本国时，本国市场的流动性减少，企业和消费者的融资成本可能会上升，进一步抑制经济增长，并对资产价格形成负面影响。</li>
+</ul>
+<h3 id="2-汇率波动"><a href="#2-汇率波动" class="headerlink" title="2. 汇率波动"></a>2. <strong>汇率波动</strong></h3><p>美元加息导致美元升值。对于持有美元债务的国家或企业来说，偿还债务的成本变得更高，导致财务压力加大。</p>
+<ul>
+<li><strong>本币贬值</strong>：随着资本流出，本国货币可能贬值。这种贬值会导致以本币计价的资产（如股票、房地产）的价值下降，因为这些资产相对于美元变得不那么值钱。</li>
+<li><strong>通货膨胀压力</strong>：本币贬值还可能引发输入性通胀（因为进口商品变得更贵），这可能会进一步损害本国经济，压低资产价值。</li>
+</ul>
+<h3 id="3-市场预期与信心"><a href="#3-市场预期与信心" class="headerlink" title="3. 市场预期与信心"></a>3. <strong>市场预期与信心</strong></h3><p>市场参与者的心理预期在资产定价中起着重要作用。美元加息通常被视为全球流动性收紧的信号，这会引发投资者的风险厌恶情绪。</p>
+<ul>
+<li><strong>避险行为</strong>：在美联储加息的背景下，全球投资者可能更倾向于持有美元等低风险资产，而抛售其他国家的高风险资产。这种行为会导致这些国家的资产价格下跌。</li>
+<li><strong>经济前景恶化</strong>：美元加息通常意味着全球流动性收紧，市场可能预期其他国家（尤其是新兴市场）的经济增长会受到抑制，导致资产价值下跌。</li>
+</ul>
+<h3 id="4-债务负担"><a href="#4-债务负担" class="headerlink" title="4. 债务负担"></a>4. <strong>债务负担</strong></h3><p>很多国家和企业都以美元借债。当美元加息、美元升值时，偿还这些债务的成本增加。这种情况可能导致这些国家或企业财务恶化，进而影响其资产价值。</p>
+<ul>
+<li><strong>债务违约风险增加</strong>：随着偿债压力增加，一些国家和企业可能面临债务违约风险，投资者对这些市场的信心可能会下降，导致资产抛售和价值下跌。</li>
+</ul>
+<h2 id="加息与资本外流"><a href="#加息与资本外流" class="headerlink" title="加息与资本外流"></a>加息与资本外流</h2><h3 id="1-资本外流"><a href="#1-资本外流" class="headerlink" title="1. 资本外流"></a>1. <strong>资本外流</strong></h3><p>当美国提高利率，也就是“加息”时，投资者觉得把钱放在美国比放在其他地方更划算。就像银行给你存款利息变高了，你可能就更愿意把钱存银行，而不是放在其他投资上。所以，全球的投资者也会把钱从其他国家拿出来，放到美国去。这就像如果你的朋友开了一个利息很高的储蓄账户，你会把钱从自己存钱的地方拿出来，存到他那儿一样。</p>
+<h3 id="2-流动性减少"><a href="#2-流动性减少" class="headerlink" title="2. 流动性减少"></a>2. <strong>流动性减少</strong></h3><p>当投资者把钱从某个国家拿走时，留在那个国家的钱就少了。这个就好比你原本有100块钱可以用来买东西或者投资，但现在朋友把他的钱拿走了，只剩下80块了。这样一来，你手头的资金就紧张了，想借钱或者融资也变得困难了。这种情况下，大家的钱都少了，市场上流动的钱变少了，做生意的、买房的、投资的这些事情都会变得更加困难。</p>
+<h3 id="3-本币贬值"><a href="#3-本币贬值" class="headerlink" title="3. 本币贬值"></a>3. <strong>本币贬值</strong></h3><p>因为投资者把钱拿走了，他们需要先把当地货币换成美元，这会导致当地货币的需求减少，而美元的需求增加。就好比原来很多人都想要买你家的水果（你家的货币），现在大家都不怎么感兴趣了，想去买美国的水果（美元）。所以你家的水果（货币）就不值钱了，也就是本币贬值。你家的水果一便宜，别人家的水果（进口商品）就显得贵了。</p>
+<h3 id="4-通货膨胀"><a href="#4-通货膨胀" class="headerlink" title="4. 通货膨胀"></a>4. <strong>通货膨胀</strong></h3><p>当本币贬值后，进口商品的价格就会涨，因为用你家不值钱的货币去买别家的东西变得更贵了。比如，原本你用10块钱可以买一件进口商品，现在可能要花12块。这种价格上涨会影响到很多商品，最后就可能引发通货膨胀，也就是物价普遍上涨。</p>
+<h2 id="美元降息与本币升值"><a href="#美元降息与本币升值" class="headerlink" title="美元降息与本币升值"></a>美元降息与本币升值</h2><h3 id="1-资本回流"><a href="#1-资本回流" class="headerlink" title="1. 资本回流"></a>1. <strong>资本回流</strong></h3><p>当美国降低利率时，美元资产（比如美国国债）的回报率就变低了。投资者会觉得把钱放在美国不再那么划算，他们可能会把资金从美国撤出来，寻找回报更高的投资机会，比如其他国家的股票、债券或房地产。这就像如果银行存款利息降低了，你可能会把钱拿出来，去寻找更高收益的投资。</p>
+<h3 id="2-流动性增加"><a href="#2-流动性增加" class="headerlink" title="2. 流动性增加"></a>2. <strong>流动性增加</strong></h3><p>随着投资者把资金从美国撤出，这些资金会流向其他国家的市场。这些国家的市场上钱变多了，就像你家突然多了一大笔资金可以用来投资、消费或借贷。这种情况下，市场上的流动性增加，大家的钱袋子都鼓起来了，借钱做生意或者投资变得容易。</p>
+<h3 id="3-本币升值"><a href="#3-本币升值" class="headerlink" title="3. 本币升值"></a>3. <strong>本币升值</strong></h3><p>当大量资金涌入某个国家，这些资金需要先换成当地货币才能使用。这就像很多人突然都想买你家的水果（货币），你家的水果需求增加了，自然价格也就上去了，也就是本币升值。你家的水果（货币）一值钱，别的国家的水果（进口商品）反而显得便宜了。</p>
+<h3 id="4-通货膨胀压力减轻"><a href="#4-通货膨胀压力减轻" class="headerlink" title="4. 通货膨胀压力减轻"></a>4. <strong>通货膨胀压力减轻</strong></h3><p>因为本币升值了，进口商品变得便宜，所以整体物价上涨的压力减轻了。举个例子，原本你要花12块钱买一件进口商品，现在可能只需要10块钱了。这意味着你手里的钱可以买到更多东西，通货膨胀压力减轻。</p>
+<h3 id="5-经济刺激"><a href="#5-经济刺激" class="headerlink" title="5. 经济刺激"></a>5. <strong>经济刺激</strong></h3><p>美元降息通常还会刺激全球经济活动，因为低利率环境下，借贷成本降低，企业更容易融资扩展业务，消费者也更愿意消费。这种情况下，经济增长通常会加速。</p>
+<h2 id="开始收割"><a href="#开始收割" class="headerlink" title="开始收割"></a>开始收割</h2><p>当美国准备降息时，美国投资者和机构可能会开始购买其他国家的优质资产。</p>
+<h3 id="1-预期收益率的变化"><a href="#1-预期收益率的变化" class="headerlink" title="1. 预期收益率的变化"></a>1. <strong>预期收益率的变化</strong></h3><p>当市场预期美国即将降息时，投资者知道美元资产的回报率可能会降低。为了获得更高的收益，他们会提前将资金转移到回报率更高的海外市场，特别是那些经济前景较好、增长潜力大的国家。这些优质资产可能包括股票、债券、房地产等。</p>
+<h3 id="2-分散投资风险"><a href="#2-分散投资风险" class="headerlink" title="2. 分散投资风险"></a>2. <strong>分散投资风险</strong></h3><p>降息通常意味着美国经济增长放缓或出现一定的经济风险。为了分散风险，投资者会寻找其他国家的优质资产，特别是在那些经济稳定或增长前景良好的地区。通过分散投资，投资者可以减少对单一市场（如美国市场）的依赖。</p>
+<h3 id="3-预期资本增值"><a href="#3-预期资本增值" class="headerlink" title="3. 预期资本增值"></a>3. <strong>预期资本增值</strong></h3><p>投资者购买其他国家的优质资产不仅仅是为了获取当下的收益，还希望这些资产在未来升值。尤其是在美元即将贬值的情况下，投资者预期这些国家的货币相对于美元会升值，从而使他们的投资获得汇率增值的额外收益。</p>
+<h3 id="4-资本流入带动资产升值"><a href="#4-资本流入带动资产升值" class="headerlink" title="4. 资本流入带动资产升值"></a>4. <strong>资本流入带动资产升值</strong></h3><p>当大量资金涌入某个国家购买优质资产时，这些资产的需求就会大幅增加。在供给不变的情况下，需求的增加会导致资产价格上涨。举个例子，如果很多投资者都开始购买某个国家的房地产，那么这些房产的价格就会因为需求激增而升值。</p>
+<h3 id="5-市场信心提升"><a href="#5-市场信心提升" class="headerlink" title="5. 市场信心提升"></a>5. <strong>市场信心提升</strong></h3><p>大量美国资金流入其他国家的优质资产市场，也会增强这些市场的信心。当地的投资者和国际市场看到美国资金的流入，可能会认为这些资产的价值被认可，进而跟风购买。这种“羊群效应”会进一步推高资产价格。</p>
+<h3 id="6-降息后的资本流入"><a href="#6-降息后的资本流入" class="headerlink" title="6. 降息后的资本流入"></a>6. <strong>降息后的资本流入</strong></h3><p>一旦美国正式降息，投资者寻找更高回报的趋势加剧，更多的资金会继续流向其他国家的优质资产市场，进一步推高这些资产的价值。降息后的低利率环境使得持有这些海外优质资产的机会成本降低，促使更多投资者参与。</p>
+<h3 id="7-汇率效应"><a href="#7-汇率效应" class="headerlink" title="7. 汇率效应"></a>7. <strong>汇率效应</strong></h3><p>美元降息往往伴随着美元的贬值。如果投资者在美元贬值之前就购入了其他国家的优质资产，当这些资产升值或其本币对美元升值时，投资者不仅获得了资产本身的增值，还可以通过汇率变动获利。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>美国在降息前购买其他国家的优质资产，是为了在美元资产回报下降之前锁定其他国家的更高收益。这种提前布局也引发了其他国家的资产升值，因资本流入增加了这些资产的需求，加上市场信心的增强，导致优质资产的价格上涨。随后，降息正式实施后，这种资产升值趋势可能会进一步加速，带来更大的投资回报。</p>
+<h2 id="贸易顺差与贸易逆差"><a href="#贸易顺差与贸易逆差" class="headerlink" title="贸易顺差与贸易逆差"></a>贸易顺差与贸易逆差</h2><p>贸易顺差和贸易逆差是衡量一个国家对外贸易状况的重要经济指标。反映一个国家在国际贸易中进出口商品和服务的差额。</p>
+<h3 id="1-贸易顺差（Trade-Surplus）"><a href="#1-贸易顺差（Trade-Surplus）" class="headerlink" title="1. 贸易顺差（Trade Surplus）"></a>1. <strong>贸易顺差（Trade Surplus）</strong></h3><p>贸易顺差是指一个国家在一定时期内出口的商品和服务总值大于进口的商品和服务总值。换句话说，贸易顺差表示该国从国际市场上赚取的外汇比它支出的外汇要多。</p>
+<p><strong>通俗解释</strong>： 想象一下，你是一家企业，你每个月卖出商品（出口）赚了100元，但你买进的原材料（进口）只花了80元。这样，你每个月就会有20元的盈余，这就是贸易顺差。</p>
+<p><strong>例子</strong>： 假设中国在某一年出口了价值2万亿美元的商品，但只进口了价值1.5万亿美元的商品，那么中国在这一年就实现了5000亿美元的贸易顺差。</p>
+<h3 id="2-贸易逆差（Trade-Deficit）"><a href="#2-贸易逆差（Trade-Deficit）" class="headerlink" title="2. 贸易逆差（Trade Deficit）"></a>2. <strong>贸易逆差（Trade Deficit）</strong></h3><p>贸易逆差是指一个国家在一定时期内进口的商品和服务总值大于出口的商品和服务总值。贸易逆差表示该国花费在国际市场上的外汇比它赚取的外汇要多。</p>
+<p><strong>通俗解释</strong>： 再举个例子，假设你每个月卖出商品（出口）赚了80元，但你买进的原材料（进口）花了100元，这就意味着你每个月还需要额外支付20元。这个亏空的部分就是贸易逆差。</p>
+<p><strong>例子</strong>： 假设美国在某一年出口了价值1.5万亿美元的商品，但进口了价值2.5万亿美元的商品，那么美国在这一年就产生了1万亿美元的贸易逆差。</p>
+<h3 id="3-贸易顺差和贸易逆差的影响"><a href="#3-贸易顺差和贸易逆差的影响" class="headerlink" title="3. 贸易顺差和贸易逆差的影响"></a>3. <strong>贸易顺差和贸易逆差的影响</strong></h3><ul>
+<li><strong>贸易顺差</strong>：通常被视为一个国家经济实力的象征，因为它表明该国生产的商品和服务在国际市场上有竞争力，能够获得更多的外汇收入。长期的贸易顺差可能导致该国货币升值。</li>
+<li><strong>贸易逆差</strong>：虽然贸易逆差在短期内可以帮助满足国内对进口商品和服务的需求，但长期的贸易逆差可能导致该国对外债务增加，货币贬值压力加大，甚至影响国家经济的可持续性。</li>
+</ul>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. <strong>总结</strong></h3><ul>
+<li><strong>贸易顺差</strong>：出口 &gt; 进口，国家赚外汇。</li>
+<li><strong>贸易逆差</strong>：进口 &gt; 出口，国家花外汇。</li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 美元潮汐</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2024-08-26 14:18:12</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2024-08-26 14:24:39
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://moye12325.github.io/2024/08/26/trade-surplus-and-trade-deficit/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/08/28/bi/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Bi图表智能生成系统测试</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/08/26/%E7%BE%8E%E5%85%83%E6%BD%AE%E6%B1%90/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">美元潮汐</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">美元潮汐</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BE%8E%E5%85%83%E6%BD%AE%E6%B1%90"><span class="nav-text">美元潮汐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%83%8C%E6%99%AF"><span class="nav-text">1. 背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BE%8E%E5%85%83%E6%BD%AE%E6%B1%90%E7%9A%84%E5%BD%A2%E6%88%90"><span class="nav-text">2. 美元潮汐的形成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%BD%B1%E5%93%8D"><span class="nav-text">3. 影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%91%A8%E6%9C%9F%E6%80%A7%E5%92%8C%E6%9C%AA%E6%9D%A5%E8%B6%8B%E5%8A%BF"><span class="nav-text">4. 周期性和未来趋势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%8E%E5%85%83%E5%8A%A0%E6%81%AF%E4%B8%8E%E6%9C%AC%E5%9B%BD%E8%B5%84%E4%BA%A7%E4%BB%B7%E5%80%BC%E4%B8%8B%E9%99%8D"><span class="nav-text">美元加息与本国资产价值下降</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B5%84%E6%9C%AC%E6%B5%81%E5%8A%A8%E4%B8%8E%E8%B5%84%E4%BA%A7%E4%BB%B7%E6%A0%BC"><span class="nav-text">1. 资本流动与资产价格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B1%87%E7%8E%87%E6%B3%A2%E5%8A%A8"><span class="nav-text">2. 汇率波动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B8%82%E5%9C%BA%E9%A2%84%E6%9C%9F%E4%B8%8E%E4%BF%A1%E5%BF%83"><span class="nav-text">3. 市场预期与信心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%80%BA%E5%8A%A1%E8%B4%9F%E6%8B%85"><span class="nav-text">4. 债务负担</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E6%81%AF%E4%B8%8E%E8%B5%84%E6%9C%AC%E5%A4%96%E6%B5%81"><span class="nav-text">加息与资本外流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B5%84%E6%9C%AC%E5%A4%96%E6%B5%81"><span class="nav-text">1. 资本外流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B5%81%E5%8A%A8%E6%80%A7%E5%87%8F%E5%B0%91"><span class="nav-text">2. 流动性减少</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9C%AC%E5%B8%81%E8%B4%AC%E5%80%BC"><span class="nav-text">3. 本币贬值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%80%9A%E8%B4%A7%E8%86%A8%E8%83%80"><span class="nav-text">4. 通货膨胀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%8E%E5%85%83%E9%99%8D%E6%81%AF%E4%B8%8E%E6%9C%AC%E5%B8%81%E5%8D%87%E5%80%BC"><span class="nav-text">美元降息与本币升值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B5%84%E6%9C%AC%E5%9B%9E%E6%B5%81"><span class="nav-text">1. 资本回流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B5%81%E5%8A%A8%E6%80%A7%E5%A2%9E%E5%8A%A0"><span class="nav-text">2. 流动性增加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9C%AC%E5%B8%81%E5%8D%87%E5%80%BC"><span class="nav-text">3. 本币升值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%80%9A%E8%B4%A7%E8%86%A8%E8%83%80%E5%8E%8B%E5%8A%9B%E5%87%8F%E8%BD%BB"><span class="nav-text">4. 通货膨胀压力减轻</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%BB%8F%E6%B5%8E%E5%88%BA%E6%BF%80"><span class="nav-text">5. 经济刺激</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E6%94%B6%E5%89%B2"><span class="nav-text">开始收割</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%A2%84%E6%9C%9F%E6%94%B6%E7%9B%8A%E7%8E%87%E7%9A%84%E5%8F%98%E5%8C%96"><span class="nav-text">1. 预期收益率的变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%86%E6%95%A3%E6%8A%95%E8%B5%84%E9%A3%8E%E9%99%A9"><span class="nav-text">2. 分散投资风险</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%A2%84%E6%9C%9F%E8%B5%84%E6%9C%AC%E5%A2%9E%E5%80%BC"><span class="nav-text">3. 预期资本增值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%B5%84%E6%9C%AC%E6%B5%81%E5%85%A5%E5%B8%A6%E5%8A%A8%E8%B5%84%E4%BA%A7%E5%8D%87%E5%80%BC"><span class="nav-text">4. 资本流入带动资产升值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%B8%82%E5%9C%BA%E4%BF%A1%E5%BF%83%E6%8F%90%E5%8D%87"><span class="nav-text">5. 市场信心提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E9%99%8D%E6%81%AF%E5%90%8E%E7%9A%84%E8%B5%84%E6%9C%AC%E6%B5%81%E5%85%A5"><span class="nav-text">6. 降息后的资本流入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E6%B1%87%E7%8E%87%E6%95%88%E5%BA%94"><span class="nav-text">7. 汇率效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%B8%E6%98%93%E9%A1%BA%E5%B7%AE%E4%B8%8E%E8%B4%B8%E6%98%93%E9%80%86%E5%B7%AE"><span class="nav-text">贸易顺差与贸易逆差</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B4%B8%E6%98%93%E9%A1%BA%E5%B7%AE%EF%BC%88Trade-Surplus%EF%BC%89"><span class="nav-text">1. 贸易顺差（Trade Surplus）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B4%B8%E6%98%93%E9%80%86%E5%B7%AE%EF%BC%88Trade-Deficit%EF%BC%89"><span class="nav-text">2. 贸易逆差（Trade Deficit）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%B4%B8%E6%98%93%E9%A1%BA%E5%B7%AE%E5%92%8C%E8%B4%B8%E6%98%93%E9%80%86%E5%B7%AE%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-text">3. 贸易顺差和贸易逆差的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%80%BB%E7%BB%93"><span class="nav-text">4. 总结</span></a></li></ol></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 356 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>

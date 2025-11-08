@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://moye12325.github.io/2024/09/20/java 基础/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 基础">
+<meta property="og:url" content="https://moye12325.github.io/2024/09/20/Java%20%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="码农修行手册">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moye12325.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2024-09-20T00:31:00.000Z">
+<meta property="article:modified_time" content="2025-11-08T09:08:59.599Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moye12325.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Java 基础 | 码农修行手册
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"moye12325.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                码农修行手册
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">18</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">356</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">Java 基础</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv7</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-09-20 08:31</span>
+        <span class="mobile">2024-09-20 08:31</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-11-08 17:08:59</span>
+            <span class="mobile">2025-11-08 17:08:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/Java/">Java</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="Java-基础"><a href="#Java-基础" class="headerlink" title="Java 基础"></a>Java 基础</h1><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/Java%E5%9F%BA%E7%A1%80.svg"
+                     
+                ></p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="Java-的特点"><a href="#Java-的特点" class="headerlink" title="Java 的特点"></a>Java 的特点</h3><ul>
+<li><p>平台无关性</p>
+<ul>
+<li>编写一次，运行无处不在。编译器将源码编译成字节码文件，可以在任何安装了 jvm 的系统上运行</li>
+</ul>
+</li>
+<li><p>面向对象</p>
+<ul>
+<li><p>OOP，封装、多态、继承，以及类、抽象、对象等</p>
+<ul>
+<li><p>封装：将对象的状态和行为封装到一起，隐藏对象内部的实现细节，外部代码通过暴露的公共方法进行访问对象的状态。</p>
+</li>
+<li><p>继承：子类继承父类的属性、方法，从而实现代码的重用，子类可以扩展或者重写父类的方法，is-a 关系</p>
+</li>
+<li><p>多态：只同一个方法在不同的对象上表现出不同的行为。主要体现在方法的重载和方法的重写上。核心是通过父类引用指向子类对象，调用的方法在运行时根据实际的对象类型进行动态绑定。</p>
+</li>
+<li><p>抽象：通过抽象类和接口定义对象的共同行为和属性，而不关注具体实现。抽象类和接口通常作为设计的基础，让不同的具体类进行扩展和实现。抽象类不能直接实例化；抽象类可以包含抽象和具体方法；子类必须实现抽象类的所有方法，除非子类也是抽象类。</p>
+</li>
+<li><p>接口：只定义抽象方法，不包含任何实现，一个类可以实现多个接口，从而实现多重继承。</p>
+</li>
+<li><p>类与对象：类是对象的模板，定义对象的属性、行为，类是对象的基本构造单位；对象是类的实例，通过 new 创建，对象拥有类中定义的属性和方法，通过方法操作对象的状态。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>内存管理</p>
+<ul>
+<li><p>有自己的垃圾回收机制，自动管理内存和回收不再使用的对象</p>
+<ul>
+<li><p>核心区域是堆内存、栈内存，还有方法区和特定的内存区域</p>
+<ul>
+<li><p>堆内存</p>
+<ul>
+<li><p>所有对象实例和数组都存储在堆内存中</p>
+</li>
+<li><p>堆内存是垃圾回收机制的主要目标区域</p>
+</li>
+<li><p>堆内存划分为年轻代、老年代。年轻代包含新创建的对象，垃圾回收比较频繁；老年代，存储生命周期较长的对象，对象在年轻代中经过多次垃圾回收仍然存活会被移动到老年代</p>
+</li>
+</ul>
+</li>
+<li><p>栈内存</p>
+<ul>
+<li><p>存储每个线程的局部变量、方法调用、方法参数等</p>
+</li>
+<li><p>生命周期较短，数据随着方法调用结束而释放</p>
+</li>
+<li><p>线程独立，每个线程都有自己独立的栈内存，栈中数据不会被 gc 管理</p>
+</li>
+</ul>
+</li>
+<li><p>方法区</p>
+<ul>
+<li>存储类的信息，常量、静态变量、即时编译器编译后的代码等</li>
+</ul>
+</li>
+<li><p>程序计数器</p>
+<ul>
+<li>记录当前线程执行的字节码指令的地址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>垃圾回收的原理</p>
+<ul>
+<li>定期检查哪些对象不再被引用，然后释放这些对象占用的内存。核心目标是回收无用对象的内存，防止内存泄漏。</li>
+</ul>
+</li>
+<li><p>垃圾回收的工作流程</p>
+<ul>
+<li>标记、清除、压缩（在对象清楚后进行内存压缩，移动存货的对象以消除内存碎片，确保大块连续的内存可用）</li>
+</ul>
+</li>
+<li><p>垃圾回收算法</p>
+<ul>
+<li>引用计数法、标记 - 清除算法、标记压缩算法、复制算法、分代收集算法</li>
+</ul>
+</li>
+<li><p>内存泄漏与内存溢出</p>
+<ul>
+<li><p>泄露：一些对象不再使用，但仍然被引用，无法被 gc 回收</p>
+<ul>
+<li>根据异常信息排查，使用内存分析工具，jmap、jhat、jstack、jvisualvm，分析 gc 日志</li>
+</ul>
+</li>
+<li><p>溢出：jvm 不能再分配内存，抛出异常。程序创建了太多的对象，或者存在内存泄漏。</p>
+<ul>
+<li>常见的场景：静态集合 HashMap、ArrayList 未被适当清理；长生命周期对象引用短生命周期对象；监听器、回调未及时解除；线程池误用；自定义类加载器。</li>
+</ul>
+</li>
+<li><p>如何避免</p>
+<ul>
+<li>避免使用不必要的全局变量和静态变量。<br>尽量缩短对象的生命周期，避免不必要的长时间引用。<br>使用合适的数据结构，避免内存过度消耗。<br>通过调整 JVM 的 GC 策略和参数，优化内存使用。例如，使用 G1 GC 或 ZGC 进行低延迟的垃圾回收。<br>调整堆内存大小参数：-Xms 和-Xmx，确保堆内存足够大以满足应用需求，但也要避免过大的堆内存导致 Full GC 时间过长。<br>定期监控应用的内存使用情况，及时发现内存泄漏的迹象。<br>使用内存分析工具，如 MAT 和 VisualVM，进行内存分析和泄漏检测。<br>设置合理的 GC 日志并进行分析，监控垃圾回收的效率和频率。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h2><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h2 id="I-O"><a href="#I-O" class="headerlink" title="I&#x2F;O"></a>I&#x2F;O</h2><h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>一种运行机制，允许程序在运行时获取类的结构信息，例如类名、方法、字段、构造函数等，并且能够动态的调用类的方法、访问属性、创建对象等</p>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><h3 id="创建对象的方式"><a href="#创建对象的方式" class="headerlink" title="创建对象的方式"></a>创建对象的方式</h3><ul>
+<li><p>使用 new<br>MyClass obj &#x3D; new MyClass();</p>
+</li>
+<li><p>反射机制<br>使用 Class 的 newInstance()，Constructor.newInstance()<br>ClassName obj &#x3D; ClassName.class.newInstance();<br>Constructor&lt;?&gt; constructor &#x3D; ClassName.class.getConstructor();<br>ClassName obj &#x3D; (ClassName) constructor.newInstance();</p>
+</li>
+<li><p>clone() 方法<br>ClassName objClone &#x3D; (ClassName) obj.clone();</p>
+</li>
+<li><p>通过反序列化</p>
+</li>
+</ul>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="八大基本数据类型"><a href="#八大基本数据类型" class="headerlink" title="八大基本数据类型"></a>八大基本数据类型</h3><ul>
+<li><p>byte short int long </p>
+<ul>
+<li>分别是 1 2 4 8 个字节，一个字节 8 个比特，表示范围是 -2 的（比特 -1）到 2 的（比特 -1）-1</li>
+</ul>
+</li>
+<li><p>float double</p>
+<ul>
+<li>4，8</li>
+</ul>
+</li>
+<li><p>char</p>
+<ul>
+<li>2 字节</li>
+</ul>
+</li>
+<li><p>boolean</p>
+<ul>
+<li>1</li>
+</ul>
+</li>
+</ul>
+<h3 id="为什么用-bigDecimal-不用-double"><a href="#为什么用-bigDecimal-不用-double" class="headerlink" title="为什么用 bigDecimal 不用 double"></a>为什么用 bigDecimal 不用 double</h3><ul>
+<li>double 底层使用二进制浮点数表示，许多十进制小数在二进制中无法精确表示<br>BigDecimal 使用十进制表示法，是 Java 的一个专门用于处理高精度浮点数运算的类，通过任意精度的整数和十进制数的标度来表示数字，计算效率低。</li>
+</ul>
+<h3 id="拆箱与装箱"><a href="#拆箱与装箱" class="headerlink" title="拆箱与装箱"></a>拆箱与装箱</h3><ul>
+<li><p>是基本数据类型与包装类之间相互转换的概念</p>
+</li>
+<li><p>集合框架例如 List、Set 只能操作对象类型；有些场景例如泛型、反射要求使用对象</p>
+</li>
+<li><p>性能开销。自动拆箱装箱设计对象的创建和销毁，基本数据类型直接处理内存数据。</p>
+</li>
+<li><p>包装类的缓存。以 Integer 为例，Java 会缓存 -128 到 127 之间的 Integer 对象</p>
+</li>
+<li><p>空指针异常。<br>Integer num &#x3D; null;<br>int value &#x3D; num;  &#x2F;&#x2F; 抛出 NullPointerException</p>
+</li>
+</ul>
+<h2 id="抽象类和接口"><a href="#抽象类和接口" class="headerlink" title="抽象类和接口"></a>抽象类和接口</h2><p>本质上是抽象与多态。都允许定义对象的共同行为，但在功能和使用上有区别。</p>
+<h3 id="相同点："><a href="#相同点：" class="headerlink" title="相同点："></a>相同点：</h3><ol>
+<li>都抽象，都可包含抽象方法，也就是没有具体实现，但类或子类必须提供实现。</li>
+<li>无法直接实例化对象，只能通过继承抽象类或者实现接口来创建对象。</li>
+<li>都用来设计对象的通用行为，提供一种规范。</li>
+</ol>
+<h3 id="不同点："><a href="#不同点：" class="headerlink" title="不同点："></a>不同点：</h3><ol>
+<li>abstract 与 interface</li>
+<li>抽象类可以包含抽象、非抽象方法，接口只能包含抽象；</li>
+<li>抽象类 public private protected 修饰，接口只能包含 public static final 常量；</li>
+<li>只能继承一个抽象类，可以实现多个接口</li>
+<li>接口方法默认是 public</li>
+<li>使用场景上，抽象类 is-a 比如 dog 是 animal 的一种，接口是 can-do 关系，例如 bird、airplane 都可以实现 flyable 接口</li>
+</ol>
+<h2 id="栈和堆"><a href="#栈和堆" class="headerlink" title="栈和堆"></a>栈和堆</h2><p>在 Java 中，<strong>堆（Heap）<strong>和</strong>栈（Stack）<strong>是两种用于管理内存的区域，它们在</strong>内存分配、管理、以及垃圾回收</strong>等方面有着不同的作用和特性。</p>
+<h3 id="1-栈（Stack）"><a href="#1-栈（Stack）" class="headerlink" title="1. 栈（Stack）"></a>1. <strong>栈（Stack）</strong></h3><h4 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h4><ul>
+<li><strong>栈</strong>是一种后进先出（LIFO, Last In First Out）数据结构，用于存储<strong>局部变量</strong>和<strong>方法调用</strong>时的临时数据。</li>
+<li>每当调用一个方法时，Java 会为该方法创建一个新的栈帧（Stack Frame），栈帧中包含该方法的局部变量、操作数栈、方法返回地址等信息。当方法执行完毕，栈帧被销毁，释放相应的内存。</li>
+</ul>
+<h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><ul>
+<li><strong>存储的内容</strong>：栈内存主要存储：<ul>
+<li>局部变量（包括基本数据类型，如 <code>int</code>, <code>float</code>, <code>char</code> 等）。</li>
+<li>方法参数。</li>
+<li>引用类型的变量（但引用对象本身存储在堆中，引用存储在栈中）。</li>
+</ul>
+</li>
+<li><strong>分配和释放</strong>：栈的内存分配和释放非常快，方法执行时分配，方法返回时自动释放。</li>
+<li><strong>线程私有</strong>：每个线程都有自己的栈内存，不同线程的栈是互不干扰的。</li>
+<li><strong>有限制</strong>：栈的内存相对较小，通常用于存储临时的短期数据。栈的大小是固定的，过深的递归调用或创建大量局部变量可能会导致<strong>栈溢出</strong>（StackOverflowError）。</li>
+</ul>
+<h4 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h4><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StackExample</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">5</span>; <span class="comment">// 存储在栈中</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">10</span>; <span class="comment">// 存储在栈中</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> add(a, b); <span class="comment">// add 方法执行时，a 和 b 都存储在栈中</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> x + y; <span class="comment">// sum 存储在栈中</span></span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>局部变量 <code>a</code>, <code>b</code>, <code>x</code>, <code>y</code>, 和 <code>sum</code> 都存储在栈内存中，方法 <code>add</code> 执行完毕后，栈帧被释放，内存自动回收。</p>
+<h3 id="2-堆（Heap）"><a href="#2-堆（Heap）" class="headerlink" title="2. 堆（Heap）"></a>2. <strong>堆（Heap）</strong></h3><h4 id="概念：-1"><a href="#概念：-1" class="headerlink" title="概念："></a>概念：</h4><ul>
+<li><strong>堆</strong>是用于动态分配对象的内存区域，所有在 Java 中<strong>通过 <code>new</code> 关键字创建的对象都存储在堆内存</strong>中。堆内存比栈<strong>大</strong>得多，而且具有<strong>较长的生命周期</strong>。</li>
+<li>在 Java 中，堆内存是由 Java 的垃圾回收机制（Garbage Collector）管理的，垃圾回收器会定期清理那些不再被引用的对象。</li>
+</ul>
+<h4 id="特点：-1"><a href="#特点：-1" class="headerlink" title="特点："></a>特点：</h4><ul>
+<li><strong>存储的内容</strong>：堆内存存储的是所有<strong>对象</strong>（不管是普通对象还是数组对象）。即使在栈中声明了对象引用，但引用指向的对象实际上存储在堆中。</li>
+<li><strong>分配和释放</strong>：对象的内存分配由程序在运行时决定，存储在堆中。堆中的对象生命周期长短不一，可能跨越多个方法调用。对象的释放由垃圾回收器负责，而不是程序员手动管理。</li>
+<li><strong>线程共享</strong>：堆内存是线程共享的，所有线程都可以访问堆中的对象。这意味着需要考虑线程安全问题（如同步机制等）。</li>
+<li><strong>灵活但复杂</strong>：由于堆内存的动态分配和垃圾回收机制，它比栈内存的管理要复杂得多。</li>
+</ul>
+<h4 id="例子：-1"><a href="#例子：-1" class="headerlink" title="例子："></a>例子：</h4><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HeapExample</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 在堆上创建了一个对象，并将引用存储在栈上</span></span><br><span class="line">        <span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;John&quot;</span>, <span class="number">30</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">(String name, <span class="type">int</span> age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p><code>Person</code> 对象是通过 <code>new</code> 关键字在堆上创建的，<code>person</code> 是一个引用，它存储在栈中，但引用的对象本身位于堆中。当对象不再被引用时，垃圾回收器将清理它。</p>
+<hr>
+<h3 id="3-堆和栈的区别"><a href="#3-堆和栈的区别" class="headerlink" title="3. 堆和栈的区别"></a>3. <strong>堆和栈的区别</strong></h3><table>
+<thead>
+<tr>
+<th><strong>特点</strong></th>
+<th><strong>栈（Stack）</strong></th>
+<th><strong>堆（Heap）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>内存分配方式</strong></td>
+<td>静态内存分配，方法调用时分配，调用结束时释放</td>
+<td>动态内存分配，通过 <code>new</code> 操作符创建，垃圾回收释放</td>
+</tr>
+<tr>
+<td><strong>存储内容</strong></td>
+<td>局部变量、方法参数、引用</td>
+<td>所有通过 <code>new</code> 创建的对象</td>
+</tr>
+<tr>
+<td><strong>访问速度</strong></td>
+<td>速度较快</td>
+<td>速度较慢（由于动态分配和垃圾回收）</td>
+</tr>
+<tr>
+<td><strong>管理方式</strong></td>
+<td>由系统自动管理，方法结束时自动释放</td>
+<td>由垃圾回收器（GC）管理</td>
+</tr>
+<tr>
+<td><strong>线程安全</strong></td>
+<td>每个线程有自己的栈，线程间互不干扰</td>
+<td>堆是线程共享的，因此需要考虑线程安全</td>
+</tr>
+<tr>
+<td><strong>内存大小</strong></td>
+<td>相对较小（通常 1 MB 到 8 MB）</td>
+<td>相对较大（可以达到 GB 级别）</td>
+</tr>
+<tr>
+<td><strong>生命周期</strong></td>
+<td>生命周期短，随方法调用结束即释放</td>
+<td>生命周期长，跨越方法调用，直到对象不再被引用</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-堆和栈的配合"><a href="#4-堆和栈的配合" class="headerlink" title="4. 堆和栈的配合"></a>4. <strong>堆和栈的配合</strong></h3><p>在 Java 中，栈和堆是相辅相成的：</p>
+<ul>
+<li><p><strong>局部变量和引用</strong>存储在栈中，而引用的对象存储在堆中。例如：</p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;Hello&quot;</span>);</span><br></pre></td></tr></table></figure></div>
+<p>在这个例子中，<code>str</code> 是一个引用，存储在栈中，而 <code>&quot;Hello&quot;</code> 这个字符串对象则存储在堆中。</p>
+</li>
+<li><p><strong>栈用于方法调用和局部变量的快速访问</strong>，方法结束后栈帧会自动释放，不再占用内存。而<strong>堆用于存储对象和实例</strong>，它们可以在方法结束后继续存在，直到不再被引用，才会由垃圾回收器清理。</p>
+</li>
+</ul>
+<h2 id="为什么栈比堆访问快"><a href="#为什么栈比堆访问快" class="headerlink" title="为什么栈比堆访问快"></a>为什么栈比堆访问快</h2><ol>
+<li><p><strong>内存分配方式不同</strong>：</p>
+<ul>
+<li><strong>栈</strong>：栈内存是按顺序连续分配的。每当一个方法被调用时，栈顶指针（stack pointer）会移动来分配新的局部变量和栈帧，当方法返回时，指针向下移动，直接释放内存。这种内存管理方式非常简单高效，因此栈的分配和释放速度极快，通常只需要调整栈指针的移动位置即可。</li>
+<li><strong>堆</strong>：堆内存的分配是动态的，内存可以在程序运行时任意分配和释放。堆中的内存位置并不是连续的，因此需要使用更加复杂的内存管理机制来找到合适的内存块进行分配。这使得堆内存分配和回收的速度远比栈慢。</li>
+</ul>
+</li>
+<li><p><strong>缓存局部性</strong>：</p>
+<ul>
+<li>栈内存由于是连续分配的，它的局部性非常好，也就是说，当程序访问栈中的一个变量时，紧接着可能会访问到相邻的变量，这样可以有效利用 CPU 缓存。栈的这种顺序性使得 CPU 的缓存机制更容易发挥作用，从而加快访问速度。</li>
+<li>堆内存由于动态分配且不连续，可能存在大量的内存碎片，导致访问时无法有效利用 CPU 的缓存，从而降低访问速度。</li>
+</ul>
+</li>
+<li><p><strong>管理开销</strong>：</p>
+<ul>
+<li>栈是由系统自动管理的，分配和释放不需要程序员干预，操作简单且固定，开销非常小。</li>
+<li>堆则需要程序员手动分配内存（如通过 <code>new</code> 操作符）或依赖垃圾回收器来管理对象的生命周期，这涉及额外的开销。</li>
+</ul>
+</li>
+</ol>
+<h2 id="堆是如何实现的？"><a href="#堆是如何实现的？" class="headerlink" title="堆是如何实现的？"></a>堆是如何实现的？</h2><p>堆内存的实现相对复杂，涉及到内存的分配、回收、垃圾回收等机制。</p>
+<h4 id="1-内存分配策略："><a href="#1-内存分配策略：" class="headerlink" title="1. 内存分配策略："></a>1. <strong>内存分配策略</strong>：</h4><p>堆的内存分配策略是动态的，也就是说程序在运行时，会根据需要动态地分配和释放内存。常见的堆内存分配策略有以下几种：</p>
+<ul>
+<li><p><strong>空闲列表（Free List）</strong>：<br>堆内存最常见的实现方式是使用一个<strong>空闲列表</strong>来记录哪些内存块是空闲的，哪些已经被分配。每当程序需要内存时，堆管理器会遍历空闲列表，找到一个合适大小的内存块进行分配。</p>
+<p>空闲列表的管理可以分为以下几种策略：</p>
+<ul>
+<li><strong>首次适应算法（First Fit）</strong>：从空闲列表的头部开始寻找第一个大小足够的块进行分配。</li>
+<li><strong>最佳适应算法（Best Fit）</strong>：遍历整个空闲列表，找到最小的、但能满足需求的内存块，减少内存浪费。</li>
+<li><strong>最差适应算法（Worst Fit）</strong>：从空闲列表中选择最大的内存块进行分配，减少碎片化。</li>
+</ul>
+</li>
+<li><p><strong>分块（Binning）</strong>：<br>在分块策略中，堆管理器会将空闲的内存块按大小分为不同的“桶”（Bin），当需要分配时，直接从合适的“桶”中取出所需的内存。这种方法提高了内存分配的速度，减少了遍历空闲列表的开销。</p>
+</li>
+</ul>
+<h4 id="2-内存碎片化："><a href="#2-内存碎片化：" class="headerlink" title="2. 内存碎片化："></a>2. <strong>内存碎片化</strong>：</h4><p>由于堆中的内存分配是动态的，内存块可能会分布在不连续的区域，导致内存碎片化问题。内存碎片可以分为两种：</p>
+<ul>
+<li><strong>外部碎片</strong>：由于多次分配和释放内存，堆中空闲的内存块分散在不同区域，尽管总的空闲内存足够大，但由于不连续，无法分配大块内存。</li>
+<li><strong>内部碎片</strong>：分配的内存块大于实际需要的内存，导致的浪费。</li>
+</ul>
+<p>为了解决碎片化问题，堆管理器会使用一些技术，如内存压缩（Compaction）或垃圾回收机制来整理碎片。</p>
+<h4 id="3-垃圾回收机制（Garbage-Collection-GC）："><a href="#3-垃圾回收机制（Garbage-Collection-GC）：" class="headerlink" title="3. 垃圾回收机制（Garbage Collection, GC）："></a>3. <strong>垃圾回收机制（Garbage Collection, GC）</strong>：</h4><p>Java 的堆内存中，最重要的内存管理机制就是<strong>垃圾回收（GC）</strong>。堆中的对象并不是立即释放的，而是由 GC 定期扫描堆，找到那些不再被引用的对象并进行回收。Java 的 GC 机制自动管理内存的回收，开发者无需手动释放对象内存。</p>
+<ul>
+<li><strong>标记-清除（Mark and Sweep）</strong>：GC 会先“标记”出哪些对象是活跃的，哪些是垃圾对象。然后通过“清除”操作回收这些垃圾对象所占用的内存。</li>
+<li><strong>标记-整理（Mark-Compact）</strong>：在清除垃圾对象的同时，将存活对象移到堆的一端，从而减少碎片化，提高后续内存分配的效率。</li>
+<li><strong>分代垃圾回收（Generational GC）</strong>：Java 堆分为新生代、老年代等区域。新生代中的对象通常是生命周期较短的临时对象，而老年代中的对象生命周期较长。GC 在新生代和老年代分别使用不同的回收策略，以提高效率。</li>
+</ul>
+<h4 id="4-堆的分代机制："><a href="#4-堆的分代机制：" class="headerlink" title="4. 堆的分代机制："></a>4. <strong>堆的分代机制</strong>：</h4><p>Java 的垃圾回收机制通常会将堆分为三个区域：</p>
+<ul>
+<li><strong>新生代（Young Generation）</strong>：用于存放新创建的对象。新生代又分为三个区域：<ul>
+<li><strong>Eden 区</strong>：大部分新对象会首先被分配到这个区域。</li>
+<li><strong>Survivor 区</strong>：当 Eden 区的对象经过一次 GC 仍然存活时，会移动到 Survivor 区。</li>
+</ul>
+</li>
+<li><strong>老年代（Old Generation）</strong>：如果一个对象在新生代经过多次 GC 仍然存活，那么它将被移动到老年代，老年代存放生命周期较长的对象。</li>
+<li><strong>永久代（PermGen）或元空间（Metaspace，Java 8 后引入）</strong>：用于存放类的元数据（方法、字段等信息），以及常量池等。</li>
+</ul>
+<p>分代机制的核心思想是：大多数对象的生命周期很短，所以在新生代频繁回收，而对于生命周期长的对象，减少它们的回收频率，以提高效率。</p>
+<h3 id="5-堆的实现及优化："><a href="#5-堆的实现及优化：" class="headerlink" title="5. 堆的实现及优化："></a>5. <strong>堆的实现及优化</strong>：</h3><p>由于堆内存分配的复杂性，堆的实现有很多优化策略，例如：</p>
+<ul>
+<li><strong>线程局部堆（Thread-Local Heap）</strong>：为每个线程分配一块私有的堆区域，减少线程间的竞争，提高并发性能。</li>
+<li><strong>对象池（Object Pooling）</strong>：对于生命周期相似、频繁创建和销毁的对象（如连接对象），可以使用对象池来重用这些对象，减少频繁的堆内存分配。</li>
+</ul>
+<h2 id="静态变量有什么作用？"><a href="#静态变量有什么作用？" class="headerlink" title="静态变量有什么作用？"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-01.html#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8" >静态变量有什么作用？<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><p>静态变量也就是被 <code>static</code> 关键字修饰的变量。它可以被类的所有实例共享，无论一个类创建了多少个对象，它们都共享同一份静态变量。也就是说，静态变量只会被分配一次内存，即使创建多个对象，这样可以节省内存。</p>
+<p>静态变量是通过类名来访问的，例如<code>StaticVariableExample.staticVar</code>（如果被 <code>private</code>关键字修饰就无法这样访问了）。</p>
+<p>通常情况下，静态变量会被 <code>final</code> 关键字修饰成为常量。</p>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticVariableExample</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">staticVar</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 静态变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">constantVar</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 常量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="静态方法为什么不能调用非静态成员"><a href="#静态方法为什么不能调用非静态成员" class="headerlink" title="静态方法为什么不能调用非静态成员?"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-01.html#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E8%B0%83%E7%94%A8%E9%9D%9E%E9%9D%99%E6%80%81%E6%88%90%E5%91%98" >静态方法为什么不能调用非静态成员?<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><ul>
+<li>静态方法是属于类的，在类加载的时候就会分配内存，可以通过类名直接访问。而非静态成员属于实例对象，只有在对象实例化之后才存在，需要通过类的实例对象去访问。</li>
+<li>在类的非静态成员不存在的时候静态方法就已经存在了，此时调用在内存中还不存在的非静态成员，属于非法操作。</li>
+</ul>
+<h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>封装是指把一个对象的状态信息（也就是属性）隐藏在对象内部，不允许外部对象直接访问对象的内部信息。但是可以提供一些可以被外界访问的方法来操作属性。</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>不同类型的对象，相互之间经常有一定数量的共同点。例如，小明同学、小红同学、小李同学，都共享学生的特性（班级、学号等）。同时，每一个对象还定义了额外的特性使得他们与众不同。</p>
+<p><strong>关于继承如下 3 点：</strong></p>
+<ol>
+<li>子类拥有父类对象所有的属性和方法（包括私有属性和私有方法），但是父类中的私有属性和方法子类是无法访问，<strong>只是拥有</strong>。</li>
+<li>子类可以拥有自己属性和方法，即子类可以对父类进行扩展。</li>
+<li>子类可以用自己的方式实现父类的方法。</li>
+</ol>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>多态，顾名思义，表示一个对象具有多种的状态，具体表现为父类的引用指向子类的实例。</p>
+<p><strong>多态的特点:</strong></p>
+<ul>
+<li>对象类型和引用类型之间具有继承（类）&#x2F;实现（接口）的关系；</li>
+<li>引用类型变量发出的方法调用的到底是哪个类中的方法，必须在程序运行期间才能确定；</li>
+<li>多态不能调用“只在子类存在但在父类不存在”的方法；</li>
+<li>如果子类重写了父类的方法，真正执行的是子类重写的方法，如果子类没有重写父类的方法，执行的是父类的方法。</li>
+</ul>
+<h3 id="深拷贝、浅拷贝"><a href="#深拷贝、浅拷贝" class="headerlink" title="深拷贝、浅拷贝"></a>深拷贝、浅拷贝</h3><p>深拷贝：复制对象的同时，将对象内部的所有引用类型字段的内容也复制一份，而不是共享引用。深拷贝会完全复制整个对象，包括这个对象所包含的内部对象。</p>
+<p>浅拷贝：只复制对象的引用，而不复制对象本身的数据。如果被复制的对象包含对其他对象的引用，那么只会复制这些引用，而不复制所指向的实际内容。</p>
+<h4 id="实现深拷贝的三种方式："><a href="#实现深拷贝的三种方式：" class="headerlink" title="实现深拷贝的三种方式："></a>实现深拷贝的三种方式：</h4><ol>
+<li>实现 Cloneable 接口重写 clone()  </li>
+<li>使用序列化和反序列化。通过对象序列化为字节流，再从字节流反序列化为对象。要求对象及其引用类型字段都是先 Serializable 接口  </li>
+<li>手动递归复制。</li>
+</ol>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><h3 id="与-equals"><a href="#与-equals" class="headerlink" title="&#x3D;&#x3D; 与 equals"></a>&#x3D;&#x3D; 与 equals</h3><h4 id=""><a href="#" class="headerlink" title="&#x3D;&#x3D;"></a>&#x3D;&#x3D;</h4><ul>
+<li><p>对于基本数据类型，比较值相等</p>
+</li>
+<li><p>对于引用类型，比如对象，比较两个对象是否指向同一个内存地址</p>
+</li>
+</ul>
+<h4 id="equals"><a href="#equals" class="headerlink" title="equals"></a>equals</h4><ul>
+<li><p>是 Object 的方法，默认情况下与&#x3D;&#x3D;等效，即比较地址</p>
+</li>
+<li><p>但许多类，如 String、Integer 都重写了方法，用于比较内容是否相等</p>
+</li>
+</ul>
+<h4 id="String-s1-“hello”"><a href="#String-s1-“hello”" class="headerlink" title="String s1 &#x3D; “hello”;"></a>String s1 &#x3D; “hello”;</h4><div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">System.out.println(s1 == s2);  <span class="comment">// 输出 true，因为 s1 和 s2 指向同一个常量池中的字符串</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">System.out.println(s1 == s2);  <span class="comment">// 输出 false，s1 和 s2 是不同的对象</span></span><br><span class="line">System.out.println(s1.equals(s2));  <span class="comment">// 输出 true，比较的是字符串的内容</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="hashcode-作用"><a href="#hashcode-作用" class="headerlink" title="hashcode()作用"></a>hashcode()作用</h3><p><code>hashCode()</code> 的作用是获取哈希码（<code>int</code> 整数），也称为散列码。这个哈希码的作用是确定该对象在哈希表中的索引位置。</p>
+<ul>
+<li>如果两个对象的<code>hashCode</code> 值相等，那这两个对象不一定相等（哈希碰撞）。</li>
+<li>如果两个对象的<code>hashCode</code> 值相等并且<code>equals()</code>方法也返回 <code>true</code>，我们才认为这两个对象相等。</li>
+<li>如果两个对象的<code>hashCode</code> 值不相等，我们就可以直接认为这两个对象不相等。</li>
+</ul>
+<h4 id="为什么重写-equals-时必须重写-hashCode-方法？"><a href="#为什么重写-equals-时必须重写-hashCode-方法？" class="headerlink" title="### 为什么重写 equals() 时必须重写 hashCode() 方法？"></a>### <a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-02.html#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E5%86%99-equals-%E6%97%B6%E5%BF%85%E9%A1%BB%E9%87%8D%E5%86%99-hashcode-%E6%96%B9%E6%B3%95" >为什么重写 equals() 时必须重写 hashCode() 方法？<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h4><p>因为两个相等的对象的 <code>hashCode</code> 值必须是相等。也就是说如果 <code>equals</code> 方法判断两个对象是相等的，那这两个对象的 <code>hashCode</code> 值也要相等。</p>
+<p>如果重写 <code>equals()</code> 时没有重写 <code>hashCode()</code> 方法的话就可能会导致 <code>equals</code> 方法判断是相等的两个对象，<code>hashCode</code> 值却不相等。</p>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><h3 id="StringBuffer-和-StringBuild-区别"><a href="#StringBuffer-和-StringBuild-区别" class="headerlink" title="StringBuffer 和 StringBuild 区别"></a>StringBuffer 和 StringBuild 区别</h3><p>都用来动态修改字符串的内容，从而不必每次都生成新的对象。 都继承自 <code>AbstractStringBuilder</code> 类</p>
+<h4 id="StringBuffer："><a href="#StringBuffer：" class="headerlink" title="StringBuffer："></a>StringBuffer：</h4><p>线程安全，方法是同步的，适用于多线程环境。</p>
+<h4 id="StringBuilder："><a href="#StringBuilder：" class="headerlink" title="StringBuilder："></a>StringBuilder：</h4><p>非线程安全，方法未同步，性能较高，适用于单线程环境。<br>StringBuffer 所有方法都 synchronized 同步。多个线程可以安全地访问同一个 StringBuffer 对象，而不会导致数据不一致或异常。<br>StringBuilder 非线程安全，性能更高，适用于单线程场景。</p>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/20241025194333.png"
+                      alt="异常类层次结构"
+                ></p>
+<h3 id="Exception-和-Error-有什么区别？"><a href="#Exception-和-Error-有什么区别？" class="headerlink" title="Exception 和 Error 有什么区别？"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#exception-%E5%92%8C-error-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB" >Exception 和 Error 有什么区别？<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h3><ul>
+<li><strong><code>Exception</code></strong> :程序本身可以处理的异常，可以通过 <code>catch</code> 来进行捕获。<code>Exception</code> 又可以分为 Checked Exception (受检查异常，必须处理) 和 Unchecked Exception (不受检查异常，可以不处理)。</li>
+<li><strong><code>Error</code></strong>：<code>Error</code> 属于程序无法处理的错误  。例如 Java 虚拟机运行错误（<code>Virtual MachineError</code>）、虚拟机内存不够错误(<code>OutOfMemoryError</code>)、类定义错误（<code>NoClassDefFoundError</code>）等 。这些异常发生时，Java 虚拟机（JVM）一般会选择线程终止。</li>
+</ul>
+<h3 id="Checked-Exception-和-Unchecked-Exception-有什么区别？"><a href="#Checked-Exception-和-Unchecked-Exception-有什么区别？" class="headerlink" title="Checked Exception 和 Unchecked Exception 有什么区别？"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#checked-exception-%E5%92%8C-unchecked-exception-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB" >Checked Exception 和 Unchecked Exception 有什么区别？<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h3><p><strong>Checked Exception</strong> 即 受检查异常 ，Java 代码在编译过程中，如果受检查异常没有被 <code>catch</code>或者<code>throws</code> 关键字处理的话，就没办法通过编译。</p>
+<p>除了<code>RuntimeException</code>及其子类以外，其他的<code>Exception</code>类及其子类都属于受检查异常 。常见的受检查异常有：IO 相关的异常、<code>ClassNotFoundException</code>、<code>SQLException</code>…。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/20241025194642.png"
+                      alt="受检查异常"
+                ></p>
+<p><strong>Unchecked Exception</strong> 即 <strong>不受检查异常</strong> ，Java 代码在编译过程中 ，我们即使不处理不受检查异常也可以正常通过编译。</p>
+<p><code>RuntimeException</code> 及其子类都统称为非受检查异常，常见的有（建议记下来，日常开发中会经常用到）：</p>
+<ul>
+<li><code>NullPointerException</code>(空指针错误)</li>
+<li><code>IllegalArgumentException</code>(参数错误比如方法入参类型错误)</li>
+<li><code>NumberFormatException</code>（字符串转换为数字格式错误，<code>IllegalArgumentException</code>的子类）</li>
+<li><code>ArrayIndexOutOfBoundsException</code>（数组越界错误）</li>
+<li><code>ClassCastException</code>（类型转换错误）</li>
+<li><code>ArithmeticException</code>（算术错误）</li>
+<li><code>SecurityException</code> （安全错误比如权限不够）</li>
+<li><code>UnsupportedOperationException</code>(不支持的操作错误比如重复创建同一用户)</li>
+<li>……</li>
+</ul>
+<h3 id="Throwable-类常用方法有哪些？"><a href="#Throwable-类常用方法有哪些？" class="headerlink" title="Throwable 类常用方法有哪些？"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#throwable-%E7%B1%BB%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B" >Throwable 类常用方法有哪些？<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h3><ul>
+<li><code>String getMessage()</code>: 返回异常发生时的详细信息</li>
+<li><code>String toString()</code>: 返回异常发生时的简要描述</li>
+<li><code>String getLocalizedMessage()</code>: 返回异常对象的本地化信息。使用 <code>Throwable</code> 的子类覆盖这个方法，可以生成本地化信息。如果子类没有覆盖该方法，则该方法返回的信息与 <code>getMessage()</code>返回的结果相同</li>
+<li><code>void printStackTrace()</code>: 在控制台上打印 <code>Throwable</code> 对象封装的异常信息</li>
+</ul>
+<h3 id="try-catch-finally-如何使用？"><a href="#try-catch-finally-如何使用？" class="headerlink" title="try-catch-finally 如何使用？"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#try-catch-finally-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8" >try-catch-finally 如何使用？<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h3><ul>
+<li><code>try</code>块：用于捕获异常。其后可接零个或多个 <code>catch</code> 块，如果没有 <code>catch</code> 块，则必须跟一个 <code>finally</code> 块。</li>
+<li><code>catch</code>块：用于处理 try 捕获到的异常。</li>
+<li><code>finally</code> 块：无论是否捕获或处理异常，<code>finally</code> 块里的语句都会被执行。当在 <code>try</code> 块或 <code>catch</code> 块中遇到 <code>return</code> 语句时，<code>finally</code> 语句块将在方法返回之前被执行。</li>
+</ul>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>允许类、接口和方法在定义时使用一个或多个类型参数，这些类型参数在使用时可以被指定为具体的类型。</p>
+<p>编译器可以对泛型参数进行检测，并且通过泛型参数可以指定传入的对象类型。比如 <code>ArrayList&lt;Person&gt; persons = new ArrayList&lt;Person&gt;()</code> 这行代码就指明了该 <code>ArrayList</code> 对象只能传入 <code>Person</code> 对象，如果传入其他类型的对象就会报错。</p>
+<h2 id="反射-1"><a href="#反射-1" class="headerlink" title="反射"></a>反射</h2><p>赋予了我们在运行时分析类以及执行类中方法的能力。通过反射你可以获取任意一个类的所有属性和方法，你还可以调用这些方法和属性。</p>
+<p>可以让我们的代码更加灵活、为各种框架提供开箱即用的功能提供了便利。</p>
+<p>在运行时有了分析操作类的能力的同时，也增加了安全问题，比如可以无视泛型参数的安全检查（泛型参数的安全检查发生在编译时）。另外，反射的性能也要稍差点，不过，对于框架来说实际是影响不大的。</p>
+<h2 id="注解"><a href="#注解" class="headerlink" title="注解"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#%E6%B3%A8%E8%A7%A3" >注解<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><p>可以看作是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息供程序在编译或者运行时使用。注解本质是一个继承了<code>Annotation</code> 的特殊接口</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
+<li>本质是继承了 Annotation 的特殊接口，实现类是 Java 运行时生成的动态代理类</li>
+</ul>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ul>
+<li>类、方法、字段</li>
+</ul>
+<h3 id="注解的解析方法有哪几种"><a href="#注解的解析方法有哪几种" class="headerlink" title="注解的解析方法有哪几种"></a>注解的解析方法有哪几种</h3><p>注解只有被解析之后才会生效，常见的解析方法有两种：</p>
+<ul>
+<li><strong>编译期直接扫描</strong>：编译器在编译 Java 代码的时候扫描对应的注解并处理，比如某个方法使用<code>@Override</code> 注解，编译器在编译的时候就会检测当前的方法是否重写了父类对应的方法。</li>
+<li><strong>运行期通过反射处理</strong>：像框架中自带的注解(比如 Spring 框架的 <code>@Value</code>、<code>@Component</code>)都是通过反射来进行处理的。</li>
+</ul>
+<h2 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#spi" >SPI<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><p>Java 的 SPI（Service Provider Interface，服务提供者接口）机制是 Java 提供的一种<strong>服务发现机制</strong>，允许开发人员可以动态地加载不同实现的服务。</p>
+<p>SPI 是 Java 平台的插件机制，特别适用于框架和库中，用于<strong>发现并加载第三方实现</strong>。</p>
+<p>SPI 的主要功能是让<strong>一个接口能够有多个实现</strong>，并且这些实现可以在运行时动态切换或加载。</p>
+<p>SPI 的核心是 <strong>服务接口</strong> 和 <strong>服务提供者</strong> 两个概念：</p>
+<ol>
+<li><strong>服务接口</strong>（Service Interface）：由服务提供方定义的标准接口，消费者通过该接口来访问服务。</li>
+<li><strong>服务提供者</strong>（Service Provider）：实现服务接口的类，由不同的实现方提供。</li>
+</ol>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SPI 的开发者需要实现接口，API 的使用者可以动态选择实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">PaymentService</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">pay</span><span class="params">(<span class="type">int</span> amount)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AliPayService</span> <span class="keyword">implements</span> <span class="title class_">PaymentService</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pay</span><span class="params">(<span class="type">int</span> amount)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Using AliPay to pay &quot;</span> + amount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WeChatPayService</span> <span class="keyword">implements</span> <span class="title class_">PaymentService</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pay</span><span class="params">(<span class="type">int</span> amount)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Using WeChatPay to pay &quot;</span> + amount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// SPI 使用者通过 ServiceLoader 动态加载实现</span></span><br><span class="line">ServiceLoader&lt;PaymentService&gt; loader = ServiceLoader.load(PaymentService.class);</span><br><span class="line"><span class="keyword">for</span> (PaymentService service : loader) &#123;</span><br><span class="line">    service.pay(<span class="number">100</span>);  <span class="comment">// 运行时决定是用 AliPay 还是 WeChatPay</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="SPI-的使用场景"><a href="#SPI-的使用场景" class="headerlink" title="SPI 的使用场景"></a>SPI 的使用场景</h3><p>SPI 机制广泛应用于各种需要动态加载实现的场景，尤其是在框架和中间件中，例如：</p>
+<ul>
+<li><strong>数据库驱动加载</strong>：JDBC 使用了 SPI 机制加载不同的数据库驱动程序。</li>
+<li><strong>日志框架</strong>：如 SLF4J 可以在不同的实现（logback、log4j）之间切换。</li>
+<li><strong>Java Web 框架</strong>：Servlet 容器可以通过 SPI 机制加载不同的应用程序组件。</li>
+<li><strong>其他插件机制</strong>：许多插件框架或库依赖 SPI 来加载自定义插件或模块。</li>
+</ul>
+<h3 id="SPI-的优缺点"><a href="#SPI-的优缺点" class="headerlink" title="SPI 的优缺点"></a>SPI 的优缺点</h3><p><strong>优点：</strong></p>
+<ol>
+<li><strong>扩展性强</strong>：允许增加新实现而无需修改客户端代码。</li>
+<li><strong>解耦合</strong>：接口和实现解耦，服务消费者只需要依赖服务接口，不关心具体实现。</li>
+<li><strong>动态加载</strong>：可以在运行时动态加载和更换服务实现。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li><strong>性能开销</strong>：<code>ServiceLoader</code> 会逐个遍历并实例化实现类，加载实现类较多时，可能会带来性能开销。</li>
+<li><strong>错误隐蔽</strong>：实现类必须有无参构造方法，并且需要在 <code>META-INF/services</code> 文件中正确配置。否则，加载时容易出现找不到实现类或实例化失败的问题。</li>
+<li><strong>难以控制顺序</strong>：<code>ServiceLoader</code> 加载实现类的顺序不一定稳定，有时需要手动管理加载顺序。</li>
+</ol>
+<h3 id="Java-SPI-常见问题"><a href="#Java-SPI-常见问题" class="headerlink" title="Java SPI 常见问题"></a>Java SPI 常见问题</h3><ul>
+<li><strong>实现类必须提供无参构造方法</strong>：<code>ServiceLoader</code> 使用无参构造方法实例化类，因此实现类必须提供无参构造方法。</li>
+<li><strong>在多模块项目中的配置问题</strong>：在复杂的多模块项目中，多个模块可能会提供不同的实现，此时需要小心配置 <code>META-INF/services</code> 文件，避免冲突。</li>
+<li><strong>不支持指定实现加载</strong>：<code>ServiceLoader</code> 会加载所有实现，无法指定加载某一个具体实现，这在某些场景下会带来不便。</li>
+</ul>
+<h3 id="Java-SPI-的改进"><a href="#Java-SPI-的改进" class="headerlink" title="Java SPI 的改进"></a>Java SPI 的改进</h3><p>Java 标准的 SPI 机制虽然简单易用，但也存在一定的局限性。为了解决这些问题，可以考虑以下改进方式：</p>
+<ol>
+<li><strong>自定义 ServiceLoader</strong>：可以实现一个自定义的 <code>ServiceLoader</code>，来控制加载顺序或支持筛选实现。</li>
+<li><strong>借助第三方库</strong>：例如 Guava 提供了 <code>ServiceLoader</code> 的扩展功能，Spring 也提供了丰富的依赖注入机制，可以替代 SPI 实现动态加载的功能。</li>
+<li><strong>支持延迟加载</strong>：在不需要时不加载实现类，优化启动性能。</li>
+</ol>
+<h2 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96" >序列化和反序列化<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><h3 id="什么是序列化-什么是反序列化"><a href="#什么是序列化-什么是反序列化" class="headerlink" title="什么是序列化?什么是反序列化?"></a><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BA%8F%E5%88%97%E5%8C%96-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">什么是序列化?什么是反序列化?</a></h3><p>如果我们需要持久化 Java 对象比如将 Java 对象保存在文件中，或者在网络传输 Java 对象，这些场景都需要用到序列化。</p>
+<p>简单来说：</p>
+<ul>
+<li><strong>序列化</strong>：将数据结构或对象转换成可以存储或传输的形式，通常是二进制字节流，也可以是 JSON, XML 等文本格式</li>
+<li><strong>反序列化</strong>：将在序列化过程中所生成的数据转换为原始数据结构或者对象的过程</li>
+</ul>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><ul>
+<li>对象在进行网络传输（比如远程方法调用 RPC 的时候）之前需要先被序列化，接收到序列化的对象之后需要再进行反序列化；</li>
+<li>将对象存储到文件之前需要进行序列化，将对象从文件中读取出来需要进行反序列化；</li>
+<li>将对象存储到数据库（如 Redis）之前需要用到序列化，将对象从缓存数据库中读取出来需要反序列化；</li>
+<li>将对象存储到内存之前需要进行序列化，从内存中读取出来之后需要进行反序列化。</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/osi-tcp-ip.png"
+                      alt="TCP&#x2F;IP 四层模型"
+                ><br>OSI 七层协议模型中的应用层、表示层和会话层对应的都是 TCP&#x2F;IP 四层模型中的应用层，所以序列化协议属于 TCP&#x2F;IP 协议应用层的一部分。</p>
+<h3 id="如果有些字段不想进行序列化怎么办"><a href="#如果有些字段不想进行序列化怎么办" class="headerlink" title="如果有些字段不想进行序列化怎么办"></a>如果有些字段不想进行序列化怎么办</h3><p>对于不想进行序列化的变量，使用 <code>transient</code> 关键字修饰。</p>
+<p><code>transient</code> 关键字的作用是：阻止实例中那些用此关键字修饰的的变量序列化；当对象被反序列化时，被 <code>transient</code> 修饰的变量值不会被持久化和恢复。</p>
+<p>关于 <code>transient</code> 还有几点注意：</p>
+<ul>
+<li><code>transient</code> 只能修饰变量，不能修饰类和方法。</li>
+<li><code>transient</code> 修饰的变量，在反序列化后变量值将会被置成类型的默认值。例如，如果是修饰 <code>int</code> 类型，那么反序列后结果就是 <code>0</code>。</li>
+<li><code>static</code> 变量因为不属于任何对象(Object)，所以无论有没有 <code>transient</code> 关键字修饰，均不会被序列化。</li>
+</ul>
+<h3 id="常见序列化协议有哪些？"><a href="#常见序列化协议有哪些？" class="headerlink" title="常见序列化协议有哪些？"></a><a href="#%E5%B8%B8%E8%A7%81%E5%BA%8F%E5%88%97%E5%8C%96%E5%8D%8F%E8%AE%AE%E6%9C%89%E5%93%AA%E4%BA%9B">常见序列化协议有哪些？</a></h3><p>JDK 自带的序列化方式一般不会用 ，因为序列化效率低并且存在安全问题。比较常用的序列化协议有 Hessian、Kryo、Protobuf、ProtoStuff，这些都是基于二进制的序列化协议。</p>
+<p>像 JSON 和 XML 这种属于文本类序列化方式。虽然可读性比较好，但是性能较差，一般不会选择。</p>
+<h3 id="为什么不推荐使用-JDK-自带的序列化？"><a href="#为什么不推荐使用-JDK-自带的序列化？" class="headerlink" title="为什么不推荐使用 JDK 自带的序列化？"></a><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-jdk-%E8%87%AA%E5%B8%A6%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96">为什么不推荐使用 JDK 自带的序列化？</a></h3><p>我们很少或者说几乎不会直接使用 JDK 自带的序列化方式，主要原因有下面这些原因：</p>
+<ul>
+<li><strong>不支持跨语言调用</strong> : 如果调用的是其他语言开发的服务的时候就不支持了。</li>
+<li><strong>性能差</strong>：相比于其他序列化框架性能更低，主要原因是序列化之后的字节数组体积较大，导致传输成本加大。</li>
+<li><strong>存在安全问题</strong>：序列化和反序列化本身并不存在问题。但当输入的反序列化的数据可被用户控制，那么攻击者即可通过构造恶意输入，让反序列化产生非预期的对象，在此过程中执行构造的任意代码。相关阅读：<a class="link"   target="_blank" rel="noopener" href="https://cryin.github.io/blog/secure-development-java-deserialization-vulnerability/" >应用安全：JAVA 反序列化漏洞之殇<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 。</li>
+</ul>
+<h2 id="I-O-1"><a href="#I-O-1" class="headerlink" title="I&#x2F;O"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#i-o" >I&#x2F;O<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/io/io-basis.html" >Java IO 基础知识总结<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/io/io-design-patterns.html" >Java IO 设计模式总结<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/io/io-model.html" >Java IO 模型详解<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p>Java IO 流的 40 多个类都是从如下 4 个抽象类基类中派生出来的。</p>
+<ul>
+<li><code>InputStream</code>&#x2F;<code>Reader</code>: 所有的输入流的基类，前者是字节输入流，后者是字符输入流。</li>
+<li><code>OutputStream</code>&#x2F;<code>Writer</code>: 所有输出流的基类，前者是字节输出流，后者是字符输出流。</li>
+</ul>
+<h3 id="为什么要分为字节流和字符流"><a href="#为什么要分为字节流和字符流" class="headerlink" title="为什么要分为字节流和字符流"></a>为什么要分为字节流和字符流</h3><h4 id="1-字节流和字符流的本质区别"><a href="#1-字节流和字符流的本质区别" class="headerlink" title="1. 字节流和字符流的本质区别"></a>1. 字节流和字符流的本质区别</h4><ul>
+<li><p><strong>字节流（Byte Stream）</strong>：主要用于处理原始的字节数据，即 8 位的二进制数据，通常用于非文本数据的传输，如图片、音频、视频等。字节流不考虑字符编码，因此更适合无格式的二进制数据。</p>
+</li>
+<li><p><strong>字符流（Character Stream）</strong>：主要用于处理文本数据，支持不同的字符编码。字符流在处理数据时，自动将字节数据按照字符编码进行转换，以适应多种文本编码的需求。字符流的设计是为了方便处理人类可读的文本信息。</p>
+</li>
+</ul>
+<h4 id="2-处理数据类型的需求不同"><a href="#2-处理数据类型的需求不同" class="headerlink" title="2. 处理数据类型的需求不同"></a>2. 处理数据类型的需求不同</h4><p>在编程中，I&#x2F;O 操作的类型主要分为两类：字节数据（如文件的原始数据）和字符数据（如文本文件内容）。如果 Java 只有一种流，处理文本文件和二进制文件会变得困难，分为字节流和字符流后，便于根据数据的实际需求选择合适的流。</p>
+<h4 id="3-字符编码的影响"><a href="#3-字符编码的影响" class="headerlink" title="3. 字符编码的影响"></a>3. 字符编码的影响</h4><p>字符流的设计主要是为了解决文本数据在不同编码方式下的兼容问题。例如，一个字母在 ASCII 编码下是 1 个字节，而在 UTF-16 编码下可能占 2 个字节。这种差异导致在处理文本文件时，若仅使用字节流，会涉及手动处理编码转换问题。</p>
+<p>字符流则自动处理了编码和解码，可以直接处理多种编码的文本数据，无需开发人员手动干预。通过字符流可以直接读取或写入多字节字符，而不用担心底层的编码转换。</p>
+<h3 id="Java-中字节流和字符流的层次结构"><a href="#Java-中字节流和字符流的层次结构" class="headerlink" title="Java 中字节流和字符流的层次结构"></a>Java 中字节流和字符流的层次结构</h3><ul>
+<li><p><strong>字节流</strong>：以 <code>InputStream</code> 和 <code>OutputStream</code> 为基类，常见实现有 <code>FileInputStream</code>、<code>FileOutputStream</code>、<code>BufferedInputStream</code>、<code>BufferedOutputStream</code> 等。</p>
+</li>
+<li><p><strong>字符流</strong>：以 <code>Reader</code> 和 <code>Writer</code> 为基类，常见实现有 <code>FileReader</code>、<code>FileWriter</code>、<code>BufferedReader</code>、<code>BufferedWriter</code> 等。</p>
+</li>
+</ul>
+<h2 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a><a class="link"   target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-03.html#%E8%AF%AD%E6%B3%95%E7%B3%96" >语法糖<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></h2><p><strong>语法糖（Syntactic sugar）</strong> 代指的是编程语言为了方便程序员开发程序而设计的一种特殊语法，这种语法对编程语言的功能并没有影响。实现相同的功能，基于语法糖写出来的代码往往更简单简洁且更易阅读。</p>
+<p>举个例子，Java 中的 <code>for-each</code> 就是一个常用的语法糖，其原理其实就是基于普通的 for 循环和迭代器。</p>
+<p>不过，JVM 其实并不能识别语法糖，Java 语法糖要想被正确执行，需要先通过编译器进行解糖，也就是在程序编译阶段将其转换成 JVM 认识的基本语法。这也侧面说明，Java 中真正支持语法糖的是 Java 编译器而不是 JVM。如果你去看<code>com.sun.tools.javac.main.JavaCompiler</code>的源码，你会发现在<code>compile()</code>中有一个步骤就是调用<code>desugar()</code>，这个方法就是负责解语法糖的实现的。</p>
+<h3 id="Java-中有哪些常见的语法糖？"><a href="#Java-中有哪些常见的语法糖？" class="headerlink" title="Java 中有哪些常见的语法糖？"></a><a href="#java-%E4%B8%AD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96">Java 中有哪些常见的语法糖？</a></h3><p>Java 中最常用的语法糖主要有泛型、自动拆装箱、变长参数、枚举、内部类、增强 for 循环、try-with-resources 语法、lambda 表达式等。</p>
+<p>关于这些语法糖的详细解读，请看这篇文章 <a href="/java/basis/syntactic-sugar.html">Java 语法糖详解</a> 。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Java 基础</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2024-09-20 08:31:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-11-08 17:08:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://moye12325.github.io/2024/09/20/Java 基础/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/09/20/Java%E9%9B%86%E5%90%88/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Java集合</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/09/20/Javabasics/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Java 基础</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">Java 基础</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-%E5%9F%BA%E7%A1%80"><span class="nav-text">Java 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">Java 的特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-text">新特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-text">设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-O"><span class="nav-text">I&#x2F;O</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-text">对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">创建对象的方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AB%E5%A4%A7%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">八大基本数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8-bigDecimal-%E4%B8%8D%E7%94%A8-double"><span class="nav-text">为什么用 bigDecimal 不用 double</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%86%E7%AE%B1%E4%B8%8E%E8%A3%85%E7%AE%B1"><span class="nav-text">拆箱与装箱</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-text">抽象类和接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9%EF%BC%9A"><span class="nav-text">相同点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%82%B9%EF%BC%9A"><span class="nav-text">不同点：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E5%92%8C%E5%A0%86"><span class="nav-text">栈和堆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%A0%88%EF%BC%88Stack%EF%BC%89"><span class="nav-text">1. 栈（Stack）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A0%86%EF%BC%88Heap%EF%BC%89"><span class="nav-text">2. 堆（Heap）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A0%86%E5%92%8C%E6%A0%88%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">3. 堆和栈的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A0%86%E5%92%8C%E6%A0%88%E7%9A%84%E9%85%8D%E5%90%88"><span class="nav-text">4. 堆和栈的配合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A0%88%E6%AF%94%E5%A0%86%E8%AE%BF%E9%97%AE%E5%BF%AB"><span class="nav-text">为什么栈比堆访问快</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="nav-text">堆是如何实现的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A0%86%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8F%8A%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="nav-text">5. 堆的实现及优化：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-text">静态变量有什么作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E8%B0%83%E7%94%A8%E9%9D%9E%E9%9D%99%E6%80%81%E6%88%90%E5%91%98"><span class="nav-text">静态方法为什么不能调用非静态成员?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%81%E8%A3%85"><span class="nav-text">封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%80%81"><span class="nav-text">多态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-text">深拷贝、浅拷贝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object"><span class="nav-text">Object</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-equals"><span class="nav-text">&#x3D;&#x3D; 与 equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashcode-%E4%BD%9C%E7%94%A8"><span class="nav-text">hashcode()作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuffer-%E5%92%8C-StringBuild-%E5%8C%BA%E5%88%AB"><span class="nav-text">StringBuffer 和 StringBuild 区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Exception-%E5%92%8C-Error-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">Exception 和 Error 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Checked-Exception-%E5%92%8C-Unchecked-Exception-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">Checked Exception 和 Unchecked Exception 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Throwable-%E7%B1%BB%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">Throwable 类常用方法有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#try-catch-finally-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="nav-text">try-catch-finally 如何使用？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B"><span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84-1"><span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3"><span class="nav-text">注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E8%A7%A3%E6%9E%90%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D"><span class="nav-text">注解的解析方法有哪几种</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPI"><span class="nav-text">SPI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SPI-%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">SPI 的使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SPI-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-text">SPI 的优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-SPI-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-text">Java SPI 常见问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-SPI-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-text">Java SPI 的改进</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">序列化和反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BA%8F%E5%88%97%E5%8C%96-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">什么是序列化?什么是反序列化?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF"><span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%9C%89%E4%BA%9B%E5%AD%97%E6%AE%B5%E4%B8%8D%E6%83%B3%E8%BF%9B%E8%A1%8C%E5%BA%8F%E5%88%97%E5%8C%96%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-text">如果有些字段不想进行序列化怎么办</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%BA%8F%E5%88%97%E5%8C%96%E5%8D%8F%E8%AE%AE%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">常见序列化协议有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-JDK-%E8%87%AA%E5%B8%A6%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9F"><span class="nav-text">为什么不推荐使用 JDK 自带的序列化？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-O-1"><span class="nav-text">I&#x2F;O</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%86%E4%B8%BA%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E5%AD%97%E7%AC%A6%E6%B5%81"><span class="nav-text">为什么要分为字节流和字符流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-%E4%B8%AD%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E5%AD%97%E7%AC%A6%E6%B5%81%E7%9A%84%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="nav-text">Java 中字节流和字符流的层次结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E7%B3%96"><span class="nav-text">语法糖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-%E4%B8%AD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96%EF%BC%9F"><span class="nav-text">Java 中有哪些常见的语法糖？</span></a></li></ol></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 356 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/libs/anime.min.js"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
