@@ -205,10 +205,9 @@ navbar:
     pages: 1000px #other pages
   # Navbar links
   links:
-    首页: 
-      path: / 
-      icon: fa-regular fa-house # can be empty
-    博客: 
+    # Home link is automatically added by theme and translated to "首页" in zh-CN
+    # 主题会自动添加 Home 链接，并在中文环境下翻译为"首页"
+    博客:
       icon: fa-regular fa-book # can be empty
       submenus:
         全部文章: /archives/
