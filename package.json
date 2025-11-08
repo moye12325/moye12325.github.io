@@ -32,5 +32,8 @@
     "hexo-theme-landscape": "^1.0.0",
     "hexo-theme-redefine": "^2.8.5",
     "slugify": "^1.6.6"
+  },
+  "overrides": {
+    "strip-ansi": "^6.0.1"
   }
 }
