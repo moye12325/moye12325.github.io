@@ -31,6 +31,17 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
+    - name: Verify Theme Installation
+      run: |
+        echo "=== Checking installed themes ==="
+        ls -la node_modules/ | grep hexo-theme || echo "No themes found in node_modules"
+        if [ -d "node_modules/hexo-theme-redefine" ]; then
+          echo "✓ hexo-theme-redefine is installed"
+        else
+          echo "✗ hexo-theme-redefine is NOT installed"
+          exit 1
+        fi
+
     - name: Clean
       run: npm run clean
 
@@ -45,6 +56,12 @@ jobs:
         find public -type f | wc -l
         echo "=== Checking for index.html ==="
         test -f public/index.html && echo "✓ index.html found" || echo "✗ index.html NOT found"
+        echo "=== Checking theme assets ==="
+        if [ -d "public/css" ] && [ -d "public/js" ]; then
+          echo "✓ Theme assets found"
+        else
+          echo "✗ Theme assets NOT found"
+        fi
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
@@ -52,4 +69,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
         publish_branch: gh-pages
-        cname: moye12325.github.io
