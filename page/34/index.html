@@ -757,16 +757,17 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E6%B1%87%E8%81%9A%E5%B1%82%E4%B8%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CLeNet/">
-                            深度学习-李沐-第六节-汇聚层与卷积神经网络LeNet
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E5%B9%85%E3%80%81%E5%A4%9A%E8%BE%93%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E9%80%9A%E9%81%93/">
+                            深度学习-李沐-第六节-填充、步幅、多输入多输出通道
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            汇聚层与卷积神经网络LeNet汇聚层双重目的：降低卷积层对位置的敏感性，同时降低对空间降采样表示的敏感性。
-最大汇聚层和平均汇聚层与卷积层类似，汇聚层运算符由一个固定形状的窗口组成，该窗口根据其步幅大小在输入的所有区域上滑动，为固定形状窗口（有时称为汇聚窗口）遍历的每个位置计算一个输出。 不同于卷积层中的输入与卷积核之间的互相关计算，汇聚层不包含参数。 相反，池运算是确定性的，我们通常计算汇...
+                            填充、步幅、多输入多输出通道填充为什么要填充由于我们通常使用小卷积核，因此对于任何单个卷积，我们可能只会丢失几个像素。 但随着我们应用许多连续卷积层，累积丢失的像素数就多了。 解决这个问题的简单方法即为填充（padding）。
+填充定义以及举例在输入图像的边界填充元素（通常填充元素是0）。输出大小：（输入-卷积核+步幅+填充）&#x2F; 步幅
+12345678910111213141516...
                         
                     </div>
 
@@ -799,7 +800,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E6%B1%87%E8%81%9A%E5%B1%82%E4%B8%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CLeNet/">阅读全文<span class="seo-reader-text">深度学习-李沐-第六节-汇聚层与卷积神经网络LeNet</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E5%B9%85%E3%80%81%E5%A4%9A%E8%BE%93%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E9%80%9A%E9%81%93/">阅读全文<span class="seo-reader-text">深度学习-李沐-第六节-填充、步幅、多输入多输出通道</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -871,15 +872,17 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/">
-                            深度学习-李沐-第十三节-全卷积网络FCN
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8D%95%E5%8F%91%E5%A4%9A%E6%A1%86%E6%A3%80%E6%B5%8B%EF%BC%88SSD%EF%BC%89%E4%B8%8Eyolo/">
+                            深度学习-李沐-第十三节-单发多框检测（SSD）与yolo
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            全卷积网络FCNFCN与CNNFCN:FCN是对图像进行像素级的分类（也就是每个像素点都进行分类），从而解决了语义级别的图像分割问题。将这3层表示为卷积层，卷积核的大小(通道数，宽，高)分别为（4096,1,1）、（4096,1,1）、（1000,1,1）CNN: 在最后的卷积层之后会连接上若干个全连接层，将卷积层产生的特征图（feature map）映射成为一个固定长度的特征向量。一般的C...
+                            单发多框检测（SSD）与yolo通过多尺度特征块，单发多框检测生成不同大小的锚框，并通过预测边界框的类别和偏移量来检测大小不同的目标
+
+yolo 也是一个 single-stage 的算法，只有一个单神经网络来做预测yolo 也需要锚框，这点和 SSD 相同，但是 SSD 是对每个像素点生成多个锚框，所以在绝大部分情况下两个相邻像素的所生成的锚框的重叠率是相当高的，这样就会导致很大的重复计算...
                         
                     </div>
 
@@ -912,7 +915,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-全卷积网络FCN</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8D%95%E5%8F%91%E5%A4%9A%E6%A1%86%E6%A3%80%E6%B5%8B%EF%BC%88SSD%EF%BC%89%E4%B8%8Eyolo/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-单发多框检测（SSD）与yolo</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -987,17 +990,15 @@ R-CNN首先从输入图像中选取若干（例如2000个）提议区域（如�
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8D%95%E5%8F%91%E5%A4%9A%E6%A1%86%E6%A3%80%E6%B5%8B%EF%BC%88SSD%EF%BC%89%E4%B8%8Eyolo/">
-                            深度学习-李沐-第十三节-单发多框检测（SSD）与yolo
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/">
+                            深度学习-李沐-第十三节-全卷积网络FCN
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            单发多框检测（SSD）与yolo通过多尺度特征块，单发多框检测生成不同大小的锚框，并通过预测边界框的类别和偏移量来检测大小不同的目标
-
-yolo 也是一个 single-stage 的算法，只有一个单神经网络来做预测yolo 也需要锚框，这点和 SSD 相同，但是 SSD 是对每个像素点生成多个锚框，所以在绝大部分情况下两个相邻像素的所生成的锚框的重叠率是相当高的，这样就会导致很大的重复计算...
+                            全卷积网络FCNFCN与CNNFCN:FCN是对图像进行像素级的分类（也就是每个像素点都进行分类），从而解决了语义级别的图像分割问题。将这3层表示为卷积层，卷积核的大小(通道数，宽，高)分别为（4096,1,1）、（4096,1,1）、（1000,1,1）CNN: 在最后的卷积层之后会连接上若干个全连接层，将卷积层产生的特征图（feature map）映射成为一个固定长度的特征向量。一般的C...
                         
                     </div>
 
@@ -1030,7 +1031,63 @@ yolo 也是一个 single-stage 的算法，只有一个单神经网络来做预�
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8D%95%E5%8F%91%E5%A4%9A%E6%A1%86%E6%A3%80%E6%B5%8B%EF%BC%88SSD%EF%BC%89%E4%B8%8Eyolo/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-单发多框检测（SSD）与yolo</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-全卷积网络FCN</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%B8%B8%E7%94%A8%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%B9%BF%E6%96%B9%E6%B3%95/">
+                            深度学习-李沐-第十三节-常用图像增广方法
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            图像增广常用图像增广方法12345678d2l.set_figsize()img = d2l.Image.open(&#x27;../img/cat1.jpg&#x27;)d2l.plt.imshow(img);def apply(img, aug, num_rows=2, num_cols=4, scale=1.5):    Y = [aug(img) for _ in range(num...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/DL-%E6%9D%8E%E6%B2%90/">DL-李沐</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%B8%B8%E7%94%A8%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%B9%BF%E6%96%B9%E6%B3%95/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-常用图像增广方法</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1092,62 +1149,6 @@ yolo 也是一个 single-stage 的算法，只有一个单神经网络来做预�
     </div>
 
     <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%BE%AE%E8%B0%83/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-微调</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%B8%B8%E7%94%A8%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%B9%BF%E6%96%B9%E6%B3%95/">
-                            深度学习-李沐-第十三节-常用图像增广方法
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            图像增广常用图像增广方法12345678d2l.set_figsize()img = d2l.Image.open(&#x27;../img/cat1.jpg&#x27;)d2l.plt.imshow(img);def apply(img, aug, num_rows=2, num_cols=4, scale=1.5):    Y = [aug(img) for _ in range(num...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/DL-%E6%9D%8E%E6%B2%90/">DL-李沐</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-    </div>
-
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%B8%B8%E7%94%A8%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%B9%BF%E6%96%B9%E6%B3%95/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-常用图像增广方法</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
