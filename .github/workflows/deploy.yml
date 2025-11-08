@@ -4,34 +4,52 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3
       with:
         submodules: true
-        
+        fetch-depth: 0
+
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        
+        cache: 'npm'
+
     - name: Install Dependencies
       run: npm ci
-      
+
     - name: Clean
       run: npm run clean
-      
+
     - name: Build
       run: npm run build
-      
+
+    - name: Check Build Output
+      run: |
+        echo "=== Build Output Directory ==="
+        ls -la public/ | head -20
+        echo "=== Total Files ==="
+        find public -type f | wc -l
+        echo "=== Checking for index.html ==="
+        test -f public/index.html && echo "✓ index.html found" || echo "✗ index.html NOT found"
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
         publish_branch: gh-pages
+        cname: moye12325.github.io
