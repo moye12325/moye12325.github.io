@@ -1,5 +1,5 @@
 ---
-title: RabbitMQ
+title: RabbitMQ知识总结
 date: 2024-07-22 17:59:40
 categories:
   - 所遇问题
