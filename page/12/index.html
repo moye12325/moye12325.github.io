@@ -619,7 +619,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">183</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">180</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -732,7 +732,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">183</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">180</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -757,22 +757,23 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/Chinese%20Extractive%20Question%20Answering/">
-                            Chinese Extractive Question Answering
+                        <a href="/2022/08/16/Domain%20Adaptation/">
+                            Domain Adaptation
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            HW7 抽取式问答
-Task description
-Chinese Extractive Question Answering
-Input: Paragraph + Question
-Output: Answer
+                            Domain Adaptation本质是一个二元分类器
+
+Domain Adaptation技术,也可以看做是 Transfer Learning 的一种在A任务上学习的技能可以用在B上，一个Domain上学到的用在另一个Domain上
+Domain Shift
+
+只有少许标注需要做Adaptation
 
 
-Objective: Learn how to fine tune a pretrained model on downstream task using transform...
+怎么用没有标注的资料在Source Domain上训练并用在Target Domai...
                         
                     </div>
 
@@ -805,7 +806,7 @@ Objective: Learn how to fine tune a pretrained model on downstream task using tr
         
     </div>
 
-    <a href="/2022/08/16/Chinese%20Extractive%20Question%20Answering/">阅读全文<span class="seo-reader-text">Chinese Extractive Question Answering</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/Domain%20Adaptation/">阅读全文<span class="seo-reader-text">Domain Adaptation</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -885,70 +886,6 @@ Why we need Explainable ML?
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/Domain%20Adaptation/">
-                            Domain Adaptation
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            Domain Adaptation本质是一个二元分类器
-
-Domain Adaptation技术,也可以看做是 Transfer Learning 的一种在A任务上学习的技能可以用在B上，一个Domain上学到的用在另一个Domain上
-Domain Shift
-
-只有少许标注需要做Adaptation
-
-
-怎么用没有标注的资料在Source Domain上训练并用在Target Domai...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-    </div>
-
-    <a href="/2022/08/16/Domain%20Adaptation/">阅读全文<span class="seo-reader-text">Domain Adaptation</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
                         <a href="/2022/08/16/HW10%20%20Attact/">
                             HW10  Attact
                         </a>
@@ -993,131 +930,6 @@ Domain Shift
     </div>
 
     <a href="/2022/08/16/HW10%20%20Attact/">阅读全文<span class="seo-reader-text">HW10  Attact</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2022/08/16/HW11/">
-                            HW11
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            HW11任务介绍
-通过使用Domain Adaptation的方法将有label的真实照片（5000）来预测没有label的黑白的图案（100000）物体的类别。
-训练数据来自GTA-5的街景，测试数据来自真实世界的街景，要求将Feat-A和Feat-B越接近越好
-
-
-
-
-
-baseline
-改进措施
-Set proper λ in DaNN algorithm.
-Training more...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-    </div>
-
-    <a href="/2022/08/16/HW11/">阅读全文<span class="seo-reader-text">HW11</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2022/08/16/HW12/">
-                            HW12
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            HW12作业描述
-Policy Gradient
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354agent.network.train()  # Switch network into training mode EPISODE_PER_BA...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-    </div>
-
-    <a href="/2022/08/16/HW12/">阅读全文<span class="seo-reader-text">HW12</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1210,63 +1022,6 @@ AUC &gt;&#x3...
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/Homework%206%20-%20Generative%20Adversarial%20Network/">
-                            Homework 6 - Generative Adversarial Network
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            作业六：Homework 6 - Generative Adversarial Network——使用GAN生成动漫人物脸This is the sample code for hw6 of 2022 Machine Learning course in National Taiwan University. 
-In this sample code, there are 5 section...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-    </div>
-
-    <a href="/2022/08/16/Homework%206%20-%20Generative%20Adversarial%20Network/">阅读全文<span class="seo-reader-text">Homework 6 - Generative Adversarial Network</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
                         <a href="/2022/08/16/HW9/">
                             HW9
                         </a>
@@ -1310,6 +1065,63 @@ In this sample code, there are 5 section...
     </div>
 
     <a href="/2022/08/16/HW9/">阅读全文<span class="seo-reader-text">HW9</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/Homework%206%20-%20Generative%20Adversarial%20Network/">
+                            Homework 6 - Generative Adversarial Network
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            作业六：Homework 6 - Generative Adversarial Network——使用GAN生成动漫人物脸This is the sample code for hw6 of 2022 Machine Learning course in National Taiwan University. 
+In this sample code, there are 5 section...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2022/08/16/Homework%206%20-%20Generative%20Adversarial%20Network/">阅读全文<span class="seo-reader-text">Homework 6 - Generative Adversarial Network</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1371,11 +1183,185 @@ In this sample code, there are 5 section...
                 </div>
             </li>
         
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/Life%20long%20learning/">
+                            Life long learning
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            HW14什么是Life long learningLife long learning意思是终身学习，是指一直使用同一个神经网络去学习不同的任务。实现life long learning大致分为三方面：knowledge retention，knowledge transfer，model expansion。
+为什么不让一个模型就学习一个任务，而是要让一个模型学习多个任务？如果是让一个模型...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2022/08/16/Life%20long%20learning/">阅读全文<span class="seo-reader-text">Life long learning</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/NLP%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/">
+                            NLP自监督学习
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            NLP自监督学习各种任务上都可以做
+Self-supervised Learning“自监督学习”数据本身没有标签，所以属于无监督学习；但是训练过程中实际上“有标签”，标签是“自己生成的”。把训练数据分为“两部分”，一部分作为作为“输入数据、另一部分作为“标注”。
+BERT输入一排，输出一排，长度一致。输入换成语音也是一样的
+BERT是一个transformer的Encoder，BERT可以...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2022/08/16/NLP%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/">阅读全文<span class="seo-reader-text">NLP自监督学习</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/Python%20Class%20for%20RNN%20Encoder/">
+                            Python Class for RNN Encoder
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            class RNNEncoder(FairseqEncoder):def init(self, args, dictionary, embed_tokens):    super().init(dictionary)    self.embed_tokens &#x3D; embed_tokens
+self.embed_dim = args.encoder_embed_dim
+self.hi...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:01:08 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/DL%E6%9D%8E%E5%AE%8F%E6%AF%85/">DL李宏毅</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2022/08/16/Python%20Class%20for%20RNN%20Encoder/">阅读全文<span class="seo-reader-text">Python Class for RNN Encoder</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
     </ul>
 
     <div class="home-paginator px-7 py-5">
         <div class="paginator">
-	<a class="extend prev" rel="prev" href="/page/11/"><i class="fa-regular fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/13/"><i class="fa-regular fa-angle-right"></i></a>
+	<a class="extend prev" rel="prev" href="/page/11/"><i class="fa-regular fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/13/"><i class="fa-regular fa-angle-right"></i></a>
 </div>
   
     </div>
@@ -1401,7 +1387,7 @@ In this sample code, there are 5 section...
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 183 篇文章
+                        共撰写了 180 篇文章
                     </span>
                     
                 </p>
