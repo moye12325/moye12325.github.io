@@ -11,7 +11,7 @@
 # Docs: https://redefine-docs.ohevan.com/basic/info
 info:
   # Site title
-  title: 码农修行手册
+  title: Moye活着的记录
   # Site subtitle
   subtitle: Python与量子计算之路上的心得与实践
   # Author name
@@ -88,7 +88,7 @@ global:
   single_page: true
   # Whether to enable Preloader.
   preloader:
-    enable: false
+    enable: true
     custom_message: # Custom message. If empty, the site title will be displayed
   # Side tools settings
   side_tools:
@@ -131,16 +131,16 @@ home_banner:
   style: fixed # static or fixed
   # Home banner image
   image: 
-    light: /images/wallhaven-wqery6-light.webp # light mode
-    dark: /images/wallhaven-wqery6-dark.webp # dark mode
+    light: https://files.codelife.cc/wallhaven/full/g7/wallhaven-g75r7d.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp # 亮色模式下显示第一张图片
+    dark: https://files.codelife.cc/wallpaper/wallspic/167264.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp # 暗色模式下显示另一种图片
   # Home banner title
-  title: Theme Redefine
+  title: OK
   # Home banner subtitle
   subtitle:
-    text: [] # subtitle text, array
+    text: ["What matters most in life is often invisible."] # subtitle text, array
     hitokoto:  # 一言配置
-      enable: false # Whether to enable hitokoto
-      show_author: false # Whether to show author
+      enable: true # Whether to enable hitokoto
+      show_author: true # Whether to show author
       api: https://v1.hitokoto.cn # API URL, can add types, see https://developer.hitokoto.cn/sentence/#%E5%8F%A5%E5%AD%90%E7%B1%BB%E5%9E%8B-%E5%8F%82%E6%95%B0
     typing_speed: 100 # Typing speed (ms)
     backing_speed: 80 # Backing speed (ms)
@@ -171,14 +171,14 @@ home_banner:
   # Home banner social links
   social_links:
     # Whether to enable
-    enable: false
+    enable: true
     # Social links style
     style: default # default, reverse, center
     # Social links
     links:
-      github:  # your GitHub URL
-      instagram: # your Instagram URL
-      zhihu:  # your ZhiHu URL
+      github:  https://github.com/moye12325 # your GitHub URL
+      music: https://music.163.com/#/user/home?id=609685181 # your Instagram URL
+      bilibili: https://space.bilibili.com/180380237 # your ZhiHu URL
       twitter:  # your twitter URL
       email:  # your email
       # ...... # you can add more
