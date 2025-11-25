@@ -1,8 +1,8 @@
 ---
 title: windows server2019安装nginx部署项目
 date: 2024-07-22 18:02:56
-categories:
-  - 所遇问题
+categories: [Web开发]
+tags: ['Java', 'JavaScript', 'Nginx', '机器学习', '部署']
 ---
 # windows安装nginx部署项目
 

@@ -1,8 +1,8 @@
 ---
 title: Leetcode hot 100
 date: 2024-10-14 11:28:11
-categories:
-  - LeetCode
+categories: [数据结构与算法]
+tags: ['Java', 'LeetCode']
 ---
 ## 1 哈希
 ### 1. 两数之和

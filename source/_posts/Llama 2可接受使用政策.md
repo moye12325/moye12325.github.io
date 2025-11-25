@@ -1,8 +1,8 @@
 ---
 title: Llama 2可接受使用政策
 date: 2023-08-16 15:02:26
-categories:
-  - Llama
+categories: [量子计算]
+tags: ['Git', '计算机视觉']
 ---
 # Llama 2可接受使用政策
 

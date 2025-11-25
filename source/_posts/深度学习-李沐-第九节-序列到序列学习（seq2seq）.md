@@ -1,8 +1,8 @@
 ---
 title: 深度学习-李沐-第九节-序列到序列学习（seq2seq）
 date: 2022-08-16 15:00:46
-categories:
-  - DL-李沐
+categories: [深度学习]
+tags: ['深度学习', '神经网络']
 ---
 # 序列到序列学习（seq2seq）
 

@@ -1,8 +1,8 @@
 ---
 title: wallhaven壁纸网站爬虫
 date: 2024-07-18 14:10:07
-categories:
-  - 爬虫代码
+categories: [数据结构与算法]
+tags: ['Python', '机器学习']
 ---
 # wallhaven壁纸网站爬虫
 

@@ -1,8 +1,8 @@
 ---
 title: 深入浅出Python多线程、多进程、协程
 date: 2025-05-08 01:15:09
-categories:
-  - Python
+categories: [Python开发]
+tags: ['Python']
 ---
 1.  **多进程 (Multiprocessing):** 操作系统层面的并行。每个进程有自己独立的内存空间，进程之间互不影响。适合执行 **CPU 密集型** 任务，可以充分利用多核 CPU。创建和销毁进程开销较大。
 2.  **多线程 (Multithreading):** 在同一个进程内创建多个执行流。线程共享进程的内存空间。适合执行 **I/O 密集型** 任务（如网络请求、文件读写），因为在等待 I/O 时，其他线程可以继续执行。但在 Python 中受 **GIL (Global Interpreter Lock)** 的限制，同一时刻只有一个线程能执行 Python 字节码，所以在 CPU 密集型任务上，多线程并不能实现真正的并行。创建和销毁线程开销比进程小。

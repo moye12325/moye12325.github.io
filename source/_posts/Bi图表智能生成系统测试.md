@@ -1,8 +1,8 @@
 ---
 title: Bi图表智能生成系统测试
 date: 2024-08-28 16:25:49
-categories:
-  - 项目测试
+categories: [数据结构与算法]
+tags: ['数据结构', '测试']
 ---
 # 功能测试
 ![功能测试](https://qiniu.kanes.top/blog/功能测试.svg)

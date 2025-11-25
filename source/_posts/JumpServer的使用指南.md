@@ -1,8 +1,8 @@
 ---
 title: JumpServer的使用指南
 date: 2024-07-22 17:49:23
-categories:
-  - 所遇问题
+categories: [Web开发]
+tags: []
 ---
 # 零、
 

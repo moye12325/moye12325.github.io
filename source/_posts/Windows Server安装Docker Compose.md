@@ -1,8 +1,8 @@
 ---
 title: Windows Server安装Docker Compose
 date: 2024-07-22 18:04:39
-categories:
-  - 所遇问题
+categories: [开发工具]
+tags: ['Docker', 'Git', 'MySQL', 'Nginx']
 ---
 # Windows Server安装Docker Compose
 

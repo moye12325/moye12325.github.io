@@ -1,8 +1,8 @@
 ---
 title: reasoning≠coding
 date: 2024-12-29 12:31:50
-categories:
-  - 人工智能
+categories: [随笔]
+tags: ['数据结构', '测试', '算法']
 ---
 很多人说，reasoning=coding，o3就是最能写代码的模型。
 

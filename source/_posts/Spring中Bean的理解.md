@@ -1,8 +1,8 @@
 ---
 title: Spring中Bean的理解
 date: 2024-09-23 13:08:05
-categories:
-  - Java
+categories: [Java开发]
+tags: ['Docker', 'Java', 'Spring', '机器学习']
 ---
 在 Spring 框架中，**Bean** 是一个核心概念，也是很多功能的基础。
 

@@ -1,8 +1,8 @@
 ---
 title: Leetcode35. 搜索插入位置
 date: 2024-08-24 13:26:07
-categories:
-  - LeetCode
+categories: [数据结构与算法]
+tags: ['Java', 'LeetCode', '算法']
 ---
 [Leetcode35. 搜索插入位置](https://leetcode.cn/problems/search-insert-position/description/)
 

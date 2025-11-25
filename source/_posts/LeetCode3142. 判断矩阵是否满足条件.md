@@ -1,8 +1,8 @@
 ---
 title: LeetCode3142. 判断矩阵是否满足条件
 date: 2024-08-30 10:58:48
-categories:
-  - LeetCode
+categories: [数据结构与算法]
+tags: ['Java', 'LeetCode']
 ---
 ## 3142. 判断矩阵是否满足条件
 

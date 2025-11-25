@@ -1,8 +1,8 @@
 ---
 title: windows server2019的docker位置迁移
 date: 2024-07-22 18:03:52
-categories:
-  - 所遇问题
+categories: [开发工具]
+tags: ['Docker', 'JavaScript', 'Python', '数据结构']
 ---
 # 安装好了Docker，希望docker占用e盘的空间
 

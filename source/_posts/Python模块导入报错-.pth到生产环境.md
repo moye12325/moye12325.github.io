@@ -2,8 +2,7 @@
 title: Python模块导入报错-.pth到生产环境
 date: 2025-11-25 00:00:00
 categories: [Python开发]
-tags: [Python, 开发环境, 模块导入, 最佳实践, 部署]
-password: hello
+tags: ['Docker', 'Python', '测试', '部署']
 ---
 
 ## 问题的起点：找不到模块

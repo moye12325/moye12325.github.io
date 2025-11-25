@@ -1,8 +1,8 @@
 ---
 title: Java集合
 date: 2024-09-20 15:01:20
-categories:
-  - Java
+categories: [数据结构与算法]
+tags: ['Java', '数据结构']
 ---
 ![](https://qiniu.kanes.top/blog/Java集合.svg)
 

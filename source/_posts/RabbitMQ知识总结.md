@@ -1,8 +1,8 @@
 ---
 title: RabbitMQ知识总结
 date: 2024-07-22 17:59:40
-categories:
-  - 所遇问题
+categories: [Web开发]
+tags: ['Java', 'JavaScript', 'Python', '性能优化', '数据结构']
 ---
 RabbitMQ 是一个在 AMQP（Advanced Message Queuing Protocol ）基础上实现的，可复用的企业消息系统。它可以用于大型软件系统各个模块之间的高效通信，支持高并发，支持可扩展。它支持多种客户端如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP 等，支持 AJAX，持久化，用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。
 

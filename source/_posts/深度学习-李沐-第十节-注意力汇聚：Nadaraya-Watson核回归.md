@@ -1,8 +1,8 @@
 ---
 title: 深度学习-李沐-第十节-注意力汇聚：Nadaraya-Watson核回归
 date: 2022-08-16 15:00:46
-categories:
-  - DL-李沐
+categories: [深度学习]
+tags: ['PyTorch', 'Python', '机器学习', '测试', '深度学习']
 ---
 # 注意力汇聚：Nadaraya-Watson核回归
 

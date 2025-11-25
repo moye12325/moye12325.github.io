@@ -1,8 +1,8 @@
 ---
 title: WindowsServer连接却ping不通
 date: 2024-07-22 18:05:10
-categories:
-  - 所遇问题
+categories: [Web开发]
+tags: ['测试']
 ---
 # WindowsServer连接却ping不通
 

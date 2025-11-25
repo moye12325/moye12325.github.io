@@ -1,8 +1,8 @@
 ---
 title: 部署项目--nginx--403
 date: 2024-07-18 12:39:34
-categories:
-  - 项目部署
+categories: [Web开发]
+tags: ['JavaScript', 'Nginx', '部署']
 ---
 ## 部署项目--nginx--403
 

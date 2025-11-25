@@ -1,8 +1,8 @@
 ---
 title: Java 并发
 date: 2024-10-28 13:44:33
-categories:
-  - Java
+categories: [Java开发]
+tags: ['Java', '数据结构']
 ---
 ## [线程](https://javaguide.cn/java/concurrent/java-concurrent-questions-01.html#%E7%BA%BF%E7%A8%8B)
 

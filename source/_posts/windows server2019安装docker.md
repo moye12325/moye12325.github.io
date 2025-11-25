@@ -1,8 +1,8 @@
 ---
 title: windows server2019安装docker
 date: 2024-07-22 18:01:07
-categories:
-  - 所遇问题
+categories: [开发工具]
+tags: ['Docker', 'Git', '测试']
 ---
 # windows server2019安装docker
 

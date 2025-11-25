@@ -1,8 +1,8 @@
 ---
 title: LeetCode169. 多数元素
 date: 2024-08-24 12:15:15
-categories:
-  - LeetCode
+categories: [数据结构与算法]
+tags: ['Java', 'LeetCode', '算法']
 ---
 [169. 多数元素](https://leetcode.cn/problems/majority-element/description/)
 

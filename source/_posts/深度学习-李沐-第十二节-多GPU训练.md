@@ -1,8 +1,8 @@
 ---
 title: 深度学习-李沐-第十二节-多GPU训练
 date: 2022-08-16 15:00:46
-categories:
-  - DL-李沐
+categories: [深度学习]
+tags: ['PyTorch', 'Python', '深度学习']
 ---
 # 多GPU训练
 

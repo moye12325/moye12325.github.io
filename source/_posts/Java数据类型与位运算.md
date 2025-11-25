@@ -1,10 +1,8 @@
 ---
 title: Java数据类型与位运算
 date: 2024-08-08 18:23:05
-categories:
-  - Java
-tags:
-  - java
+categories: [Java开发]
+tags: ['Java']
 ---
 # Java数据类型与位运算
 

@@ -1,8 +1,8 @@
 ---
 title: 米哈游笔试-Java后端
 date: 2025-04-28 06:02:14
-categories:
-  - 笔试记录
+categories: [面试笔试]
+tags: ['Java', '面试']
 ---
 我们可以证明，对于前 <math><semantics><mrow><mi>i</mi></mrow><annotation>i</annotation></semantics></math>i 个数构成的所有区间，其“数字凸包区间”的并恰好是一个连续区间 <math><semantics><mrow><mo>\[</mo><msub><mi>P</mi><mi>min</mi><mo>⁡</mo></msub><mo>,</mo><msub><mi>P</mi><mi>max</mi><mo>⁡</mo></msub><mo>\]</mo></mrow><annotation>\[P\_{\\min},P\_{\\max}\]</annotation></semantics></math>\[Pmin​,Pmax​\]（其中
 

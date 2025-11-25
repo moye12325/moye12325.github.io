@@ -1,8 +1,8 @@
 ---
 title: Sequence to sequence
 date: 2022-08-16 15:01:08
-categories:
-  - DL李宏毅
+categories: [深度学习]
+tags: ['NLP', 'Transformer']
 ---
 # Sequence to sequence
 

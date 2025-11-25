@@ -1,8 +1,8 @@
 ---
 title: LeetCode 142. 环形链表
 date: 2024-09-06 10:21:46
-categories:
-  - LeetCode
+categories: [数据结构与算法]
+tags: ['Java', 'LeetCode', '数据结构']
 ---
 [LeetCode 141. 环形链表](https://leetcode.cn/problems/linked-list-cycle/description/)
 

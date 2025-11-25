@@ -1,8 +1,8 @@
 ---
 title: 深度学习-李沐-第十四节-微调BERT
 date: 2022-08-16 15:00:46
-categories:
-  - DL-李沐
+categories: [深度学习]
+tags: ['NLP', 'Transformer', '数据结构', '深度学习']
 ---
 # 微调BERT
 

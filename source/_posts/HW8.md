@@ -1,25 +1,8 @@
 ---
 title: HW8
 date: 2022-08-16 15:01:08
-categories:
-  - DL李宏毅
-summary: >
-  HW8
-  
-  任务介绍
-  
-  
-  无监督异常检测：Anomaly Detection异常图片的识别，输入一张图片，判别这张图片时异常还是正常
-  
-  
-  baseline
-  
-  
-  | 难易程度 | 精确度         |
-  | -------- | -------------- |
-  | simple   | AUC >= 0.52970 |
-  | medium   | AUC >= 0.72895 |
-  | strong
+categories: [机器学习]
+tags: []
 ---
 # HW8
 

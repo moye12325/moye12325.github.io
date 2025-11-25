@@ -1,8 +1,8 @@
 ---
 title: Life long learning
 date: 2022-08-16 15:01:08
-categories:
-  - DL李宏毅
+categories: [深度学习]
+tags: ['测试', '神经网络']
 ---
 # HW14
 

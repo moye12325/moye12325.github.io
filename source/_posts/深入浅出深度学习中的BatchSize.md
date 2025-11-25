@@ -1,8 +1,8 @@
 ---
 title: 深入浅出深度学习中的BatchSize
 date: 2025-02-26 01:48:04
-categories:
-  - 人工智能
+categories: [深度学习]
+tags: ['深度学习']
 ---
 ### **一、Batch Size 的核心作用**
 **Batch Size** 决定了模型每次更新参数时使用的样本数量。直接影响以下方面：

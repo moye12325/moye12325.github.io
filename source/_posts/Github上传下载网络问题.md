@@ -1,8 +1,8 @@
 ---
 title: Github上传下载网络问题
 date: 2024-07-22 17:48:07
-categories:
-  - 所遇问题
+categories: [开发工具]
+tags: ['Git']
 ---
 # Github上传下载网络问题
 

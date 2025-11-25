@@ -2,7 +2,7 @@
 title: VSCode清理缓存完全指南
 date: 2025-11-25 14:15:07
 categories: [开发工具]
-tags: [VSCode, 工具使用, 缓存清理, 开发环境, 效率提升]
+tags: ['VSCode']
 ---
 
 VS Code 清理缓存的几种方法:

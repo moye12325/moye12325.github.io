@@ -1,8 +1,8 @@
 ---
 title: ZeroMQ实践
 date: 2025-05-08 01:17:25
-categories:
-  - Python
+categories: [开发工具]
+tags: ['Python', '性能优化', '数据结构']
 ---
 ## ZeroMQ实践
 

@@ -1,8 +1,8 @@
 ---
 title: 深度学习-李沐-第五节-自定义层、读写文件、GPU
 date: 2022-08-16 15:00:46
-categories:
-  - DL-李沐
+categories: [深度学习]
+tags: ['PyTorch', 'Python', '测试', '深度学习', '神经网络', '计算机视觉']
 ---
 # 自定义层、读写文件、GPU
 

@@ -1,8 +1,8 @@
 ---
 title: Homework 6 - Generative Adversarial Network
 date: 2022-08-16 15:01:08
-categories:
-  - DL李宏毅
+categories: [机器学习]
+tags: ['机器学习', '神经网络', '算法', '计算机视觉']
 ---
 # 作业六：Homework 6 - Generative Adversarial Network——使用GAN生成动漫人物脸
 

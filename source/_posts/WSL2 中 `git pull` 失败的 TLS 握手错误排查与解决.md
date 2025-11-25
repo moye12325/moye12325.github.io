@@ -1,8 +1,8 @@
 ---
 title: WSL2 中 `git pull` 失败的 TLS 握手错误排查与解决
 date: 2025-06-10 01:39:31
-categories:
-  - 默认分类
+categories: [开发工具]
+tags: ['Git']
 ---
 ## WSL2 中 `git pull` 失败的 TLS 握手错误排查与解决
 

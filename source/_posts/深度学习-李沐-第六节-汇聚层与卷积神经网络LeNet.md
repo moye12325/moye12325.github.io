@@ -1,8 +1,8 @@
 ---
 title: 深度学习-李沐-第六节-汇聚层与卷积神经网络LeNet
 date: 2022-08-16 15:00:46
-categories:
-  - DL-李沐
+categories: [深度学习]
+tags: ['PyTorch', 'Python', '深度学习', '神经网络']
 ---
 # 汇聚层与卷积神经网络LeNet
 

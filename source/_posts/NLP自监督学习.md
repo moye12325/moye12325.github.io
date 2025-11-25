@@ -1,8 +1,8 @@
 ---
 title: NLP自监督学习
 date: 2022-08-16 15:01:08
-categories:
-  - DL李宏毅
+categories: [深度学习]
+tags: ['NLP', 'Transformer', '测试', '计算机视觉']
 ---
 # NLP自监督学习
 

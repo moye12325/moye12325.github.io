@@ -1,8 +1,8 @@
 ---
 title: PyTorch `.pth` 转 ONNX：从模型训练到跨平台部署
 date: 2025-02-17 02:20:43
-categories:
-  - 人工智能
+categories: [Python开发]
+tags: ['PyTorch', 'Python', 'TensorFlow', '性能优化', '机器学习', '深度学习']
 ---
 # **PyTorch `.pth` 转 ONNX：从模型训练到跨平台部署**
 

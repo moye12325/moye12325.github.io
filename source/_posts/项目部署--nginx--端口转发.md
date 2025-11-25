@@ -1,8 +1,8 @@
 ---
 title: 项目部署--nginx--端口转发
 date: 2024-07-18 12:26:14
-categories:
-  - 项目部署
+categories: [Web开发]
+tags: ['Docker', 'Java', 'Nginx', 'Spring', '测试', '部署']
 ---
 ## 项目部署--nginx--端口转发
 ## 内网与阿里云服务器的通信

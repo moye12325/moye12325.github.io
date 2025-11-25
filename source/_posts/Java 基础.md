@@ -1,8 +1,8 @@
 ---
 title: Java 基础
 date: 2024-09-20 08:31:00
-categories:
-  - Java
+categories: [数据结构与算法]
+tags: ['Java', 'JavaScript', '数据结构', '算法']
 ---
 # Java 基础
 

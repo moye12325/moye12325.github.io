@@ -1,8 +1,8 @@
 ---
 title: conda常见命令
 date: 2024-07-22 17:47:41
-categories:
-  - 所遇问题
+categories: [Python开发]
+tags: ['Python']
 ---
 # An In-Depth Guide to Conda Commands
 

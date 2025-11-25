@@ -1,8 +1,8 @@
 ---
 title: codeoj代码能力评测项目测试
 date: 2024-08-29 10:43:22
-categories:
-  - 项目测试
+categories: [测试]
+tags: ['测试']
 ---
 # 功能测试
 

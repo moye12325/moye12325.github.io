@@ -1,8 +1,8 @@
 ---
 title: Redis知识总结
 date: 2024-09-23 11:21:31
-categories:
-  - Java
+categories: [数据结构与算法]
+tags: ['Redis', '数据结构']
 ---
 # Redis
 

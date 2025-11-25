@@ -1,8 +1,8 @@
 ---
 title: windows server2019搭建sftp
 date: 2024-07-22 18:03:24
-categories:
-  - 所遇问题
+categories: [开发工具]
+tags: []
 ---
 # windows server搭建sftp 并使用xftp传输文件
 

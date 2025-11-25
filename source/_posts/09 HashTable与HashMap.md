@@ -1,8 +1,8 @@
 ---
 title: 09 HashTable与HashMap
 date: 2024-07-22 17:20:16
-categories:
-  - 数据结构
+categories: [数据结构与算法]
+tags: ['Java', '数据结构']
 ---
 # HashMap:
 

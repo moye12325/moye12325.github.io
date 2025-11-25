@@ -1,8 +1,8 @@
 ---
 title: 深度学习-李沐-第七节-ResNet
 date: 2022-08-16 15:00:46
-categories:
-  - DL-李沐
+categories: [深度学习]
+tags: ['PyTorch', 'Python', '深度学习']
 ---
 # 残差网络
 

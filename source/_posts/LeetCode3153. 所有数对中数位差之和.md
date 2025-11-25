@@ -1,8 +1,8 @@
 ---
 title: LeetCode3153. 所有数对中数位差之和
 date: 2024-08-30 10:50:37
-categories:
-  - LeetCode
+categories: [数据结构与算法]
+tags: ['Git', 'Java', 'LeetCode']
 ---
 ## 3153. 所有数对中数位差之和
 

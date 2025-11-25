@@ -1,8 +1,8 @@
 ---
 title: Redis八股总结
 date: 2024-09-26 03:40:48
-categories:
-  - Java
+categories: [数据结构与算法]
+tags: ['Redis', '数据结构']
 ---
 # Redis
 

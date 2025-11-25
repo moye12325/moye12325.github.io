@@ -1,8 +1,8 @@
 ---
 title: Llama 2模型细节
 date: 2023-08-16 15:02:26
-categories:
-  - Llama
+categories: [量子计算]
+tags: ['Transformer', '性能优化', '测试']
 ---
 # **模型细节**
 

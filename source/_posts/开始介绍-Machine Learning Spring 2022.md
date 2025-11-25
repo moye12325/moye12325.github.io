@@ -1,8 +1,8 @@
 ---
 title: 开始介绍-Machine Learning Spring 2022
 date: 2022-08-16 15:01:08
-categories:
-  - DL李宏毅
+categories: [机器学习]
+tags: ['JavaScript', 'NLP', 'Spring', '机器学习', '深度学习']
 ---
 # MachineLearning
 

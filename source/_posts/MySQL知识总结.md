@@ -1,8 +1,8 @@
 ---
 title: MySQL知识总结
 date: 2024-09-26 03:39:07
-categories:
-  - Java
+categories: [Web开发]
+tags: ['Java', 'MySQL']
 ---
 # MySQL
 
