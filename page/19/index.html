@@ -908,18 +908,20 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%9D%83%E9%87%8D%E8%A1%B0%E9%80%80/">
-                            深度学习-李沐-第四节-权重衰退
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%95%B0%E5%80%BC%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96/">
+                            深度学习-李沐-第四节-数值稳定性与参数初始化
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            权重衰退一种常见的处理过拟合的方法。
-使用均方范数作为硬性限制控制模型容量的两种方式：参数的数量、参数的选择范围。该方法是通过限制参数值的选择范围，来控制模型容量的。∥w∥^2 代表权重中每一项的平方和。通常不限制偏移b，小的θ意味着更强的正则项。这种方法很少用，一般转化为下面这种柔性限制。
-使用均方范数作为柔性限制
-参数更新法则一般来说，ηλ比1要小，和之前参数更新公式相比，每次更新的时候...
+                            数值稳定性与参数初始化神经网络的梯度
+数值稳定性常见两个问题
+梯度爆炸：梯度是一个大于1的数，一百层求梯度之后会是一个很大的数字  
+梯度消失：与上面相反，当梯度小于1的时候……
+
+123456789101112131415from matplotlib.pyplot import figure%matplotlib inlineimport torchfrom d2l import tor...
                         
                     </div>
 
@@ -956,12 +958,17 @@
                     
                         <li>
                             
+                            <a href="/tags/Python/">Python</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
                             <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
                         </li>
                     
                         <li>
                             | 
-                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -969,7 +976,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%9D%83%E9%87%8D%E8%A1%B0%E9%80%80/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-权重衰退</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%95%B0%E5%80%BC%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-数值稳定性与参数初始化</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
