@@ -134,14 +134,14 @@ home_banner:
     light: https://files.codelife.cc/wallhaven/full/g7/wallhaven-g75r7d.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp # 亮色模式下显示第一张图片
     dark: https://files.codelife.cc/wallpaper/wallspic/167264.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp # 暗色模式下显示另一种图片
   # Home banner title
-  title: OK
+  title: OK, so what?
   # Home banner subtitle
   subtitle:
     text: ["What matters most in life is often invisible."] # subtitle text, array
     hitokoto:  # 一言配置
       enable: true # Whether to enable hitokoto
       show_author: true # Whether to show author
-      api: https://v1.hitokoto.cn # API URL, can add types, see https://developer.hitokoto.cn/sentence/#%E5%8F%A5%E5%AD%90%E7%B1%BB%E5%9E%8B-%E5%8F%82%E6%95%B0
+      api: https://v1.hitokoto.cn/?c=a&c=d&c=i&c=k # API URL, can add types, see https://developer.hitokoto.cn/sentence/#%E5%8F%A5%E5%AD%90%E7%B1%BB%E5%9E%8B-%E5%8F%82%E6%95%B0
     typing_speed: 100 # Typing speed (ms)
     backing_speed: 80 # Backing speed (ms)
     starting_delay: 500 # Start delay (ms)
