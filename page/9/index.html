@@ -762,15 +762,15 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">11</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">15</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">19</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">20</div>
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">181</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">182</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -875,15 +875,15 @@
 </div>
                 <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">11</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">15</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">19</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">20</div>
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">181</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">182</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -898,6 +898,71 @@
 			<div class="main-content">
 				<div class="home-content-container">
     <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2024/07/22/Navicat%E6%9F%A5%E7%9C%8B%E5%AF%86%E7%A0%81/">
+                            Navicat查看密码
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            Navicat中怎么查看数据库密码
+第一步:导出链接，导出连接，获取到connections.ncx 文件，勾选导出密码
+
+
+
+第二步：找到加密密码，进行破解
+
+在导出的connections.ncx文件中找到password，然后复制出来。
+打开这个网址：https://tool.lu/coderunner，将如下刚刚密码复制进去，
+$decode &#x3D; $navicatPassw...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Mon Jul 22 2024 17:49:50 GMT+0800">
+                
+                    2024-07-22
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%89%80%E9%81%87%E9%97%AE%E9%A2%98/">所遇问题</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2024/07/22/Navicat%E6%9F%A5%E7%9C%8B%E5%AF%86%E7%A0%81/">阅读全文<span class="seo-reader-text">Navicat查看密码</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
         
             <li class="home-article-item">
 
@@ -1430,66 +1495,6 @@ jumpserverHostIP：e1wx0vsede2ewknf.ttxs.site
                 </div>
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/07/22/06.2%20%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/">
-                            06.2 选择排序
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            选择排序详解1. 引言选择排序是一种简单直观的排序算法，其核心思想是通过多次遍历数组，在每轮遍历中选择未排序部分的最小元素并将其放置到已排序部分的末尾。
-2. 选择排序原理选择排序的基本思路是通过不断选择最小的元素，逐步构建有序序列。在每一轮遍历中，找到未排序部分的最小元素，并与未排序部分的第一个元素交换位置，将其纳入已排序的部分。
-3. 选择排序步骤选择排序的具体步骤如下：
-
-在未排序部分...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Mon Jul 22 2024 17:14:26 GMT+0800">
-                
-                    2024-07-22
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-    </div>
-
-    <a href="/2024/07/22/06.2%20%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/">阅读全文<span class="seo-reader-text">06.2 选择排序</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
     </ul>
 
     <div class="home-paginator px-7 py-5">
@@ -1520,7 +1525,7 @@ jumpserverHostIP：e1wx0vsede2ewknf.ttxs.site
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 181 篇文章
+                        共撰写了 182 篇文章
                     </span>
                     
                 </p>
