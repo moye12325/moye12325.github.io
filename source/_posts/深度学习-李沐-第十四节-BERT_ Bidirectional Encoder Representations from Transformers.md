@@ -1,6 +1,6 @@
 ---
 title: 深度学习-李沐-第十四节-BERT_ Bidirectional Encoder Representations from Transformers
-date: 2025-11-03 01:06:24
+date: 2022-08-16 15:00:46
 categories: [深度学习]
 tags: ['NLP', 'Transformer', '深度学习']
 ---

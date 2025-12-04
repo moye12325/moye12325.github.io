@@ -148,7 +148,8 @@ home_banner:
     backing_delay: 1500 # Backing delay (ms)
     loop: true # Whether to loop
     smart_backspace: true # Whether to smart backspace
-  # Color of home banner text
+  # Color of home banner text\[]
+  '[]\''
   text_color: 
     light: "#fff" # light mode
     dark: "#d1d1b6" # dark mode
