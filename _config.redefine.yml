@@ -148,8 +148,7 @@ home_banner:
     backing_delay: 1500 # Backing delay (ms)
     loop: true # Whether to loop
     smart_backspace: true # Whether to smart backspace
-  # Color of home banner text\[]
-  '[]\''
+  # Color of home banner text
   text_color: 
     light: "#fff" # light mode
     dark: "#d1d1b6" # dark mode
@@ -425,7 +424,7 @@ footer:
   # Show website running time
   runtime: true # show website running time or not
   # Icon in footer, write fontawesome icon code here
-  icon: '<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>'
+  icon: "<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>"
   # The start time of the website, format: YYYY/MM/DD HH:mm:ss
   start: 2022/8/17 11:45:14
   # Site statistics
