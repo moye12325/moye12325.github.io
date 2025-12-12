@@ -1,4 +1,10 @@
-# Windows Terminal + PowerShell 7 + Oh My Posh 美化折腾记
+---
+title: Windows Terminal + PowerShell 7 + Oh My Posh 美化折腾记
+date: 2024-12-01 11:58:00
+categories: [工具配置]
+tags: ['PowerShell', 'Windows Terminal', 'Oh My Posh', '终端美化']
+---
+
 
 最近想给自己的 PowerShell 终端来个大变身，毕竟每天对着黑底白字的命令行确实有点单调。网上搜了一圈，发现 Oh My Posh 这个工具挺火的，于是开始了这趟折腾之旅。
 
