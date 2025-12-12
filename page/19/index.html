@@ -908,17 +908,22 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-Dropout%E6%9A%82%E9%80%80%E6%B3%95/">
-                            深度学习-李沐-第四节-Dropout暂退法
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0/">
+                            深度学习-李沐-第十节-注意力评分函数
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            Dropout暂退法暂退法的思想是在隐藏层中丢弃某些单元，以减少模型对某些特征的依赖。删除了h2和h5，因此输出的计算不再依赖于h2或h5，并且它们各⾃的梯度在执⾏反向传播时也会消失。这样，输出层的计算不能过度依赖于h1, . . . , h5的任何⼀个元素。
-实现神经元的丢弃假设某个神经元被丢弃的概率为p，那么该神经元的输出可以表示为：计算h{}’期望值:    
-这种插入方式使得在插入了...
+                            注意力评分函数
+使用高斯核来对查询和键之间的关系建模
+高斯核指数部分视为注意力评分函数（attention scoring function）， 简称评分函数（scoring function）
+把这个函数的输出结果输入到softmax函数中进行运算。 
+通过上述步骤，我们将得到与键对应的值的概率分布（即注意力权重）
+最后，注意力汇聚的输出就是基于这些注意力权重的值的加权和。
+
+掩蔽soft...
                         
                     </div>
 
@@ -955,6 +960,16 @@
                     
                         <li>
                             
+                            <a href="/tags/Python/">Python</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
                             <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
                         </li>
                     
@@ -963,7 +978,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-Dropout%E6%9A%82%E9%80%80%E6%B3%95/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-Dropout暂退法</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十节-注意力评分函数</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1140,82 +1155,6 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%9D%83%E9%87%8D%E8%A1%B0%E9%80%80/">
-                            深度学习-李沐-第四节-权重衰退
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            权重衰退一种常见的处理过拟合的方法。
-使用均方范数作为硬性限制控制模型容量的两种方式：参数的数量、参数的选择范围。该方法是通过限制参数值的选择范围，来控制模型容量的。∥w∥^2 代表权重中每一项的平方和。通常不限制偏移b，小的θ意味着更强的正则项。这种方法很少用，一般转化为下面这种柔性限制。
-使用均方范数作为柔性限制
-参数更新法则一般来说，ηλ比1要小，和之前参数更新公式相比，每次更新的时候...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%9D%83%E9%87%8D%E8%A1%B0%E9%80%80/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-权重衰退</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
                         <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9%E3%80%81%E2%BD%8B%E6%8B%9F%E5%90%88%E5%92%8C%E8%BF%87%E6%8B%9F%E5%90%88/">
                             深度学习-李沐-第四节-模型选择、⽋拟合和过拟合
                         </a>
@@ -1281,6 +1220,82 @@
     </div>
 
     <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9%E3%80%81%E2%BD%8B%E6%8B%9F%E5%90%88%E5%92%8C%E8%BF%87%E6%8B%9F%E5%90%88/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-模型选择、⽋拟合和过拟合</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%9D%83%E9%87%8D%E8%A1%B0%E9%80%80/">
+                            深度学习-李沐-第四节-权重衰退
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            权重衰退一种常见的处理过拟合的方法。
+使用均方范数作为硬性限制控制模型容量的两种方式：参数的数量、参数的选择范围。该方法是通过限制参数值的选择范围，来控制模型容量的。∥w∥^2 代表权重中每一项的平方和。通常不限制偏移b，小的θ意味着更强的正则项。这种方法很少用，一般转化为下面这种柔性限制。
+使用均方范数作为柔性限制
+参数更新法则一般来说，ηλ比1要小，和之前参数更新公式相比，每次更新的时候...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%9D%83%E9%87%8D%E8%A1%B0%E9%80%80/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-权重衰退</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
