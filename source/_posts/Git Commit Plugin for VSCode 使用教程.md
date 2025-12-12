@@ -1,6 +1,6 @@
 ---
 title: Git Commit Plugin for VSCode 使用教程
-date: 2024-12-12 10:43:00
+date: 2025-12-12 10:43:00
 categories: [工具配置]
 tags: ['VSCode', 'Git', '插件', '开发工具']
 ---

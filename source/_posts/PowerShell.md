@@ -1,6 +1,6 @@
 ---
 title: Windows Terminal + PowerShell 7 + Oh My Posh 美化折腾记
-date: 2024-12-01 11:58:00
+date: 2025-12-01 11:58:00
 categories: [工具配置]
 tags: ['PowerShell', 'Windows Terminal', 'Oh My Posh', '终端美化']
 ---
