@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://www.kanes.top/2026/06/17/notes/hermes驱动多agent/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hermes 驱动多 Agent 协作开发教程">
+<meta property="og:url" content="https://www.kanes.top/2026/06/17/notes/Hermes%E9%A9%B1%E5%8A%A8%E5%A4%9Aagent/index.html">
+<meta property="og:site_name" content="Moye的日常">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-06-17T07:11:19.000Z">
+<meta property="article:modified_time" content="2026-06-17T07:11:19.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="协作开发">
+<meta property="article:tag" content="工程化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.kanes.top/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Hermes 驱动多 Agent 协作开发教程 | Moye活着的记录
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"www.kanes.top","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":true,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":true},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://files.codelife.cc/wallhaven/full/g7/wallhaven-g75r7d.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp","dark":"https://files.codelife.cc/wallpaper/wallspic/167264.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp"},"title":"OK, so what?","subtitle":{"text":["What matters most in life is often invisible."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn/?c=a&c=d&c=i&c=k"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/moye12325","instagram":null,"zhihu":null,"twitter":null,"email":null,"music":"https://music.163.com/#/user/home?id=609685181","bilibili":"https://space.bilibili.com/180380237"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Moye活着的记录
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Moye活着的记录
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">43</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">187</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">Hermes 驱动多 Agent 协作开发教程</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv6</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-06-17 15:11:19</span>
+        <span class="mobile">2026-06-17 15:11:19</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-06-17 15:11:19</span>
+            <span class="mobile">2026-06-17 15:11:19</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AI/">AI</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Agent/">Agent</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%8D%8F%E4%BD%9C%E5%BC%80%E5%8F%91/">协作开发</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h2><p>在传统开发中，一个项目通常由产品、架构、前端、后端、测试、运维等角色共同完成。随着 Claude Code、Codex、Cursor Agent 等 AI 编程工具逐渐成熟，个人开发者也可以模拟一个小型工程团队：让不同 AI Agent 承担不同角色，并由一个总控 Agent 进行任务拆解、上下文管理、代码审查和合并决策。</p>
+<p>本文介绍一种基于 Hermes 的多 Agent 协作开发方法。</p>
+<p>在这个模式中：</p>
+<ul>
+<li>Hermes 负责整体调度、任务拆解、边界控制和结果验收。</li>
+<li>Claude Code &#x2F; Codex Agent 负责具体模块实现。</li>
+<li>文档体系负责约束所有 Agent 的行为。</li>
+<li>Git 分支和任务卡负责隔离工作范围。</li>
+<li>Reviewer Agent 负责审查代码质量、架构一致性和安全风险。</li>
+</ul>
+<p>本文以 MailMind 项目为例，说明如何使用 Hermes 驱动多个 Agent 协作开发一个 AI Email Copilot。</p>
+<hr>
+<h2 id="2-核心理念"><a href="#2-核心理念" class="headerlink" title="2. 核心理念"></a>2. 核心理念</h2><p>Hermes 多 Agent 协作开发的本质不是“同时打开多个 AI 写代码”，而是：</p>
+<blockquote>
+<p>用文档、任务边界和验收标准约束多个 AI Agent，让它们像工程团队一样协同工作。</p>
+</blockquote>
+<p>如果没有任务拆解和边界控制，多个 AI Agent 同时开发很容易造成：</p>
+<ul>
+<li>重复实现同一功能；</li>
+<li>多个 Agent 修改同一文件；</li>
+<li>API 合同不一致；</li>
+<li>数据库模型被随意扩展；</li>
+<li>安全规则被忽略；</li>
+<li>项目结构快速失控；</li>
+<li>最后代码看似很多，但无法集成。</li>
+</ul>
+<p>因此，Hermes 的核心价值不是写代码，而是驾驭代码生成过程。</p>
+<hr>
+<h2 id="3-Hermes-的角色定位"><a href="#3-Hermes-的角色定位" class="headerlink" title="3. Hermes 的角色定位"></a>3. Hermes 的角色定位</h2><p>Hermes 在多 Agent 协作中相当于：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">项目经理 + 架构师 + Tech Lead + Code Reviewer + 合并守门人</span><br></pre></td></tr></table></figure></div>
+
+<p>Hermes 的主要职责包括：</p>
+<ol>
+<li>阅读并维护项目核心文档。</li>
+<li>将需求拆解为小任务。</li>
+<li>为每个任务选择合适的 Agent。</li>
+<li>明确每个 Agent 可以修改哪些文件。</li>
+<li>明确每个 Agent 不能修改哪些文件。</li>
+<li>控制 MVP 范围，防止功能膨胀。</li>
+<li>审查各 Agent 的输出是否符合设计。</li>
+<li>处理跨模块冲突。</li>
+<li>决定是否合并代码。</li>
+<li>维护项目整体一致性。</li>
+</ol>
+<p>Hermes 不应该直接承担所有编码任务。它更像一个总控系统，负责让多个 Agent 各司其职。</p>
+<hr>
+<h2 id="4-多-Agent-协作前需要准备什么"><a href="#4-多-Agent-协作前需要准备什么" class="headerlink" title="4. 多 Agent 协作前需要准备什么"></a>4. 多 Agent 协作前需要准备什么</h2><p>在启动多个 Agent 之前，必须先准备基础文档。否则 Agent 会缺乏共同上下文，各自按照自己的理解写代码。</p>
+<p>推荐至少准备以下文档：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">README.md</span><br><span class="line">docs/product/PRD.md</span><br><span class="line">docs/architecture/SYSTEM_DESIGN.md</span><br><span class="line">docs/database/DATABASE_DESIGN.md</span><br><span class="line">docs/api/API_DESIGN.md</span><br><span class="line">docs/ai/AI_PIPELINE.md</span><br><span class="line">docs/security/SECURITY.md</span><br><span class="line">docs/engineering/AGENTS.md</span><br><span class="line">docs/engineering/TASK_BREAKDOWN.md</span><br><span class="line">docs/engineering/DEVELOPMENT.md</span><br></pre></td></tr></table></figure></div>
+
+<p>其中最关键的是：</p>
+<table>
+<thead>
+<tr>
+<th>文档</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PRD.md</td>
+<td>定义产品要做什么</td>
+</tr>
+<tr>
+<td>SYSTEM_DESIGN.md</td>
+<td>定义系统如何分层</td>
+</tr>
+<tr>
+<td>DATABASE_DESIGN.md</td>
+<td>定义数据模型</td>
+</tr>
+<tr>
+<td>API_DESIGN.md</td>
+<td>定义前后端接口合同</td>
+</tr>
+<tr>
+<td>AI_PIPELINE.md</td>
+<td>定义 AI 输入、输出、Prompt 和 Schema</td>
+</tr>
+<tr>
+<td>SECURITY.md</td>
+<td>定义 Token、邮件、日志和权限安全规则</td>
+</tr>
+<tr>
+<td>AGENTS.md</td>
+<td>定义各 Agent 的职责和禁区</td>
+</tr>
+<tr>
+<td>TASK_BREAKDOWN.md</td>
+<td>定义可执行任务列表</td>
+</tr>
+</tbody></table>
+<p>如果这些文档不完整，Hermes 可以先委派 Agent 编写文档，而不是直接写代码。</p>
+<hr>
+<h2 id="5-推荐-Agent-编队"><a href="#5-推荐-Agent-编队" class="headerlink" title="5. 推荐 Agent 编队"></a>5. 推荐 Agent 编队</h2><p>以 MailMind 项目为例，可以将多个 Agent 分为以下角色。</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Hermes Orchestrator</span><br><span class="line">├── Frontend Agent</span><br><span class="line">├── Backend API Agent</span><br><span class="line">├── Gmail Integration Agent</span><br><span class="line">├── AI Pipeline Agent</span><br><span class="line">├── Database Agent</span><br><span class="line">├── DevOps Agent</span><br><span class="line">├── Test Agent</span><br><span class="line">└── Reviewer Agent</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="5-1-Frontend-Agent"><a href="#5-1-Frontend-Agent" class="headerlink" title="5.1 Frontend Agent"></a>5.1 Frontend Agent</h3><p>Frontend Agent 负责前端界面和交互。</p>
+<p>主要职责：</p>
+<ul>
+<li>初始化 Next.js 项目；</li>
+<li>实现 Daily Digest Dashboard；</li>
+<li>实现邮件详情页；</li>
+<li>实现设置页；</li>
+<li>实现 Job 状态轮询；</li>
+<li>实现 API Client；</li>
+<li>处理 loading、error、stale、failed 等状态。</li>
+</ul>
+<p>允许修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frontend/</span><br></pre></td></tr></table></figure></div>
+
+<p>禁止修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">backend/</span><br><span class="line">database migrations</span><br><span class="line">Gmail Provider</span><br><span class="line">AI Pipeline</span><br><span class="line">docker-compose.yml</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="5-2-Backend-API-Agent"><a href="#5-2-Backend-API-Agent" class="headerlink" title="5.2 Backend API Agent"></a>5.2 Backend API Agent</h3><p>Backend API Agent 负责 FastAPI 接口和业务编排。</p>
+<p>主要职责：</p>
+<ul>
+<li>实现 API Router；</li>
+<li>定义请求和响应 Schema；</li>
+<li>实现 Digest API；</li>
+<li>实现 Email API；</li>
+<li>实现 Job API；</li>
+<li>编排 Service 层逻辑。</li>
+</ul>
+<p>允许修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">backend/app/api/</span><br><span class="line">backend/app/schemas/</span><br><span class="line">backend/app/services/</span><br></pre></td></tr></table></figure></div>
+
+<p>禁止事项：</p>
+<ul>
+<li>不直接调用 Gmail API；</li>
+<li>不直接调用 LLM；</li>
+<li>不直接写复杂 SQL；</li>
+<li>不修改前端代码；</li>
+<li>不擅自变更数据库结构。</li>
+</ul>
+<hr>
+<h3 id="5-3-Gmail-Integration-Agent"><a href="#5-3-Gmail-Integration-Agent" class="headerlink" title="5.3 Gmail Integration Agent"></a>5.3 Gmail Integration Agent</h3><p>Gmail Integration Agent 负责 Gmail 接入。</p>
+<p>主要职责：</p>
+<ul>
+<li>Google OAuth；</li>
+<li>Token refresh；</li>
+<li>GmailProvider；</li>
+<li>获取今日邮件；</li>
+<li>获取邮件详情；</li>
+<li>标记已读；</li>
+<li>标记未读；</li>
+<li>Gmail 邮件结构标准化。</li>
+</ul>
+<p>允许修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">backend/app/providers/</span><br><span class="line">backend/app/services/token_service.py</span><br><span class="line">backend/app/services/email_sync_service.py</span><br></pre></td></tr></table></figure></div>
+
+<p>禁止事项：</p>
+<ul>
+<li>不生成 Daily Digest；</li>
+<li>不写前端；</li>
+<li>不写 AI Prompt；</li>
+<li>不擅自新增数据库表。</li>
+</ul>
+<hr>
+<h3 id="5-4-AI-Pipeline-Agent"><a href="#5-4-AI-Pipeline-Agent" class="headerlink" title="5.4 AI Pipeline Agent"></a>5.4 AI Pipeline Agent</h3><p>AI Pipeline Agent 负责 AI 分析链路。</p>
+<p>主要职责：</p>
+<ul>
+<li>EmailPreprocessor；</li>
+<li>DigestInputBuilder；</li>
+<li>LLMClient；</li>
+<li>StructuredOutputParser；</li>
+<li>DigestDecisionEngine；</li>
+<li>Prompt 版本管理；</li>
+<li>JSON Schema 校验；</li>
+<li>AI 输出标准化。</li>
+</ul>
+<p>允许修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">backend/app/ai/</span><br><span class="line">backend/app/services/ai_service.py</span><br><span class="line">docs/ai/</span><br></pre></td></tr></table></figure></div>
+
+<p>禁止事项：</p>
+<ul>
+<li>不调用 Gmail API；</li>
+<li>不修改 OAuth；</li>
+<li>不修改前端；</li>
+<li>不擅自改数据库结构。</li>
+</ul>
+<hr>
+<h3 id="5-5-Database-Agent"><a href="#5-5-Database-Agent" class="headerlink" title="5.5 Database Agent"></a>5.5 Database Agent</h3><p>Database Agent 负责数据库模型和迁移。</p>
+<p>主要职责：</p>
+<ul>
+<li>SQLAlchemy Models；</li>
+<li>Alembic Migrations；</li>
+<li>表结构设计；</li>
+<li>索引设计；</li>
+<li>外键约束；</li>
+<li>枚举定义；</li>
+<li>初始化脚本。</li>
+</ul>
+<p>允许修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">backend/app/db/</span><br><span class="line">backend/app/models/</span><br><span class="line">backend/migrations/</span><br><span class="line">docs/database/</span><br></pre></td></tr></table></figure></div>
+
+<p>禁止事项：</p>
+<ul>
+<li>不创建重复职责的数据表；</li>
+<li>不把 AI 建议和用户行为混在一张表；</li>
+<li>不把 Gmail 状态和本地处理状态混为一谈；</li>
+<li>不修改 API 合同，除非 Hermes 批准。</li>
+</ul>
+<hr>
+<h3 id="5-6-DevOps-Agent"><a href="#5-6-DevOps-Agent" class="headerlink" title="5.6 DevOps Agent"></a>5.6 DevOps Agent</h3><p>DevOps Agent 负责本地开发环境和部署脚本。</p>
+<p>主要职责：</p>
+<ul>
+<li>Docker Compose；</li>
+<li>PostgreSQL；</li>
+<li>Redis；</li>
+<li>Backend 启动；</li>
+<li>Frontend 启动；</li>
+<li>Celery Worker；</li>
+<li>Celery Beat；</li>
+<li><code>.env.example</code>；</li>
+<li>开发脚本；</li>
+<li>DEVELOPMENT.md。</li>
+</ul>
+<p>允许修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker-compose.yml</span><br><span class="line">docker/</span><br><span class="line">.env.example</span><br><span class="line">scripts/</span><br><span class="line">docs/engineering/DEVELOPMENT.md</span><br></pre></td></tr></table></figure></div>
+
+<p>禁止事项：</p>
+<ul>
+<li>不修改业务逻辑；</li>
+<li>不修改 AI Prompt；</li>
+<li>不修改 Gmail Scope；</li>
+<li>不提交真实密钥。</li>
+</ul>
+<hr>
+<h3 id="5-7-Test-Agent"><a href="#5-7-Test-Agent" class="headerlink" title="5.7 Test Agent"></a>5.7 Test Agent</h3><p>Test Agent 负责编写测试。</p>
+<p>主要职责：</p>
+<ul>
+<li>API 测试；</li>
+<li>Service 测试；</li>
+<li>Gmail Provider Mock；</li>
+<li>AI Schema 测试；</li>
+<li>Digest 生成测试；</li>
+<li>Job 状态测试；</li>
+<li>安全回归测试。</li>
+</ul>
+<p>允许修改：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tests/</span><br><span class="line">backend/tests/</span><br><span class="line">frontend tests if configured</span><br></pre></td></tr></table></figure></div>
+
+<p>禁止事项：</p>
+<ul>
+<li>不新增功能；</li>
+<li>不使用真实 Gmail 凭据；</li>
+<li>不使用真实 LLM API Key；</li>
+<li>不为了测试通过而修改生产逻辑。</li>
+</ul>
+<hr>
+<h3 id="5-8-Reviewer-Agent"><a href="#5-8-Reviewer-Agent" class="headerlink" title="5.8 Reviewer Agent"></a>5.8 Reviewer Agent</h3><p>Reviewer Agent 不写功能代码，只做审查。</p>
+<p>主要职责：</p>
+<ul>
+<li>检查是否符合 PRD；</li>
+<li>检查是否符合架构设计；</li>
+<li>检查是否超出 MVP 范围；</li>
+<li>检查是否破坏 API 合同；</li>
+<li>检查是否出现重复数据模型；</li>
+<li>检查是否泄露 Token、邮件正文或 Prompt；</li>
+<li>检查是否缺少测试；</li>
+<li>检查是否需要更新文档。</li>
+</ul>
+<p>Reviewer Agent 是多 Agent 协作中非常关键的一环。没有 Reviewer，多个 Agent 的代码很容易各自正确、整体错误。</p>
+<hr>
+<h2 id="6-多-Agent-开发流程"><a href="#6-多-Agent-开发流程" class="headerlink" title="6. 多 Agent 开发流程"></a>6. 多 Agent 开发流程</h2><p>推荐流程如下：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Step 1：Hermes 阅读项目文档</span><br><span class="line">Step 2：Hermes 拆解任务</span><br><span class="line">Step 3：Hermes 为每个 Agent 分配任务卡</span><br><span class="line">Step 4：每个 Agent 在独立分支开发</span><br><span class="line">Step 5：Agent 提交实现说明</span><br><span class="line">Step 6：Reviewer Agent 审查</span><br><span class="line">Step 7：Hermes 汇总结果并处理冲突</span><br><span class="line">Step 8：人工最终确认合并</span><br><span class="line">Step 9：更新文档和任务状态</span><br></pre></td></tr></table></figure></div>
+
+<p>这个流程的核心是：</p>
+<blockquote>
+<p>先定义边界，再让 Agent 写代码。</p>
+</blockquote>
+<p>不要直接说“帮我实现整个后端”。这种任务太大，Agent 会自行发挥，最终很难集成。</p>
+<hr>
+<h2 id="7-任务卡设计"><a href="#7-任务卡设计" class="headerlink" title="7. 任务卡设计"></a>7. 任务卡设计</h2><p>Hermes 给 Agent 分配任务时，应使用任务卡，而不是一句话描述。</p>
+<p>推荐任务卡模板：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Task ID:</span><br><span class="line">Role:</span><br><span class="line">Goal:</span><br><span class="line"></span><br><span class="line">Input Documents:</span><br><span class="line">- ...</span><br><span class="line"></span><br><span class="line">Allowed Files:</span><br><span class="line">- ...</span><br><span class="line"></span><br><span class="line">Forbidden Files:</span><br><span class="line">- ...</span><br><span class="line"></span><br><span class="line">Implementation Requirements:</span><br><span class="line">1.</span><br><span class="line">2.</span><br><span class="line">3.</span><br><span class="line"></span><br><span class="line">Acceptance Criteria:</span><br><span class="line">1.</span><br><span class="line">2.</span><br><span class="line">3.</span><br><span class="line"></span><br><span class="line">Out of Scope:</span><br><span class="line">1.</span><br><span class="line">2.</span><br><span class="line">3.</span><br><span class="line"></span><br><span class="line">Notes:</span><br></pre></td></tr></table></figure></div>
+
+<p>示例：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Task ID: FE-001</span><br><span class="line">Role: Frontend Agent</span><br><span class="line">Goal: Implement the Daily Digest dashboard page using mock API data.</span><br><span class="line"></span><br><span class="line">Input Documents:</span><br><span class="line">- docs/product/PRD.md</span><br><span class="line">- docs/architecture/SYSTEM_DESIGN.md</span><br><span class="line">- docs/api/API_DESIGN.md</span><br><span class="line"></span><br><span class="line">Allowed Files:</span><br><span class="line">- frontend/src/app/dashboard/</span><br><span class="line">- frontend/src/components/digest/</span><br><span class="line">- frontend/src/lib/api.ts</span><br><span class="line"></span><br><span class="line">Forbidden Files:</span><br><span class="line">- backend/</span><br><span class="line">- docs/database/</span><br><span class="line">- docker-compose.yml</span><br><span class="line"></span><br><span class="line">Implementation Requirements:</span><br><span class="line">1. Show digest status bar.</span><br><span class="line">2. Show urgent, review, and ignore sections.</span><br><span class="line">3. Show stale digest notification.</span><br><span class="line">4. Use mock API data.</span><br><span class="line"></span><br><span class="line">Acceptance Criteria:</span><br><span class="line">1. Dashboard page renders without backend.</span><br><span class="line">2. Stale state displays &quot;new emails not included&quot; message.</span><br><span class="line">3. No backend files are modified.</span><br><span class="line"></span><br><span class="line">Out of Scope:</span><br><span class="line">1. Gmail OAuth.</span><br><span class="line">2. Real AI generation.</span><br><span class="line">3. Email status sync.</span><br></pre></td></tr></table></figure></div>
+
+<p>任务卡越清晰，Agent 越不容易跑偏。</p>
+<hr>
+<h2 id="8-分支策略"><a href="#8-分支策略" class="headerlink" title="8. 分支策略"></a>8. 分支策略</h2><p>多个 Agent 不应该直接修改 main 分支。</p>
+<p>推荐使用独立分支：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">feature/frontend-dashboard</span><br><span class="line">feature/backend-api</span><br><span class="line">feature/gmail-provider</span><br><span class="line">feature/ai-pipeline</span><br><span class="line">feature/database-models</span><br><span class="line">feature/devops-compose</span><br><span class="line">test/digest-api</span><br><span class="line">docs/database-design</span><br></pre></td></tr></table></figure></div>
+
+<p>原则：</p>
+<ol>
+<li>一个任务一个分支；</li>
+<li>一个 Agent 不要同时做多个大任务；</li>
+<li>不同 Agent 尽量不要修改同一批文件；</li>
+<li>合并前必须 review；</li>
+<li>冲突由 Hermes 统一判断。</li>
+</ol>
+<hr>
+<h2 id="9-哪些任务可以并行"><a href="#9-哪些任务可以并行" class="headerlink" title="9. 哪些任务可以并行"></a>9. 哪些任务可以并行</h2><p>适合并行的任务：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Frontend 静态页面</span><br><span class="line">Database Schema 设计</span><br><span class="line">API 文档设计</span><br><span class="line">AI Pipeline 文档设计</span><br><span class="line">Docker Compose</span><br><span class="line">README / 文档整理</span><br><span class="line">Mock API</span><br><span class="line">测试框架搭建</span><br></pre></td></tr></table></figure></div>
+
+<p>不适合过早并行的任务：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">真实 Gmail OAuth</span><br><span class="line">真实 AI Digest</span><br><span class="line">前后端联调</span><br><span class="line">数据库迁移与 API 同时大改</span><br><span class="line">Gmail Provider 与 Email Service 同时乱改</span><br></pre></td></tr></table></figure></div>
+
+<p>推荐顺序：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 文档冻结</span><br><span class="line">2. 数据库设计</span><br><span class="line">3. API 设计</span><br><span class="line">4. AI Pipeline 设计</span><br><span class="line">5. 工程骨架</span><br><span class="line">6. Mock 闭环</span><br><span class="line">7. 真实 Gmail</span><br><span class="line">8. 真实 AI</span><br><span class="line">9. 已读未读同步</span><br><span class="line">10. 测试与 Review</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="10-推荐开发阶段"><a href="#10-推荐开发阶段" class="headerlink" title="10. 推荐开发阶段"></a>10. 推荐开发阶段</h2><h3 id="Phase-0：文档冻结"><a href="#Phase-0：文档冻结" class="headerlink" title="Phase 0：文档冻结"></a>Phase 0：文档冻结</h3><p>目标：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">明确 MVP 范围、架构边界、数据模型和接口合同。</span><br></pre></td></tr></table></figure></div>
+
+<p>产物：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PRD.md</span><br><span class="line">SYSTEM_DESIGN.md</span><br><span class="line">DATABASE_DESIGN.md</span><br><span class="line">API_DESIGN.md</span><br><span class="line">AI_PIPELINE.md</span><br><span class="line">AGENTS.md</span><br><span class="line">TASK_BREAKDOWN.md</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Phase-1：工程骨架"><a href="#Phase-1：工程骨架" class="headerlink" title="Phase 1：工程骨架"></a>Phase 1：工程骨架</h3><p>目标：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">项目能启动，但可以还没有真实业务。</span><br></pre></td></tr></table></figure></div>
+
+<p>委派：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DevOps Agent：Docker Compose + .env.example</span><br><span class="line">Backend Agent：FastAPI skeleton</span><br><span class="line">Frontend Agent：Next.js skeleton</span><br><span class="line">Database Agent：SQLAlchemy models</span><br></pre></td></tr></table></figure></div>
+
+<p>验收：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PostgreSQL 启动</span><br><span class="line">Redis 启动</span><br><span class="line">Backend 启动</span><br><span class="line">Frontend 启动</span><br><span class="line">Worker 可启动</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Phase-2：Mock-闭环"><a href="#Phase-2：Mock-闭环" class="headerlink" title="Phase 2：Mock 闭环"></a>Phase 2：Mock 闭环</h3><p>目标：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">前端 Dashboard 能调用后端 Mock API，并展示 Daily Digest。</span><br></pre></td></tr></table></figure></div>
+
+<p>委派：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Backend API Agent：实现 mock /api/digest/today</span><br><span class="line">Frontend Agent：实现 Dashboard 页面</span><br><span class="line">Test Agent：测试 API Response</span><br></pre></td></tr></table></figure></div>
+
+<p>验收：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Dashboard 能展示 overview</span><br><span class="line">Dashboard 能展示 urgent/review/ignore</span><br><span class="line">Dashboard 能展示 stale 状态</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Phase-3：真实-Gmail"><a href="#Phase-3：真实-Gmail" class="headerlink" title="Phase 3：真实 Gmail"></a>Phase 3：真实 Gmail</h3><p>目标：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">完成 Gmail OAuth 和今日邮件同步。</span><br></pre></td></tr></table></figure></div>
+
+<p>委派：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Gmail Integration Agent：OAuth + GmailProvider</span><br><span class="line">Backend API Agent：接入 mailbox API</span><br><span class="line">Database Agent：完善 mailboxes/emails 表</span><br><span class="line">Test Agent：Gmail Mock 测试</span><br></pre></td></tr></table></figure></div>
+
+<p>验收：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">用户可连接 Gmail</span><br><span class="line">系统可同步今日邮件</span><br><span class="line">邮件可写入 emails 表</span><br><span class="line">Token 可刷新</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Phase-4：真实-AI"><a href="#Phase-4：真实-AI" class="headerlink" title="Phase 4：真实 AI"></a>Phase 4：真实 AI</h3><p>目标：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">完成真实 Daily Digest 生成。</span><br></pre></td></tr></table></figure></div>
+
+<p>委派：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AI Pipeline Agent：LLMClient + JSON Parser</span><br><span class="line">Backend API Agent：接入 generate_digest</span><br><span class="line">Database Agent：写入 daily_digests 和 digest_items</span><br><span class="line">Test Agent：测试 AI 输出 Schema</span><br></pre></td></tr></table></figure></div>
+
+<p>验收：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AI 返回结构化 JSON</span><br><span class="line">daily_digests 生成成功</span><br><span class="line">digest_items 写入成功</span><br><span class="line">Dashboard 展示真实 AI 结果</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Phase-5：完整-MVP-闭环"><a href="#Phase-5：完整-MVP-闭环" class="headerlink" title="Phase 5：完整 MVP 闭环"></a>Phase 5：完整 MVP 闭环</h3><p>目标：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">从 Gmail 到 AI 看板再到邮件操作形成完整闭环。</span><br></pre></td></tr></table></figure></div>
+
+<p>验收链路：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">连接 Gmail</span><br><span class="line">同步今日邮件</span><br><span class="line">生成 Daily Digest</span><br><span class="line">展示 Dashboard</span><br><span class="line">检测新邮件</span><br><span class="line">刷新日报</span><br><span class="line">进入邮件详情</span><br><span class="line">标记已读/未读</span><br><span class="line">同步至 Gmail</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="11-Hermes-的关键职责"><a href="#11-Hermes-的关键职责" class="headerlink" title="11. Hermes 的关键职责"></a>11. Hermes 的关键职责</h2><p>Hermes 每次分配任务时都要回答 5 个问题：</p>
+<ol>
+<li>这个任务属于哪个模块？</li>
+<li>应该由哪个 Agent 做？</li>
+<li>允许它改哪些文件？</li>
+<li>明确禁止它改哪些文件？</li>
+<li>如何验收它的结果？</li>
+</ol>
+<p>如果这 5 个问题答不清楚，说明任务还不能分配。</p>
+<hr>
+<h2 id="12-典型错误与规避方法"><a href="#12-典型错误与规避方法" class="headerlink" title="12. 典型错误与规避方法"></a>12. 典型错误与规避方法</h2><h3 id="错误一：任务太大"><a href="#错误一：任务太大" class="headerlink" title="错误一：任务太大"></a>错误一：任务太大</h3><p>错误任务：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实现 MailMind 后端。</span><br></pre></td></tr></table></figure></div>
+
+<p>正确任务：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实现 GET /api/digest/today，先返回 mock digest 数据。</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="错误二：多个-Agent-改同一文件"><a href="#错误二：多个-Agent-改同一文件" class="headerlink" title="错误二：多个 Agent 改同一文件"></a>错误二：多个 Agent 改同一文件</h3><p>规避方式：</p>
+<ul>
+<li>一个任务一个分支；</li>
+<li>每张任务卡写明 allowed files；</li>
+<li>Hermes 统一合并；</li>
+<li>Reviewer 检查越界修改。</li>
+</ul>
+<hr>
+<h3 id="错误三：没有-API-合同就让前后端并行"><a href="#错误三：没有-API-合同就让前后端并行" class="headerlink" title="错误三：没有 API 合同就让前后端并行"></a>错误三：没有 API 合同就让前后端并行</h3><p>后果：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">前端假设字段叫 suggestedAction</span><br><span class="line">后端返回 suggested_action</span><br><span class="line">AI 输出叫 action</span><br><span class="line">数据库字段叫 action_type</span><br></pre></td></tr></table></figure></div>
+
+<p>最终一地鸡毛。</p>
+<p>规避方式：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">先写 API_DESIGN.md，再并行开发前后端。</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="错误四：AI-输出没有-Schema"><a href="#错误四：AI-输出没有-Schema" class="headerlink" title="错误四：AI 输出没有 Schema"></a>错误四：AI 输出没有 Schema</h3><p>后果：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">这次 AI 返回 urgent_emails</span><br><span class="line">下次返回 important</span><br><span class="line">再下次返回 must_handle</span><br><span class="line">前端和数据库全部崩。</span><br></pre></td></tr></table></figure></div>
+
+<p>规避方式：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AI 输出必须通过 JSON Schema 校验。</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="错误五：安全规则写在脑子里"><a href="#错误五：安全规则写在脑子里" class="headerlink" title="错误五：安全规则写在脑子里"></a>错误五：安全规则写在脑子里</h3><p>后果：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Agent 不小心把 token 打进日志。</span><br><span class="line">Agent 把完整邮件正文存进 raw_ai_output。</span><br><span class="line">Agent 把 .env 提交上 GitHub。</span><br></pre></td></tr></table></figure></div>
+
+<p>规避方式：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SECURITY.md + AGENTS.md 明确禁止。</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="13-Review-Checklist"><a href="#13-Review-Checklist" class="headerlink" title="13. Review Checklist"></a>13. Review Checklist</h2><p>Reviewer Agent 或 Hermes 审查代码时，应检查：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">是否符合 PRD？</span><br><span class="line">是否符合 SYSTEM_DESIGN.md？</span><br><span class="line">是否符合 API_DESIGN.md？</span><br><span class="line">是否超出 MVP？</span><br><span class="line">是否修改了禁止修改的文件？</span><br><span class="line">是否引入不必要依赖？</span><br><span class="line">是否泄露 Token / API Key？</span><br><span class="line">是否记录完整邮件正文？</span><br><span class="line">是否记录完整 AI Prompt？</span><br><span class="line">是否新增重复表？</span><br><span class="line">是否绕过 Provider Adapter？</span><br><span class="line">是否绕过 AI Pipeline？</span><br><span class="line">是否缺少测试？</span><br><span class="line">是否需要更新文档？</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="14-适合-MailMind-的第一批任务"><a href="#14-适合-MailMind-的第一批任务" class="headerlink" title="14. 适合 MailMind 的第一批任务"></a>14. 适合 MailMind 的第一批任务</h2><p>推荐第一批任务如下：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DOC-001: 整理 docs 目录结构</span><br><span class="line">DOC-002: 编写 DATABASE_DESIGN.md</span><br><span class="line">DOC-003: 编写 API_DESIGN.md</span><br><span class="line">DOC-004: 编写 AI_PIPELINE.md</span><br><span class="line">DOC-005: 编写 SECURITY.md</span><br><span class="line">DEVOPS-001: 添加 docker-compose.yml</span><br><span class="line">BACKEND-001: 初始化 FastAPI 项目骨架</span><br><span class="line">FRONTEND-001: 初始化 Next.js 项目骨架</span><br><span class="line">BACKEND-002: 实现 mock /api/digest/today</span><br><span class="line">FRONTEND-002: 实现 Daily Digest Dashboard mock 页面</span><br><span class="line">TEST-001: 添加后端基础测试框架</span><br></pre></td></tr></table></figure></div>
+
+<p>注意：第一批任务不要直接上 Gmail OAuth 和真实 AI。先跑通 Mock 闭环，再接真实外部服务。</p>
+<hr>
+<h2 id="15-最佳实践总结"><a href="#15-最佳实践总结" class="headerlink" title="15. 最佳实践总结"></a>15. 最佳实践总结</h2><p>Hermes 多 Agent 协作开发的关键不是“Agent 数量越多越好”，而是：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">文档越清楚，Agent 越稳定。</span><br><span class="line">任务越小，输出越可靠。</span><br><span class="line">边界越明确，冲突越少。</span><br><span class="line">验收越具体，返工越少。</span><br></pre></td></tr></table></figure></div>
+
+<p>推荐原则：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">先文档，后代码。</span><br><span class="line">先合同，后并行。</span><br><span class="line">先 Mock，后真实服务。</span><br><span class="line">先小任务，后大功能。</span><br><span class="line">先 Review，后合并。</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="16-最终工作模式"><a href="#16-最终工作模式" class="headerlink" title="16. 最终工作模式"></a>16. 最终工作模式</h2><p>一个理想的 Hermes 多 Agent 工作流应该是：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PRD 定方向</span><br><span class="line">SYSTEM_DESIGN 定架构</span><br><span class="line">DATABASE_DESIGN 定数据</span><br><span class="line">API_DESIGN 定接口</span><br><span class="line">AI_PIPELINE 定 AI 输出</span><br><span class="line">SECURITY 定安全边界</span><br><span class="line">AGENTS 定协作规则</span><br><span class="line">TASK_BREAKDOWN 定执行路径</span><br><span class="line"></span><br><span class="line">Hermes 拆任务</span><br><span class="line">Agent 分模块实现</span><br><span class="line">Reviewer 审查</span><br><span class="line">Hermes 合并</span><br><span class="line">人类最终确认</span><br></pre></td></tr></table></figure></div>
+
+<p>最终目标不是让 AI 随便写更多代码，而是让 AI 在明确边界内稳定地产出可集成、可维护、可验证的工程成果。</p>
+<hr>
+<h2 id="17-一句话总结"><a href="#17-一句话总结" class="headerlink" title="17. 一句话总结"></a>17. 一句话总结</h2><p>Hermes 驱动多 Agent 协作开发，本质上是一种面向 AI 编程时代的工程组织方式：</p>
+<blockquote>
+<p>让 Hermes 负责方向、边界和验收，让多个 Agent 在清晰约束下并行完成模块化开发。</p>
+</blockquote>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Hermes 驱动多 Agent 协作开发教程</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2026-06-17 15:11:19</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-06-17 15:11:19
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://www.kanes.top/2026/06/17/notes/Hermes驱动多agent/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI/">#AI</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Agent/">#Agent</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">#工程化</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%8D%8F%E4%BD%9C%E5%BC%80%E5%8F%91/">#协作开发</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/06/17/%E5%B8%B8%E8%A7%81%E9%A2%98%E7%9B%AE/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">相关问题</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">Hermes 驱动多 Agent 协作开发教程</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">1. 背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%A0%B8%E5%BF%83%E7%90%86%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">2. 核心理念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Hermes-%E7%9A%84%E8%A7%92%E8%89%B2%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.</span> <span class="nav-text">3. Hermes 的角色定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%A4%9A-Agent-%E5%8D%8F%E4%BD%9C%E5%89%8D%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E4%BB%80%E4%B9%88"><span class="nav-number">4.</span> <span class="nav-text">4. 多 Agent 协作前需要准备什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%8E%A8%E8%8D%90-Agent-%E7%BC%96%E9%98%9F"><span class="nav-number">5.</span> <span class="nav-text">5. 推荐 Agent 编队</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Frontend-Agent"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Frontend Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Backend-API-Agent"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Backend API Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-Gmail-Integration-Agent"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 Gmail Integration Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-AI-Pipeline-Agent"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 AI Pipeline Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-Database-Agent"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 Database Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-DevOps-Agent"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 DevOps Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-Test-Agent"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 Test Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-Reviewer-Agent"><span class="nav-number">5.8.</span> <span class="nav-text">5.8 Reviewer Agent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%A4%9A-Agent-%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">6. 多 Agent 开发流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E4%BB%BB%E5%8A%A1%E5%8D%A1%E8%AE%BE%E8%AE%A1"><span class="nav-number">7.</span> <span class="nav-text">7. 任务卡设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%88%86%E6%94%AF%E7%AD%96%E7%95%A5"><span class="nav-number">8.</span> <span class="nav-text">8. 分支策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%93%AA%E4%BA%9B%E4%BB%BB%E5%8A%A1%E5%8F%AF%E4%BB%A5%E5%B9%B6%E8%A1%8C"><span class="nav-number">9.</span> <span class="nav-text">9. 哪些任务可以并行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E6%8E%A8%E8%8D%90%E5%BC%80%E5%8F%91%E9%98%B6%E6%AE%B5"><span class="nav-number">10.</span> <span class="nav-text">10. 推荐开发阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Phase-0%EF%BC%9A%E6%96%87%E6%A1%A3%E5%86%BB%E7%BB%93"><span class="nav-number">10.1.</span> <span class="nav-text">Phase 0：文档冻结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Phase-1%EF%BC%9A%E5%B7%A5%E7%A8%8B%E9%AA%A8%E6%9E%B6"><span class="nav-number">10.2.</span> <span class="nav-text">Phase 1：工程骨架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Phase-2%EF%BC%9AMock-%E9%97%AD%E7%8E%AF"><span class="nav-number">10.3.</span> <span class="nav-text">Phase 2：Mock 闭环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Phase-3%EF%BC%9A%E7%9C%9F%E5%AE%9E-Gmail"><span class="nav-number">10.4.</span> <span class="nav-text">Phase 3：真实 Gmail</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Phase-4%EF%BC%9A%E7%9C%9F%E5%AE%9E-AI"><span class="nav-number">10.5.</span> <span class="nav-text">Phase 4：真实 AI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Phase-5%EF%BC%9A%E5%AE%8C%E6%95%B4-MVP-%E9%97%AD%E7%8E%AF"><span class="nav-number">10.6.</span> <span class="nav-text">Phase 5：完整 MVP 闭环</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-Hermes-%E7%9A%84%E5%85%B3%E9%94%AE%E8%81%8C%E8%B4%A3"><span class="nav-number">11.</span> <span class="nav-text">11. Hermes 的关键职责</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E5%85%B8%E5%9E%8B%E9%94%99%E8%AF%AF%E4%B8%8E%E8%A7%84%E9%81%BF%E6%96%B9%E6%B3%95"><span class="nav-number">12.</span> <span class="nav-text">12. 典型错误与规避方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E4%B8%80%EF%BC%9A%E4%BB%BB%E5%8A%A1%E5%A4%AA%E5%A4%A7"><span class="nav-number">12.1.</span> <span class="nav-text">错误一：任务太大</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E4%BA%8C%EF%BC%9A%E5%A4%9A%E4%B8%AA-Agent-%E6%94%B9%E5%90%8C%E4%B8%80%E6%96%87%E4%BB%B6"><span class="nav-number">12.2.</span> <span class="nav-text">错误二：多个 Agent 改同一文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E4%B8%89%EF%BC%9A%E6%B2%A1%E6%9C%89-API-%E5%90%88%E5%90%8C%E5%B0%B1%E8%AE%A9%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B9%B6%E8%A1%8C"><span class="nav-number">12.3.</span> <span class="nav-text">错误三：没有 API 合同就让前后端并行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%9B%9B%EF%BC%9AAI-%E8%BE%93%E5%87%BA%E6%B2%A1%E6%9C%89-Schema"><span class="nav-number">12.4.</span> <span class="nav-text">错误四：AI 输出没有 Schema</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E4%BA%94%EF%BC%9A%E5%AE%89%E5%85%A8%E8%A7%84%E5%88%99%E5%86%99%E5%9C%A8%E8%84%91%E5%AD%90%E9%87%8C"><span class="nav-number">12.5.</span> <span class="nav-text">错误五：安全规则写在脑子里</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-Review-Checklist"><span class="nav-number">13.</span> <span class="nav-text">13. Review Checklist</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-%E9%80%82%E5%90%88-MailMind-%E7%9A%84%E7%AC%AC%E4%B8%80%E6%89%B9%E4%BB%BB%E5%8A%A1"><span class="nav-number">14.</span> <span class="nav-text">14. 适合 MailMind 的第一批任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93"><span class="nav-number">15.</span> <span class="nav-text">15. 最佳实践总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-%E6%9C%80%E7%BB%88%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-number">16.</span> <span class="nav-text">16. 最终工作模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-number">17.</span> <span class="nav-text">17. 一句话总结</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 187 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
