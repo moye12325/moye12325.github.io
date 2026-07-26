@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://www.kanes.top/2026/07/26/notes/养老金/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安徽省养老保险补缴政策全景解析与精算回本周期深度评估报告">
+<meta property="og:url" content="https://www.kanes.top/2026/07/26/notes/%E5%85%BB%E8%80%81%E9%87%91/index.html">
+<meta property="og:site_name" content="Moye的日常">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-07-26T17:26:33.000Z">
+<meta property="article:modified_time" content="2026-07-26T17:26:33.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="养老金">
+<meta property="article:tag" content="安徽">
+<meta property="article:tag" content="社保">
+<meta property="article:tag" content="财务测算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.kanes.top/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            安徽省养老保险补缴政策全景解析与精算回本周期深度评估报告 | Moye活着的记录
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"www.kanes.top","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":true,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":true},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://files.codelife.cc/wallhaven/full/g7/wallhaven-g75r7d.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp","dark":"https://files.codelife.cc/wallpaper/wallspic/167264.jpg?x-oss-process=image/resize,limit_0,m_fill,w_2560,h_1440/quality,Q_92/format,webp"},"title":"OK, so what?","subtitle":{"text":["What matters most in life is often invisible."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn/?c=a&c=d&c=i&c=k"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/moye12325","instagram":null,"zhihu":null,"twitter":null,"email":null,"music":"https://music.163.com/#/user/home?id=609685181","bilibili":"https://space.bilibili.com/180380237"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"友链":{"path":"/links","icon":"fa-regular fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives","icon":"fa-regular fa-book"},"随笔":{"path":"/notes","icon":"fa-regular fa-pen"},"项目":{"path":"/projects","icon":"fa-regular fa-folder"},"友链":{"path":"/links","icon":"fa-regular fa-link"},"关于":{"path":"/about","icon":"fa-regular fa-user"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Moye活着的记录
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Moye活着的记录
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">47</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">188</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">安徽省养老保险补缴政策全景解析与精算回本周期深度评估报告</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv6</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-07-27 01:26:33</span>
+        <span class="mobile">2026-07-27 01:26:33</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-07-27 01:26:33</span>
+            <span class="mobile">2026-07-27 01:26:33</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%85%BB%E8%80%81%E9%87%91/">养老金</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%A4%BE%E4%BF%9D/">社保</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%AE%89%E5%BE%BD/">安徽</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B4%A2%E5%8A%A1%E6%B5%8B%E7%AE%97/">财务测算</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>养老保障制度作为社会安全网的核心，直接关系到广大城乡居民与灵活就业人员的晚年福祉。随着渐进式延迟法定退休年龄方案的落地以及养老统筹层次的提升，养老保险的补缴机制、待遇确定及回本周期成为了政策咨询的热点。本报告立足于安徽省最新的政策法规与精算数据，针对城乡居民养老保险与城镇职工基本养老保险（灵活就业人员）的补缴政策、安全性以及回本周期进行深度系统性评估，旨在为科学理性的参保和投保决策提供专业学术参考。</p>
+<h2 id="城乡居民养老保险补缴政策、档次划分与政策收紧趋势"><a href="#城乡居民养老保险补缴政策、档次划分与政策收紧趋势" class="headerlink" title="城乡居民养老保险补缴政策、档次划分与政策收紧趋势"></a>城乡居民养老保险补缴政策、档次划分与政策收紧趋势</h2><p>安徽省城乡居民基本养老保险（以下简称“城乡居保”）主要面向未纳入城镇职工基本养老保险范围的城乡居民[1]。其补缴政策在设计上具有较强的普惠性，但随着国家统一监管力度的加大，该政策正处于从“临时灵活补缴”向“鼓励长期按年缴费”过渡的窗口期[3]。</p>
+<h3 id="城乡居保缴费与补缴档次设定"><a href="#城乡居保缴费与补缴档次设定" class="headerlink" title="城乡居保缴费与补缴档次设定"></a>城乡居保缴费与补缴档次设定</h3><p>自2026年1月1日起，安徽省对城乡居保的缴费档次实施了新一轮优化调整，在原15个缴费档次的基础上新增了9000元档次，形成了现行的16个缴费档次[6]。这一调整旨在适应居民可支配收入的持续增长，拓宽自主缴费空间[6]。各档次标准及正常按年缴费时所对应的政府补贴金额如表所示：</p>
+<table>
+<thead>
+<tr>
+<th align="left">缴费档次（元&#x2F;年）</th>
+<th align="left">政府缴费补贴（元&#x2F;年）</th>
+<th align="left">财政资金分担比例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">200</td>
+<td align="left">40 [8]</td>
+<td align="left">省财政承担50%，其余由市、县（区）承担[6]</td>
+</tr>
+<tr>
+<td align="left">300, 400, 500, 600, 700</td>
+<td align="left">随缴费档次提高而逐级递增</td>
+<td align="left">省财政承担50%，其余由市、县（区）承担[6]</td>
+</tr>
+<tr>
+<td align="left">800</td>
+<td align="left">100 [8]</td>
+<td align="left">省财政承担50%，其余由市、县（区）承担[6]</td>
+</tr>
+<tr>
+<td align="left">900</td>
+<td align="left">随缴费档次提高而逐级递增</td>
+<td align="left">省财政承担50%，其余由市、县（区）承担[6]</td>
+</tr>
+<tr>
+<td align="left">1000</td>
+<td align="left">120 [8]</td>
+<td align="left">省财政承担50%，其余由市、县（区）承担[6]</td>
+</tr>
+<tr>
+<td align="left">1500</td>
+<td align="left">随缴费档次提高而逐级递增</td>
+<td align="left">省财政承担50%，其余由市、县（区）承担[6]</td>
+</tr>
+<tr>
+<td align="left">2000, 3000, 4000, 5000, 6000, 9000</td>
+<td align="left">统一补贴 200 [6]</td>
+<td align="left">省财政承担50%，其余由市、县（区）承担[6]</td>
+</tr>
+</tbody></table>
+<p>需要特别指出的是，“正常按年缴费”与“事后欠费补缴”在政策待遇上存在实质性差异[10]。根据现行规定，参保人员中断缴费后进行补缴的，补缴部分不享受政府提供的缴费补贴[10]。然而，如果参保人员属于“提档补缴”（即当年已按低档次缴费，在当年12月底前申请变更为更高档次并补齐差额），则依然可以享受高缴费档次对应的政府补贴[13]。<br>此外，政策在筹资渠道上引入了“子女资助”等辅助机制[15]。子女可通过县级税务大厅或社保大厅，为父母每年额外提供不超过6000元的资助缴费[15]。这笔资助资金连同政府对参保人员的补贴、集体补助等，将全部记入个人账户，且不影响原有的缴费档次上限[1]。</p>
+<h3 id="城乡居保一次性补缴的规则与潜在红利期截止风险"><a href="#城乡居保一次性补缴的规则与潜在红利期截止风险" class="headerlink" title="城乡居保一次性补缴的规则与潜在红利期截止风险"></a>城乡居保一次性补缴的规则与潜在红利期截止风险</h3><p>目前，安徽省政策允许在年满60周岁办理领取待遇手续前，一次性补缴不高于15年的历史保费[8]。与城镇职工基本养老保险不同，城乡居民养老保险的个人中断补缴不加收任何滞纳金或利息[10]。<br>然而，这种临时性的一次性补缴机制正面临全国层面的政策收紧[3]。国家人力资源社会保障部印发的《社会保险费一次性补缴实施办法》明确提出“堵临时补缴漏洞，保长期缴费公平”的原则[4]。目前，部分省市（如海南、广东佛山）已正式关闭了一次性补缴和跨年度提档补缴通道[3]。安徽省人社厅在2026年初回应市民咨询时指出，目前暂未发布全省统一的截止补缴红头文件，但在国家政策框架下，未来关闭一次性补缴功能具有较高的确定性[16]。一旦通道关闭，首次参保时已超过45周岁且存在欠缴年度的居民，在满60周岁时将无法通过一次性补齐年限的方式领取养老金，只能延迟缴费至65周岁方可申领[3]。因此，建议符合补缴条件的群体尽早办理提档或趸缴手续[14]。</p>
+<h2 id="灵活就业人员职工养老保险补缴政策与延迟退休新规影响"><a href="#灵活就业人员职工养老保险补缴政策与延迟退休新规影响" class="headerlink" title="灵活就业人员职工养老保险补缴政策与延迟退休新规影响"></a>灵活就业人员职工养老保险补缴政策与延迟退休新规影响</h2><p>对于以个人身份参加企业职工基本养老保险的灵活就业人员，安徽省执行极其刚性的“即期缴费、逾期禁补”监管政策[20]。</p>
+<h3 id="灵活就业人员“禁补”红线与逾期加收滞纳金规定"><a href="#灵活就业人员“禁补”红线与逾期加收滞纳金规定" class="headerlink" title="灵活就业人员“禁补”红线与逾期加收滞纳金规定"></a>灵活就业人员“禁补”红线与逾期加收滞纳金规定</h3><p>根据《关于进一步促进灵活就业人员参加企业职工基本养老保险有关问题的通知》（皖人社发〔2021〕17号），城镇无雇工个体工商户、灵活就业人员，不得通过事后追溯补缴的方式增加缴费年限[20]。<br>政策唯一的宽限期在于“当年度申报未扣款成功”的跨年补缴[22]。如果灵活就业人员在申报年度内完成了缴费申报，由于资金等客观原因未及时扣缴，允许其在次年的6月30日之前完成补缴，此区间内免除滞纳金和利息[22]。一旦超过次年6月30日，该年度的欠费记录将被彻底清理，个人将无法再通过任何形式补缴该年度的保费以增加工龄[22]。<br>相比于城乡居保的免息补缴，职工养老保险若因单位原因或特殊合规原因产生断缴，在获准进行补缴时，必须依照《中华人民共和国社会保险法》规定，自欠缴之日起，按日加收万分之五（0.5‰）的滞纳金，用人单位欠费严重的甚至可按日加收2‰的滞纳金[25]。滞纳金累计金额最高不超过本金的40%，上限为8000元，由欠缴单位或责任主体承担，并全部并入职工统筹基金[25]。</p>
+<h3 id="退休年龄后延与最低缴费年限提升的双重约束"><a href="#退休年龄后延与最低缴费年限提升的双重约束" class="headerlink" title="退休年龄后延与最低缴费年限提升的双重约束"></a>退休年龄后延与最低缴费年限提升的双重约束</h3><p>自2025年1月1日起，渐进式延迟法定退休年龄改革正式施行，并伴随最低缴费年限的逐步提升[27]。这对于灵活就业人员的缴费规划具有决定性的结构性影响：<br>第一，<strong>法定退休年龄的小步渐进式推迟</strong>。男职工的法定退休年龄将逐步由60周岁延迟至63周岁（每4个月延迟1个月）；原55周岁退休的女职工（女干部或部分灵活就业人员）逐步延迟至58周岁；原50周岁退休的女职工逐步延迟至55周岁[27]。<br>第二，<strong>最低缴费年限从15年逐步提高至20年</strong>[28]。自2030年1月1日起，职工养老金最低缴费年限将以每年提高6个月的节奏，从15年稳步提升至20年[28]。各年份对应的法定退休最低年限及弹性退休规则如表所示：</p>
+<table>
+<thead>
+<tr>
+<th align="left">达到法定退休年龄的年份</th>
+<th align="left">对应的最低缴费年限</th>
+<th align="left">弹性退休政策适用规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">2025 年—2029 年</td>
+<td align="left">维持 15 年不变[30]</td>
+<td align="left">达到最低年限后，可自愿弹性提前退休，最长不超过3年，且不得低于原法定退休年龄[27]。</td>
+</tr>
+<tr>
+<td align="left">2030 年</td>
+<td align="left">15 年 6 个月[28]</td>
+<td align="left">提前退休要求的最低缴费年限，按所选择提前退休年份对应的国家标准执行[31]。</td>
+</tr>
+<tr>
+<td align="left">2031 年</td>
+<td align="left">16 年[31]</td>
+<td align="left">弹性延迟退休需单位与职工协商一致，最长延迟不超过3年[27]。</td>
+</tr>
+<tr>
+<td align="left">……</td>
+<td align="left">每年递增 6 个月</td>
+<td align="left">延迟退休期间，职工所需满足的最低缴费年限，仍为其法定退休年龄对应年份的标准，而非实际退休年份标准[31]。</td>
+</tr>
+<tr>
+<td align="left">2039 年及以后</td>
+<td align="left">20 年[33]</td>
+<td align="left">在上述弹性范围内选择提前或延迟退休，其已领取的养老金待遇不会进行任何折价折损[31]。</td>
+</tr>
+</tbody></table>
+<p>对于由于断缴、迟缴导致退休时累计缴费年限不足的灵活就业人员，若无法适用一次性补缴政策（即2011年7月1日《社会保险法》实施后首次参保人员，不能在退休时通过5年延缴期满后趸缴），则只能被迫按年延长缴费直至满足各年份对应的最低缴费年限标准，这将在客观上导致其实际领待年龄进一步延后[35]。</p>
+<h2 id="补缴后领取的安全性、法理依据与长效维持机制"><a href="#补缴后领取的安全性、法理依据与长效维持机制" class="headerlink" title="补缴后领取的安全性、法理依据与长效维持机制"></a>补缴后领取的安全性、法理依据与长效维持机制</h2><p>针对参保群众关于“补缴后真的能正常领取养老金吗”这一疑虑，本报告从法理机制、基金征管和资格认证三个维度进行安全性评估[2]。</p>
+<h3 id="基金国家统筹与刚性支付责任"><a href="#基金国家统筹与刚性支付责任" class="headerlink" title="基金国家统筹与刚性支付责任"></a>基金国家统筹与刚性支付责任</h3><p>基本养老保险基金受《中华人民共和国社会保险法》保护，实行全省及全国统一统筹，实行收支两条线、国库统一划转和专户监管，确保专款专用，任何单位或个人不得截留或挪用[2]。基本养老金由基础养老金与个人账户养老金共同组成，支付终身[1]。当个人账户资金在计发月数内（如139个月）发放完毕后，个人账户养老金部分将自动转由政府财政兜底补贴发放，确保生存者持续按月正常领待，绝不存在基金断流或无故停发的系统性风险[1]。</p>
+<h3 id="多通道领取资格认证制度与冒领防范"><a href="#多通道领取资格认证制度与冒领防范" class="headerlink" title="多通道领取资格认证制度与冒领防范"></a>多通道领取资格认证制度与冒领防范</h3><p>为防止养老金流失并维护基金安全性，安徽省建立了多渠道并存的基本养老金领取资格认证体系[8]：</p>
+<table>
+<thead>
+<tr>
+<th align="left">认证渠道</th>
+<th align="left">适用群体及技术路径</th>
+<th align="left">功能价值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>“皖事通” APP 线上认证</strong> [8]</td>
+<td align="left">智能手机普及群体；支持本人刷脸认证，亦支持家属登录协助进行代人认证[8]。</td>
+<td align="left">实现“零跑腿”远程便民认证，大幅降低高龄、异地居住人员的经办负担[8]。</td>
+</tr>
+<tr>
+<td align="left"><strong>线下网点认证</strong> [8]</td>
+<td align="left">偏好线下经办或无法使用智能手机的老年居民[8]。</td>
+<td align="left">参保人携带有效身份证件至村（社区）居委会、乡镇社保所或县区社保机构现场办理[8]。</td>
+</tr>
+<tr>
+<td align="left"><strong>上门暖心认证服务</strong> [8]</td>
+<td align="left">高龄、病残、行动不便等存在实质性经办困难的特殊群体[8]。</td>
+<td align="left">由基层经办机构安排专员提供上门核对与现场资格确认服务[8]。</td>
+</tr>
+<tr>
+<td align="left"><strong>跨部门数据比对认证</strong> [8]</td>
+<td align="left">全体待遇领取人员[8]</td>
+<td align="left">经办机构通过民政、卫健、公安等共享数据库，进行高频无感生存认证[8]。</td>
+</tr>
+</tbody></table>
+<p>资格认证工作每年开展一次[8]。多层次的认证网不仅保障了符合条件人员的领待安全，更能精准杜绝重复领取、身故后瞒报冒领等违规行为，进而促进了养老保险统筹基金的永续健康运行[2]。</p>
+<h2 id="养老金补缴与提档的精算回本周期模型"><a href="#养老金补缴与提档的精算回本周期模型" class="headerlink" title="养老金补缴与提档的精算回本周期模型"></a>养老金补缴与提档的精算回本周期模型</h2><p>养老保险补缴的财务效益，在精算上体现为“个人补缴总成本”与“退休后月领待遇（预期寿命贴现现值）”的动态比例关系[41]。</p>
+<h3 id="城乡居民养老保险补缴静态与动态回本测算"><a href="#城乡居民养老保险补缴静态与动态回本测算" class="headerlink" title="城乡居民养老保险补缴静态与动态回本测算"></a>城乡居民养老保险补缴静态与动态回本测算</h3><p>城乡居保个人账户养老金的月计发标准，固定为个人账户全部储存额除以 139[1]。其月养老金计算公式为：</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">月养老金 = 基础养老金 + 个人账户全部储存额 / 139</span><br></pre></td></tr></table></figure></div>
+
+<p>若参保人员在60周岁时选择一次性补缴15年保费，因补缴年份无法获得政府给予的实时缴费补贴[10]，其个人账户的原始本金积累完全为个人补缴总额（补缴档次 × 15）。<br>在测算模型中，<strong>静态模型</strong>假定基础养老金维持在各省最低标准基准线（以200元&#x2F;月为例[42]），且不考虑个人账户的利息分配和基础养老金的逐年增长[42]；<strong>动态模型</strong>则引入安徽省2025&#x2F;2026年度的宏观精算参数：安徽省2025年个人记账利率为 <strong>3.59%</strong>[7]，且安徽省2025年底经提标后全省人均养老金平均水平已达到 <strong>230.3元&#x2F;月</strong>（省会及部分地市如合肥市基础养老金已提升至 <strong>225元&#x2F;月</strong>）[44]。两种模型下的回本期精算对比如表所示：</p>
+<table>
+<thead>
+<tr>
+<th align="left">补缴档次（元&#x2F;年）</th>
+<th align="left">15 年一次性补缴总支出（元）</th>
+<th align="left">静态模型：月养老金（元）</th>
+<th align="left">静态模型：回本年限</th>
+<th align="left">动态模型（全省平均230.3元基数）：月养老金（元）</th>
+<th align="left">动态模型：实际回本年限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>200</strong></td>
+<td align="left">3,000</td>
+<td align="left">221.58 [42]</td>
+<td align="left"><strong>1.13 年</strong> [42]</td>
+<td align="left">251.88</td>
+<td align="left"><strong>0.99 年</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>500</strong></td>
+<td align="left">7,500</td>
+<td align="left">253.96 [42]</td>
+<td align="left"><strong>2.46 年</strong> [42]</td>
+<td align="left">284.26</td>
+<td align="left"><strong>2.20 年</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>1000</strong></td>
+<td align="left">15,000</td>
+<td align="left">307.91 [42]</td>
+<td align="left"><strong>4.06 年</strong> [42]</td>
+<td align="left">338.21</td>
+<td align="left"><strong>3.69 年</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>2000</strong></td>
+<td align="left">30,000</td>
+<td align="left">415.83 [42]</td>
+<td align="left"><strong>6.01 年</strong> [42]</td>
+<td align="left">446.13</td>
+<td align="left"><strong>5.60 年</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>3000</strong></td>
+<td align="left">45,000</td>
+<td align="left">523.74 [42]</td>
+<td align="left"><strong>7.16 年</strong> [42]</td>
+<td align="left">554.04</td>
+<td align="left"><strong>6.77 年</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>5000</strong></td>
+<td align="left">75,000</td>
+<td align="left">739.57 [42]</td>
+<td align="left"><strong>8.45 年</strong> [42]</td>
+<td align="left">769.87</td>
+<td align="left"><strong>8.12 年</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>6000</strong></td>
+<td align="left">90,000</td>
+<td align="left">847.48 [42]</td>
+<td align="left"><strong>8.85 年</strong> [42]</td>
+<td align="left">877.78</td>
+<td align="left"><strong>8.54 年</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>9000</strong> [6, 7]</td>
+<td align="left">135,000</td>
+<td align="left">1171.22 [42]</td>
+<td align="left"><strong>9.61 年</strong> [42]</td>
+<td align="left">1201.52</td>
+<td align="left"><strong>9.36 年</strong></td>
+</tr>
+</tbody></table>
+<p>注：动态模型计算融入了3.59%的历年复利生息效应，并假定退休当年安徽省城乡居保基础养老金最低均值为230.3元[44]。<br>由精算结果可见，城乡居保低档次补缴（如200元、500元）具有极短的回本周期，普遍在1至3.1年之间[42]；而选择9000元最高缴费档次，实际回本周期也仅为9.36年左右，对应月养老金可达1200元以上[6]。结合我国城乡居民平均寿命已超78岁的宏观现状，60岁申领待遇后，其预期盈余领待期长达18年以上。同时，政策规定“长缴多得”，缴费年限超过15年的，每超过1年，基础性养老金加发1%，最高不超过10%[47]，这将使长期缴费群体的实际回本速度进一步加快。</p>
+<h3 id="灵活就业人员（企业职工养老保险）按年缴费与回本精算"><a href="#灵活就业人员（企业职工养老保险）按年缴费与回本精算" class="headerlink" title="灵活就业人员（企业职工养老保险）按年缴费与回本精算"></a>灵活就业人员（企业职工养老保险）按年缴费与回本精算</h3><p>灵活就业人员企业职工养老保险不支持事后一次性追溯补缴[20]。本部分对其按年足额持续缴费至15年的回本周期进行财务精算。其待遇计发公式由基础养老金与个人账户养老金组成，个人账户计发月数根据退休年龄确定（55岁为170个月，60岁为139个月，65岁为101个月）[41]。<br>测算基于安徽省2025年度退休职工养老金计发基数 <strong>7999元&#x2F;月</strong>[48]，个人缴费比例为20%（其中8%进入个人账户，12%进入统筹基金）[38]。测算结果如表所示[42]：</p>
+<table>
+<thead>
+<tr>
+<th align="left">缴费基数档次</th>
+<th align="left">退休年龄</th>
+<th align="left">计发月数</th>
+<th align="left">15 年累计个人缴费总额（元）</th>
+<th align="left">退休首月应发养老金（元）</th>
+<th align="left">静态回本周期（年）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>60% 档次（基数4311元）</strong> [49, 50]</td>
+<td align="left">55 岁</td>
+<td align="left">170</td>
+<td align="left">155,196</td>
+<td align="left">1,325.05 [42]</td>
+<td align="left"><strong>9.76 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">60 岁</td>
+<td align="left">139</td>
+<td align="left">155,196</td>
+<td align="left">1,406.49 [42]</td>
+<td align="left"><strong>9.20 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">65 岁</td>
+<td align="left">101</td>
+<td align="left">155,196</td>
+<td align="left">1,574.52 [42]</td>
+<td align="left"><strong>8.21 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"><strong>100% 档次（基数7185元）</strong> [42]</td>
+<td align="left">55 岁</td>
+<td align="left">170</td>
+<td align="left">258,660</td>
+<td align="left">1,808.46 [42]</td>
+<td align="left"><strong>11.92 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">60 岁</td>
+<td align="left">139</td>
+<td align="left">258,660</td>
+<td align="left">1,944.20 [42]</td>
+<td align="left"><strong>11.09 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">65 岁</td>
+<td align="left">101</td>
+<td align="left">258,660</td>
+<td align="left">2,224.25 [42]</td>
+<td align="left"><strong>9.69 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"><strong>300% 档次（基数21556元）</strong> [49, 50]</td>
+<td align="left">55 岁</td>
+<td align="left">170</td>
+<td align="left">776,016</td>
+<td align="left">4,225.62 [42]</td>
+<td align="left"><strong>15.30 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">60 岁</td>
+<td align="left">139</td>
+<td align="left">776,016</td>
+<td align="left">4,632.84 [42]</td>
+<td align="left"><strong>13.96 年</strong> [42]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">65 岁</td>
+<td align="left">101</td>
+<td align="left">776,016</td>
+<td align="left">5,473.03 [42]</td>
+<td align="left"><strong>11.82 年</strong> [42]</td>
+</tr>
+</tbody></table>
+<h4 id="政策倾斜与社保补贴对回本周期的双重催化机制"><a href="#政策倾斜与社保补贴对回本周期的双重催化机制" class="headerlink" title="政策倾斜与社保补贴对回本周期的双重催化机制"></a>政策倾斜与社保补贴对回本周期的双重催化机制</h4><p>在上述静态精算图景之外，存在两大政策调节因子，能够颠覆性地缩短实际回本年限：<br>第一，<strong>职工社会统筹的“控高保低”再分配机制</strong>[41]。从上表可见，60%低缴费基数对应的回本周期普遍在8.21至9.76年之间，显著优于300%档次的11.82至15.30年[42]。这是因为基础养老金在计算时对平均缴费指数进行了均衡化处理，使得低基数参保人员能够充分享受社会统筹的互济红利[41]。<br>第二，<strong>安徽省全新提标的“灵活就业人员社保补贴”</strong>[53]。自2026年7月1日起，安徽省将就业困难人员以及离校2年内未就业高校毕业生的灵活就业养老保险补贴标准，统一上调至 <strong>500元&#x2F;月</strong>（医疗保险补贴保持100元&#x2F;月，两项补贴实行“先缴后补”，最长不超过3年，大龄困难人员可享受至法定退休年龄）[53]。这一补贴大幅削减了参保人的实际自付成本[54]。<br>以选择60%最低档次缴费、距离退休还有5年的大龄就业困难群体（如女性50岁，原法定退休年龄延迟至55岁）为例：</p>
+<ul>
+<li>2026年其缴费基数为4311元[49]，每月缴费总额为 862.2元[54]。</li>
+<li>申请获得社保补贴500元&#x2F;月后（未超过实际缴费额的2&#x2F;3限制）[54]，其实际月均净自付仅为：</li>
+</ul>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实际月均净自付 = 862.2 - 500 = 362.2 元/月</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>在15年总缴费周期中，前10年无补贴时累计个人缴费为 103,464元；后5年享受补贴时个人净自付仅为 21,732元[54]。</li>
+<li>其15年累计净自付总额由 155,196元 大幅降至 <strong>125,196元</strong>。</li>
+<li>按照55岁退休首月月领待遇 1,325.05元 静态核算[42]，其实际回本周期将由 9.76年 骤降至 <strong>7.87年</strong>。</li>
+</ul>
+<p>若参保人员在退休后，继续享受企业基本养老金年度调整（包含定额上调、年限与水平挂钩增发，以及满70周岁后的高龄倾斜政策）[56]，其实际回本周期还将进一步收窄至 6 年以内。</p>
+<h2 id="结论与专业投资性投保决策建议"><a href="#结论与专业投资性投保决策建议" class="headerlink" title="结论与专业投资性投保决策建议"></a>结论与专业投资性投保决策建议</h2><p>基于安徽省养老统筹制度、财务机制和多尺度精算模型的论证，针对城乡居保和职工基本养老保险，本报告提供如下专业化决策导向：</p>
+<h3 id="城乡居民养老保险群体的投保策略"><a href="#城乡居民养老保险群体的投保策略" class="headerlink" title="城乡居民养老保险群体的投保策略"></a>城乡居民养老保险群体的投保策略</h3><p>由于城乡居保的提档补缴在计息上采取复利计息（安徽省2025年个人记账利率为 <strong>3.59%</strong>），且支持去世后个人账户余额及利息的继承与清退[1]，它是一种具有国家信用担保的高回报率保障工具[13]。<br>建议处于50至60周岁之间、资金充裕的参保人员，应在政策“一次性补缴和跨年提档”通道完全关闭前，积极向村居委会或通过“安徽人社”微信公众号等互联网平台申报提档补缴[15]。在可行范围内，建议优先选择 3000元 至 9000元 的高档次进行一次性补齐[6]。虽然其静态出资总额有所上升，但由于政府对高档次统筹支持力度更大，且基础养老金标准呈逐年攀升趋势，其动态回本年限基本锁定在 7至9.5年 之间，且能够从本质上拉升晚年领取的绝对待遇值，有效抵御通胀和长寿风险[6]。</p>
+<h3 id="灵活就业与城镇职工养老保险群体的统筹策略"><a href="#灵活就业与城镇职工养老保险群体的统筹策略" class="headerlink" title="灵活就业与城镇职工养老保险群体的统筹策略"></a>灵活就业与城镇职工养老保险群体的统筹策略</h3><p>灵活就业群体必须打消任何关于“退休前突击补缴”的不合规幻觉[20]。在实务中应严格遵守“逐年按时即期足额缴纳”的铁律[20]。若当期资金周转承压，亦应在次年6月30日前的黄金宽限期内完成清欠，避免工龄出现断档[22]。由于从2030年起最低缴费年限要求将以年均增加6个月的斜率向20年刚性推延[28]，中青年灵活就业人员必须及早拉长整个缴费周期，避免因“卡点15年”而导致退休申领时间被动推迟[4]。<br>对于符合条件的就业困难人员或高校毕业生，应第一时间通过“皖事通”APP申领全省提标后的 <strong>500元&#x2F;月</strong> 灵活就业养老保险社保补贴，通过合规获取公共财政补贴，将个人的实际回本周期压缩至极优区间[53]。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li>安徽省人民政府关于进一步完善城乡居民基本养老保险制度的实施意见, <a class="link"   target="_blank" rel="noopener" href="https://hrss.ah.gov.cn/public/6595721/8441842.html" >https://hrss.ah.gov.cn/public/6595721/8441842.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>【管理办法】六安市城乡居民基本养老保险实施方案 - 霍邱县人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.huoqiu.gov.cn/public/6618271/29325131.html" >https://www.huoqiu.gov.cn/public/6618271/29325131.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>多地城乡居民养老保险补缴窗口期将关闭 - 新浪财经, <a class="link"   target="_blank" rel="noopener" href="https://finance.sina.cn/2025-11-19/detail-infxxnee1856339.d.html?vt=4" >https://finance.sina.cn/2025-11-19/detail-infxxnee1856339.d.html?vt=4<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>留给父母提档的时间，真的不多了 - 亿欧, <a class="link"   target="_blank" rel="noopener" href="https://www.iyiou.com/news/202607191135551" >https://www.iyiou.com/news/202607191135551<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>留给父母提档的时间，真的不多了 - 钛媒体, <a class="link"   target="_blank" rel="noopener" href="https://www.tmtpost.com/8069373.html" >https://www.tmtpost.com/8069373.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>缴费档次调整，2026年1月1日起执行！ - 新浪财经, <a class="link"   target="_blank" rel="noopener" href="https://finance.sina.com.cn/wm/2026-03-30/doc-inhsukns3900697.shtml" >https://finance.sina.com.cn/wm/2026-03-30/doc-inhsukns3900697.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽无为：2026年度城乡居民基本养老保险增加最高缴费档次- 工作动态- 中国就业网, <a class="link"   target="_blank" rel="noopener" href="https://chinajob.mohrss.gov.cn/h5/c/2026-01-19/482060.shtml" >https://chinajob.mohrss.gov.cn/h5/c/2026-01-19/482060.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>2024年“社保服务进万家”知识问答（城乡居民养老保险篇）, <a class="link"   target="_blank" rel="noopener" href="https://rsj.luan.gov.cn/zwzx/ztzl/rszcnwwd/5394224.html" >https://rsj.luan.gov.cn/zwzx/ztzl/rszcnwwd/5394224.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省城乡居民养老保险最高缴费档次提高至9000元&#x2F;年 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/suwdz.html" >https://m12333.cn/qa/suwdz.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>遵义社保：城乡居民养老保险补缴政策问答 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/paius.html" >https://m12333.cn/qa/paius.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>城乡居民养老保险补缴_芜湖市人力资源和社会保障局, <a class="link"   target="_blank" rel="noopener" href="https://rsj.wuhu.gov.cn/content/article/8894251" >https://rsj.wuhu.gov.cn/content/article/8894251<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>合肥市人民政府关于进一步完善城乡居民基本养老保险制度的实施意见, <a class="link"   target="_blank" rel="noopener" href="https://zc.51shebao.com/detail/827997" >https://zc.51shebao.com/detail/827997<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省城乡居民养老保险，选哪个档缴费最划算？15个缴费档次… - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/pfzif.html" >https://m12333.cn/qa/pfzif.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽无为：城乡居民养老保险提档补缴掀起高热潮, <a class="link"   target="_blank" rel="noopener" href="https://chinajob.mohrss.gov.cn/h5/c/2025-12-24/473773.shtml" >https://chinajob.mohrss.gov.cn/h5/c/2025-12-24/473773.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>关于养老金补交的政策问题 - 金寨县人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.ahjinzhai.gov.cn/hdjl/dwzsk/38137691.html" >https://www.ahjinzhai.gov.cn/hdjl/dwzsk/38137691.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>网传安徽省居民养老保险，今年2025年是最后一年可以提档补交到最高档 - 怀远县人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.ahhy.gov.cn/hdjl/dwzsk/81368425.html" >https://www.ahhy.gov.cn/hdjl/dwzsk/81368425.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>2026年城乡居民养老保险是否可以一次性补交？-亳州市人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.bozhou.gov.cn/InFeedback/show/251024037007022.html" >https://www.bozhou.gov.cn/InFeedback/show/251024037007022.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>您可能无法一次性补缴城乡居民养老保险！要想养老生活好，年轻还得早参保 - 汕尾市人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.shanwei.gov.cn/swrsj/ztzl/zshbx/content/post_1220688.html" >https://www.shanwei.gov.cn/swrsj/ztzl/zshbx/content/post_1220688.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>4月1日起：农民提档补缴社保定了！每年6000元！一次性补缴15年！每月能领多少钱？全国31省养老金标准公告！ - 新浪财经, <a class="link"   target="_blank" rel="noopener" href="https://finance.sina.com.cn/money/future/wemedia/2025-04-01/doc-inerqmnk0947248.shtml" >https://finance.sina.com.cn/money/future/wemedia/2025-04-01/doc-inerqmnk0947248.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省灵活就业人员2023年度养老保险费于2024年6月底截止缴纳！ - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/mfpbu.html" >https://m12333.cn/qa/mfpbu.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>六安市2024年“社保服务进万家”知识问答（参保缴费篇） - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/pisyy.html" >https://m12333.cn/qa/pisyy.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>关于进一步促进灵活就业人员参加企业职工基本养老保险有关问题的通知, <a class="link"   target="_blank" rel="noopener" href="https://www.xuancheng.gov.cn/Livelihood/show/5510.html" >https://www.xuancheng.gov.cn/Livelihood/show/5510.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省关于灵活就业人员2025年度企业职工基本养老保险缴费期限的温馨提示（6月30日前）, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/smwwe.html" >https://m12333.cn/qa/smwwe.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>合肥市关于灵活就业人员2024年度企业职工基本养老保险缴费期限的温馨提示 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/pakcc.html" >https://m12333.cn/qa/pakcc.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>关于印发《安徽省企业职工养老保险制度改革实施细则》的通知 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/policy/preu.html" >https://m12333.cn/policy/preu.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>社保滞纳金怎么算 - 保险, <a class="link"   target="_blank" rel="noopener" href="http://www.cpic.com.cn/baike/267.html" >http://www.cpic.com.cn/baike/267.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>弹性退休制度”往前弹”和”往后弹”如何选? - 安徽省机构编制委员会办公室, <a class="link"   target="_blank" rel="noopener" href="http://www.ahjgbzw.gov.cn/content/detail/677721e57f8b9a08158b456d.html" >http://www.ahjgbzw.gov.cn/content/detail/677721e57f8b9a08158b456d.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>2025年1月施行新规 - 北京市司法局, <a class="link"   target="_blank" rel="noopener" href="https://sfj.beijing.gov.cn/sfj/sfdt/fzxc74/543496853/index.html" >https://sfj.beijing.gov.cn/sfj/sfdt/fzxc74/543496853/index.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>国务院关于渐进式延迟法定退休年龄的办法, <a class="link"   target="_blank" rel="noopener" href="https://www.chaoyang.gov.cn/html/CYSZF/202605/0177863796766083.html" >https://www.chaoyang.gov.cn/html/CYSZF/202605/0177863796766083.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>渐进式延迟法定退休年龄是如何规定的？, <a class="link"   target="_blank" rel="noopener" href="https://jnhrss.jinan.gov.cn/col126021/art/2025/art_126021_4812879.html" >https://jnhrss.jinan.gov.cn/col126021/art/2025/art_126021_4812879.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>2026年退休办理新变化|养老保险 - 新浪财经, <a class="link"   target="_blank" rel="noopener" href="https://finance.sina.cn/2026-04-02/detail-inhtakui4389015.d.html?vt=4" >https://finance.sina.cn/2026-04-02/detail-inhtakui4389015.d.html?vt=4<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>中央定调：2025年职工提前退休新规定！, <a class="link"   target="_blank" rel="noopener" href="https://www.linzhouxian.gov.cn/lzxrmzf/c100600/202506/8c2d4693b4aa47b888347535f4f5ed93.shtml" >https://www.linzhouxian.gov.cn/lzxrmzf/c100600/202506/8c2d4693b4aa47b888347535f4f5ed93.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>速看！2026年职工退休新规定→ - 二七区人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.erqi.gov.cn/jcjd/10012940.jhtml" >https://www.erqi.gov.cn/jcjd/10012940.jhtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>具备这些条件，可以提前退休！ - 左贡县人民政府, <a class="link"   target="_blank" rel="noopener" href="https://zuogong.changdu.gov.cn/zgx/c105702/202601/11caab8c51e7439a90ac80e1416ae44c.shtml" >https://zuogong.changdu.gov.cn/zgx/c105702/202601/11caab8c51e7439a90ac80e1416ae44c.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>到了退休年龄，企业职工养老保险未缴满年限该怎么办？, <a class="link"   target="_blank" rel="noopener" href="https://www.wz.gov.cn/zwgk_266/zfxxgkml_3393/zczxwdk/qrlzyhshbzj/202512/t20251201_15199980.html" >https://www.wz.gov.cn/zwgk_266&#x2F;zfxxgkml_3393&#x2F;zczxwdk&#x2F;qrlzyhshbzj&#x2F;202512&#x2F;t20251201_15199980.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>达到法定退休年龄时养老保险没缴够年限能否一次性补缴? - 永仁县人民政府, <a class="link"   target="_blank" rel="noopener" href="https://yr.gov.cn/info/1674/62410.htm" >https://yr.gov.cn/info/1674/62410.htm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>职工养老保险补缴 - 黑龙江省人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.hlj.gov.cn/hlj/c115707/202403/c00_31722563.shtml" >https://www.hlj.gov.cn/hlj/c115707/202403/c00_31722563.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省人民政府关于完善企业职工基本养老保险制度的决定, <a class="link"   target="_blank" rel="noopener" href="https://rsj.huaibei.gov.cn/gzdt/gfxwj/13697101.html" >https://rsj.huaibei.gov.cn/gzdt/gfxwj/13697101.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省人民政府关于修改《安徽省社会保险费征缴暂行规定》的决定 - 司法部, <a class="link"   target="_blank" rel="noopener" href="https://www.moj.gov.cn/pub/sfbgw/flfggz/flfggzdfzwgz/202101/t20210122_373980.html" >https://www.moj.gov.cn/pub/sfbgw/flfggz/flfggzdfzwgz/202101/t20210122_373980.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>淮北市城乡居民养老保险政策问答：缴费档次标准、政府补贴标准、养老金待遇… - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/mrbmr.html" >https://m12333.cn/qa/mrbmr.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>退休养老金如何计算？养老金计算公式，举例计算… - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/isyw.html" >https://m12333.cn/qa/isyw.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>原文测算表（导出来源未提供）</li>
+<li>城乡居民养老保险还可以一次性补缴吗-宣城市人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.xuancheng.gov.cn/InFeedback/show/127047.html" >https://www.xuancheng.gov.cn/InFeedback/show/127047.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽：省级基础养老金标准再提高 - 新浪财经, <a class="link"   target="_blank" rel="noopener" href="https://finance.sina.com.cn/roll/2025-11-13/doc-infxfhsk4143259.shtml" >https://finance.sina.com.cn/roll/2025-11-13/doc-infxfhsk4143259.shtml<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽：省级基础养老金标准再提高 - 新华网, <a class="link"   target="_blank" rel="noopener" href="http://ah.news.cn/20251113/135a015bb7c244459e334664351a60fd/c.html" >http://ah.news.cn/20251113/135a015bb7c244459e334664351a60fd/c.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>合肥市城乡居民养老保险政策问答（缴费档次标准、补贴标准、基础养老金待遇标准） - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/mdcai.html" >https://m12333.cn/qa/mdcai.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省新型农村社会养老保险补助标准政策（沿用）-宣州区人民政府, <a class="link"   target="_blank" rel="noopener" href="https://www.xuanzhou.gov.cn/OpennessContent/show/2967844.html" >https://www.xuanzhou.gov.cn/OpennessContent/show/2967844.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽公布2025年退休人员基本养老金计发基数, <a class="link"   target="_blank" rel="noopener" href="https://ah.ifeng.com/c/8nRZNR4PsZJ" >https://ah.ifeng.com/c/8nRZNR4PsZJ<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省发布2025年社保缴费基数上下限, <a class="link"   target="_blank" rel="noopener" href="https://ah.ifeng.com/c/8mp41u7hzfj" >https://ah.ifeng.com/c/8mp41u7hzfj<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>社保缴费基数新调整！ - 新浪财经, <a class="link"   target="_blank" rel="noopener" href="https://finance.sina.com.cn/wm/2025-09-24/doc-infrpwtx6873229.shtml?froms=ggmp" >https://finance.sina.com.cn/wm/2025-09-24/doc-infrpwtx6873229.shtml?froms=ggmp<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>养老金计算公式是怎样的 - 太平洋保险, <a class="link"   target="_blank" rel="noopener" href="http://www.cpic.com.cn/baike/273.html" >http://www.cpic.com.cn/baike/273.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>基础养老金计算公式 - 太平洋保险, <a class="link"   target="_blank" rel="noopener" href="http://www.cpic.com.cn/baike/286.html" >http://www.cpic.com.cn/baike/286.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省灵活就业人员社保补贴政策指南 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/passr.html" >https://m12333.cn/qa/passr.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>6月18日安徽发布通知：灵活就业社保补贴统一提至每月500元，7月1日起执行 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/swkfs.html" >https://m12333.cn/qa/swkfs.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>关于开展义安区2025年度灵活就业人员基本养老、医疗保险补贴工作的通知, <a class="link"   target="_blank" rel="noopener" href="http://www.ahtlyaq.gov.cn/openness/OpennessContent/show/1103903.html" >http://www.ahtlyaq.gov.cn/openness/OpennessContent/show/1103903.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>安徽省2025年调整退休人员基本养老金政策问答 - 芜湖市人力资源和社会保障局, <a class="link"   target="_blank" rel="noopener" href="https://rsj.wuhu.gov.cn/xwzx/tzgg/8835155.html" >https://rsj.wuhu.gov.cn/xwzx/tzgg/8835155.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>塔城地区2025年城乡居民养老保险缴费时间截至2025年12月25日 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/pezyb.html" >https://m12333.cn/qa/pezyb.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>六安市2024年城乡居民养老保险知识问答 - 人社通, <a class="link"   target="_blank" rel="noopener" href="https://m12333.cn/qa/pisyi.html" >https://m12333.cn/qa/pisyi.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>建议可网上办理城乡居民养老保险个人补缴费申报, <a class="link"   target="_blank" rel="noopener" href="https://rsj.luan.gov.cn/szxx/site/tpl/2811?id=10615806" >https://rsj.luan.gov.cn/szxx/site/tpl/2811?id=10615806<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ol>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 安徽省养老保险补缴政策全景解析与精算回本周期深度评估报告</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2026-07-27 01:26:33</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-07-27 01:26:33
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://www.kanes.top/2026/07/26/notes/养老金/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%85%BB%E8%80%81%E9%87%91/">#养老金</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%A4%BE%E4%BF%9D/">#社保</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%AE%89%E5%BE%BD/">#安徽</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%B4%A2%E5%8A%A1%E6%B5%8B%E7%AE%97/">#财务测算</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/06/17/notes/Hermes%E9%A9%B1%E5%8A%A8%E5%A4%9Aagent/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Hermes 驱动多 Agent 协作开发教程</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">安徽省养老保险补缴政策全景解析与精算回本周期深度评估报告</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%8E%E4%B9%A1%E5%B1%85%E6%B0%91%E5%85%BB%E8%80%81%E4%BF%9D%E9%99%A9%E8%A1%A5%E7%BC%B4%E6%94%BF%E7%AD%96%E3%80%81%E6%A1%A3%E6%AC%A1%E5%88%92%E5%88%86%E4%B8%8E%E6%94%BF%E7%AD%96%E6%94%B6%E7%B4%A7%E8%B6%8B%E5%8A%BF"><span class="nav-number">1.</span> <span class="nav-text">城乡居民养老保险补缴政策、档次划分与政策收紧趋势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%8E%E4%B9%A1%E5%B1%85%E4%BF%9D%E7%BC%B4%E8%B4%B9%E4%B8%8E%E8%A1%A5%E7%BC%B4%E6%A1%A3%E6%AC%A1%E8%AE%BE%E5%AE%9A"><span class="nav-number">1.1.</span> <span class="nav-text">城乡居保缴费与补缴档次设定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%8E%E4%B9%A1%E5%B1%85%E4%BF%9D%E4%B8%80%E6%AC%A1%E6%80%A7%E8%A1%A5%E7%BC%B4%E7%9A%84%E8%A7%84%E5%88%99%E4%B8%8E%E6%BD%9C%E5%9C%A8%E7%BA%A2%E5%88%A9%E6%9C%9F%E6%88%AA%E6%AD%A2%E9%A3%8E%E9%99%A9"><span class="nav-number">1.2.</span> <span class="nav-text">城乡居保一次性补缴的规则与潜在红利期截止风险</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%81%B5%E6%B4%BB%E5%B0%B1%E4%B8%9A%E4%BA%BA%E5%91%98%E8%81%8C%E5%B7%A5%E5%85%BB%E8%80%81%E4%BF%9D%E9%99%A9%E8%A1%A5%E7%BC%B4%E6%94%BF%E7%AD%96%E4%B8%8E%E5%BB%B6%E8%BF%9F%E9%80%80%E4%BC%91%E6%96%B0%E8%A7%84%E5%BD%B1%E5%93%8D"><span class="nav-number">2.</span> <span class="nav-text">灵活就业人员职工养老保险补缴政策与延迟退休新规影响</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%81%B5%E6%B4%BB%E5%B0%B1%E4%B8%9A%E4%BA%BA%E5%91%98%E2%80%9C%E7%A6%81%E8%A1%A5%E2%80%9D%E7%BA%A2%E7%BA%BF%E4%B8%8E%E9%80%BE%E6%9C%9F%E5%8A%A0%E6%94%B6%E6%BB%9E%E7%BA%B3%E9%87%91%E8%A7%84%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">灵活就业人员“禁补”红线与逾期加收滞纳金规定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%80%E4%BC%91%E5%B9%B4%E9%BE%84%E5%90%8E%E5%BB%B6%E4%B8%8E%E6%9C%80%E4%BD%8E%E7%BC%B4%E8%B4%B9%E5%B9%B4%E9%99%90%E6%8F%90%E5%8D%87%E7%9A%84%E5%8F%8C%E9%87%8D%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.</span> <span class="nav-text">退休年龄后延与最低缴费年限提升的双重约束</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E7%BC%B4%E5%90%8E%E9%A2%86%E5%8F%96%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E3%80%81%E6%B3%95%E7%90%86%E4%BE%9D%E6%8D%AE%E4%B8%8E%E9%95%BF%E6%95%88%E7%BB%B4%E6%8C%81%E6%9C%BA%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">补缴后领取的安全性、法理依据与长效维持机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E9%87%91%E5%9B%BD%E5%AE%B6%E7%BB%9F%E7%AD%B9%E4%B8%8E%E5%88%9A%E6%80%A7%E6%94%AF%E4%BB%98%E8%B4%A3%E4%BB%BB"><span class="nav-number">3.1.</span> <span class="nav-text">基金国家统筹与刚性支付责任</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E9%80%9A%E9%81%93%E9%A2%86%E5%8F%96%E8%B5%84%E6%A0%BC%E8%AE%A4%E8%AF%81%E5%88%B6%E5%BA%A6%E4%B8%8E%E5%86%92%E9%A2%86%E9%98%B2%E8%8C%83"><span class="nav-number">3.2.</span> <span class="nav-text">多通道领取资格认证制度与冒领防范</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%BB%E8%80%81%E9%87%91%E8%A1%A5%E7%BC%B4%E4%B8%8E%E6%8F%90%E6%A1%A3%E7%9A%84%E7%B2%BE%E7%AE%97%E5%9B%9E%E6%9C%AC%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">养老金补缴与提档的精算回本周期模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%8E%E4%B9%A1%E5%B1%85%E6%B0%91%E5%85%BB%E8%80%81%E4%BF%9D%E9%99%A9%E8%A1%A5%E7%BC%B4%E9%9D%99%E6%80%81%E4%B8%8E%E5%8A%A8%E6%80%81%E5%9B%9E%E6%9C%AC%E6%B5%8B%E7%AE%97"><span class="nav-number">4.1.</span> <span class="nav-text">城乡居民养老保险补缴静态与动态回本测算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%81%B5%E6%B4%BB%E5%B0%B1%E4%B8%9A%E4%BA%BA%E5%91%98%EF%BC%88%E4%BC%81%E4%B8%9A%E8%81%8C%E5%B7%A5%E5%85%BB%E8%80%81%E4%BF%9D%E9%99%A9%EF%BC%89%E6%8C%89%E5%B9%B4%E7%BC%B4%E8%B4%B9%E4%B8%8E%E5%9B%9E%E6%9C%AC%E7%B2%BE%E7%AE%97"><span class="nav-number">4.2.</span> <span class="nav-text">灵活就业人员（企业职工养老保险）按年缴费与回本精算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA%E4%B8%8E%E4%B8%93%E4%B8%9A%E6%8A%95%E8%B5%84%E6%80%A7%E6%8A%95%E4%BF%9D%E5%86%B3%E7%AD%96%E5%BB%BA%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">结论与专业投资性投保决策建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%8E%E4%B9%A1%E5%B1%85%E6%B0%91%E5%85%BB%E8%80%81%E4%BF%9D%E9%99%A9%E7%BE%A4%E4%BD%93%E7%9A%84%E6%8A%95%E4%BF%9D%E7%AD%96%E7%95%A5"><span class="nav-number">5.1.</span> <span class="nav-text">城乡居民养老保险群体的投保策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%81%B5%E6%B4%BB%E5%B0%B1%E4%B8%9A%E4%B8%8E%E5%9F%8E%E9%95%87%E8%81%8C%E5%B7%A5%E5%85%BB%E8%80%81%E4%BF%9D%E9%99%A9%E7%BE%A4%E4%BD%93%E7%9A%84%E7%BB%9F%E7%AD%B9%E7%AD%96%E7%95%A5"><span class="nav-number">5.2.</span> <span class="nav-text">灵活就业与城镇职工养老保险群体的统筹策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 188 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
