@@ -100,7 +100,7 @@ global:
   open_graph:
     enable: true
     image: /images/redefine-og.webp  # default og:image
-    description: Hexo Theme Redefine, Redefine Your Hexo Journey.
+    description: moye12325的个人技术博客,专注于Python、全栈开发实战经验、编程技巧分享与深入的技术解析。
   # Google Analytics
   google_analytics:
     enable: false # Whether to enable Google Analytics
