@@ -1,4 +1,5 @@
 ---
+description: "本次作业分为两个部分，第一个部分使用了作业三的食物分类的model和dataset，第二个部分使用了作业七的BERT模型相关资料，第一部分要求使用Lime，Saliency Map，Smooth Grad"
 title: HW9
 date: 2022-08-16 15:01:08
 categories: [数据结构与算法]

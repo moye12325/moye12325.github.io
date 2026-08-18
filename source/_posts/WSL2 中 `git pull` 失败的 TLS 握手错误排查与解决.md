@@ -1,4 +1,5 @@
 ---
+description: "在使用 WSL2 环境执行 git pull 操作时，可能遇到因 TLS/SSL 握手失败导致的连接错误。常见的错误信息包括 gnutls_handshake() failed: The TLS connection was"
 title: WSL2 中 `git pull` 失败的 TLS 握手错误排查与解决
 date: 2025-06-10 01:39:31
 categories: [开发工具]

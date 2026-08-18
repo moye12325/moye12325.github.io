@@ -1,4 +1,5 @@
 ---
+description: "这篇文章梳理 Hermes 在多 Agent 协作开发中的角色定位、任务拆解方式、文档体系、分支策略、评审流程与落地步骤，帮助个人开发者用工程化方法组织多个 AI Agent 协同交付。"
 title: Hermes 驱动多 Agent 协作开发教程
 date: 2026-06-17 15:11:19
 updated: 2026-06-17 15:11:19
@@ -30,6 +31,7 @@ summary: >
 本文以 MailMind 项目为例，说明如何使用 Hermes 驱动多个 Agent 协作开发一个 AI Email Copilot。
 
 ---
+description: "Hermes 在多 Agent 协作中相当于："
 
 ## 2. 核心理念
 
@@ -895,3 +897,4 @@ Hermes 合并
 Hermes 驱动多 Agent 协作开发，本质上是一种面向 AI 编程时代的工程组织方式：
 
 > 让 Hermes 负责方向、边界和验收，让多个 Agent 在清晰约束下并行完成模块化开发。
+

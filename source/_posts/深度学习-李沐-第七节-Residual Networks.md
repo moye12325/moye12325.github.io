@@ -1,4 +1,5 @@
 ---
+description: "核心思想：每个附加层都应该更容易地包含原始函数作为其元素之一"
 title: 深度学习-李沐-第七节-Residual Networks
 date: 2022-08-16 15:00:46
 categories: [深度学习]

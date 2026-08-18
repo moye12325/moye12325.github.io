@@ -1,4 +1,5 @@
 ---
+description: "Spring 是一款开源的轻量级 Java 开发框架，旨在提高开发人员的开发效率以及系统的可维护性。"
 title: Spring知识总结
 date: 2024-09-26 03:41:55
 categories: [Java开发]

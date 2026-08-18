@@ -1,4 +1,5 @@
 ---
+description: "1. 第一步:导出链接，导出连接，获取到connections.ncx 文件，勾选导出密码"
 title: Navicat查看密码
 date: 2024-07-22 17:49:50
 categories: [开发工具]

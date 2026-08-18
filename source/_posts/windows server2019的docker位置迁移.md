@@ -1,4 +1,5 @@
 ---
+description: "解决"
 title: windows server2019的docker位置迁移
 date: 2024-07-22 18:03:52
 categories: [开发工具]

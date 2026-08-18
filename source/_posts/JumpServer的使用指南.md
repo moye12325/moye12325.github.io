@@ -1,4 +1,5 @@
 ---
+description: "提交slurm任务的服务器AssetIP：13.13.13.100 jumpserverHostIP：e1wx0vsede2ewknf.ttxs.site"
 title: JumpServer的使用指南
 date: 2024-07-22 17:49:23
 categories: [Web开发]

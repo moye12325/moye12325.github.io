@@ -1,4 +1,5 @@
 ---
+description: "区域卷积神经网络（region-based CNN或regions with CNN features，R-CNN）"
 title: 深度学习-李沐-第十三节-区域卷积神经网络（R-CNN）系列
 date: 2022-08-16 15:00:46
 categories: [深度学习]

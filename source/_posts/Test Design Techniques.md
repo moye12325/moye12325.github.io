@@ -1,4 +1,5 @@
 ---
+description: "友情提示：完整的用例应该是等价类和边界值一块写。"
 title: Test Design Techniques
 date: 2024-08-16 15:27:43
 categories: [测试]

@@ -1,4 +1,5 @@
 ---
+description: "- 测试新用户注册功能，包括用户名验证和密码强度"
 title: codeoj代码能力评测项目测试
 date: 2024-08-29 10:43:22
 categories: [测试]

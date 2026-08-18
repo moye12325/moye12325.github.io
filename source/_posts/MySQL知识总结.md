@@ -1,4 +1,5 @@
 ---
+description: "关系型数据库（RDB，Relational Database）就是一种建立在关系模型的基础上的数据库。关系模型表明了数据库中所存储的数据之间的联系（一对一、一对多、多对多）。"
 title: MySQL知识总结
 date: 2024-09-26 03:39:07
 categories: [Web开发]

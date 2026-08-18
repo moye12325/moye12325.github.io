@@ -1,4 +1,5 @@
 ---
+description: "最近想给自己的 PowerShell 终端来个大变身，毕竟每天对着黑底白字的命令行确实有点单调。网上搜了一圈，发现 Oh My Posh 这个工具挺火的，于是开始了这趟折腾之旅。"
 title: Windows Terminal + PowerShell 7 + Oh My Posh 美化折腾记
 date: 2025-12-01 11:58:00
 categories: [工具配置]
@@ -189,3 +190,4 @@ Install-Module PSReadLine -Scope CurrentUser -Force -SkipPublisherCheck
 1. 装 Oh My Posh（winget 一行搞定）
 2. 创建配置文件（选个主题，配点快捷键）
 3. 装依赖模块（posh-git 和 PSReadLine）
+

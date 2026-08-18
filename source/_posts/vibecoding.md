@@ -1,4 +1,5 @@
 ---
+description: "从 Vibe Coding 到 Agentic Coding：本文记录 AI 编程方式的演变——从低前置约束的代码生成，演进为主动收集上下文、澄清需求"
 title: Vibe Coding 到 Agentic Coding
 date: 2026-08-18 10:06:20
 updated: 2026-08-18 10:06:20
@@ -446,4 +447,5 @@ Vibe Coding 代表的是：
 而是：
 
 **谁能够更准确地理解意图、获取上下文、处理约束、进行规划，并最终验证软件是否真正完成了它应该完成的事情。**
+
 

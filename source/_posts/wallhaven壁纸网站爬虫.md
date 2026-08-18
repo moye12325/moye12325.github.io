@@ -1,4 +1,5 @@
 ---
+description: "- 分析上面的几个url，发现toplist与hot只是单词不同，page代表第几页，一页24副图片。 - 查看网页源码，分析缩略图的链接。 - 根据缩略的url与原图的url对比，发现仅需替换单词而已。"
 title: wallhaven壁纸网站爬虫
 date: 2024-07-18 14:10:07
 categories: [数据结构与算法]

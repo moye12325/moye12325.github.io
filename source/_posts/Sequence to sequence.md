@@ -1,4 +1,5 @@
 ---
+description: "Transformer和Bert有很大联系"
 title: Sequence to sequence
 date: 2022-08-16 15:01:08
 categories: [深度学习]

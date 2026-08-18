@@ -1,4 +1,5 @@
 ---
+description: "Leetcode35. 搜索插入位置"
 title: Leetcode35. 搜索插入位置
 date: 2024-08-24 13:26:07
 categories: [数据结构与算法]

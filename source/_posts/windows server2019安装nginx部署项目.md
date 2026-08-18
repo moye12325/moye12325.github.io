@@ -1,4 +1,5 @@
 ---
+description: "1. 下载Nginx： 访问Nginx的官方网站。 下载适用于Windows的稳定版本的Nginx压缩包。 2. 解压Nginx： * 将下载的压缩包解压到你希望安装Nginx的目录，例如 C:\\nginx。"
 title: windows server2019安装nginx部署项目
 date: 2024-07-22 18:02:56
 categories: [Web开发]

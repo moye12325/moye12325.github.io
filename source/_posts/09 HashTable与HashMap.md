@@ -1,4 +1,5 @@
 ---
+description: "HashMap是Java集合框架中基于哈希表（Hash Table）实现的键值对（Key-Value）存储结构。它允许存储null值和null键，并且不保证元素的顺序。"
 title: 09 HashTable与HashMap
 date: 2024-07-22 17:20:16
 categories: [数据结构与算法]

@@ -1,4 +1,5 @@
 ---
+description: "transformer模型完全基于注意力机制，没有任何卷积层或循环神经网络层，transformer最初是应用于在文本数据上的序列到序列学习，但现在已经推广到各种现代的深度学习中，例如语言、视觉、语音和强化学习领域。"
 title: 深度学习-李沐-第十节-TransformerModel
 date: 2022-08-16 15:00:46
 categories: [深度学习]

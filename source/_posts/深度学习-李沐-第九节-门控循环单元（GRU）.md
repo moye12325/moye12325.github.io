@@ -1,4 +1,5 @@
 ---
+description: "GRU（Gate Recurrent Unit）是循环神经网络（Recurrent Neural Network, RNN）的一种。"
 title: 深度学习-李沐-第九节-门控循环单元（GRU）
 date: 2022-08-16 15:00:46
 categories: [深度学习]

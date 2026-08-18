@@ -1,5 +1,5 @@
-
 ---
+description: "Git 常用命令速查手册：覆盖分支管理、拉取与推送、合并与变基、提交管理、状态查看、撤销操作、标签管理与远程仓库等常用操作。"
 title: Git常用命令速查手册
 date: 2025-12-04 20:20:00
 categories: [开发工具]
@@ -492,3 +492,4 @@ git commit -m "feat: 添加用户登录功能"
 git commit -m "fix: 修复 feature/0.26 的空指针异常"
 git commit -m "docs: 更新 develop 分支的 README"
 ```
+

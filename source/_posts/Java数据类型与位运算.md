@@ -1,4 +1,5 @@
 ---
+description: "Java中的数据类型分为两大类：基本数据类型和引用数据类型。"
 title: Java数据类型与位运算
 date: 2024-08-08 18:23:05
 categories: [Java开发]

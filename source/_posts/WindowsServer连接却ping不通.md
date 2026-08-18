@@ -1,4 +1,5 @@
 ---
+description: "通常是由防火墙设置或网络配置引起的。"
 title: WindowsServer连接却ping不通
 date: 2024-07-22 18:05:10
 categories: [Web开发]

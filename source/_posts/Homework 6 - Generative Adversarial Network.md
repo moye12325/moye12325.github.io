@@ -1,4 +1,5 @@
 ---
+description: "This is the sample code for hw6 of 2022 Machine Learning course in National Taiwan University."
 title: Homework 6 - Generative Adversarial Network
 date: 2022-08-16 15:01:08
 categories: [机器学习]

@@ -1,4 +1,5 @@
 ---
+description: "假设你要买三杯奶茶，每杯制作需要2分钟："
 title: 小白也能懂的Python协程与asyncio指南
 date: 2025-04-25 06:07:12
 categories: [Python开发]

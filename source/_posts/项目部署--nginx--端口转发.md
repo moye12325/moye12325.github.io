@@ -1,4 +1,5 @@
 ---
+description: "your_vpn_addr your_username your_pwd 三个替换成你的就可以了"
 title: 项目部署--nginx--端口转发
 date: 2024-07-18 12:26:14
 categories: [Web开发]

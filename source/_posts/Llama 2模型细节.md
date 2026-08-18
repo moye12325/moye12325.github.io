@@ -1,4 +1,5 @@
 ---
+description: "Meta开发并发布了Llama 2系列的大型语言模型（LLMs），这是一系列预训练和微调的生成文本模型，参数规模从70亿到700亿不等。我们经过微调的LLMs称为Llama-2-Chat，专为对话场景进行了优化。"
 title: Llama 2模型细节
 date: 2023-08-16 15:02:26
 categories: [量子计算]

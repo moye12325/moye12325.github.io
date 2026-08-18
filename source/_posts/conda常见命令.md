@@ -1,4 +1,5 @@
 ---
+description: "Conda is a powerful package management system that allows you to create and manage isolated environments for different"
 title: conda常见命令
 date: 2024-07-22 17:47:41
 categories: [Python开发]

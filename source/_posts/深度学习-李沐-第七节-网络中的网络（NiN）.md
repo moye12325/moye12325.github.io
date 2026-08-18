@@ -1,4 +1,5 @@
 ---
+description: "LeNet、AlexNet和VGG共同的设计模式：过一系列的卷积层与汇聚层来提取空间结构特征；然后通过全连接层对特征的表征进行处理。AlexNet和VGG对LeNet的改进主要在于如何扩大和加深这两个模块"
 title: 深度学习-李沐-第七节-网络中的网络（NiN）
 date: 2022-08-16 15:00:46
 categories: [深度学习]

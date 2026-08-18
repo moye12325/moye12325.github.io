@@ -1,4 +1,5 @@
 ---
+description: "1. 在预训练之后，输出可以被认为是一个矩阵，其中每一行都是一个表示预定义词表中词的向量。事实上，这些词嵌入模型都是与上下文无关的。"
 title: 深度学习-李沐-第十四节-BERT_ Bidirectional Encoder Representations from Transformers
 date: 2022-08-16 15:00:46
 categories: [深度学习]

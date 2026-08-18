@@ -1,4 +1,5 @@
 ---
+description: "MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。"
 title: MyBatis
 date: 2024-07-22 16:59:11
 categories: [Web开发]

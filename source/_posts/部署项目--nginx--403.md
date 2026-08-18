@@ -1,4 +1,5 @@
 ---
+description: "要在CentOS上部署Vue项目，假设已经打包好了 dist 文件夹："
 title: 部署项目--nginx--403
 date: 2024-07-18 12:39:34
 categories: [Web开发]

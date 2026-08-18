@@ -1,4 +1,5 @@
 ---
+description: "Chinese Extractive Question Answering Input: Paragraph + Question Output: Answer Objective: Learn how to fine tune a"
 title: Chinese Extractive Question Answering
 date: 2022-08-16 15:01:08
 categories: [深度学习]

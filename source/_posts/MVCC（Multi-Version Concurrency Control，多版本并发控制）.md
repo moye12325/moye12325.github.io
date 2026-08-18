@@ -1,4 +1,5 @@
 ---
+description: "MVCC（Multi-Version Concurrency Control，多版本并发控制） 是数据库系统中的一种并发控制机制，用来处理多个事务同时操作数据库时可能产生的冲突问题。"
 title: MVCC（Multi-Version Concurrency Control，多版本并发控制）
 date: 2024-09-22 15:01:24
 categories: [Web开发]

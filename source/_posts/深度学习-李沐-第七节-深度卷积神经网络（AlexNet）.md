@@ -1,4 +1,5 @@
 ---
+description: "AlexNet使用8层卷积神经网络 AlexNet比相对较小的LeNet5要深得多。 AlexNet由八层组成：五个卷积层、两个全连接隐藏层和一个全连接输出层。 其次，AlexNet使用ReLU而不是sigmoid作为其激活函数。"
 title: 深度学习-李沐-第七节-深度卷积神经网络（AlexNet）
 date: 2022-08-16 15:00:46
 categories: [深度学习]

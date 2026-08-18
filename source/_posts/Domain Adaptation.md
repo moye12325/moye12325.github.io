@@ -1,4 +1,5 @@
 ---
+description: "本质是一个二元分类器"
 title: Domain Adaptation
 date: 2022-08-16 15:01:08
 categories: [机器学习]

@@ -1,4 +1,5 @@
 ---
+description: "无监督异常检测：Anomaly Detection异常图片的识别，输入一张图片，判别这张图片时异常还是正常"
 title: HW8
 date: 2022-08-16 15:01:08
 categories: [机器学习]

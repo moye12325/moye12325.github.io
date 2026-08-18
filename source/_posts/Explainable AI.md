@@ -1,4 +1,5 @@
 ---
+description: "白马做出算术题是因为它察觉到周围观众的情绪而做对，并不是因为真的会做数学题"
 title: Explainable AI
 date: 2022-08-16 15:01:08
 categories: [数据结构与算法]

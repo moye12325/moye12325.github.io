@@ -1,4 +1,5 @@
 ---
+description: "在Windows Server 2019上安装Docker的步骤如下："
 title: windows server2019安装docker
 date: 2024-07-22 18:01:07
 categories: [开发工具]

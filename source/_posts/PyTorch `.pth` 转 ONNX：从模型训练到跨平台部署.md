@@ -1,4 +1,5 @@
 ---
+description: "在深度学习里，模型的格式决定了它的可用性。"
 title: PyTorch `.pth` 转 ONNX：从模型训练到跨平台部署
 date: 2025-02-17 02:20:43
 categories: [Python开发]

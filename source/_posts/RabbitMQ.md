@@ -1,4 +1,5 @@
 ---
+description: "执行了 rabbitmq-plugins enable rabbitmq_management 命令后，仍然无法打开 RabbitMQ 管理端界面，可能是由于以下几个原因造成的："
 title: RabbitMQ
 date: 2024-07-22 17:59:40
 categories: [Web开发]

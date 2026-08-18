@@ -1,4 +1,5 @@
 ---
+description: "https://mybatis.org/mybatis-3/zh/index.html"
 title: MyBatis知识总结
 date: 2024-10-29 18:14:41
 categories: [Web开发]

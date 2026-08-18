@@ -1,4 +1,5 @@
 ---
+description: "你有一个数组 nums，它只包含正整数，所有正整数的数位长度都相同。"
 title: LeetCode3153. 所有数对中数位差之和
 date: 2024-08-30 10:50:37
 categories: [数据结构与算法]

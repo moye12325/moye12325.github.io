@@ -7,3 +7,5 @@ public/
 .deploy*/
 _multiconfig.yml
 .backup_drafts/
+__pycache__/
+*.pyc

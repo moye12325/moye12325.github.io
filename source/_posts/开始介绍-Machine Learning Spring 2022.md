@@ -1,4 +1,5 @@
 ---
+description: "机器学习春季：https://speech.ee.ntu.edu.tw/~hylee/ml/2022-spring.php"
 title: 开始介绍-Machine Learning Spring 2022
 date: 2022-08-16 15:01:08
 categories: [机器学习]

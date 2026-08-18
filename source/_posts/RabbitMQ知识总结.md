@@ -1,4 +1,5 @@
 ---
+description: "RabbitMQ 是一个在 AMQP（Advanced Message Queuing Protocol ）基础上实现的，可复用的企业消息系统。它可以用于大型软件系统各个模块之间的高效通信，支持高并发，支持可扩展。"
 title: RabbitMQ知识总结
 date: 2024-07-22 17:59:40
 categories: [Web开发]

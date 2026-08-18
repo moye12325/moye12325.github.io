@@ -1,4 +1,5 @@
 ---
+description: "- Collection 是所有集合类的顶层接口。 - List(对付顺序的好帮手): 存储的元素是有序的、可重复的。List 接口下的常用实现有 ArrayList 和 LinkedList。"
 title: Java集合
 date: 2024-09-20 15:01:20
 categories: [数据结构与算法]

@@ -1,4 +1,5 @@
 ---
+description: "- 能独立针对web项目实施功能测试"
 title: Software Testing Overview
 date: 2024-08-16 15:23:01
 categories: [测试]

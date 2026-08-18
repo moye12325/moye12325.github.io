@@ -1,4 +1,5 @@
 ---
+description: "class RNNEncoder(FairseqEncoder): def __init__(self, args, dictionary, embed_tokens): super().__init__(dictionary)"
 title: Python Class for RNN Encoder
 date: 2022-08-16 15:01:08
 categories: [深度学习]

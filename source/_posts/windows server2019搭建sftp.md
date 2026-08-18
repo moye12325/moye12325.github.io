@@ -1,4 +1,5 @@
 ---
+description: "在Windows Server上搭建SFTP服务器并使用Xftp传输文件的步骤如下："
 title: windows server2019搭建sftp
 date: 2024-07-22 18:03:24
 categories: [开发工具]

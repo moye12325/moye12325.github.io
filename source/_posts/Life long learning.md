@@ -1,4 +1,5 @@
 ---
+description: "Life long learning意思是终身学习，是指一直使用同一个神经网络去学习不同的任务。 实现life long learning大致分为三方面：knowledge retention，knowledge transfer"
 title: Life long learning
 date: 2022-08-16 15:01:08
 categories: [深度学习]

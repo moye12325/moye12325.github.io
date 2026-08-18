@@ -1,4 +1,5 @@
 ---
+description: "长短期存储器（long short-term memory，LSTM） 是一种特殊的RNN，主要是为了解决长序列训练过程中的梯度消失和梯度爆炸问题。简单来说，就是相比普通的RNN，LSTM能够在更长的序列中有更好的表现。"
 title: 深度学习-李沐-第九节-长短期记忆网络（LSTM）
 date: 2022-08-16 15:00:46
 categories: [深度学习]

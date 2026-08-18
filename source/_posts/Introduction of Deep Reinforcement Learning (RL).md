@@ -1,4 +1,5 @@
 ---
+description: "监督学习（supervised learning） 假设我们有大量被标注的数据，比如汽车、飞机、椅子这些被标注的图片，这些图片都要满足独立同分布，即它们之间是没有关联关系的。假设我们训练一个分类器，比如神经网络。"
 title: Introduction of Deep Reinforcement Learning (RL)
 date: 2022-08-16 15:01:08
 categories: [机器学习]

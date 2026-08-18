@@ -1,4 +1,5 @@
 ---
+description: "Git Commit Plugin 是一个帮助开发者规范 Git 提交信息的 VSCode 插件，基于约定式提交（Conventional Commits）规范，让团队的提交历史更清晰、更易读。"
 title: Git Commit Plugin for VSCode 使用教程
 date: 2025-12-12 10:43:00
 categories: [工具配置]
@@ -231,4 +232,5 @@ Fixes #256
 ### Q4: 可以不填 Scope 吗？
 
 **A:** 可以，Scope 是可选的。但建议填写，便于快速定位改动范围。
+
 

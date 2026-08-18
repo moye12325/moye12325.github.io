@@ -1,4 +1,5 @@
 ---
+description: "LeetCode 141. 环形链表"
 title: LeetCode 142. 环形链表
 date: 2024-09-06 10:21:46
 categories: [数据结构与算法]

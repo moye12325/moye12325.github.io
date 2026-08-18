@@ -1,4 +1,5 @@
 ---
+description: "字母异位词 是由重新排列源单词的所有字母得到的一个新单词。"
 title: Leetcode hot 100
 date: 2024-10-14 11:28:11
 categories: [数据结构与算法]

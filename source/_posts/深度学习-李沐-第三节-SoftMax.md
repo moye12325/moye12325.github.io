@@ -1,4 +1,5 @@
 ---
+description: "损失函数、代码实现"
 title: 深度学习-李沐-第三节-SoftMax
 date: 2022-08-16 15:00:46
 categories: [深度学习]

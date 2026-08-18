@@ -1,4 +1,5 @@
 ---
+description: "我们可以证明，对于前 iii 个数构成的所有区间，其“数字凸包区间”的并恰好是一个连续区间 \\[Pmin⁡,Pmax⁡\\]\\[P\\_{\\\\min},P\\_{\\\\max}\\]\\[Pmin​,Pmax​\\]（其中"
 title: 米哈游笔试-Java后端
 date: 2025-04-28 06:02:14
 categories: [面试笔试]

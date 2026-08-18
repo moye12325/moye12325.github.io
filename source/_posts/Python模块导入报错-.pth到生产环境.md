@@ -1,4 +1,5 @@
 ---
+description: "在Python开发中经常遇到ModuleNotFoundError，明明文件就在那里,Python就是找不到。原因很简单:Python只在sys.path列出的路径中查找模块,你的项目目录不在这个列表里。"
 title: Python模块导入报错-.pth到生产环境
 date: 2025-11-25 00:00:00
 categories: [Python开发]

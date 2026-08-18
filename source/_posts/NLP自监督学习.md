@@ -1,4 +1,5 @@
 ---
+description: "各种任务上都可以做"
 title: NLP自监督学习
 date: 2022-08-16 15:01:08
 categories: [深度学习]

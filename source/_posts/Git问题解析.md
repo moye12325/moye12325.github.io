@@ -1,4 +1,5 @@
 ---
+description: "在使用 Git 进行版本管理时，你是否遇到过这样的问题： - git push 成功，但 git branch -r 却显示为空 - 明明分支已推送到远程，本地却无法看到远程分支 - 无法设置上游追踪"
 title: Git Remote Fetch 配置详解：从原理到实战
 date: 2025-12-04 20:20:00
 categories: [开发工具]
@@ -723,3 +724,4 @@ git branch --set-upstream-to=<remote>/<branch>
 - 在团队协作中更高效地使用 Git
 
 如果你觉得本文有帮助，欢迎分享给更多的开发者！
+

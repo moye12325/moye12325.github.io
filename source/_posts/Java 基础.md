@@ -1,4 +1,5 @@
 ---
+description: "- 平台无关性"
 title: Java 基础
 date: 2024-09-20 08:31:00
 categories: [数据结构与算法]

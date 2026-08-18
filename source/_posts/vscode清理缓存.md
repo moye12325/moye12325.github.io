@@ -1,4 +1,5 @@
 ---
+description: "VS Code 清理缓存的几种方法:"
 title: VSCode清理缓存完全指南
 date: 2025-11-25 14:15:07
 categories: [开发工具]
