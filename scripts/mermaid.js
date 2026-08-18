@@ -56,10 +56,6 @@ pre.mermaid {
   text-align: center !important;
   overflow-x: auto !important;
 }
-pre.mermaid svg {
-  max-width: 100% !important;
-  height: auto !important;
-}
 </style>
 <script data-swup-reload-script>
 (function () {
