@@ -139,8 +139,8 @@
 <meta property="og:description" content="moye12325的个人技术博客,专注于Python、全栈开发实战经验、编程技巧分享与深入的技术解析。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
-<meta property="article:published_time" content="2024-10-31T01:52:00.000Z">
-<meta property="article:modified_time" content="2026-08-18T09:16:54.645Z">
+<meta property="article:published_time" content="2026-08-18T09:30:00.000Z">
+<meta property="article:modified_time" content="2026-08-18T09:30:00.000Z">
 <meta property="article:author" content="moye12325">
 <meta property="article:tag" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
 <meta name="twitter:card" content="summary">
@@ -765,9 +765,37 @@
 		
 
 		<h2 id="🚀-项目概览"><a href="#🚀-项目概览" class="headerlink" title="🚀 项目概览"></a>🚀 项目概览</h2><p>这里记录了我正在进行与已经完成的技术项目。内容会持续更新，欢迎常来看看。</p>
-<h3 id="进行中的项目"><a href="#进行中的项目" class="headerlink" title="进行中的项目"></a>进行中的项目</h3><blockquote>
-<p>暂无正在进行的项目，敬请期待。</p>
+<h3 id="进行中的项目"><a href="#进行中的项目" class="headerlink" title="进行中的项目"></a>进行中的项目</h3><h4 id="📧-MailMind-—-本地优先的-AI-邮件助手"><a href="#📧-MailMind-—-本地优先的-AI-邮件助手" class="headerlink" title="📧 MailMind — 本地优先的 AI 邮件助手"></a>📧 MailMind — 本地优先的 AI 邮件助手</h4><blockquote>
+<p><strong>组织</strong>: <a class="link"   target="_blank" rel="noopener" href="https://github.com/Vibe-Coding-X" >Vibe-Coding-X<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> · <strong>仓库</strong>: <a class="link"   target="_blank" rel="noopener" href="https://github.com/Vibe-Coding-X/mailmind-ai-email-copilot" >mailmind-ai-email-copilot<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 </blockquote>
+<p>本地优先（local-first）的多邮箱 AI 邮件助手，连接 Gmail &#x2F; IMAP 邮箱，自动同步邮件并经过 AI 流水线分析，生成结构化的 <strong>Daily Digest（每日摘要）</strong>：哪些邮件需要处理、建议动作和截止时间，而不是又一个收件箱视图。</p>
+<ul>
+<li><strong>技术栈</strong>: FastAPI · SQLAlchemy 2 · Celery · PostgreSQL · Redis · Next.js 15 · React 19 · TypeScript · Electron</li>
+<li><strong>核心能力</strong>:<ul>
+<li>多 Mailbox Provider 抽象（Gmail &#x2F; IMAP &#x2F; Outlook 骨架），凭据加密存储</li>
+<li>AI 供应商链（Mock + OpenAI-compatible）+ <code>ai_runs</code> 可追溯审计与防御式 LLM 解析</li>
+<li>Celery 异步同步 &#x2F; 摘要任务、失败重试、进度与错误 UI</li>
+<li>6 套主题 + 明暗模式 + 中英 i18n</li>
+<li>Electron 桌面壳，Windows &#x2F; macOS &#x2F; Linux 三平台安装包</li>
+</ul>
+</li>
+<li><strong>状态</strong>: 进行中（正在做 v0.8 全内置桌面版）</li>
+</ul>
+<h4 id="🔌-Codex-Provider-Hub-—-Codex-Claude-供应商本地中转与健康监测"><a href="#🔌-Codex-Provider-Hub-—-Codex-Claude-供应商本地中转与健康监测" class="headerlink" title="🔌 Codex Provider Hub — Codex &#x2F; Claude 供应商本地中转与健康监测"></a>🔌 Codex Provider Hub — Codex &#x2F; Claude 供应商本地中转与健康监测</h4><blockquote>
+<p><strong>组织</strong>: <a class="link"   target="_blank" rel="noopener" href="https://github.com/AI-Routing-Research-Institute" >AI-Routing-Research-Institute<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> · <strong>仓库</strong>: <a class="link"   target="_blank" rel="noopener" href="https://github.com/AI-Routing-Research-Institute/codex-provider-hub" >codex-provider-hub<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+</blockquote>
+<p>面向个人自部署的 Codex API &#x2F; Claude Code 多供应商管理工具。只启动一个监听 <code>127.0.0.1:17890</code> 的后台服务，同一端口提供 Codex 与 Claude 两个控制台视图，支持即时切换、失败自动重试、Token 统计与供应商健康监测。</p>
+<ul>
+<li><strong>技术栈</strong>: Python FastAPI · httpx · SQLite · tiktoken · PyInstaller（Windows &#x2F; macOS 便携版）</li>
+<li><strong>核心能力</strong>:<ul>
+<li>从 CC Switch 数据库只读加载 Codex &#x2F; Claude 供应商，单端口双协议路由</li>
+<li>失败自动恢复（连接错误 &#x2F; 流中断 &#x2F; 429 &#x2F; 5xx，含 SSE 内嵌 429 识别）</li>
+<li>供应商 &#x2F; 模型健康探测 Worker + 独立状态页</li>
+<li>CLI &#x2F; GUI &#x2F; TUI 探测工具，隔离 Codex 运行目录验证供应商能力</li>
+</ul>
+</li>
+<li><strong>状态</strong>: 进行中（v0.10.x）</li>
+</ul>
 <h3 id="已完成的项目"><a href="#已完成的项目" class="headerlink" title="已完成的项目"></a>已完成的项目</h3><table>
 <thead>
 <tr>
