@@ -22,13 +22,13 @@ LeNet、AlexNet和VGG共同的设计模式：过一系列的卷积层与汇聚�
 
 在每个像素位置（针对每个高度和宽度）应用一个全连接层  
 NiN块以一个普通卷积层开始，后面是两个的1×1卷积层。这两个1×1卷积层充当带有ReLU激活函数的逐像素全连接层。 第一层的卷积窗口形状通常由用户设置。 随后的卷积窗口形状固定为1×1。
-![](https://qiniu.kanes.top/blog/015c115e.png)
+![深度学习-李沐-第七节-网络中的网络 配图 1](https://qiniu.kanes.top/blog/015c115e.png)
 
 ### NiN模型
 
 NiN设计的一个优点是，它显著减少了模型所需参数的数量。然而，在实践中，这种设计有时会增加训练模型的时间。
 
-![](https://qiniu.kanes.top/blog/23967a23.png)
+![深度学习-李沐-第七节-网络中的网络 配图 2](https://qiniu.kanes.top/blog/23967a23.png)
 
 ```python
 import torch
@@ -72,7 +72,7 @@ d2l.train_ch6(net, train_iter, test_iter, num_epochs, lr, d2l.try_gpu())
 输出结果：
 loss 0.753, train acc 0.754, test acc 0.757
 1450.3 examples/sec on cuda:0
-![](https://qiniu.kanes.top/blog/3351729f.png)
+![深度学习-李沐-第七节-网络中的网络 配图 3](https://qiniu.kanes.top/blog/3351729f.png)
 
 
 ### 小结
@@ -84,3 +84,4 @@ loss 0.753, train acc 0.754, test acc 0.757
 * 移除全连接层可减少过拟合，同时显著减少NiN的参数。
 
 * NiN的设计影响了许多后续卷积神经网络的设计。
+

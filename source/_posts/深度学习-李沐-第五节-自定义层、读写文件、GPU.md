@@ -223,7 +223,7 @@ tensor([[1., 1., 1.],
 
 #### 复制
 
-![](https://qiniu.kanes.top/blog/5c3b5bbb.png)
+![深度学习-李沐-第五节-自定义层、读 配图 1](https://qiniu.kanes.top/blog/5c3b5bbb.png)
 
 ```python
 Z = X.cuda(1)
@@ -270,3 +270,4 @@ device(type='cuda', index=0)
 * 深度学习框架要求计算的所有输入数据都在同一设备上，无论是CPU还是GPU。
 
 * 不经意地移动数据可能会显著降低性能。一个典型的错误如下：计算GPU上每个小批量的损失，并在命令行中将其报告给用户（或将其记录在NumPy ndarray中）时，将触发全局解释器锁，从而使所有GPU阻塞。最好是为GPU内部的日志分配内存，并且只移动较大的日志。
+

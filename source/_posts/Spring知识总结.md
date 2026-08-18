@@ -734,7 +734,7 @@ YAML 是一种人类可读的数据序列化语言。它通常用于配置文件
 
 ### 13. Spring Boot 加载配置文件的优先级了解么？
 
-![](https://qiniu.kanes.top/blog/20241029221913.png)
+![Spring知识总结 配图 1](https://qiniu.kanes.top/blog/20241029221913.png)
 
 
 ### 14. 常用的 Bean 映射工具有哪些？
@@ -833,3 +833,4 @@ log.info("Fixed Rate Task : The time is now {}", dateFormat.format(new Date()));
 ```
 
 单纯依靠 @Scheduled 注解 还不行，我们还需要在 SpringBoot 中我们只需要在启动类上加上@EnableScheduling 注解，这样才可以启动定时任务。@EnableScheduling 注解的作用是发现注解 @Scheduled 的任务并在后台执行该任务。
+

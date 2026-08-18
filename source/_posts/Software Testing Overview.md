@@ -61,7 +61,7 @@ tags: ['性能优化', '测试']
 
 > 代码可见度：代码可见的程度上划分
 
-![](https://qiniu.kanes.top/blog/image-20211023111320224.png)
+![Software Testing O 配图 1](https://qiniu.kanes.top/blog/image-20211023111320224.png)
 
 ```
 黑盒测试：主要针对功能（阶段划分->系统测试）
@@ -92,7 +92,7 @@ tags: ['性能优化', '测试']
 
 > 说明：质量模型能告诉我们，测试时应该考虑的方面
 
-![](https://qiniu.kanes.top/blog/image-20211023114918391.png)
+![Software Testing O 配图 2](https://qiniu.kanes.top/blog/image-20211023114918391.png)
 
 ```
 重点：功能、性能、兼容、易用性、安全
@@ -101,7 +101,7 @@ tags: ['性能优化', '测试']
 
 ### 四、测试流程
 
-![](https://qiniu.kanes.top/blog/image-20211023143542384.png)
+![Software Testing O 配图 3](https://qiniu.kanes.top/blog/image-20211023143542384.png)
 
 - 需求分析（评审）
 
@@ -159,7 +159,7 @@ tags: ['性能优化', '测试']
 
 - 生活中的用例：
 
-  ![](https://qiniu.kanes.top/blog/image-20211023153145014.png)
+  ![Software Testing O 配图 4](https://qiniu.kanes.top/blog/image-20211023153145014.png)
 
 - 用例的作用
 
@@ -170,13 +170,13 @@ tags: ['性能优化', '测试']
 
 - 用例模板
 
-  ![](https://qiniu.kanes.top/blog/image-20211223170142537.png)
+  ![Software Testing O 配图 5](https://qiniu.kanes.top/blog/image-20211223170142537.png)
 
-  ![](https://qiniu.kanes.top/blog/image-20211223170214567.png)
+  ![Software Testing O 配图 6](https://qiniu.kanes.top/blog/image-20211223170214567.png)
 
 - 八大要素编写规范
 
-  ![](https://qiniu.kanes.top/blog/image-20211023161306406.png)
+  ![Software Testing O 配图 7](https://qiniu.kanes.top/blog/image-20211023161306406.png)
 
 - 练习案例
 
@@ -187,19 +187,19 @@ tags: ['性能优化', '测试']
   	3、失败（内容为空）
   ```
 
-  ![](https://qiniu.kanes.top/blog/image-20211023172649260.png)
+  ![Software Testing O 配图 8](https://qiniu.kanes.top/blog/image-20211023172649260.png)
 
 - 练习评审
 
   黄鑫
 
-  ![](https://qiniu.kanes.top/blog/image-20211023173224587.png)
+  ![Software Testing O 配图 9](https://qiniu.kanes.top/blog/image-20211023173224587.png)
 
   ```
   秀！🌹
   ```
 
-  ![](https://qiniu.kanes.top/blog/image-20211023174504198.png)
+  ![Software Testing O 配图 10](https://qiniu.kanes.top/blog/image-20211023174504198.png)
 
 ### 六、用例设计方法
 
@@ -220,7 +220,7 @@ tags: ['性能优化', '测试']
 
 - 介绍：
 
-  ![](https://qiniu.kanes.top/blog/image-20211223165451571.png)
+  ![Software Testing O 配图 11](https://qiniu.kanes.top/blog/image-20211223165451571.png)
 
 - 案例1（qq程序）
 
@@ -228,9 +228,9 @@ tags: ['性能优化', '测试']
   要求:6~10位自然数
   ```
 
-  ![](https://qiniu.kanes.top/blog/image-20211223165623505.png)
+  ![Software Testing O 配图 12](https://qiniu.kanes.top/blog/image-20211223165623505.png)
 
-  ![](https://qiniu.kanes.top/blog/image-20211223165637739.png)
+  ![Software Testing O 配图 13](https://qiniu.kanes.top/blog/image-20211223165637739.png)
 
 - 案例2（电话）
 
@@ -241,8 +241,9 @@ tags: ['性能优化', '测试']
   3. 后缀码:四位数字
   ```
 
-  ![](https://qiniu.kanes.top/blog/image-20211223165723688.png)     ![](https://qiniu.kanes.top/blog/image-20211223165749559.png)
+  ![Software Testing O 配图 14](https://qiniu.kanes.top/blog/image-20211223165723688.png)     ![Software Testing O 配图 15](https://qiniu.kanes.top/blog/image-20211223165749559.png)
 
 ### 七、作业
 
-![](https://qiniu.kanes.top/blog/image-20211023180718805.png)
+![Software Testing O 配图 16](https://qiniu.kanes.top/blog/image-20211023180718805.png)
+

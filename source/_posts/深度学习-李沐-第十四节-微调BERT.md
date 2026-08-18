@@ -15,7 +15,7 @@ tags: ['NLP', 'Transformer', '数据结构', '深度学习']
 
 单文本分类将单个文本序列作为输入，并输出其分类结果。
 语言可接受性语料库（Corpus of Linguistic Acceptability，COLA）也是一个单文本分类的数据集，它的要求判断给定的句子在语法上是否可以接受。例如，“I should study.”是可以接受的，但是“I should studying.”不是可以接受的。
-![](https://qiniu.kanes.top/blog/3bf5d020.png)
+![深度学习-李沐-第十四节-微调BER 配图 1](https://qiniu.kanes.top/blog/3bf5d020.png)
 
 BERT输入序列明确地表示单个文本和文本对，其中特殊分类标记“<cls>”用于序列分类，而特殊分类标记“<sep>”标记单个文本的结束或分隔成对文本。
 
@@ -33,7 +33,7 @@ BERT输入序列明确地表示单个文本和文本对，其中特殊分类标�
 2. “A woman is eating something.”（“一个女人在吃东西。”），”A woman is eating meat.”（“一个女人在吃肉。”），3.000分;
 
 3. “A woman is dancing.”（一个女人在跳舞。），”A man is talking.”（“一个人在说话。”），0.000分。
-   ![](https://qiniu.kanes.top/blog/cd8e4402.png)
+   ![深度学习-李沐-第十四节-微调BER 配图 2](https://qiniu.kanes.top/blog/cd8e4402.png)
 
 对于文本对回归任务（如语义文本相似性），可以应用细微的更改，例如输出连续的标签值和使用均方损失：它们在回归中很常见。
 
@@ -43,7 +43,7 @@ BERT输入序列明确地表示单个文本和文本对，其中特殊分类标�
 
 如，在Penn树库II标注集中，句子“John Smith‘s car is new”应该被标记为“NNP（名词，专有单数）NNP POS（所有格结尾）NN（名词，单数或质量）VB（动词，基本形式）JJ（形容词）”。
 
-![](https://qiniu.kanes.top/blog/11bcf2f7.png)
+![深度学习-李沐-第十四节-微调BER 配图 3](https://qiniu.kanes.top/blog/11bcf2f7.png)
 
 ### 问答
 
@@ -53,10 +53,11 @@ BERT输入序列明确地表示单个文本和文本对，其中特殊分类标�
 
 Some experts report that a mask’s efficacy is inconclusive.However,mask makers insist that their products,such as N95 respirator masks,can guard against the virus.”（“一些专家报告说面罩的功效是不确定的。然而，口罩制造商坚持他们的产品，如N95口罩，可以预防病毒。”）还有一个问题“Who say that N95 respirator masks can guard against the virus?”（“谁说N95口罩可以预防病毒？”）。答案应该是文章中的文本片段“mask makers”（“口罩制造商”）。因此，SQuAD v1.1的目标是在给定问题和段落的情况下预测段落中文本片段的开始和结束。
 
-![](https://qiniu.kanes.top/blog/57b30573.png)
+![深度学习-李沐-第十四节-微调BER 配图 4](https://qiniu.kanes.top/blog/57b30573.png)
 
 ### 小结
 
 对于序列级和词元级自然语言处理应用，BERT只需要最小的架构改变（额外的全连接层），如单个文本分类（例如，情感分析和测试语言可接受性）、文本对分类或回归（例如，自然语言推断和语义文本相似性）、文本标记（例如，词性标记）和问答。
 
 在下游应用的监督学习期间，额外层的参数是从零开始学习的，而预训练BERT模型中的所有参数都是微调的。
+

@@ -8,17 +8,18 @@ tags: ['深度学习']
 # Dropout暂退法
 
 暂退法的思想是在隐藏层中丢弃某些单元，以减少模型对某些特征的依赖。
-![](https://qiniu.kanes.top/blog/c98cf55c.png)
+![深度学习-李沐-第四节-Dropou 配图 1](https://qiniu.kanes.top/blog/c98cf55c.png)
 删除了h2和h5，因此输出的计算不再依赖于h2或h5，并且它们各⾃的梯度在执⾏反向传播时也会消失。这样，输出层的计算不能过度依赖于h1, . . . , h5的任何⼀个元素。
 
 ### 实现神经元的丢弃  
 
 假设某个神经元被丢弃的概率为p，那么该神经元的输出可以表示为：    
-![](https://qiniu.kanes.top/blog/e3678190.png)    
+![深度学习-李沐-第四节-Dropou 配图 2](https://qiniu.kanes.top/blog/e3678190.png)    
 计算h{}'期望值:    
-![](https://qiniu.kanes.top/blog/865c1a22.png)    
+![深度学习-李沐-第四节-Dropou 配图 3](https://qiniu.kanes.top/blog/865c1a22.png)    
 
 这种插入方式使得在插入了噪声后，每一层的期望等于没有插入噪声时的值。   
 ---
 
-![](https://qiniu.kanes.top/blog/52e7bb76.png)
+![深度学习-李沐-第四节-Dropou 配图 4](https://qiniu.kanes.top/blog/52e7bb76.png)
+

@@ -11,7 +11,7 @@ tags: ['PyTorch', 'Python', '机器学习', '测试', '深度学习']
 
 ### 生成数据集
 
-![](https://qiniu.kanes.top/blog/8e63ab11.png)
+![深度学习-李沐-第十节-注意力汇聚 配图 1](https://qiniu.kanes.top/blog/8e63ab11.png)
 
 ```python
 n_train = 50  # 训练样本数
@@ -40,3 +40,4 @@ def plot_kernel_reg(y_hat):
 * Nadaraya-Watson核回归的注意力汇聚是对训练数据中输出的加权平均。从注意力的角度来看，分配给每个值的注意力权重取决于将值所对应的键和查询作为输入的函数。
 
 * 注意力汇聚可以分为非参数型和带参数型。
+

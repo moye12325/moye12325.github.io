@@ -17,7 +17,7 @@ MyBatis最初是Apache的一个开源项目iBatis, 2010年6月这个项目由Apa
 
 MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及设置参数和获取结果集的工作。MyBatis 可以通过简单的 XML 或注解来配置和映射原始类型、接口和 Java POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。
 
-![](https://qiniu.kanes.top/blog/01.%20Maven%E7%AE%80%E4%BB%8B%E5%92%8C%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8_image_1.png)
+![MyBatis知识总结 配图 1](https://qiniu.kanes.top/blog/01.%20Maven%E7%AE%80%E4%BB%8B%E5%92%8C%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8_image_1.png)
 
 > 社区会持续更新开源项目，版本会不断变化，我们不必每个小版本都追，关注重大更新的大版本升级即可。
 
@@ -83,7 +83,7 @@ MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过�
     
     1. 项目搭建
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_2.png)
+        ![MyBatis知识总结 配图 2](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_2.png)
         
     2. 依赖导入
         
@@ -141,7 +141,7 @@ public class Employee {
     
     Mybatis 中的 Mapper 接口相当于以前的 Dao。但是区别在于，Mapper 仅仅只是建接口即可，我们不需要提供实现类，具体的SQL写到对应的Mapper文件，该用法的思路如下图所示：
     
-    ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_3.png)
+    ![MyBatis知识总结 配图 3](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_3.png)
     
     1. 定义mapper接口
         
@@ -298,7 +298,7 @@ package com.moye.mapper;
             
     - SqlSession：不依赖Web服务器，属于持久化层。
         
-        - 代表Java程序和数据库之间的会话。 ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_4.png)
+        - 代表Java程序和数据库之间的会话。 ![MyBatis知识总结 配图 4](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_4.png)
             
 
 ## 二、MyBatis基本使用
@@ -358,13 +358,13 @@ settings设置项：
 
 Mybatis会将SQL语句中的#{}转换为问号占位符。
 
-![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_5.png)
+![MyBatis知识总结 配图 5](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_5.png)
 
 #### 2.1.3 **${}形式**
 
 ${}形式传参，底层Mybatis做的是字符串拼接操作。
 
-![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_6.png)
+![MyBatis知识总结 配图 6](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_6.png)
 通常不会采用${}的方式传值。一个特定的适用场景是：通过Java程序动态生成数据库表，表名部分需要Java程序通过参数传入；而JDBC对于表名部分是不能使用问号占位符的，此时只能使用
 
 结论：实际开发中，能用#{}实现的，肯定不用${}。
@@ -382,7 +382,7 @@ User findByColumn(@Param("column") String column,
 
 #### 2.2.1 **Mybatis总体机制概括**
 
-![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_7.png)
+![MyBatis知识总结 配图 7](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_7.png)
 
 #### 2.2.2 **概念说明**
 
@@ -440,7 +440,7 @@ SQL语句
 ```
 
 对应关系
-![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_8.png)
+![MyBatis知识总结 配图 8](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_8.png)
 
 结论
 
@@ -449,7 +449,7 @@ Mybatis会根据#{}中传入的数据，加工成getXxx()方法，通过反射�
 #### 2.2.5 **零散的简单类型数据**
 
 零散的多个简单类型参数，如果没有特殊处理，那么Mybatis无法识别自定义名称：
-![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_9.png)
+![MyBatis知识总结 配图 9](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_9.png)
 
 Mapper接口中抽象方法的声明
 
@@ -466,7 +466,7 @@ SQL语句
 ```
 
 对应关系
-![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_10.png)
+![MyBatis知识总结 配图 10](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_10.png)
 
 #### 2.2.6 **Map类型参数**
 
@@ -1443,7 +1443,7 @@ public interface OrderMapper {
     
     对应关系可以参考下图：
     
-    ![](https://qiniu.kanes.top/blog/Pasted image 20240319224837.png)
+    ![MyBatis知识总结 配图 11](https://qiniu.kanes.top/blog/Pasted image 20240319224837.png)
     
 4. Mybatis全局注册Mapper文件
     
@@ -1547,7 +1547,7 @@ public interface OrderMapper {
     
     对应关系可以参考下图：
     
-    ![](https://qiniu.kanes.top/blog/Pasted image 20240319225007.png)
+    ![MyBatis知识总结 配图 12](https://qiniu.kanes.top/blog/Pasted image 20240319225007.png)
     
 4. Mybatis全局注册Mapper文件
 ```xml
@@ -1853,9 +1853,9 @@ Parameter 'empList' not found. Available parameters are [arg0, collection, list]
         
     - 可以在sources下创建mapper接口包一致的文件夹结构存放mapperxml文件
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_11.png)
+        ![MyBatis知识总结 配图 13](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_11.png)
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_12.png)
+        ![MyBatis知识总结 配图 14](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_12.png)
         
 
 ### 5.2 插件和分页插件PageHelper
@@ -1983,27 +1983,27 @@ MyBatisX 是一个 MyBatis 的代码生成插件，可以通过简单的配置�
     
     - 连接数据库
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_13.png)
+        ![MyBatis知识总结 配图 15](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_13.png)
         
     - 填写信息
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_14.png)
+        ![MyBatis知识总结 配图 16](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_14.png)
         
     - 展示库表
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_15.png)
+        ![MyBatis知识总结 配图 17](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_15.png)
         
     - 逆向工程使用
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_16.png)
+        ![MyBatis知识总结 配图 18](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_16.png)
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_17.png)
+        ![MyBatis知识总结 配图 19](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_17.png)
         
-        ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_18.png)
+        ![MyBatis知识总结 配图 20](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_18.png)
         
 3. 查看生成结果
     
-    ![](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_19.png)
+    ![MyBatis知识总结 配图 21](https://qiniu.kanes.top/blog/01. MyBatis提高持久层数据处理效率_image_19.png)
     
 4. 逆向工程案例使用
     
@@ -2047,3 +2047,4 @@ MyBatisX 是一个 MyBatis 的代码生成插件，可以通过简单的配置�
 |mybatis多表|实体类设计,resultMap多表结果映射|
 |mybatis动态语句|Mybatis动态语句概念, where , if , foreach标签|
 |mybatis扩展|Mapper批量处理,分页插件,逆向工程|
+

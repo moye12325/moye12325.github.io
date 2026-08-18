@@ -7,20 +7,20 @@ tags: ['机器学习']
 ---
 # Explainable AI
 
-![](https://qiniu.kanes.top/blog/fc9470ea.png)
+![Explainable AI 配图 1](https://qiniu.kanes.top/blog/fc9470ea.png)
 白马做出算术题是因为它察觉到周围观众的情绪而做对，并不是因为真的会做数学题
 
 
 ## Why we need Explainable ML?
 
-![](https://qiniu.kanes.top/blog/7b737aa7.png)
+![Explainable AI 配图 2](https://qiniu.kanes.top/blog/7b737aa7.png)
 
 * 法律要求贷款发行人解释他们的模型。
 * 医疗诊断模式对人的生命负责。 它可以是一个黑匣子吗？
 * 如果在法庭上使用模型，我们必须确保模型以非歧视的方式行事
 * 如果自动驾驶汽车突然出现异常，我们需要解释原因。
 
-![](https://qiniu.kanes.top/blog/9c0623de.png)
+![Explainable AI 配图 3](https://qiniu.kanes.top/blog/9c0623de.png)
 
 **模型如果具有解释力的话,那未来我们可以凭借着解释的结果,再去修正我们的模型**
 
@@ -31,33 +31,33 @@ tags: ['机器学习']
 **Explainable：** 有一个东西它本来是个黑箱,我们想办法赋予它解释的能力,叫做 Explainable
 
 
-![](https://qiniu.kanes.top/blog/cafccf8f.png)  
+![Explainable AI 配图 4](https://qiniu.kanes.top/blog/cafccf8f.png)  
 
 Decision Tree,它既强大又 Interpretable
 
 
 ## Goal of Explainable ML
 
-![](https://qiniu.kanes.top/blog/4a3963fa.png)
+![Explainable AI 配图 5](https://qiniu.kanes.top/blog/4a3963fa.png)
 
 
 什么叫做好的 Explanation,好的 Explanation就是人能接受的 Explanation,人就是需要一个理由让我们觉得高兴,而到底是让谁高兴呢  
 
 
-![](https://qiniu.kanes.top/blog/6f651cf8.png)
+![Explainable AI 配图 6](https://qiniu.kanes.top/blog/6f651cf8.png)
 
 
 ## Explainable ML
 
-![](https://qiniu.kanes.top/blog/71e12259.png)
+![Explainable AI 配图 7](https://qiniu.kanes.top/blog/71e12259.png)
 
 ### Local Explanation
 
 Local Explanation：假设我们有一个 Image 的 Classify,我们给它一张图片,它判断说它是一只猫,问题是,為什么,或者机器要回答问题是,為什么你觉得这张图片是一只猫,它根据某一张图片来回答问题  
 
-![](https://qiniu.kanes.top/blog/99fe9115.png)
-![](https://qiniu.kanes.top/blog/7d7278b1.png)
-![](https://qiniu.kanes.top/blog/c58509dc.png)
+![Explainable AI 配图 8](https://qiniu.kanes.top/blog/99fe9115.png)
+![Explainable AI 配图 9](https://qiniu.kanes.top/blog/7d7278b1.png)
+![Explainable AI 配图 10](https://qiniu.kanes.top/blog/c58509dc.png)
 
 
 ### Global Explanation
@@ -70,11 +70,12 @@ Global 的 Explanation 是什麼意思呢,我们在前一堂课讲的是 Local �
 #### What does a filter detect?
 
 Convolutional 的 Neural Network，里面有很多Fileter、Convolutional Layer
-![](https://qiniu.kanes.top/blog/0de7f6db.png)
+![Explainable AI 配图 11](https://qiniu.kanes.top/blog/0de7f6db.png)
 
-![](https://qiniu.kanes.top/blog/6e4febe0.png)
+![Explainable AI 配图 12](https://qiniu.kanes.top/blog/6e4febe0.png)
 
-![](https://qiniu.kanes.top/blog/396892c9.png)
+![Explainable AI 配图 13](https://qiniu.kanes.top/blog/396892c9.png)
 
 
 #### What does a digit look like for CNN?
+

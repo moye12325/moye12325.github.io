@@ -13,7 +13,7 @@ tags: ['Python', '深度学习', '神经网络']
 
 ### 模型
 
-![](https://qiniu.kanes.top/blog/5a0a2932.png)
+![深度学习-李沐-第十节-Bahdan 配图 1](https://qiniu.kanes.top/blog/5a0a2932.png)
 
 ### 定义注意力解码器
 
@@ -107,3 +107,4 @@ output.shape, len(state), state[0].shape, len(state[1]), state[1][0].shape
 
 * 在预测词元时，如果不是所有输入词元都是相关的，那么具有Bahdanau注意力的循环神经网络编码器-解码器会有选择地统计输入序列的不同部分。这是通过将上下文变量视为加性注意力池化的输出来实现的。
 * 在循环神经网络编码器-解码器中，Bahdanau注意力将上一时间步的解码器隐状态视为查询，在所有时间步的编码器隐状态同时视为键和值。
+

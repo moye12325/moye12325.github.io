@@ -15,21 +15,21 @@ tags: ['性能优化', '机器学习', '深度学习', '算法']
 * 高速扩展总线（PCIe）用于系统连接一个或多个GPU。服务器最多有个加速卡，通常以更高级的拓扑方式连接，而桌面系统则有个或个加速卡，具体取决于用户的预算和电源负载的大小。  
 * 持久性存储设备，如磁盘驱动器、固态驱动器，在许多情况下使用高速扩展总线连接。它为系统需要的训练数据和中间检查点需要的存储提供了足够的传输速度。  
 
-![](https://qiniu.kanes.top/blog/6f3e6e7e.png)
+![深度学习-李沐-第十二节-硬件、CP 配图 1](https://qiniu.kanes.top/blog/6f3e6e7e.png)
 
 ### CPU组成
 
 中央处理器（central processing unit，CPU）是任何计算机的核心。它们由许多关键组件组成：处理器核心（processor cores）用于执行机器代码的、总线（bus）用于连接不同组件（注意，总线会因为处理器型号、各代产品和供应商之间的特定拓扑结构有明显不同）和缓存（cach）相比主内存实现更高的读取带宽和更低的延迟内存访问。最后，因为高性能线性代数和卷积运算常见于媒体处理和机器学习中，所以几乎所有的现代CPU都包含向量处理单元（vector processing unit）为这些计算提供辅助。
-![](https://qiniu.kanes.top/blog/004e6ff3.png)
+![深度学习-李沐-第十二节-硬件、CP 配图 2](https://qiniu.kanes.top/blog/004e6ff3.png)
 
 ### GPU和其他加速卡
 
-![](https://qiniu.kanes.top/blog/0b97cbfc.png)
+![深度学习-李沐-第十二节-硬件、CP 配图 3](https://qiniu.kanes.top/blog/0b97cbfc.png)
 一个绿点可开一个线程 上千个线程
 
 ### GPU VS CPU
 
-![](https://qiniu.kanes.top/blog/d12c13b2.png)
+![深度学习-李沐-第十二节-硬件、CP 配图 4](https://qiniu.kanes.top/blog/d12c13b2.png)
 
 ### 小结
 
@@ -48,3 +48,4 @@ tags: ['性能优化', '机器学习', '深度学习', '算法']
 * 使用调试器跟踪调试寻找性能的瓶颈。
 
 * 训练硬件和推断硬件在性能和价格方面有不同的优点。
+

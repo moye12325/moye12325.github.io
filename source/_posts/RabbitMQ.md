@@ -222,7 +222,7 @@ Running plugins:
 请执行上述命令，并分享 `rabbitmqctl status` 命令的输出，以便进一步诊断和解决问题。
 
 D:\Program Files\RabbitMQ Server\rabbitmq_server-3 Error: unable to perform an operation on node 'rab ns below. Most common reasons for this are: * Target node is unreachable (e.g. due to hostnam * CLI tool fails to authenticate with the server * Target node is not running In addition to the diagnostics info below: * See the CLI, clustering and networking guides o * Consult server logs on node rabbit@DESKTOP-QHP9 * If target node is configured to use long node n DIAGNOSTICS =========== attempted to contact: ['rabbit@DESKTOP-QHP9QTC'] rabbit@DESKTOP-QHP9QTC: * connected to epmd (port 4369) on DESKTOP-QHP9Q * epmd reports node 'rabbit' uses port 25672 for * TCP connection succeeded but Erlang distributi * suggestion: check if the Erlang cookie is iden * suggestion: check if all server nodes and CLI * suggestion: check if inter-node connections ma t * suggestion: see the CLI, clustering and netwo Current node details: * node name: 'rabbitmqcli-363-rabbit@DESKTOP-QHP9 * effective user's home directory: c:/Users/19423 * Erlang cookie hash: JS8ISKmqZdJN69PIbYuGOw==
-![](https://qiniu.kanes.top/blog/RabbitMQ_image_1.png)
+![RabbitMQ 配图 1](https://qiniu.kanes.top/blog/RabbitMQ_image_1.png)
 
 
 你的 RabbitMQ 节点存在通信问题，可能是由于 Erlang cookie 不匹配或网络配置问题。以下是一些详细的故障排除步骤：
@@ -367,3 +367,4 @@ rabbitmqctl status
 ```
 
 通过以上步骤，确保 Erlang cookie 一致性问题得到解决，然后再尝试访问 RabbitMQ 管理界面。
+

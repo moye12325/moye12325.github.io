@@ -11,7 +11,7 @@ transformer模型完全基于注意力机制，没有任何卷积层或循环神
 
 ### 模型架构
 
-![](https://qiniu.kanes.top/blog/fbbe71e2.png)
+![深度学习-李沐-第十节-Transf 配图 1](https://qiniu.kanes.top/blog/fbbe71e2.png)
 transformer的编码器和解码器是基于自注意力的模块叠加而成的，源（输入）序列和目标（输出）序列的嵌入（embedding）表示将加上位置编码（positional encoding），再分别输入到编码器和解码器中。
 
 * 从宏观角度来看：transformer的编码器是由多个相同的层叠加而成的，每个层都有两个子层（子层表示为sublayer）。第一个子层是多头自注意力（multi-head self-attention）汇聚；第二个子层是基于位置的前馈网络（positionwise feed-forward network）。
@@ -41,3 +41,4 @@ transformer的编码器和解码器是基于自注意力的模块叠加而成的
 * transformer中的残差连接和层规范化是训练非常深度模型的重要工具。
 
 * transformer模型中基于位置的前馈网络使用同一个多层感知机，作用是对所有序列位置的表示进行转换。
+

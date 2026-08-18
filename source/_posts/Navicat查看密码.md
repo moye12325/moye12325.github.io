@@ -9,13 +9,13 @@ tags: []
 
 1. 第一步:导出链接，导出连接，获取到connections.ncx 文件，勾选导出密码
 
-![](https://qiniu.kanes.top/blog/Navicat查看密码_image_1.png)
-![](https://qiniu.kanes.top/blog/Navicat查看密码_image_2.png)
+![Navicat查看密码 配图 1](https://qiniu.kanes.top/blog/Navicat查看密码_image_1.png)
+![Navicat查看密码 配图 2](https://qiniu.kanes.top/blog/Navicat查看密码_image_2.png)
 
 2. 第二步：找到加密密码，进行破解
 
 在导出的connections.ncx文件中找到password，然后复制出来。
-![](https://qiniu.kanes.top/blog/Navicat查看密码_image_3.png)
+![Navicat查看密码 配图 3](https://qiniu.kanes.top/blog/Navicat查看密码_image_3.png)
 
 打开这个网址：[https://tool.lu/coderunner](https://tool.lu/coderunner)，将如下刚刚密码复制进去，
 
@@ -165,4 +165,5 @@ echo $decode."\n";
 ```
 
 然后在网页上面执行代码，就可以得到密码了
-![](https://qiniu.kanes.top/blog/Navicat查看密码_image_4.png)
+![Navicat查看密码 配图 4](https://qiniu.kanes.top/blog/Navicat查看密码_image_4.png)
+

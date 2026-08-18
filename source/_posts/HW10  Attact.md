@@ -28,7 +28,7 @@ tags: ['算法', '计算机视觉']
 
 ### How to attack？
 
-![](https://qiniu.kanes.top/blog/f38d7d5d.png)
+![HW10 Attact 配图 1](https://qiniu.kanes.top/blog/f38d7d5d.png)
 
 - 一张照片可以被看作是一个非常长的每一个维度都加入一个小小的噪声，小到人眼看不出来。
   - 原始照片：**Benign Image**
@@ -39,7 +39,7 @@ tags: ['算法', '计算机视觉']
 
 - **黑盒攻击（Black Box Attack）**：未知模型参数
 - **白盒攻击（White Box Attack）**：已知模型参数
-  ![](https://qiniu.kanes.top/blog/991938ed.png)
+  ![HW10 Attact 配图 2](https://qiniu.kanes.top/blog/991938ed.png)
 
 
 ### 黑盒攻击(攻击非对角线的地方)
@@ -67,7 +67,7 @@ tags: ['算法', '计算机视觉']
 
 令原始的输入为x，输出为y。则FGSM的攻击表达式为：
 
-![](https://qiniu.kanes.top/blog/c44852e3.png)
+![HW10 Attact 配图 3](https://qiniu.kanes.top/blog/c44852e3.png)
 
 由公式1可知，FGSM实质上就是一种梯度上升算法，通过细微地改变输入，到达输出的预测值与实际值相差很大的目的。
 
@@ -141,7 +141,7 @@ tags: ['算法', '计算机视觉']
 
  ## Simple Baseline
 
-![](https://qiniu.kanes.top/blog/60a0d1de.png)
+![HW10 Attact 配图 4](https://qiniu.kanes.top/blog/60a0d1de.png)
 
 ---
 
@@ -159,7 +159,7 @@ def forward(self, x):
 ```
 
 
-![](https://qiniu.kanes.top/blog/64e059d8.png)
+![HW10 Attact 配图 5](https://qiniu.kanes.top/blog/64e059d8.png)
 
 使用gen_ adv_ examples函数调用emsebel_ model和ifgsm，精度明显降低
 
@@ -203,3 +203,4 @@ if torch.rand(1).item() >= p:
 ```
 
 loss:ensemble_ dmi_ mifgsm_ acc = 0.00, emsemble_ dim_ mifgsm_ loss = 13.71190
+

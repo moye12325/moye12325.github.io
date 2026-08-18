@@ -7,17 +7,17 @@ tags: ['深度学习', '神经网络']
 ---
 # 序列到序列学习（seq2seq）
 
-![](https://qiniu.kanes.top/blog/313de9c7.png) 
+![深度学习-李沐-第九节-序列到序列学 配图 1](https://qiniu.kanes.top/blog/313de9c7.png) 
 循环神经网络编码器使用长度可变的序列作为输入， 将其转换为固定形状的隐状态。  
  为了连续生成输出序列的词元， 独立的循环神经网络解码器是基于输入序列的编码信息 和输出序列已经看见的或者生成的词元来预测下一个词元。
 
 ---
 
-![](https://qiniu.kanes.top/blog/82f25ad7.png)
+![深度学习-李沐-第九节-序列到序列学 配图 2](https://qiniu.kanes.top/blog/82f25ad7.png)
 
 ---
 
-![](https://qiniu.kanes.top/blog/07fdec68.png)
+![深度学习-李沐-第九节-序列到序列学 配图 3](https://qiniu.kanes.top/blog/07fdec68.png)
 
 为了采用一个接着一个词元的方式预测输出序列， 每个解码器当前时间步的输入都将来自于前一时间步的预测词元。 与训练类似，序列开始词元（“<bos>”） 在初始时间步被输入到解码器中。 
 
@@ -25,7 +25,7 @@ tags: ['深度学习', '神经网络']
 
 BLEU（bilingual evaluation understudy） 最先是用于评估机器翻译的结果， 但现在它已经被广泛用于测量许多应用的输出序列的质量。 原则上说，对于预测序列中的任意n元语法（n-grams）， BLEU的评估都是这个n元语法是否出现在标签序列中。
 
-![](https://qiniu.kanes.top/blog/2eed9024.png)
+![深度学习-李沐-第九节-序列到序列学 配图 4](https://qiniu.kanes.top/blog/2eed9024.png)
 
 ### 小结
 
@@ -38,3 +38,4 @@ BLEU（bilingual evaluation understudy） 最先是用于评估机器翻译的�
 * 在“编码器－解码器”训练中，强制教学方法将原始输出序列（而非预测结果）输入解码器。
 
 * BLEU是一种常用的评估方法，它通过测量预测序列和标签序列之间的元语法的匹配度来评估预测。
+

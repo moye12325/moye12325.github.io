@@ -21,7 +21,7 @@ import re
 
 ##  思路分析
 
-![](https://qiniu.kanes.top/blog/wallhaven壁纸网站爬虫_image_1.png)
+![wallhaven壁纸网站爬虫 配图 1](https://qiniu.kanes.top/blog/wallhaven壁纸网站爬虫_image_1.png)
 
 - 分析上面的几个url，发现toplist与hot只是单词不同，page代表第几页，一页24副图片。
 - 查看网页源码，分析缩略图的链接。
@@ -77,7 +77,7 @@ for page in range(start_page, end_page + 1):
 - 上述代码获取到预览的链接
 - 使用BeautifulSoup进行解析预览的链接
 - 再次进行爬取，爬取预览链接里面的内容
-- ![](https://qiniu.kanes.top/blog/tmp1721311387156_wallhaven壁纸网站爬虫_image_1.png)
+- ![wallhaven壁纸网站爬虫 配图 2](https://qiniu.kanes.top/blog/tmp1721311387156_wallhaven壁纸网站爬虫_image_1.png)
 - 可见，针对爬取到的内容进行清洗页面，获取原图链接
 
 ## 获取原图链接
@@ -201,5 +201,6 @@ for page in range(start_page, end_page + 1):
 - 壁纸保存的位置
 - 代理
 - 开始与结束的页码，一页24张
-![](https://qiniu.kanes.top/blog/wallhaven%E5%A3%81%E7%BA%B8%E7%BD%91%E7%AB%99%E7%88%AC%E8%99%AB_image_2.png)
-![](https://qiniu.kanes.top/blog/tmp1721311391758_wallhaven%E5%A3%81%E7%BA%B8%E7%BD%91%E7%AB%99%E7%88%AC%E8%99%AB_image_2.png)
+![wallhaven壁纸网站爬虫 配图 3](https://qiniu.kanes.top/blog/wallhaven%E5%A3%81%E7%BA%B8%E7%BD%91%E7%AB%99%E7%88%AC%E8%99%AB_image_2.png)
+![wallhaven壁纸网站爬虫 配图 4](https://qiniu.kanes.top/blog/tmp1721311391758_wallhaven%E5%A3%81%E7%BA%B8%E7%BD%91%E7%AB%99%E7%88%AC%E8%99%AB_image_2.png)
+

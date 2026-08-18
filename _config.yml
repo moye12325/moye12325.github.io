@@ -109,3 +109,9 @@ deploy:
 # Sitemap for SEO (hexo-generator-sitemap)
 sitemap:
   path: sitemap.xml
+
+# Local search (hexo-generator-searchdb)
+search:
+  path: search.xml
+  field: post
+  content: true

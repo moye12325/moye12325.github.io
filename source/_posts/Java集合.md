@@ -5,7 +5,7 @@ date: 2024-09-20 15:01:20
 categories: [数据结构与算法]
 tags: ['Java', '数据结构']
 ---
-![](https://qiniu.kanes.top/blog/Java集合.svg)
+![Java集合 配图 1](https://qiniu.kanes.top/blog/Java集合.svg)
 
 # Java集合
 
@@ -373,3 +373,4 @@ null 是一个特殊的值，表示没有对象或没有引用。如果你用 nu
 复合操作是指由多个基本操作(如`put`、`get`、`remove`、`containsKey`等)组成的操作，例如先判断某个键是否存在`containsKey(key)`，然后根据结果进行插入或更新`put(key, value)`。这种操作在执行过程中可能会被其他线程打断，导致结果不符合预期。
 
 `ConcurrentHashMap` 提供了一些原子性的复合操作，如 `putIfAbsent`、`compute`、`computeIfAbsent` 、`computeIfPresent`、`merge`等。这些方法都可以接受一个函数作为参数，根据给定的 key 和 value 来计算一个新的 value，并且将其更新到 map 中。
+

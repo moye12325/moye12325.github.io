@@ -17,7 +17,7 @@ tags: ['PyTorch', 'Python', '深度学习']
 
 ### 数据并行性
 
-![](https://qiniu.kanes.top/blog/2487ae92.png)
+![深度学习-李沐-第十二节-多GPU训 配图 1](https://qiniu.kanes.top/blog/2487ae92.png)
 
 ### 简洁实现
 
@@ -109,3 +109,4 @@ train(net, num_gpus=2, batch_size=512, lr=0.2)
 * 神经网络可以在（可找到数据的）单GPU上进行自动评估。
 * 优化算法在多个GPU上自动聚合。
 * 每台设备上的网络需要先初始化，然后再尝试访问该设备上的参数，否则会遇到错误。
+

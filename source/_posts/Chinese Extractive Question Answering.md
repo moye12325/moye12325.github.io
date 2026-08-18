@@ -7,7 +7,7 @@ tags: ['Transformer']
 ---
 # HW7 抽取式问答
 
-![](https://qiniu.kanes.top/blog/ed21a111.png)
+![Chinese Extractive 配图 1](https://qiniu.kanes.top/blog/ed21a111.png)
 
 ## Task description
 
@@ -34,7 +34,7 @@ tags: ['Transformer']
 
 ## 修改策略
 
-![](https://qiniu.kanes.top/blog/22953979.png)
+![Chinese Extractive 配图 2](https://qiniu.kanes.top/blog/22953979.png)
 
 ## Baseline
 
@@ -56,7 +56,7 @@ Evaluating Dev Set ...
 Validation | Epoch 1 | acc = 0.531
 ```
 
-![](https://qiniu.kanes.top/blog/2ca3eaa9.png)
+![Chinese Extractive 配图 3](https://qiniu.kanes.top/blog/2ca3eaa9.png)
 
 ## Medium Baseline   Score: 0.62953   Score: 0.64245  Score: 0.67191
 
@@ -67,7 +67,7 @@ Validation | Epoch 1 | acc = 0.531
 
 doc_stride参数就是每次滑动的距离  
 
-![](https://qiniu.kanes.top/blog/34aa9338.png)
+![Chinese Extractive 配图 4](https://qiniu.kanes.top/blog/34aa9338.png)
 
 `self.doc_stride = 32`  Score: 0.62953
 
@@ -90,14 +90,14 @@ Validation | Epoch 1 | acc = 0.645
 ```
 
 `self.doc_stride = 15`   Score: 0.64205
-![](https://qiniu.kanes.top/blog/3f85b615.png)
+![Chinese Extractive 配图 5](https://qiniu.kanes.top/blog/3f85b615.png)
 由此可见15是个不错的参数
 
 ### Apply linear learning rate decay
 
-![](https://qiniu.kanes.top/blog/1ceb5023.png)
+![Chinese Extractive 配图 6](https://qiniu.kanes.top/blog/1ceb5023.png)
 self.doc_stride = 15
-![](https://qiniu.kanes.top/blog/7bdcf4d8.png)
+![Chinese Extractive 配图 7](https://qiniu.kanes.top/blog/7bdcf4d8.png)
 
 #### warmup  Private score: 0.67191
 
@@ -105,7 +105,7 @@ warmup是针对学习率learning rate优化的一种策略，主要过程是，�
 
 **为什么使用[warmup](https://huggingface.co/docs/transformers/main_classes/optimizer_schedules#transformers.get_linear_schedule_with_warmup)？**  
 由于刚开始训练时,模型的权重(weights)是随机初始化的，此时若选择一个较大的学习率,可能带来模型的不稳定(振荡)，选择Warmup预热学习率的方式，可以使得开始训练的几个epoches或者一些steps内学习率较小,在预热的小学习率下，模型可以慢慢趋于稳定,等模型相对稳定后再选择预先设置的学习率进行训练,使得模型收敛速度变得更快，模型效果更佳
-![](https://qiniu.kanes.top/blog/fc3c1a47.png)
+![Chinese Extractive 配图 8](https://qiniu.kanes.top/blog/fc3c1a47.png)
 **Parameters：**
 
 * **optimizer (Optimizer)** – The optimizer for which to schedule the learning rate.
@@ -128,10 +128,10 @@ Evaluating Dev Set ...
 Validation | Epoch 1 | acc = 0.687
 ```
 
-![](https://qiniu.kanes.top/blog/680d2aba.png)
+![Chinese Extractive 配图 9](https://qiniu.kanes.top/blog/680d2aba.png)
 
 更改warmup版本的lr，发现学习率不宜过大
-![](https://qiniu.kanes.top/blog/32393e8b.png)
+![Chinese Extractive 配图 10](https://qiniu.kanes.top/blog/32393e8b.png)
 
 
 ## Strong Baseline
@@ -145,14 +145,14 @@ Validation | Epoch 1 | acc = 0.687
 
 
 使用新的[Pre-train模型](https://huggingface.co/models)
-![](https://qiniu.kanes.top/blog/e8a742df.png)
+![Chinese Extractive 配图 11](https://qiniu.kanes.top/blog/e8a742df.png)
 
 新模型内存很大，降低batch_size。（或者使用助教在视频中提到的技巧Gradient Accumulation来解决batch_size不够的情况）
-![](https://qiniu.kanes.top/blog/9436422d.png)
+![Chinese Extractive 配图 12](https://qiniu.kanes.top/blog/9436422d.png)
 
 preprocessing
-![](https://qiniu.kanes.top/blog/050e4d3e.png)
-![](https://qiniu.kanes.top/blog/4f51dc53.png)
+![Chinese Extractive 配图 13](https://qiniu.kanes.top/blog/050e4d3e.png)
+![Chinese Extractive 配图 14](https://qiniu.kanes.top/blog/4f51dc53.png)
 原代码中的训练集都是以answer为中心截取段落，这可能让模型学习到“答案在段落中央”这样的结论，为避免此问题，我将训练集变为随机抽取片段，并且片段包含答案
 
 
@@ -162,7 +162,7 @@ preprocessing
 postprocessing 
 
 
-![](https://qiniu.kanes.top/blog/711546ff.png)
+![Chinese Extractive 配图 15](https://qiniu.kanes.top/blog/711546ff.png)
 
 
 ```
@@ -178,7 +178,7 @@ Saving Model ...
 ```
 
 对学习率进行微调，得出最好的结果为0.78006
-![](https://qiniu.kanes.top/blog/d03f0fa3.png)
+![Chinese Extractive 配图 16](https://qiniu.kanes.top/blog/d03f0fa3.png)
 
 
 ## Boss Baseline
@@ -188,10 +188,11 @@ Saving Model ...
 
 在hugging face中搜索chinese + QA的模型，根据model card描述选择最好的模型。这里就直接选了同一个作者的另外一个模型
 
-![](https://qiniu.kanes.top/blog/624def81.png)
+![Chinese Extractive 配图 17](https://qiniu.kanes.top/blog/624def81.png)
 
-![](https://qiniu.kanes.top/blog/5ae79dc4.png)
-![](https://qiniu.kanes.top/blog/c07e9818.png)
+![Chinese Extractive 配图 18](https://qiniu.kanes.top/blog/5ae79dc4.png)
+![Chinese Extractive 配图 19](https://qiniu.kanes.top/blog/c07e9818.png)
 
 处理结果集中的特殊字符
-![](https://qiniu.kanes.top/blog/64f26ad0.png)
+![Chinese Extractive 配图 20](https://qiniu.kanes.top/blog/64f26ad0.png)
+

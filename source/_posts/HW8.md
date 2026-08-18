@@ -9,7 +9,7 @@ tags: []
 
 ## 任务介绍
 
-![](https://qiniu.kanes.top/blog/31c2c14a.png)
+![HW8 配图 1](https://qiniu.kanes.top/blog/31c2c14a.png)
 无监督异常检测：Anomaly Detection异常图片的识别，输入一张图片，判别这张图片时异常还是正常
 
 
@@ -23,21 +23,21 @@ tags: []
 | strong   | AUC >= 0.77196 |
 | boss     | AUC >= 0.79506 |
 
-![](https://qiniu.kanes.top/blog/aa405215.png)
-![](https://qiniu.kanes.top/blog/cf83bd28.png)
-![](https://qiniu.kanes.top/blog/861d255c.png)
-![](https://qiniu.kanes.top/blog/ec1932be.png)
+![HW8 配图 2](https://qiniu.kanes.top/blog/aa405215.png)
+![HW8 配图 3](https://qiniu.kanes.top/blog/cf83bd28.png)
+![HW8 配图 4](https://qiniu.kanes.top/blog/861d255c.png)
+![HW8 配图 5](https://qiniu.kanes.top/blog/ec1932be.png)
 AUC（Area Under Curve）被定义为ROC曲线下与坐标轴围成的面积，显然这个面积的数值不会大于1。又由于ROC曲线一般都处于y=x这条直线的上方，所以AUC的取值范围在0.5和1之间。AUC越接近1.0，检测方法真实性越高;等于0.5时，则真实性最低，无应用价值。
 
 
 ## 初始代码 Score: 0.52966
 
-![](https://qiniu.kanes.top/blog/a75e0b9c.png)
+![HW8 配图 6](https://qiniu.kanes.top/blog/a75e0b9c.png)
 
 loss较小且下降太慢
 ---
 
-![](https://qiniu.kanes.top/blog/1f167623.png)
+![HW8 配图 7](https://qiniu.kanes.top/blog/1f167623.png)
 调大学习率，显然学习率不是主要矛盾，查看模型，发现提供了三个模型
 
 ```
@@ -182,10 +182,10 @@ class fcn_autoencoder(nn.Module):
 ```
 
 修改层数，分数继续提高 Score: 0.76865  
-![](https://qiniu.kanes.top/blog/5309fe2d.png)  
+![HW8 配图 8](https://qiniu.kanes.top/blog/5309fe2d.png)  
 
 
-![](https://qiniu.kanes.top/blog/dd43db18.png)  
+![HW8 配图 9](https://qiniu.kanes.top/blog/dd43db18.png)  
 从loss来看，感觉这个模型优化也无法再继续了  
 
 
@@ -361,8 +361,8 @@ class ResNet(nn.Module):
         return x
 ```
 
-![](https://qiniu.kanes.top/blog/d75c6a6e.png)
-![](https://qiniu.kanes.top/blog/d588a879.png)
+![HW8 配图 10](https://qiniu.kanes.top/blog/d75c6a6e.png)
+![HW8 配图 11](https://qiniu.kanes.top/blog/d588a879.png)
 
 
 ## Boss Baseline (Acc>0.79506)
@@ -397,5 +397,6 @@ class Auxiliary(nn.Module):
         return self.decoder(x)
 ```
 
-![](https://qiniu.kanes.top/blog/c740f5ba.png)
-![](https://qiniu.kanes.top/blog/cd3bda41.png)
+![HW8 配图 12](https://qiniu.kanes.top/blog/c740f5ba.png)
+![HW8 配图 13](https://qiniu.kanes.top/blog/cd3bda41.png)
+

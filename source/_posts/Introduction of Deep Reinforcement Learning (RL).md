@@ -65,7 +65,7 @@ tags: ['神经网络']
 
 ### Step 1: Function with Unknown
 
-![](https://qiniu.kanes.top/blog/b55690e2.png)
+![Introduction of De 配图 1](https://qiniu.kanes.top/blog/b55690e2.png)
 
 Actor就是一个Network，称作Policy Network，
 
@@ -76,14 +76,14 @@ Actor就是一个Network，称作Policy Network，
 
 ### Step 2: Define “Loss”
 
-![](https://qiniu.kanes.top/blog/7e83c538.png)
+![Introduction of De 配图 2](https://qiniu.kanes.top/blog/7e83c538.png)
 一整局游戏称为一个episode（片段），游戏中每个行为都可能得到Reward，把所有的 Reward加和，得到整场游戏的 Total Reward
 
 取负的 Total Reward作为Loss
 
 ### Step 3: Optimization
 
-![](https://qiniu.kanes.top/blog/9a093d7b.png)
+![Introduction of De 配图 3](https://qiniu.kanes.top/blog/9a093d7b.png)
 
 1. 对环境的观察s1,会变成你的 Actor 的输入
 2. 你的 Actor 接下来输出a1
@@ -91,3 +91,4 @@ Actor就是一个Network，称作Policy Network，
 4. 环境看到a1以后,又输出s2
 5. ......
 6. 满足游戏中止的条件
+

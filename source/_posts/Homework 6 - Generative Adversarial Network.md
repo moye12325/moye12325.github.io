@@ -32,7 +32,7 @@ Your goal is to do anime face generation, if you have any question, please discu
 * 生成器从先验分布中采得随机信号，经过神经网络的变换，得到模拟样本；判别器既接受来自生成器的模拟样本，也接收来自实际数据集的真实样本，但是并不告诉判别器样本来源，需要它自己判断。
 
 * 总之，生成器要尽可能造出样本迷惑判别器，而判别器则尽可能识别出来自生成器的样本。理想情况下，生成器和判别器最终达到一种平衡，双方都臻于完美，彼此都没有更进一步的空间。
-  ![](https://qiniu.kanes.top/blog/3618678f.png)
+  ![Homework 6 - Gener 配图 1](https://qiniu.kanes.top/blog/3618678f.png)
 * * 生成器(Generator)：通过机器生成数据（大部分情况下是图像），目的是“骗过”判别器
 * 判别器(Discriminator)：判断这张图像是真实的还是机器生成的，目的是找出生成器做的“假数据”
 * 详细过程：
@@ -59,25 +59,25 @@ Your goal is to do anime face generation, if you have any question, please discu
 #### 1、路径问题：
 
 这里的命名取决于训练中的时间戳，所以这个目录每次执行后会变化
-![](https://qiniu.kanes.top/blog/a07c9b69.png)
+![Homework 6 - Gener 配图 2](https://qiniu.kanes.top/blog/a07c9b69.png)
 解决方案：找到定义处，更改命名规则；或者取消该行代码，运行结束后手动执行该代码
 
 #### 2、数据集冲突：
 
 每次下载数据集时覆盖原有数据集会提示是否覆盖等内容，在colab与机器交互，在kaggle上似乎不能交互
-解决方案：![](https://qiniu.kanes.top/blog/5e015390.png)
+解决方案：![Homework 6 - Gener 配图 3](https://qiniu.kanes.top/blog/5e015390.png)
 在代码执行前删除当前目录下的所有内容
 
 #### 3、kaggle平台
 
 GPU资源供给不足
-![](https://qiniu.kanes.top/blog/33ee80c4.png)
+![Homework 6 - Gener 配图 4](https://qiniu.kanes.top/blog/33ee80c4.png)
 解决方案：开多个kaggle账户，colab与kaggle一起跑（多线程？）
 
 
 ### 代码改进
 
-![](https://qiniu.kanes.top/blog/9d7b1a0a.png)
+![Homework 6 - Gener 配图 5](https://qiniu.kanes.top/blog/9d7b1a0a.png)
 这个提交记录似乎有问题，每次刷新分值都会变动
 
 #### 初始代码
@@ -91,9 +91,9 @@ AN需要定义Generator和Discriminator，Generator用于生成图片，Discrimi
 #### 第二次，修改n_epoch+n_critic
 
 * 运行更多的epoch，在config中设置epoch=50。每更新一次generator，更新两次discriminator，即设置n_critic=2。来自[论文](https://arxiv.org/abs/1406.2661)
-  ![](https://qiniu.kanes.top/blog/7492f0a7.png)
+  ![Homework 6 - Gener 配图 6](https://qiniu.kanes.top/blog/7492f0a7.png)
 
-![](https://qiniu.kanes.top/blog/c38f8b8a.png)
+![Homework 6 - Gener 配图 7](https://qiniu.kanes.top/blog/c38f8b8a.png)
 
 #### 第三次，修改discriminator+RMSprop optimizer+loss函数+weight clipping
 
@@ -103,10 +103,10 @@ AN需要定义Generator和Discriminator，Generator用于生成图片，Discrimi
 * WGAN weight clipping的optimizer，一般使用RMSprop效果较好
 * 将generator和discriminator中的loss函数改为距离
 
-![](https://qiniu.kanes.top/blog/d47fc761.png)
-![](https://qiniu.kanes.top/blog/34c60cc0.png)
-![](https://qiniu.kanes.top/blog/4251f36f.png)
-![](https://qiniu.kanes.top/blog/67b4d6cc.png)
+![Homework 6 - Gener 配图 8](https://qiniu.kanes.top/blog/d47fc761.png)
+![Homework 6 - Gener 配图 9](https://qiniu.kanes.top/blog/34c60cc0.png)
+![Homework 6 - Gener 配图 10](https://qiniu.kanes.top/blog/4251f36f.png)
+![Homework 6 - Gener 配图 11](https://qiniu.kanes.top/blog/67b4d6cc.png)
 
 50epoch似乎仍然不够，应该可以继续增大
 
@@ -122,5 +122,6 @@ AN需要定义Generator和Discriminator，Generator用于生成图片，Discrimi
   将generator和discriminator中的loss函数改为距离，
   WGAN-GP的optimizer是Adam
 
-![](https://qiniu.kanes.top/blog/7fe7782f.png)
-![](https://qiniu.kanes.top/blog/ad6a7600.png)
+![Homework 6 - Gener 配图 12](https://qiniu.kanes.top/blog/7fe7782f.png)
+![Homework 6 - Gener 配图 13](https://qiniu.kanes.top/blog/ad6a7600.png)
+
