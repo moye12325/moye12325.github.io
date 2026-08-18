@@ -109,6 +109,8 @@ deploy:
 # Sitemap for SEO (hexo-generator-sitemap)
 sitemap:
   path: sitemap.xml
+  tags: false
+  categories: false
 
 # Local search (hexo-generator-searchdb)
 search:
