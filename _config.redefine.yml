@@ -481,6 +481,9 @@ plugins:
   mermaid:
     enable: false # enable mermaid or not
     version: "11.4.1" # default v11.4.1
+    style:
+      light: neutral # mermaid theme in light mode (used by light/dark toggle)
+      dark: dark # mermaid theme in dark mode (used by light/dark toggle)
 # PLUGINS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
 
