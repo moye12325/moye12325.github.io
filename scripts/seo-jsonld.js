@@ -99,6 +99,11 @@ hexo.extend.filter.register("after_render:html", function (str, data) {
     });
   }
 
+  // Fix the theme's autoCanonical output: it lowercases the whole path, which
+  // breaks slugs containing uppercase letters (e.g. LSTM/SSD -> lstm/ssd -> 404).
+  const correctCanonical = (page.permalink || siteUrl + "/" + outPath.replace(/^\/+/, "")).replace(/index\.html$/, "");
+  str = str.replace(/<link rel="canonical" href="[^"]*"/, '<link rel="canonical" href="' + correctCanonical + '"');
+
   const json = JSON.stringify(schemas).replace(/</g, "\\u003c");
   return str.replace("</head>", '<script type="application/ld+json">' + json + "</script></head>");
 }, 20);
