@@ -123,7 +123,7 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://www.kanes.top/2022/08/16/深度学习-李沐-第六节-填充、步幅、多输入多输出通道/"/>
+    <link rel="canonical" href="https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E5%B9%85%E3%80%81%E5%A4%9A%E8%BE%93%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E9%80%9A%E9%81%93/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
@@ -140,7 +140,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
 <meta property="article:published_time" content="2022-08-16T07:00:46.000Z">
-<meta property="article:modified_time" content="2026-08-18T17:19:45.316Z">
+<meta property="article:modified_time" content="2026-08-19T06:16:45.856Z">
 <meta property="article:author" content="moye12325">
 <meta property="article:tag" content="PyTorch">
 <meta property="article:tag" content="Python">
@@ -222,7 +222,7 @@
     
     
     
-<meta name="generator" content="Hexo 8.1.1"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Moye的日常","url":"https://www.kanes.top/"},{"@context":"https://schema.org","@type":"BlogPosting","headline":"深度学习-李沐-第六节-填充、步幅、多输入多输出通道","description":"由于我们通常使用小卷积核，因此对于任何单个卷积，我们可能只会丢失几个像素。 但随着我们应用许多连续卷积层，累积丢失的像素数就多了。 解决这个问题的简单方法即为填充（padding）。","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E5%B9%85%E3%80%81%E5%A4%9A%E8%BE%93%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E9%80%9A%E9%81%93/"},"author":{"@type":"Person","name":"moye12325"},"publisher":{"@type":"Organization","name":"Moye的日常","url":"https://www.kanes.top/"},"datePublished":"2022-08-16T07:00:46.000Z","dateModified":"2026-08-18T17:19:45.316Z","image":"https://qiniu.kanes.top/blog/dc02f128.png","keywords":"Python, 计算机视觉, PyTorch, 深度学习"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.kanes.top/"},{"@type":"ListItem","position":2,"name":"深度学习-李沐-第六节-填充、步幅、多输入多输出通道","item":"https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E5%B9%85%E3%80%81%E5%A4%9A%E8%BE%93%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E9%80%9A%E9%81%93/"}]}]</script></head>
+<meta name="generator" content="Hexo 8.1.1"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Moye的日常","url":"https://www.kanes.top/"},{"@context":"https://schema.org","@type":"BlogPosting","headline":"深度学习-李沐-第六节-填充、步幅、多输入多输出通道","description":"由于我们通常使用小卷积核，因此对于任何单个卷积，我们可能只会丢失几个像素。 但随着我们应用许多连续卷积层，累积丢失的像素数就多了。 解决这个问题的简单方法即为填充（padding）。","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E5%B9%85%E3%80%81%E5%A4%9A%E8%BE%93%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E9%80%9A%E9%81%93/"},"author":{"@type":"Person","name":"moye12325"},"publisher":{"@type":"Organization","name":"Moye的日常","url":"https://www.kanes.top/"},"datePublished":"2022-08-16T07:00:46.000Z","dateModified":"2026-08-19T06:16:45.856Z","image":"https://qiniu.kanes.top/blog/dc02f128.png","keywords":"Python, 计算机视觉, PyTorch, 深度学习"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.kanes.top/"},{"@type":"ListItem","position":2,"name":"深度学习-李沐-第六节-填充、步幅、多输入多输出通道","item":"https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E5%B9%85%E3%80%81%E5%A4%9A%E8%BE%93%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E9%80%9A%E9%81%93/"}]}]</script></head>
 
 
 
@@ -798,8 +798,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-08-19 01:19:45</span>
-            <span class="mobile">2026-08-19 01:19:45</span>
+            <span class="desktop">2026-08-19 14:16:45</span>
+            <span class="mobile">2026-08-19 14:16:45</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -931,7 +931,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-08-19 01:19:45
+                    :</strong> 2026-08-19 14:16:45
             </li>
         
         <li>
