@@ -5,8 +5,8 @@
   "trailingSlash": true,
   "redirects": [
     {
-      "source": "/2025/11/24/python模块导入报错-.pth到生产环境/",
-      "destination": "/2025/11/24/Python模块导入报错-.pth到生产环境/",
+      "source": "/2025/11/24/python%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E6%8A%A5%E9%94%99-.pth%E5%88%B0%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83/",
+      "destination": "/2025/11/24/Python%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E6%8A%A5%E9%94%99-.pth%E5%88%B0%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83/",
       "permanent": true
     },
     {
@@ -15,8 +15,8 @@
       "permanent": true
     },
     {
-      "source": "/2023/08/16/llama 2模型细节/",
-      "destination": "/2023/08/16/Llama 2模型细节/",
+      "source": "/2023/08/16/llama%202%E6%A8%A1%E5%9E%8B%E7%BB%86%E8%8A%82/",
+      "destination": "/2023/08/16/Llama%202%E6%A8%A1%E5%9E%8B%E7%BB%86%E8%8A%82/",
       "permanent": true
     },
     {
@@ -25,18 +25,18 @@
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第七节-深度卷积神经网络（alexnet）/",
-      "destination": "/2022/08/16/深度学习-李沐-第七节-深度卷积神经网络（AlexNet）/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E6%B7%B1%E5%BA%A6%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88alexnet%EF%BC%89/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E6%B7%B1%E5%BA%A6%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88AlexNet%EF%BC%89/",
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第十三节-区域卷积神经网络（r-cnn）系列/",
-      "destination": "/2022/08/16/深度学习-李沐-第十三节-区域卷积神经网络（R-CNN）系列/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8C%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88r-cnn%EF%BC%89%E7%B3%BB%E5%88%97/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8C%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88R-CNN%EF%BC%89%E7%B3%BB%E5%88%97/",
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第十节-注意力汇聚：nadaraya-watson核回归/",
-      "destination": "/2022/08/16/深度学习-李沐-第十节-注意力汇聚：Nadaraya-Watson核回归/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%B1%87%E8%81%9A%EF%BC%9Anadaraya-watson%E6%A0%B8%E5%9B%9E%E5%BD%92/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%B1%87%E8%81%9A%EF%BC%9ANadaraya-Watson%E6%A0%B8%E5%9B%9E%E5%BD%92/",
       "permanent": true
     },
     {
@@ -45,8 +45,8 @@
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第四节-dropout暂退法/",
-      "destination": "/2022/08/16/深度学习-李沐-第四节-Dropout暂退法/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-dropout%E6%9A%82%E9%80%80%E6%B3%95/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-Dropout%E6%9A%82%E9%80%80%E6%B3%95/",
       "permanent": true
     },
     {
@@ -55,28 +55,28 @@
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第九节-门控循环单元（gru）/",
-      "destination": "/2022/08/16/深度学习-李沐-第九节-门控循环单元（GRU）/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E9%97%A8%E6%8E%A7%E5%BE%AA%E7%8E%AF%E5%8D%95%E5%85%83%EF%BC%88gru%EF%BC%89/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E9%97%A8%E6%8E%A7%E5%BE%AA%E7%8E%AF%E5%8D%95%E5%85%83%EF%BC%88GRU%EF%BC%89/",
       "permanent": true
     },
     {
-      "source": "/2024/09/25/mysql知识总结/",
-      "destination": "/2024/09/25/MySQL知识总结/",
+      "source": "/2024/09/25/mysql%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/",
+      "destination": "/2024/09/25/MySQL%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/",
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第十三节-单发多框检测（ssd）与yolo/",
-      "destination": "/2022/08/16/深度学习-李沐-第十三节-单发多框检测（SSD）与yolo/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8D%95%E5%8F%91%E5%A4%9A%E6%A1%86%E6%A3%80%E6%B5%8B%EF%BC%88ssd%EF%BC%89%E4%B8%8Eyolo/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8D%95%E5%8F%91%E5%A4%9A%E6%A1%86%E6%A3%80%E6%B5%8B%EF%BC%88SSD%EF%BC%89%E4%B8%8Eyolo/",
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第七节-resnet/",
-      "destination": "/2022/08/16/深度学习-李沐-第七节-ResNet/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-resnet/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-ResNet/",
       "permanent": true
     },
     {
-      "source": "/2025/05/07/深入浅出python多线程、多进程、协程/",
-      "destination": "/2025/05/07/深入浅出Python多线程、多进程、协程/",
+      "source": "/2025/05/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BApython%E5%A4%9A%E7%BA%BF%E7%A8%8B%E3%80%81%E5%A4%9A%E8%BF%9B%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B/",
+      "destination": "/2025/05/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BAPython%E5%A4%9A%E7%BA%BF%E7%A8%8B%E3%80%81%E5%A4%9A%E8%BF%9B%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B/",
       "permanent": true
     },
     {
@@ -90,13 +90,13 @@
       "permanent": true
     },
     {
-      "source": "/2022/08/16/python class for rnn encoder/",
-      "destination": "/2022/08/16/Python Class for RNN Encoder/",
+      "source": "/2022/08/16/python%20class%20for%20rnn%20encoder/",
+      "destination": "/2022/08/16/Python%20Class%20for%20RNN%20Encoder/",
       "permanent": true
     },
     {
-      "source": "/2024/08/30/leetcode3153. 所有数对中数位差之和/",
-      "destination": "/2024/08/30/LeetCode3153. 所有数对中数位差之和/",
+      "source": "/2024/08/30/leetcode3153.%20%E6%89%80%E6%9C%89%E6%95%B0%E5%AF%B9%E4%B8%AD%E6%95%B0%E4%BD%8D%E5%B7%AE%E4%B9%8B%E5%92%8C/",
+      "destination": "/2024/08/30/LeetCode3153.%20%E6%89%80%E6%9C%89%E6%95%B0%E5%AF%B9%E4%B8%AD%E6%95%B0%E4%BD%8D%E5%B7%AE%E4%B9%8B%E5%92%8C/",
       "permanent": true
     },
     {
@@ -105,38 +105,38 @@
       "permanent": true
     },
     {
-      "source": "/2025/04/27/米哈游笔试-java后端/",
-      "destination": "/2025/04/27/米哈游笔试-Java后端/",
+      "source": "/2025/04/27/%E7%B1%B3%E5%93%88%E6%B8%B8%E7%AC%94%E8%AF%95-java%E5%90%8E%E7%AB%AF/",
+      "destination": "/2025/04/27/%E7%B1%B3%E5%93%88%E6%B8%B8%E7%AC%94%E8%AF%95-Java%E5%90%8E%E7%AB%AF/",
       "permanent": true
     },
     {
-      "source": "/2022/08/16/nlp自监督学习/",
-      "destination": "/2022/08/16/NLP自监督学习/",
+      "source": "/2022/08/16/nlp%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/",
+      "destination": "/2022/08/16/NLP%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/",
       "permanent": true
     },
     {
-      "source": "/2024/09/23/spring中bean的理解/",
-      "destination": "/2024/09/23/Spring中Bean的理解/",
+      "source": "/2024/09/23/spring%E4%B8%ADbean%E7%9A%84%E7%90%86%E8%A7%A3/",
+      "destination": "/2024/09/23/Spring%E4%B8%ADBean%E7%9A%84%E7%90%86%E8%A7%A3/",
       "permanent": true
     },
     {
-      "source": "/2022/08/16/深度学习-李沐-第十节-transformermodel/",
-      "destination": "/2022/08/16/深度学习-李沐-第十节-TransformerModel/",
+      "source": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-transformermodel/",
+      "destination": "/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-TransformerModel/",
       "permanent": true
     },
     {
       "source": "/2025/12/04/Git",
-      "destination": "/2025/12/04/Git常用命令/",
+      "destination": "/2025/12/04/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/",
       "permanent": true
     },
     {
       "source": "/2025/12/04/Git/",
-      "destination": "/2025/12/04/Git常用命令/",
+      "destination": "/2025/12/04/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/",
       "permanent": true
     },
     {
-      "source": "/2025/06/09/wsl2 中 `git pull` 失败的 tls 握手错误排查与解决/",
-      "destination": "/2025/06/09/WSL2 中 `git pull` 失败的 TLS 握手错误排查与解决/",
+      "source": "/2025/06/09/wsl2%20%E4%B8%AD%20%60git%20pull%60%20%E5%A4%B1%E8%B4%A5%E7%9A%84%20tls%20%E6%8F%A1%E6%89%8B%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3/",
+      "destination": "/2025/06/09/WSL2%20%E4%B8%AD%20%60git%20pull%60%20%E5%A4%B1%E8%B4%A5%E7%9A%84%20TLS%20%E6%8F%A1%E6%89%8B%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3/",
       "permanent": true
     }
   ],
