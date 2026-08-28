@@ -64,19 +64,19 @@ npm run build
 git diff --check
 ```
 
-- [ ] **Step 2: 提交配置修复**
+- [x] **Step 2: 提交配置修复**
 
 ```powershell
 git add vercel.json docs/superpowers/plans/2026-08-28-fix-search-console-not-found-redirects.md
 git commit -m "fix(seo): 编码历史失效 URL 重定向"
 ```
 
-- [ ] **Step 3: 通过本地代理推送到远程**
+- [x] **Step 3: 通过本地代理推送到远程**
 
 ```powershell
 git -c http.proxy='http://127.0.0.1:7897' -c https.proxy='http://127.0.0.1:7897' push origin main
 ```
 
-- [ ] **Step 4: 部署完成后逐条核验**
+- [x] **Step 4: 部署完成后逐条核验**
 
 报告中的 26 个本站旧 URL 必须返回 `301/308` 并指向规范 URL；每个规范 URL 必须最终返回 `200`。两个废弃域名只记录为不在本仓库修复范围内。
