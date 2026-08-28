@@ -915,6 +915,97 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E9%9B%86/">
+                            深度学习-李沐-第八节-语言模型和数据集
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            语言模型和数据集语言模型用途：
+
+预测文本出现的概率
+生成文本
+判断哪个序列更常见
+
+
+小结
+语言模型是自然语言处理的关键。
+
+n元语法通过截断相关性，为处理长序列提供了一种实用的模型。
+
+长序列存在一个问题：它们很少出现或者从不出现。
+
+齐普夫定律支配着单词的分布，这个分布不仅适用于一元语法，还适用于其他n元语法。
+
+通过拉普拉斯平滑法可以有效地处理结构丰富而频率不足的低频词词组。
+
+读取...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/NLP/">NLP</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E9%9B%86/">阅读全文<span class="seo-reader-text">深度学习-李沐-第八节-语言模型和数据集</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
                         <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E4%BB%8E%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82%E5%88%B0%E5%8D%B7%E7%A7%AF/">
                             深度学习-李沐-第六节-从全连接层到卷积
                         </a>
@@ -995,16 +1086,16 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%9B%BE%E5%83%8F%E5%8D%B7%E7%A7%AF/">
-                            深度学习-李沐-第六节-图像卷积
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E6%B1%87%E8%81%9A%E5%B1%82%E4%B8%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CLeNet/">
+                            深度学习-李沐-第六节-汇聚层与卷积神经网络LeNet
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            图像卷积互相关运算严格来说，卷积层是个错误的叫法，因为它所表达的运算其实是互相关运算（cross-correlation），而不是卷积运算。在卷积层中，输入张量和核张量通过互相关运算产生输出张量。
-12345678910111213141516171819import torchfrom torch import nnfrom d2l import torch as d2ldef corr2...
+                            汇聚层与卷积神经网络LeNet汇聚层双重目的：降低卷积层对位置的敏感性，同时降低对空间降采样表示的敏感性。
+最大汇聚层和平均汇聚层与卷积层类似，汇聚层运算符由一个固定形状的窗口组成，该窗口根据其步幅大小在输入的所有区域上滑动，为固定形状窗口（有时称为汇聚窗口）遍历的每个位置计算一个输出。 不同于卷积层中的输入与卷积核之间的互相关计算，汇聚层不包含参数。 相反，池运算是确定性的，我们通常计算汇...
                         
                     </div>
 
@@ -1046,7 +1137,7 @@
                     
                         <li>
                             | 
-                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a>&nbsp;
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
                         </li>
                     
                         <li>
@@ -1059,98 +1150,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%9B%BE%E5%83%8F%E5%8D%B7%E7%A7%AF/">阅读全文<span class="seo-reader-text">深度学习-李沐-第六节-图像卷积</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E9%9B%86/">
-                            深度学习-李沐-第八节-语言模型和数据集
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            语言模型和数据集语言模型用途：
-
-预测文本出现的概率
-生成文本
-判断哪个序列更常见
-
-
-小结
-语言模型是自然语言处理的关键。
-
-n元语法通过截断相关性，为处理长序列提供了一种实用的模型。
-
-长序列存在一个问题：它们很少出现或者从不出现。
-
-齐普夫定律支配着单词的分布，这个分布不仅适用于一元语法，还适用于其他n元语法。
-
-通过拉普拉斯平滑法可以有效地处理结构丰富而频率不足的低频词词组。
-
-读取...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/NLP/">NLP</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E9%9B%86/">阅读全文<span class="seo-reader-text">深度学习-李沐-第八节-语言模型和数据集</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E6%B1%87%E8%81%9A%E5%B1%82%E4%B8%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CLeNet/">阅读全文<span class="seo-reader-text">深度学习-李沐-第六节-汇聚层与卷积神经网络LeNet</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1245,85 +1245,6 @@ n元语法通过截断相关性，为处理长序列提供了一种实用的模�
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E6%B1%87%E8%81%9A%E5%B1%82%E4%B8%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CLeNet/">
-                            深度学习-李沐-第六节-汇聚层与卷积神经网络LeNet
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            汇聚层与卷积神经网络LeNet汇聚层双重目的：降低卷积层对位置的敏感性，同时降低对空间降采样表示的敏感性。
-最大汇聚层和平均汇聚层与卷积层类似，汇聚层运算符由一个固定形状的窗口组成，该窗口根据其步幅大小在输入的所有区域上滑动，为固定形状窗口（有时称为汇聚窗口）遍历的每个位置计算一个输出。 不同于卷积层中的输入与卷积核之间的互相关计算，汇聚层不包含参数。 相反，池运算是确定性的，我们通常计算汇...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Python/">Python</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E6%B1%87%E8%81%9A%E5%B1%82%E4%B8%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CLeNet/">阅读全文<span class="seo-reader-text">深度学习-李沐-第六节-汇聚层与卷积神经网络LeNet</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
                         <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%80%E8%8A%82-OptimizationAlgorithms/">
                             深度学习-李沐-第十一节-OptimizationAlgorithms
                         </a>
@@ -1403,19 +1324,16 @@ n元语法通过截断相关性，为处理长序列提供了一种实用的模�
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8C%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88R-CNN%EF%BC%89%E7%B3%BB%E5%88%97/">
-                            深度学习-李沐-第十三节-区域卷积神经网络（R-CNN）系列
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%9B%BE%E5%83%8F%E5%8D%B7%E7%A7%AF/">
+                            深度学习-李沐-第六节-图像卷积
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            区域卷积神经网络（R-CNN）系列区域卷积神经网络（region-based CNN或regions with CNN features，R-CNN）
-R-CNN
-R-CNN首先从输入图像中选取若干（例如2000个）提议区域（如锚框也是一种选取方法），并标注它们的类别和边界框（如偏移量）。
-然后，用卷积神经网络对每个提议区域进行前向传播以抽取其特征。 
-用每个提议区域的特征来预测类别和边界框...
+                            图像卷积互相关运算严格来说，卷积层是个错误的叫法，因为它所表达的运算其实是互相关运算（cross-correlation），而不是卷积运算。在卷积层中，输入张量和核张量通过互相关运算产生输出张量。
+12345678910111213141516171819import torchfrom torch import nnfrom d2l import torch as d2ldef corr2...
                         
                     </div>
 
@@ -1452,7 +1370,7 @@ R-CNN首先从输入图像中选取若干（例如2000个）提议区域（如�
                     
                         <li>
                             
-                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
+                            <a href="/tags/Python/">Python</a>&nbsp;
                         </li>
                     
                         <li>
@@ -1462,7 +1380,7 @@ R-CNN首先从输入图像中选取若干（例如2000个）提议区域（如�
                     
                         <li>
                             | 
-                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                            <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -1470,7 +1388,7 @@ R-CNN首先从输入图像中选取若干（例如2000个）提议区域（如�
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8C%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88R-CNN%EF%BC%89%E7%B3%BB%E5%88%97/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-区域卷积神经网络（R-CNN）系列</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AD%E8%8A%82-%E5%9B%BE%E5%83%8F%E5%8D%B7%E7%A7%AF/">阅读全文<span class="seo-reader-text">深度学习-李沐-第六节-图像卷积</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1643,15 +1561,19 @@ yolo 也是一个 single-stage 的算法，只有一个单神经网络来做预�
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%B8%B8%E7%94%A8%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%B9%BF%E6%96%B9%E6%B3%95/">
-                            深度学习-李沐-第十三节-常用图像增广方法
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8C%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88R-CNN%EF%BC%89%E7%B3%BB%E5%88%97/">
+                            深度学习-李沐-第十三节-区域卷积神经网络（R-CNN）系列
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            图像增广常用图像增广方法12345678d2l.set_figsize()img = d2l.Image.open(&#x27;../img/cat1.jpg&#x27;)d2l.plt.imshow(img);def apply(img, aug, num_rows=2, num_cols=4, scale=1.5):    Y = [aug(img) for _ in range(num...
+                            区域卷积神经网络（R-CNN）系列区域卷积神经网络（region-based CNN或regions with CNN features，R-CNN）
+R-CNN
+R-CNN首先从输入图像中选取若干（例如2000个）提议区域（如锚框也是一种选取方法），并标注它们的类别和边界框（如偏移量）。
+然后，用卷积神经网络对每个提议区域进行前向传播以抽取其特征。 
+用每个提议区域的特征来预测类别和边界框...
                         
                     </div>
 
@@ -1688,12 +1610,7 @@ yolo 也是一个 single-stage 的算法，只有一个单神经网络来做预�
                     
                         <li>
                             
-                            <a href="/tags/Python/">Python</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/Transformer/">Transformer</a>&nbsp;
+                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
                         </li>
                     
                         <li>
@@ -1701,12 +1618,95 @@ yolo 也是一个 single-stage 的算法，只有一个单神经网络来做预�
                             <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a>&nbsp;
                         </li>
                     
+                        <li>
+                            | 
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                        </li>
+                    
                 </ul>
             </span>
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%B8%B8%E7%94%A8%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%B9%BF%E6%96%B9%E6%B3%95/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-常用图像增广方法</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%8C%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88R-CNN%EF%BC%89%E7%B3%BB%E5%88%97/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-区域卷积神经网络（R-CNN）系列</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%BE%AE%E8%B0%83/">
+                            深度学习-李沐-第十三节-微调
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            微调微调步骤
+在源数据集（例如ImageNet数据集）上预训练神经网络模型，即源模型。
+
+创建一个新的神经网络模型，即目标模型。这将复制源模型上的所有模型设计及其参数（输出层除外）。我们假定这些模型参数包含从源数据集中学到的知识，这些知识也将适用于目标数据集。我们还假设源模型的输出层与源数据集的标签密切相关；因此不在目标模型中使用该层。
+
+向目标模型添加输出层，其输出数是目标数据集中的类别数...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%BE%AE%E8%B0%83/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-微调</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
