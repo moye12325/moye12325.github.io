@@ -3,6 +3,143 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/2025/11/24/python模块导入报错-.pth到生产环境/",
+      "destination": "/2025/11/24/Python模块导入报错-.pth到生产环境/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/12/01/powershell/",
+      "destination": "/2025/12/01/PowerShell/",
+      "permanent": true
+    },
+    {
+      "source": "/2023/08/16/llama 2模型细节/",
+      "destination": "/2023/08/16/Llama 2模型细节/",
+      "permanent": true
+    },
+    {
+      "source": "/tags/python/",
+      "destination": "/tags/Python/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第七节-深度卷积神经网络（alexnet）/",
+      "destination": "/2022/08/16/深度学习-李沐-第七节-深度卷积神经网络（AlexNet）/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第十三节-区域卷积神经网络（r-cnn）系列/",
+      "destination": "/2022/08/16/深度学习-李沐-第十三节-区域卷积神经网络（R-CNN）系列/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第十节-注意力汇聚：nadaraya-watson核回归/",
+      "destination": "/2022/08/16/深度学习-李沐-第十节-注意力汇聚：Nadaraya-Watson核回归/",
+      "permanent": true
+    },
+    {
+      "source": "/tags/redis/",
+      "destination": "/tags/Redis/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第四节-dropout暂退法/",
+      "destination": "/2022/08/16/深度学习-李沐-第四节-Dropout暂退法/",
+      "permanent": true
+    },
+    {
+      "source": "/tags/python/page/3/",
+      "destination": "/tags/Python/page/3/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第九节-门控循环单元（gru）/",
+      "destination": "/2022/08/16/深度学习-李沐-第九节-门控循环单元（GRU）/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/09/25/mysql知识总结/",
+      "destination": "/2024/09/25/MySQL知识总结/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第十三节-单发多框检测（ssd）与yolo/",
+      "destination": "/2022/08/16/深度学习-李沐-第十三节-单发多框检测（SSD）与yolo/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第七节-resnet/",
+      "destination": "/2022/08/16/深度学习-李沐-第七节-ResNet/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/05/07/深入浅出python多线程、多进程、协程/",
+      "destination": "/2025/05/07/深入浅出Python多线程、多进程、协程/",
+      "permanent": true
+    },
+    {
+      "source": "/tags/pytorch/",
+      "destination": "/tags/PyTorch/",
+      "permanent": true
+    },
+    {
+      "source": "/tags/leetcode/",
+      "destination": "/tags/LeetCode/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/python class for rnn encoder/",
+      "destination": "/2022/08/16/Python Class for RNN Encoder/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/08/30/leetcode3153. 所有数对中数位差之和/",
+      "destination": "/2024/08/30/LeetCode3153. 所有数对中数位差之和/",
+      "permanent": true
+    },
+    {
+      "source": "/tags/java/page/2/",
+      "destination": "/tags/Java/page/2/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/04/27/米哈游笔试-java后端/",
+      "destination": "/2025/04/27/米哈游笔试-Java后端/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/nlp自监督学习/",
+      "destination": "/2022/08/16/NLP自监督学习/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/09/23/spring中bean的理解/",
+      "destination": "/2024/09/23/Spring中Bean的理解/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/16/深度学习-李沐-第十节-transformermodel/",
+      "destination": "/2022/08/16/深度学习-李沐-第十节-TransformerModel/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/12/04/Git",
+      "destination": "/2025/12/04/Git常用命令/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/12/04/Git/",
+      "destination": "/2025/12/04/Git常用命令/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/06/09/wsl2 中 `git pull` 失败的 tls 握手错误排查与解决/",
+      "destination": "/2025/06/09/WSL2 中 `git pull` 失败的 TLS 握手错误排查与解决/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/",
