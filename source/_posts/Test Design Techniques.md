@@ -11,7 +11,7 @@ tags: ['性能优化', '测试']
 
 #### 1.1 等价类划分法
 
-![image-20211024100114584](https://qiniu.kanes.top/blog/image-20211024100114584.png)
+![image-20211024100114584](/images/qiniu/image-20211024100114584.png)
 
 ```
 重点：有效等价和单个无效等价各取1个即可。
@@ -29,17 +29,17 @@ tags: ['性能优化', '测试']
 >
 > 自然数：*自然数*由0开始，一个接一个，组成一个无穷的集体
 
-![image-20211024100035335](https://qiniu.kanes.top/blog/image-20211024100035335.png)
+![image-20211024100035335](/images/qiniu/image-20211024100035335.png)
 
-![image-20211024100050599](https://qiniu.kanes.top/blog/image-20211024100050599.png)
+![image-20211024100050599](/images/qiniu/image-20211024100050599.png)
 
 #### 1.3 案例（城市电话验证）
 
-![image-20211024105553905](https://qiniu.kanes.top/blog/image-20211024105553905.png)
+![image-20211024105553905](/images/qiniu/image-20211024105553905.png)
 
-![image-20211024105615224](https://qiniu.kanes.top/blog/image-20211024105615224.png)
+![image-20211024105615224](/images/qiniu/image-20211024105615224.png)
 
-![image-20211024105638861](https://qiniu.kanes.top/blog/image-20211024105638861.png)
+![image-20211024105638861](/images/qiniu/image-20211024105638861.png)
 
 ```
 重点：
@@ -63,7 +63,7 @@ tags: ['性能优化', '测试']
 
 > 说明：使用边界值解决边界位数限制问题。2.1 边界值说明
 
-![image-20211024114728995](https://qiniu.kanes.top/blog/image-20211024114728995.png)
+![image-20211024114728995](/images/qiniu/image-20211024114728995.png)
 
 ```
 提示：
@@ -82,15 +82,15 @@ tags: ['性能优化', '测试']
 
 #### 2.3 案例1
 
-![image-20211024120514746](https://qiniu.kanes.top/blog/image-20211024120514746.png)
+![image-20211024120514746](/images/qiniu/image-20211024120514746.png)
 
-![image-20211024120527142](https://qiniu.kanes.top/blog/image-20211024120527142.png)
+![image-20211024120527142](/images/qiniu/image-20211024120527142.png)
 
 #### 2.4 案例2
 
-![image-20211024122700482](https://qiniu.kanes.top/blog/image-20211024122700482.png)
+![image-20211024122700482](/images/qiniu/image-20211024122700482.png)
 
-![image-20211024122639248](https://qiniu.kanes.top/blog/image-20211024122639248.png)
+![image-20211024122639248](/images/qiniu/image-20211024122639248.png)
 
 #### 2.5 优化（7点优化5点）
 
@@ -102,7 +102,7 @@ tags: ['性能优化', '测试']
 
 优化策略：
 
-![image-20211024145308985](https://qiniu.kanes.top/blog/image-20211024145308985.png)
+![image-20211024145308985](/images/qiniu/image-20211024145308985.png)
 
 #### 2.6 总结
 
@@ -122,7 +122,7 @@ tags: ['性能优化', '测试']
 
 #### 3.1 介绍
 
-![image-20211024151030120](https://qiniu.kanes.top/blog/image-20211024151030120.png)
+![image-20211024151030120](/images/qiniu/image-20211024151030120.png)
 
 #### 3.2 步骤
 
@@ -140,33 +140,33 @@ tags: ['性能优化', '测试']
 
 - 需求
 
-  ![image-20211024152741189](https://qiniu.kanes.top/blog/image-20211024152741189.png)
+  ![image-20211024152741189](/images/qiniu/image-20211024152741189.png)
 
 - 判定表
 
-  ![image-20211024152653900](https://qiniu.kanes.top/blog/image-20211024152653900.png)
+  ![image-20211024152653900](/images/qiniu/image-20211024152653900.png)
 
 - 用例
 
-  ![image-20211024152731367](https://qiniu.kanes.top/blog/image-20211024152731367.png)
+  ![image-20211024152731367](/images/qiniu/image-20211024152731367.png)
 
 #### 3.4 练习（文件修改）
 
 - 需求
 
-  ![image-20211024155837308](https://qiniu.kanes.top/blog/image-20211024155837308.png)
+  ![image-20211024155837308](/images/qiniu/image-20211024155837308.png)
 
 - 判定表
 
-  ![image-20211024155853521](https://qiniu.kanes.top/blog/image-20211024155853521.png)
+  ![image-20211024155853521](/images/qiniu/image-20211024155853521.png)
 
 - 用例
 
-  ![image-20211024155907864](https://qiniu.kanes.top/blog/image-20211024155907864.png)
+  ![image-20211024155907864](/images/qiniu/image-20211024155907864.png)
 
 #### 3.5 判定表总结
 
-![image-20211024160136120](https://qiniu.kanes.top/blog/image-20211024160136120.png)
+![image-20211024160136120](/images/qiniu/image-20211024160136120.png)
 
 ```
 提示：
@@ -187,7 +187,7 @@ tags: ['性能优化', '测试']
 
 >  提示:业务用例是根据流程图来梳理的,需要先了解流程图
 
-![image-20211024162459688](https://qiniu.kanes.top/blog/image-20211024162459688.png)
+![image-20211024162459688](/images/qiniu/image-20211024162459688.png)
 
 ```
 作用:梳理业务用例
@@ -205,22 +205,22 @@ tags: ['性能优化', '测试']
 
 - 流程图
 
-  ![image-20211024165931247](https://qiniu.kanes.top/blog/image-20211024165931247.png)
+  ![image-20211024165931247](/images/qiniu/image-20211024165931247.png)
 
-  ![image-20211024165946258](https://qiniu.kanes.top/blog/image-20211024165946258.png)
+  ![image-20211024165946258](/images/qiniu/image-20211024165946258.png)
 
 - 用例
 
-  ![image-20211024170008639](https://qiniu.kanes.top/blog/image-20211024170008639.png)
+  ![image-20211024170008639](/images/qiniu/image-20211024170008639.png)
 
 ### 五、错误推荐法
 
 > 应用场景：当项目用例都执行完毕，且BUG修复完成，离上线还有一段时间，在这段时间中可是使用错误推荐法复测主要业务或测试未覆盖的功能。
 
-![image-20211024171017117](https://qiniu.kanes.top/blog/image-20211024171017117.png)
+![image-20211024171017117](/images/qiniu/image-20211024171017117.png)
 
 ### 六、Demo
 
-![image-20211024171521876](https://qiniu.kanes.top/blog/image-20211024171521876.png)
+![image-20211024171521876](/images/qiniu/image-20211024171521876.png)
 
-![image-20211024171551244](https://qiniu.kanes.top/blog/image-20211024171551244.png)
+![image-20211024171551244](/images/qiniu/image-20211024171551244.png)

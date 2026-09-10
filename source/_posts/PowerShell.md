@@ -118,7 +118,7 @@ Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 ⚡BY250013 ❯❯
 ```
 
-![image.png](https://qiniu.kanes.top/blog/20251201115836486.png)
+![image.png](/images/qiniu/20251201115836486.png)
 
 
 一开始我以为是字体问题，后来发现其实是 `montys` 这个主题本身就爱用菱形分隔符。要彻底解决，得换个主题。

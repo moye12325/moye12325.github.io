@@ -5,11 +5,11 @@ date: 2024-09-20 15:01:20
 categories: [数据结构与算法]
 tags: ['Java', '数据结构']
 ---
-![Java集合 配图 1](https://qiniu.kanes.top/blog/Java集合.svg)
+![Java集合 配图 1](/images/qiniu/Java集合.svg)
 
 # Java集合
 
-![Java集合框架](https://qiniu.kanes.top/blog/20241028143343.png)
+![Java集合框架](/images/qiniu/20241028143343.png)
 
 ### 说明
 - **Collection** 是所有集合类的顶层接口。
@@ -24,9 +24,9 @@ tags: ['Java', '数据结构']
 
 #### [List](#list)
 
-- `ArrayList`：`Object[]` 数组。详细可以查看：[ArrayList 源码分析](/java/collection/arraylist-source-code.html)。
+- `ArrayList`：`Object[]` 数组。详细可以查看：[ArrayList 源码分析](https://javaguide.cn/java/collection/arraylist-source-code.html)。
 - `Vector`：`Object[]` 数组。
-- `LinkedList`：双向链表(JDK1.6 之前为循环链表，JDK1.7 取消了循环)。详细可以查看：[LinkedList 源码分析](/java/collection/linkedlist-source-code.html)。
+- `LinkedList`：双向链表(JDK1.6 之前为循环链表，JDK1.7 取消了循环)。详细可以查看：[LinkedList 源码分析](https://javaguide.cn/java/collection/linkedlist-source-code.html)。
 
 #### [Set](#set)
 
@@ -36,14 +36,14 @@ tags: ['Java', '数据结构']
 
 #### [Queue](#queue)
 
-- `PriorityQueue`: `Object[]` 数组来实现小顶堆。详细可以查看：[PriorityQueue 源码分析](/java/collection/priorityqueue-source-code.html)。
-- `DelayQueue`:`PriorityQueue`。详细可以查看：[DelayQueue 源码分析](/java/collection/delayqueue-source-code.html)。
+- `PriorityQueue`: `Object[]` 数组来实现小顶堆。详细可以查看：[PriorityQueue 源码分析](https://javaguide.cn/java/collection/priorityqueue-source-code.html)。
+- `DelayQueue`:`PriorityQueue`。详细可以查看：[DelayQueue 源码分析](https://javaguide.cn/java/collection/delayqueue-source-code.html)。
 - `ArrayDeque`: 可扩容动态双向数组。
 
 #### [Map](#map)
 
-- `HashMap`：JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。详细可以查看：[HashMap 源码分析](/java/collection/hashmap-source-code.html)。
-- `LinkedHashMap`：`LinkedHashMap` 继承自 `HashMap`，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，`LinkedHashMap` 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。详细可以查看：[LinkedHashMap 源码分析](/java/collection/linkedhashmap-source-code.html)
+- `HashMap`：JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。详细可以查看：[HashMap 源码分析](https://javaguide.cn/java/collection/hashmap-source-code.html)。
+- `LinkedHashMap`：`LinkedHashMap` 继承自 `HashMap`，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，`LinkedHashMap` 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。详细可以查看：[LinkedHashMap 源码分析](https://javaguide.cn/java/collection/linkedhashmap-source-code.html)
 - `Hashtable`：数组+链表组成的，数组是 `Hashtable` 的主体，链表则是主要为了解决哈希冲突而存在的。
 - `TreeMap`：红黑树（自平衡的排序二叉树）。
 

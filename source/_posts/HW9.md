@@ -19,13 +19,13 @@ tags: ['Transformer', '数据结构', '神经网络', '计算机视觉']
 
 >但是，我们需要做的选择题的网站（gradescope）是需要课程代码才能进行注册的。
 
-![0de7f6db](https://qiniu.kanes.top/blog/0de7f6db.png)
+![0de7f6db](/images/qiniu/0de7f6db.png)
 
 ## 作业中的题目
 
 在网上找到了本次作业中的题目
 
-![4a3963fa](https://qiniu.kanes.top/blog/4a3963fa.png)
+![4a3963fa](/images/qiniu/4a3963fa.png)
 
 [作业题目链接](http://www.4k8k.xyz/article/weixin_43154149/124641041#Lime_Q14_8)
 
@@ -41,7 +41,7 @@ Local Interpretable Model-agnostic Explanations (LIME)。Lime是一个解释器�
 
 先把原始图片转成可解释的特征表示，通过可解释的特征表示对样本进行扰动，得到N个扰动后的样本。然后再将这N个样本还原到原始特征空间，并把预测值作为真实值，用可解释的特征数据表示建立简单的数据表示，观察哪些超像素的系数较大。
 
-![6e4febe0](https://qiniu.kanes.top/blog/6e4febe0.png)
+![6e4febe0](/images/qiniu/6e4febe0.png)
 
 将这些较大的系数进行可视化可以得到下图的样子，从而理解模型为什么会做出这种判断。青蛙的眼睛和台球很相似，特别是在绿色的背景下。同理红色的心脏也与热气球类似。
 

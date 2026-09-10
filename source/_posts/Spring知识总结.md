@@ -171,7 +171,7 @@ Spring AOP 已经集成了 AspectJ ，AspectJ 应该算的上是 Java 生态系�
 
 ### [AOP 常见的通知类型有哪些？](https://javaguide.cn/system-design/framework/spring/spring-knowledge-and-questions-summary.html#aop-%E5%B8%B8%E8%A7%81%E7%9A%84%E9%80%9A%E7%9F%A5%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B)
 
-![通知类型](https://qiniu.kanes.top/blog/20241029203917.png)
+![通知类型](/images/qiniu/20241029203917.png)
 - **Before**（前置通知）：目标对象的方法调用之前触发
 - **After** （后置通知）：目标对象的方法调用之后触发
 - **AfterReturning**（返回通知）：目标对象的方法调用完成，在返回结果值之后触发
@@ -273,7 +273,7 @@ MVC 是模型(Model)、视图(View)、控制器(Controller)的简写，其核心
 
 ### [SpringMVC 工作原理](https://javaguide.cn/system-design/framework/spring/spring-knowledge-and-questions-summary.html#springmvc-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%BA%86%E8%A7%A3%E5%90%97)
 
-![工作原理](https://qiniu.kanes.top/blog/20241029204123.png)
+![工作原理](/images/qiniu/20241029204123.png)
 
 1. 客户端（浏览器）发送请求， `DispatcherServlet`拦截请求。
 2. `DispatcherServlet` 根据请求信息调用 `HandlerMapping` 。`HandlerMapping` 根据 URL 去匹配查找能处理的 `Handler`（也就是我们平常说的 `Controller` 控制器） ，并会将请求涉及到的拦截器和 `Handler` 一起封装。
@@ -734,7 +734,7 @@ YAML 是一种人类可读的数据序列化语言。它通常用于配置文件
 
 ### 13. Spring Boot 加载配置文件的优先级了解么？
 
-![Spring知识总结 配图 1](https://qiniu.kanes.top/blog/20241029221913.png)
+![Spring知识总结 配图 1](/images/qiniu/20241029221913.png)
 
 
 ### 14. 常用的 Bean 映射工具有哪些？

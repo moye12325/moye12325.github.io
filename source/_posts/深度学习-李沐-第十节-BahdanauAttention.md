@@ -13,7 +13,7 @@ tags: ['Python', '深度学习', '神经网络']
 
 ### 模型
 
-![深度学习-李沐-第十节-Bahdan 配图 1](https://qiniu.kanes.top/blog/5a0a2932.png)
+![深度学习-李沐-第十节-Bahdan 配图 1](/images/qiniu/5a0a2932.png)
 
 ### 定义注意力解码器
 

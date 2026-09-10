@@ -7,14 +7,14 @@ tags: ['测试']
 ---
 # 功能测试
 
-![功能测试](https://qiniu.kanes.top/blog/codeoj功能测试.svg)
+![功能测试](/images/qiniu/codeoj功能测试.svg)
 
 # 接口测试
 
-![接口测试](https://qiniu.kanes.top/blog/codeoj接口测试.svg)
+![接口测试](/images/qiniu/codeoj接口测试.svg)
 
 # 其他测试
-![其他测试](https://qiniu.kanes.top/blog/其他测试.svg)
+![其他测试](/images/qiniu/其他测试.svg)
 
 # 功能测试
 

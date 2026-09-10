@@ -81,7 +81,10 @@ meta_generator: true
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 ## updated_option supports 'mtime', 'date', 'empty'
-updated_option: 'mtime'
+## 'date': sitemap lastmod 用真实发布日期。迁移时批量触碰过文件，mtime 全部
+## 变成迁移日（2026-08-28），193/199 个 URL lastmod 相同会被 Google 判定不可信。
+## 文章真实修改时在 front-matter 里写 updated: 即可覆盖。
+updated_option: 'date'
 
 # Pagination
 ## Set per_page to 0 to disable pagination

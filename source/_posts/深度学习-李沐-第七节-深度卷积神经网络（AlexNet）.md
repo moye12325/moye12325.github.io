@@ -10,7 +10,7 @@ tags: ['PyTorch', 'Python', '深度学习', '神经网络', '计算机视觉']
 ### AlexNet
 
 AlexNet使用8层卷积神经网络
-![深度学习-李沐-第七节-深度卷积神经 配图 1](https://qiniu.kanes.top/blog/ffd35315.png)  
+![深度学习-李沐-第七节-深度卷积神经 配图 1](/images/qiniu/ffd35315.png)  
 AlexNet比相对较小的LeNet5要深得多。 AlexNet由八层组成：五个卷积层、两个全连接隐藏层和一个全连接输出层。 其次，AlexNet使用ReLU而不是sigmoid作为其激活函数。 
 
 ### 模型设计
@@ -79,7 +79,7 @@ d2l.train_ch6(net, train_iter, test_iter, num_epochs, lr, d2l.try_gpu())
 运行结果：
 loss 0.458, train acc 0.829, test acc 0.824  
 4915.5 examples/sec on cpu  
-![深度学习-李沐-第七节-深度卷积神经 配图 2](https://qiniu.kanes.top/blog/37067edb.png)
+![深度学习-李沐-第七节-深度卷积神经 配图 2](/images/qiniu/37067edb.png)
 
 ### 小结
 

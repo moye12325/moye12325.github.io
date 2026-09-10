@@ -43,7 +43,7 @@ Git Commit Plugin 是一个帮助开发者规范 Git 提交信息的 VSCode 插�
 ### 界面1：提交类型选择
 
 
-![image.png](https://qiniu.kanes.top/blog/20251212104410224.png)
+![image.png](/images/qiniu/20251212104410224.png)
 
 
 **提交类型一览：**
@@ -64,7 +64,7 @@ Git Commit Plugin 是一个帮助开发者规范 Git 提交信息的 VSCode 插�
 
 **需要截图的内容：**
 
-![image.png](https://qiniu.kanes.top/blog/20251212104345884.png)
+![image.png](/images/qiniu/20251212104345884.png)
 
 
 **界面说明：**
@@ -77,7 +77,7 @@ Git Commit Plugin 是一个帮助开发者规范 Git 提交信息的 VSCode 插�
 
 **需要截图的内容：**
 
-![image.png](https://qiniu.kanes.top/blog/20251212104424529.png)
+![image.png](/images/qiniu/20251212104424529.png)
 
 
 **两种模板对比：**

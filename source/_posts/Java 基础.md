@@ -7,7 +7,7 @@ tags: ['Java', 'JavaScript', '数据结构', '算法']
 ---
 # Java 基础
 
-![Java 基础 配图 1](https://qiniu.kanes.top/blog/Java基础.svg)
+![Java 基础 配图 1](/images/qiniu/Java基础.svg)
 
 ## 概念
 
@@ -454,7 +454,7 @@ StringBuilder 非线程安全，性能更高，适用于单线程场景。
 
 ## 异常
 
-![异常类层次结构](https://qiniu.kanes.top/blog/20241025194333.png)
+![异常类层次结构](/images/qiniu/20241025194333.png)
 
 ### [Exception 和 Error 有什么区别？](https://javaguide.cn/java/basis/java-basic-questions-03.html#exception-%E5%92%8C-error-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)
 
@@ -467,7 +467,7 @@ StringBuilder 非线程安全，性能更高，适用于单线程场景。
 
 除了`RuntimeException`及其子类以外，其他的`Exception`类及其子类都属于受检查异常 。常见的受检查异常有：IO 相关的异常、`ClassNotFoundException`、`SQLException`...。
 
-![受检查异常](https://qiniu.kanes.top/blog/20241025194642.png)
+![受检查异常](/images/qiniu/20241025194642.png)
 
 **Unchecked Exception** 即 **不受检查异常** ，Java 代码在编译过程中 ，我们即使不处理不受检查异常也可以正常通过编译。
 
@@ -621,7 +621,7 @@ Java 标准的 SPI 机制虽然简单易用，但也存在一定的局限性。�
 - 将对象存储到数据库（如 Redis）之前需要用到序列化，将对象从缓存数据库中读取出来需要反序列化；
 - 将对象存储到内存之前需要进行序列化，从内存中读取出来之后需要进行反序列化。
 
-![TCP/IP 四层模型](https://qiniu.kanes.top/blog/osi-tcp-ip.png)
+![TCP/IP 四层模型](/images/qiniu/osi-tcp-ip.png)
 OSI 七层协议模型中的应用层、表示层和会话层对应的都是 TCP/IP 四层模型中的应用层，所以序列化协议属于 TCP/IP 协议应用层的一部分。
 
 ### 如果有些字段不想进行序列化怎么办
@@ -698,5 +698,5 @@ Java IO 流的 40 多个类都是从如下 4 个抽象类基类中派生出来�
 
 Java 中最常用的语法糖主要有泛型、自动拆装箱、变长参数、枚举、内部类、增强 for 循环、try-with-resources 语法、lambda 表达式等。
 
-关于这些语法糖的详细解读，请看这篇文章 [Java 语法糖详解](/java/basis/syntactic-sugar.html) 。
+关于这些语法糖的详细解读，请看这篇文章 [Java 语法糖详解](https://javaguide.cn/java/basis/syntactic-sugar.html) 。
 

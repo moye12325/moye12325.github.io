@@ -21,34 +21,34 @@ tags: ['性能优化', '深度学习']
 
 * 回归估计一个连续值  
 * 分类预测一个离散类别
-* ![深度学习-李沐-第三节-SoftMa 配图 1](https://qiniu.kanes.top/blog/4c32ba2b.png)
+* ![深度学习-李沐-第三节-SoftMa 配图 1](/images/qiniu/4c32ba2b.png)
 
 ### 网络架构
 
-![深度学习-李沐-第三节-SoftMa 配图 2](https://qiniu.kanes.top/blog/d61fe28f.png)
+![深度学习-李沐-第三节-SoftMa 配图 2](/images/qiniu/d61fe28f.png)
 权重放到3*4的矩阵中，对于给定数据样本的特征**x向量**，我们的输出是由权重与输⼊特征进⾏矩阵-向量乘法再加上偏置b得到的。
 
 ### 从回归过渡到多类分类
 
 1. 均方损失
-   ![深度学习-李沐-第三节-SoftMa 配图 3](https://qiniu.kanes.top/blog/490eb571.png)
+   ![深度学习-李沐-第三节-SoftMa 配图 3](/images/qiniu/490eb571.png)
 2. 无校验比例
-   ![深度学习-李沐-第三节-SoftMa 配图 4](https://qiniu.kanes.top/blog/2ec4c5f3.png)
+   ![深度学习-李沐-第三节-SoftMa 配图 4](/images/qiniu/2ec4c5f3.png)
 3. 校验比例
-   ![深度学习-李沐-第三节-SoftMa 配图 5](https://qiniu.kanes.top/blog/a72c1205.png)
+   ![深度学习-李沐-第三节-SoftMa 配图 5](/images/qiniu/a72c1205.png)
 
 ### 损失函数
 
 两种损失函数：  
-L2 Loss：![深度学习-李沐-第三节-SoftMa 配图 6](https://qiniu.kanes.top/blog/66d0c214.png)  
-L1 Loss：![深度学习-李沐-第三节-SoftMa 配图 7](https://qiniu.kanes.top/blog/fbf4e16a.png)  
+L2 Loss：![深度学习-李沐-第三节-SoftMa 配图 6](/images/qiniu/66d0c214.png)  
+L1 Loss：![深度学习-李沐-第三节-SoftMa 配图 7](/images/qiniu/fbf4e16a.png)  
 
 ### 交叉熵
 
 交叉熵用来判定实际的输出与期望的输出的接近程度  
 交叉熵刻画的是实际输出（概率）与期望输出（概率）的距离，也就是交叉熵的值越小，两个概率分布就越接近。  
 在二分类的基础上，交叉熵有更通用的表达形式，因为二分类只是分类问题的特例，更多的还是多分类问题。通用的交叉熵要对应Softmax函数使用，所以有时候Softmax+交叉熵也被称为Softmax损失函数，它表达式为：
-![深度学习-李沐-第三节-SoftMa 配图 8](https://qiniu.kanes.top/blog/c92cc4c4.png)
+![深度学习-李沐-第三节-SoftMa 配图 8](/images/qiniu/c92cc4c4.png)
 T TT为样本的期望输出，它是一个one-hot编码形式，比如二分类时label=0，one-hot应该为[1,0]；三分类时label=0，one-hot应该为[1,0,0]。
 
 ### 模型评估

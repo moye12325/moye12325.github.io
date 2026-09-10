@@ -11,7 +11,7 @@ tags: ['PyTorch', 'Python', '机器学习', '测试', '深度学习']
 
 ### 生成数据集
 
-![深度学习-李沐-第十节-注意力汇聚 配图 1](https://qiniu.kanes.top/blog/8e63ab11.png)
+![深度学习-李沐-第十节-注意力汇聚 配图 1](/images/qiniu/8e63ab11.png)
 
 ```python
 n_train = 50  # 训练样本数

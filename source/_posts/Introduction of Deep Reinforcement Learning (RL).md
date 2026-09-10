@@ -17,7 +17,7 @@ tags: ['神经网络']
 
 
 
-![img.png](https://qiniu.kanes.top/blog/img.png)
+![img.png](/images/qiniu/img.png)
 
 所以在监督学习过程中，有两个假设：
 
@@ -30,7 +30,7 @@ tags: ['神经网络']
 
 以雅达利（Atari） 游戏 Breakout 为例，一个打砖块的游戏，控制木板左右移 动从而把球反弹到上面来消除砖块。在玩游戏的过程中，我们可以发现智能体得到的观测（observation）不是独立同分布的，上一帧与下一帧间其实有非常强的 连续性。
 
-![img_1.png](https://qiniu.kanes.top/blog/img_1.png)
+![img_1.png](/images/qiniu/img_1.png)
 
 我们得到的数据是相关的时间序列数据，不满足独立同分布。另外，我 们并没有立刻获得反馈，游戏没有告诉我们哪个动作是正确动作。比如现在把木板往右移，这只会使得球往上或者往左一点儿，我们并不会得到即时的反馈。
 
@@ -39,7 +39,7 @@ tags: ['神经网络']
 
 强化学习的训练数据就是一个玩游戏的过程。我们从第 1 步开始，采取一个动作，比如我们把木板往右移，接到球。第 2 步我们又做出动作，得到的训练数据是一个玩游戏的序列。比如现在是在第 3 步，我们把这个序列放进网络，希望网络可以输出一个动作，即在当前的状态应该输出往右移或 者往左移。这里有个问题，我们没有标签来说明现在这个动作是正确还是错误的，必须等到游戏结束才可能知道，这个游戏可能 10s 后才结束。现在这个动作到底对最后游戏是否能赢有无帮助，我们其实是不清楚的。这里我们就面临延迟奖励（delayed reward）的问题，延迟奖励使得训练网络非常困难。
 
-![img_2.png](https://qiniu.kanes.top/blog/img_2.png)
+![img_2.png](/images/qiniu/img_2.png)
 
 ### 区别
 
@@ -65,7 +65,7 @@ tags: ['神经网络']
 
 ### Step 1: Function with Unknown
 
-![Introduction of De 配图 1](https://qiniu.kanes.top/blog/b55690e2.png)
+![Introduction of De 配图 1](/images/qiniu/b55690e2.png)
 
 Actor就是一个Network，称作Policy Network，
 
@@ -76,14 +76,14 @@ Actor就是一个Network，称作Policy Network，
 
 ### Step 2: Define “Loss”
 
-![Introduction of De 配图 2](https://qiniu.kanes.top/blog/7e83c538.png)
+![Introduction of De 配图 2](/images/qiniu/7e83c538.png)
 一整局游戏称为一个episode（片段），游戏中每个行为都可能得到Reward，把所有的 Reward加和，得到整场游戏的 Total Reward
 
 取负的 Total Reward作为Loss
 
 ### Step 3: Optimization
 
-![Introduction of De 配图 3](https://qiniu.kanes.top/blog/9a093d7b.png)
+![Introduction of De 配图 3](/images/qiniu/9a093d7b.png)
 
 1. 对环境的观察s1,会变成你的 Actor 的输入
 2. 你的 Actor 接下来输出a1

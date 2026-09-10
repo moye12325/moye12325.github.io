@@ -223,7 +223,7 @@ tensor([[1., 1., 1.],
 
 #### 复制
 
-![深度学习-李沐-第五节-自定义层、读 配图 1](https://qiniu.kanes.top/blog/5c3b5bbb.png)
+![深度学习-李沐-第五节-自定义层、读 配图 1](/images/qiniu/5c3b5bbb.png)
 
 ```python
 Z = X.cuda(1)

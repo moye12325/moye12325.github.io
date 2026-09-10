@@ -17,7 +17,7 @@ tags: ['PyTorch', 'Python', '深度学习']
 
 ### 数据并行性
 
-![深度学习-李沐-第十二节-多GPU训 配图 1](https://qiniu.kanes.top/blog/2487ae92.png)
+![深度学习-李沐-第十二节-多GPU训 配图 1](/images/qiniu/2487ae92.png)
 
 ### 简洁实现
 

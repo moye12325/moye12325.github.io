@@ -6,18 +6,18 @@ categories: [数据结构与算法]
 tags: ['数据结构', '测试']
 ---
 # 功能测试
-![功能测试](https://qiniu.kanes.top/blog/功能测试.svg)
+![功能测试](/images/qiniu/功能测试.svg)
 
 # 界面测试
 
-![界面测试](https://qiniu.kanes.top/blog/界面测试.svg)
+![界面测试](/images/qiniu/界面测试.svg)
 
 # 接口测试
 
-![接口测试](https://qiniu.kanes.top/blog/接口测试.svg)
+![接口测试](/images/qiniu/接口测试.svg)
 
 # 其他测试
-![其他测试](https://qiniu.kanes.top/blog/其他测试.svg)
+![其他测试](/images/qiniu/其他测试.svg)
 
 # 功能测试
 ## 登录模块

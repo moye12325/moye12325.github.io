@@ -13,12 +13,12 @@ tags: ['NLP', 'Transformer', '深度学习']
 * 第一个任务是采用 MaskLM 的方式来训练语言模型，通俗地说就是在输入一句话的时候，随机地选一些要预测的词，然后用一个特殊的符号[MASK]来代替它们，之后让模型根据所给的标签去学习这些地方该填的词。
 
 * 第二个任务在双向语言模型的基础上额外增加了一个句子级别的连续性预测任务，即预测输入 BERT 的两段文本是否为连续的文本，引入这个任务可以更好地让模型学到连续的文本片段之间的关系。
-  ![深度学习-李沐-第十四节-BERT_ 配图 1](https://qiniu.kanes.top/blog/ce9bb1b6.png)
-  ![深度学习-李沐-第十四节-BERT_ 配图 2](https://qiniu.kanes.top/blog/1877c112.png)
-  ![深度学习-李沐-第十四节-BERT_ 配图 3](https://qiniu.kanes.top/blog/2d2213cc.png)
-  ![深度学习-李沐-第十四节-BERT_ 配图 4](https://qiniu.kanes.top/blog/3346aa9b.png)
-  ![深度学习-李沐-第十四节-BERT_ 配图 5](https://qiniu.kanes.top/blog/ab30e4c5.png)
-  ![深度学习-李沐-第十四节-BERT_ 配图 6](https://qiniu.kanes.top/blog/66406a69.png)
+  ![深度学习-李沐-第十四节-BERT_ 配图 1](/images/qiniu/ce9bb1b6.png)
+  ![深度学习-李沐-第十四节-BERT_ 配图 2](/images/qiniu/1877c112.png)
+  ![深度学习-李沐-第十四节-BERT_ 配图 3](/images/qiniu/2d2213cc.png)
+  ![深度学习-李沐-第十四节-BERT_ 配图 4](/images/qiniu/3346aa9b.png)
+  ![深度学习-李沐-第十四节-BERT_ 配图 5](/images/qiniu/ab30e4c5.png)
+  ![深度学习-李沐-第十四节-BERT_ 配图 6](/images/qiniu/66406a69.png)
 
 ### 小结
 

@@ -217,14 +217,14 @@ navbar:
     随笔: 
       path: /categories/随笔/ 
       icon: fa-regular fa-pen # can be empty
-    项目: 
-      path: /projects 
+    项目:
+      path: /projects/
       icon: fa-regular fa-folder # can be empty
-    关于: 
-      path: /about 
+    关于:
+      path: /about/
       icon: fa-regular fa-user # can be empty
-    友链: 
-      path: /links 
+    友链:
+      path: /links/
       icon: fa-regular fa-link # can be empty
     # Status: 
     #   path: https://status.ohevan.com/
@@ -263,26 +263,26 @@ home:
     announcement: # Announcement text
     show_on_mobile: true # Whether to show sidebar navigation on mobile sheet menu
     links:
-      博客: 
-        path: /archives 
+      博客:
+        path: /archives/
         icon: fa-regular fa-book # can be empty
-      随笔: 
-        path: /notes 
+      随笔:
+        path: /notes/
         icon: fa-regular fa-pen # can be empty
-      项目: 
-        path: /projects 
+      项目:
+        path: /projects/
         icon: fa-regular fa-folder # can be empty
-      友链: 
-        path: /links 
+      友链:
+        path: /links/
         icon: fa-regular fa-link # can be empty
-      关于: 
-        path: /about 
+      关于:
+        path: /about/
         icon: fa-regular fa-user # can be empty
-      Tags: 
-        path: /tags 
+      Tags:
+        path: /tags/
         icon: fa-regular fa-tags # can be empty
-      Categories: 
-        path: /categories 
+      Categories:
+        path: /categories/
         icon: fa-regular fa-folder # can be empty
       # ...... # you can add more
   # Article date format

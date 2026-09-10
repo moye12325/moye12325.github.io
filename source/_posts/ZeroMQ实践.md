@@ -176,7 +176,7 @@ finally:
     print("客户端已安全关闭。")
 ```
 
-![image.png|700x453](https://qiniu.kanes.top/blog/20250506201630375.png)
+![image.png|700x453](/images/qiniu/20250506201630375.png)
 
 
 
@@ -297,7 +297,7 @@ if __name__ == "__main__":
 ```
 
 
-![image.png|0x0](https://qiniu.kanes.top/blog/20250506202007962.png)
+![image.png|0x0](/images/qiniu/20250506202007962.png)
 
 
 

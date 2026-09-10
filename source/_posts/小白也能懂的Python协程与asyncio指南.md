@@ -81,7 +81,7 @@ asyncio.run(主任务())  # 关键3：启动事件循环
 ### 2.2 执行过程图解
 
 
-![|700x615](https://qiniu.kanes.top/blog/154916547.png)
+![|700x615](/images/qiniu/154916547.png)
 
 ---
 
