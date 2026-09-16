@@ -871,12 +871,20 @@
 <p>本文由 AI 翻译整理，仅供学习交流，版权归原作者及刊物所有。文中的引文均保留原作者与原始出处。如需引用请以原文为准；若原作者认为不妥，请联系删除。</p>
 </blockquote>
 <hr>
-<p>过去这几个月，Bun 从 Zig 迁到 Rust 这件事闹成了一场老派的骂战，迁移过程重度依赖 Claude Code。上个月，Bun 的作者 Jarred Sumner 发了一篇长文，详细讲了 Bun 为什么迁、怎么迁，读起来跟任何一家大工程部门的科技公司博客没什么两样。没过多久，Zig 语言的作者 Andrew Kelley 甩出一篇传世檄文，把 Zig 和 Bun 之间显然积怨已久的关系、以及他本人和其他人跟 Jarred 共事的糟糕经历全倒了出来。Andrew 管 Jarred 叫“臭烘烘的管理者”，还说“Jarred 早在能用上 LLM 之前就已经在写垃圾产出了”。两篇文章都值得读：前者的价值在于它展示了一条真正新鲜、大胆的软件工程路子，后者则是一封本该烧掉、却偏偏寄了出去的信的典范。这场闹剧让我挺感激，因为它给了我理由，重新捡起一个几乎困扰了我整个软件工程生涯的问题。</p>
+<blockquote>
+<p><strong>摘要</strong></p>
+<p>Bun 从 Zig 迁到 Rust，靠的是重度使用 Claude Code。这场迁移炸出了 Zig 作者的一封檄文，也让我重新捡起一个困扰自己整个职业生涯的老问题：写软件到底是手艺活，还是工业化生产？</p>
+<p>作者沿着几条线往下捋：制表符和空格吵了三十多年的架、Go 的 gofmt 怎么用工具终结风格之争、木工圈手工派与电动工具派的分裂、美国安全带立法那段「被逼着系上」的历史，以及他自己从 Emacs 换到 VS Code、从追求「高质量代码」滑向「随便写点能跑通的」这段叛变过程。</p>
+<p>结论不太温情：软件生产一直朝工业化走，编程 agent 只是把这个进程踩了油门；所谓「质量」在很大程度上是被人贴上的标签。但他也没唱衰——让 agent 的产出带上质量，这里面也许正长出某种新的手艺。</p>
+<p><strong>长度</strong>：全文约 1.5 万字，分 14 节；含大量 1980—2000 年代邮件列表与论坛的原始骂战引文。</p>
+</blockquote>
+<hr>
+<h2 id="一场骂战引出的老问题"><a href="#一场骂战引出的老问题" class="headerlink" title="一场骂战引出的老问题"></a>一场骂战引出的老问题</h2><p>过去这几个月，Bun 从 Zig 迁到 Rust 这件事闹成了一场老派的骂战，迁移过程重度依赖 Claude Code。上个月，Bun 的作者 Jarred Sumner 发了一篇长文，详细讲了 Bun 为什么迁、怎么迁，读起来跟任何一家大工程部门的科技公司博客没什么两样。没过多久，Zig 语言的作者 Andrew Kelley 甩出一篇传世檄文，把 Zig 和 Bun 之间显然积怨已久的关系、以及他本人和其他人跟 Jarred 共事的糟糕经历全倒了出来。Andrew 管 Jarred 叫“臭烘烘的管理者”，还说“Jarred 早在能用上 LLM 之前就已经在写垃圾产出了”。两篇文章都值得读：前者的价值在于它展示了一条真正新鲜、大胆的软件工程路子，后者则是一封本该烧掉、却偏偏寄了出去的信的典范。这场闹剧让我挺感激，因为它给了我理由，重新捡起一个几乎困扰了我整个软件工程生涯的问题。</p>
 <p>先说我的看法：绝大多数软件的生产是工业化生产，不是手艺活。我们在几千人的大组织里干活，用的硬件和系统都是大路货，岗位职责在部门之间、公司之间乃至国家之间都高度标准化。早在生成式 AI 出现之前，我们就已经给软件生产套上了一整套最佳实践，把个人对“软件究竟怎么做出来”这类基本环节的自主权削掉了大半。几十年前，软件生产也许真算得上一门手艺活——一个熟练的人手工在卡片上打孔，干到深夜。但在我看来，今天软件生产的实际形态毫无疑问是大规模的工业化生产。这一点我不接受讨论，它是明摆着的。</p>
 <p>我长期琢磨的是另一个问题：软件生产“应不应该”是手艺活？更好的软件，是来自把自己当手艺人、年复一年打磨得意之作的开发者和工程师？还是来自把工业化、可重复、自动化的流程压进来，让开发者和工程师只当代码工厂里熟练却可替换的工人？写代码的时候，到底是坚持并追求自己那套匠人标准更好，还是彻底拥抱工业化最佳实践、不带感情也不带个人色彩地产出代码更好？</p>
 <p>如果你在做软件开发，我请你先坐一会儿，问问自己的心：你对这个问题到底什么感觉？你是想做出得意之作，还是觉得当颗螺丝钉、造点大路货也挺好？想完了？好。现在带着你这套新觉悟，出门去把你遇到的每个人都烦一遍。不同意你的人都错得离谱、人品有问题，你完全有理由动用一切必要手段纠正他，并阻止他的观点继续扩散。去吧，玩得开心点！</p>
 <p>至于那些还没激动到立刻出门布道、去传播自己这套根深蒂固且绝对正确的观点的人，我给你们引一条路——tab 与空格之争。搞懂它，你就能明白 2026 年的 Bun 大迁移为什么能预示软件开发里匠人精神的未来。</p>
-<blockquote>
+<h2 id="制表符还是空格，真能吵三十年"><a href="#制表符还是空格，真能吵三十年" class="headerlink" title="制表符还是空格，真能吵三十年"></a>制表符还是空格，真能吵三十年</h2><blockquote>
 <p>错。tab 生来就是邪物。</p>
 <p>— Dennis Draheim, “Tabs vs. Spaces”, comp.lang.c, Dec 29, 1988</p>
 </blockquote>
@@ -920,14 +928,14 @@
 <p>回头看，我记得自动格式化出现之前，代码库的个性要强得多。打开一个文件，不用 git blame 之类的，我就知道谁最后动过它——除了他，谁会在一堆 and 上折腾得那么怪！我会多花半小时，确保排版处处到位，因为团队里的资深工程师只要发现不符合他的审美，会直接打回整个改动。靠这个我也抓到过不少好 bug——为了把代码看顺眼，就得逐行读。学一个新代码库，一半功夫是学会读懂这个团队长出来的怪排版，更别提照着写了。我写了不少小脚本保证自己不出格；我记得自己的 shell 脚本水平因此见长，因为一想到可能被那些年纪更大、经验更丰富的同事骂一句“菜鸟”，我晚上就睡不着。</p>
 <p>我认为我们引入格式化工具时丢掉的东西，是每个人对代码、对写下这些代码的人都还留着的那份明确而切身的联系感。代码干什么你也许管不了，但至少你和你的团队对它的长相还有发言权。而现在，所有个性、所有玩心、所有拿语言语法本身做实验的乐趣，都被磨平抛光，只剩下一堆不带个人色彩的功能。</p>
 <p>作为一个负责在团队里落实最佳实践之类的资深工程师，上面两段幼稚又愚蠢；要是有初级工程师拿这套说辞跟我解释他为什么关掉了格式化工具，我会罚他值一个月的客服轮班。可下了班，我得问自己一句：你就没有过想撒开了干的念头吗？</p>
-<blockquote>
+<h2 id="插一段：247-行-C-写出来的-J"><a href="#插一段：247-行-C-写出来的-J" class="headerlink" title="插一段：247 行 C 写出来的 J"></a>插一段：247 行 C 写出来的 J</h2><blockquote>
 <p>有人问起代码库。“目前是 247 行 C。”有人表示难以置信。Whitney 展示了源码，拆成五个文本文件，这样每个都能完整铺在他的显示器上。“我讨厌滚动，”他嘟囔道。</p>
 <p>— Stephen Taylor, “Impending kOS”, Vector, Sep 1, 2014</p>
 </blockquote>
 <div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> C;<span class="keyword">typedef</span> <span class="type">long</span> I;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">a</span>&#123;</span>I t,r,d[<span class="number">3</span>],p[<span class="number">2</span>];&#125;*A;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> P printf</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> R return</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> V1(f) A f(w)A w;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> V2(f) A f(a,w)A a,w;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DO(n,x) &#123;I i=0,_n=(n);for(;i&lt;_n;++i)&#123;x;&#125;&#125;</span></span><br><span class="line">I *<span class="title function_">ma</span><span class="params">(n)</span>&#123;R(I*)<span class="built_in">malloc</span>(n*<span class="number">4</span>);&#125;mv(d,s,n)I *d,*s;&#123;DO(n,d[i]=s[i]);&#125;</span><br><span class="line">tr(r,d)I *d;&#123;I z=<span class="number">1</span>;DO(r,z=z*d[i]);R z;&#125;</span><br><span class="line">A <span class="title function_">ga</span><span class="params">(t,r,d)</span>I *d;&#123;A z=(A)ma(<span class="number">5</span>+tr(r,d));z-&gt;t=t,z-&gt;r=r,mv(z-&gt;d,d,r);</span><br><span class="line"> R z;&#125;</span><br><span class="line">V1(iota)&#123;I n=*w-&gt;p;A z=ga(<span class="number">0</span>,<span class="number">1</span>,&amp;n);DO(n,z-&gt;p[i]=i);R z;&#125;</span><br><span class="line">V2(plus)&#123;I r=w-&gt;r,*d=w-&gt;d,n=tr(r,d);A z=ga(<span class="number">0</span>,r,d);</span><br><span class="line"> DO(n,z-&gt;p[i]=a-&gt;p[i]+w-&gt;p[i]);R z;&#125;</span><br><span class="line">V2(from)&#123;I r=w-&gt;r<span class="number">-1</span>,*d=w-&gt;d+<span class="number">1</span>,n=tr(r,d);</span><br><span class="line"> A z=ga(w-&gt;t,r,d);mv(z-&gt;p,w-&gt;p+(n**a-&gt;p),n);R z;&#125;</span><br><span class="line">V1(box)&#123;A z=ga(<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);*z-&gt;p=(I)w;R z;&#125;</span><br><span class="line">V2(cat)&#123;I an=tr(a-&gt;r,a-&gt;d),wn=tr(w-&gt;r,w-&gt;d),n=an+wn;</span><br><span class="line"> A z=ga(w-&gt;t,<span class="number">1</span>,&amp;n);mv(z-&gt;p,a-&gt;p,an);mv(z-&gt;p+an,w-&gt;p,wn);R z;&#125;</span><br><span class="line">V2(find)&#123;&#125;</span><br><span class="line">V2(rsh)&#123;I r=a-&gt;r?*a-&gt;d:<span class="number">1</span>,n=tr(r,a-&gt;p),wn=tr(w-&gt;r,w-&gt;d);</span><br><span class="line"> A z=ga(w-&gt;t,r,a-&gt;p);mv(z-&gt;p,w-&gt;p,wn=n&gt;wn?wn:n);</span><br><span class="line"> <span class="keyword">if</span>(n-=wn)mv(z-&gt;p+wn,z-&gt;p,n);R z;&#125;</span><br><span class="line">V1(sha)&#123;A z=ga(<span class="number">0</span>,<span class="number">1</span>,&amp;w-&gt;r);mv(z-&gt;p,w-&gt;d,w-&gt;r);R z;&#125;</span><br><span class="line">V1(id)&#123;R w;&#125;V1(size)&#123;A z=ga(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);*z-&gt;p=w-&gt;r?*w-&gt;d:<span class="number">1</span>;R z;&#125;</span><br><span class="line">pi(i)&#123;P(<span class="string">&quot;%d &quot;</span>,i);&#125;nl()&#123;P(<span class="string">&quot;\n&quot;</span>);&#125;</span><br><span class="line">pr(w)A w;&#123;I r=w-&gt;r,*d=w-&gt;d,n=tr(r,d);DO(r,pi(d[i]));nl();</span><br><span class="line"> <span class="keyword">if</span>(w-&gt;t)DO(n,P(<span class="string">&quot;&lt; &quot;</span>);pr(w-&gt;p[i]))<span class="keyword">else</span> DO(n,pi(w-&gt;p[i]));nl();&#125;</span><br><span class="line"></span><br><span class="line">C vt[]=<span class="string">&quot;+&#123;~&lt;#,&quot;</span>;</span><br><span class="line">A(*vd[])()=&#123;<span class="number">0</span>,plus,from,find,<span class="number">0</span>,rsh,cat&#125;,</span><br><span class="line"> (*vm[])()=&#123;<span class="number">0</span>,id,size,iota,box,sha,<span class="number">0</span>&#125;;</span><br><span class="line">I st[<span class="number">26</span>]; qp(a)&#123;R  a&gt;=<span class="string">&#x27;a&#x27;</span>&amp;&amp;a&lt;=<span class="string">&#x27;z&#x27;</span>;&#125;qv(a)&#123;R a&lt;<span class="string">&#x27;a&#x27;</span>;&#125;</span><br><span class="line">A <span class="title function_">ex</span><span class="params">(e)</span>I *e;&#123;I a=*e;</span><br><span class="line"> <span class="keyword">if</span>(qp(a))&#123;<span class="keyword">if</span>(e[<span class="number">1</span>]==<span class="string">&#x27;=&#x27;</span>)R st[a-<span class="string">&#x27;a&#x27;</span>]=ex(e+<span class="number">2</span>);a= st[ a-<span class="string">&#x27;a&#x27;</span>];&#125;</span><br><span class="line"> R <span class="title function_">qv</span><span class="params">(a)</span>?<span class="params">(*vm[a])</span><span class="params">(ex(e+<span class="number">1</span>))</span>:e[1]?<span class="params">(*vd[e[<span class="number">1</span>]])</span><span class="params">(a,ex(e+<span class="number">2</span>))</span>:<span class="params">(A)</span>a;&#125;</span><br><span class="line">noun(c)&#123;A z;<span class="keyword">if</span>(c&lt;<span class="string">&#x27;0&#x27;</span>||c&gt;<span class="string">&#x27;9&#x27;</span>)R <span class="number">0</span>;z=ga(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);*z-&gt;p=c-<span class="string">&#x27;0&#x27;</span>;R z;&#125;</span><br><span class="line">verb(c)&#123;I i=<span class="number">0</span>;<span class="keyword">for</span>(;vt[i];)<span class="keyword">if</span>(vt[i++]==c)R i;R <span class="number">0</span>;&#125;</span><br><span class="line">I *<span class="title function_">wd</span><span class="params">(s)</span>C *s;&#123;I a,n=<span class="built_in">strlen</span>(s),*e=ma(n+<span class="number">1</span>);C c;</span><br><span class="line"> DO(n,e[i]=(a=noun(c=s[i]))?a:(a=verb(c))?a:c);e[n]=<span class="number">0</span>;R e;&#125;</span><br><span class="line"></span><br><span class="line">main()&#123;C s[<span class="number">99</span>];<span class="keyword">while</span>(gets(s))pr(ex(wd(s)));&#125;</span><br></pre></td></tr></table></figure></div>
 
 <p><em>— Arthur Whitney, “An Implementation of J” (Incunabulum), jsoftware.com, summer 1989</em></p>
-<p>Go 语言由 Google 在 2009 年 11 月对外公布，此前从 2007 年起已在内部开发。设计它的是 Ken Thompson、Rob Pike 这类 Unix 和 C 的元老级人物。发布第二天，就有人发了下面这段，谈随语言一起提供的格式化工具 gofmt。</p>
+<h2 id="Go-和-gofmt：把风格之争交给机器"><a href="#Go-和-gofmt：把风格之争交给机器" class="headerlink" title="Go 和 gofmt：把风格之争交给机器"></a>Go 和 gofmt：把风格之争交给机器</h2><p>Go 语言由 Google 在 2009 年 11 月对外公布，此前从 2007 年起已在内部开发。设计它的是 Ken Thompson、Rob Pike 这类 Unix 和 C 的元老级人物。发布第二天，就有人发了下面这段，谈随语言一起提供的格式化工具 gofmt。</p>
 <blockquote>
 <p>我觉得随语言提供格式化工具挺不错的。parser&#x2F;ast&#x2F;pretty printer 还能当模块用，也是好事。</p>
 <p>不过我不确定用“禁止配置格式化工具”这种办法（FAQ 里提到的）来强推某种排版风格是不是好主意。至少让 go&#x2F;printer 包支持更灵活的配置会是好事，哪怕命令行上的 gofmt 工具不支持。</p>
@@ -980,7 +988,7 @@
 </blockquote>
 <p>不过我也明白 C++ 那拨人为什么没往 Go 这边涌。他们凭什么要涌？Go 削弱了他们在劳动力市场和职场里的议价能力！要是用 Go，他们白天想摸鱼的借口就少了，那些关于 C++ 性能的知识对他们和雇主都不再那么值钱，他们也就没那么特别了。反过来，对一个以前干不了“在 Google 规模上写代码”这种肥活的低技能程序员来说，一项把某种经济活动去技能化的技术简直是天大的赋能。哦，我从来没正经上过编程语言课，并发的坑一个都不懂，但我能用 Go 写个 Web 服务器跑出变态的性能，说不定还能混个升职？算我一个！</p>
 <p>至于我自己，我一直不太喜欢 Go。我本来能一眼看出 Go 是对卑微的手工 C++ 模板匠人的攻击，所以出于阶级情谊，一开始就该断然拒绝！——倒也不是这么回事。我试着爱它爱了一个星期，就是没找着什么特别喜欢的地方。它从来没让我心动。</p>
-<p>至少不像 Clojure 那样让我心动。</p>
+<h2 id="Clojure-的诱惑"><a href="#Clojure-的诱惑" class="headerlink" title="Clojure 的诱惑"></a>Clojure 的诱惑</h2><p>至少不像 Clojure 那样让我心动。</p>
 <blockquote>
 <p>[屏幕上放着开发速度的幻灯片] 什么样的跑者能在比赛一开始就用尽全力跑？只有跑超短程的人。可我们程序员显然比跑者聪明，因为我们知道怎么解决这个问题——每隔一百码就朝天开一枪发令，然后管这叫新一轮冲刺。</p>
 <p>— Rich Hickey, “Simple Made Easy”, 2011, 17:10</p>
@@ -1011,7 +1019,7 @@
                       alt="Tim Ewald 在 ClojureTV 的演讲“Clojure: Programming with Hand Tools”"
                 ></p>
 <p><em>— Tim Ewald, “Clojure: Programming with Hand Tools”, ClojureTV, Jan 8, 2014</em></p>
-<blockquote>
+<h2 id="木工圈的两派：电动工具还是手工工具"><a href="#木工圈的两派：电动工具还是手工工具" class="headerlink" title="木工圈的两派：电动工具还是手工工具"></a>木工圈的两派：电动工具还是手工工具</h2><blockquote>
 <p>凡是手工做起来让人厌烦的活，都由大幅改进的机器代劳；凡是手工做起来是种享受的活，就没有机器来插手。</p>
 <p>— William Morris, News from Nowhere, 1890</p>
 </blockquote>
@@ -1059,7 +1067,7 @@
 <p>— Mark C. Carroll, comp.arch, May 13, 1992</p>
 </blockquote>
 <p>啊，美好的旧时光。上面这些，一部分是 Usenet 用户互相啐的真心恶意，也有一部分算是对编译器这类自动化工具稍认真些的讨论。编译器在 Usenet 那个年代不算新东西，但也没好到哪儿去，跟今天的 GCC、LLVM 根本没法比。所以用户对它们的抱怨是有道理的，这些抱怨后来基本被时间、被编译器作者们的大量开发工作消解掉了。换成我，要是拿着一把射钉枪，结果它哪怕只有一次把钉子从反方向射出来，我骂街也合情合理。</p>
-<p>我的印象是，木工和软件开发者有个共同点：这两个行业里的人，往往在业余时间也乐意拿同样的事当爱好接着干。他们大概本来就在木头、在代码上挺有一手，也许正因为这样，才把这事干成了全职的职业。我觉得差别在于：一个木匠不会隔三差五、甚至大嗓门地主张，自己在单位干正经活时应该用他玩爱好时用的那些手工工具。</p>
+<h2 id="我自己的叛变：从-Emacs-到-VS-Code"><a href="#我自己的叛变：从-Emacs-到-VS-Code" class="headerlink" title="我自己的叛变：从 Emacs 到 VS Code"></a>我自己的叛变：从 Emacs 到 VS Code</h2><p>我的印象是，木工和软件开发者有个共同点：这两个行业里的人，往往在业余时间也乐意拿同样的事当爱好接着干。他们大概本来就在木头、在代码上挺有一手，也许正因为这样，才把这事干成了全职的职业。我觉得差别在于：一个木匠不会隔三差五、甚至大嗓门地主张，自己在单位干正经活时应该用他玩爱好时用的那些手工工具。</p>
 <p>可话又说回来，很多想写出高质量代码、讲究匠人精神的软件开发者，就是想把爱好里用的工具搬到公司：Clojure、Haskell、Elixir，还有别的函数式和冷门语言，用它替代公司里已经在用的那些更……怎么说呢，更工业化的语言，比如 TypeScript、Python、Java、Ruby。</p>
 <p>为什么会这样？我说过，我自己也有过这种冲动，所以我只说我自己当时在干什么、为什么。有些活确实没什么意思，我甚至觉得它配不上我这种水平的码农。我懂好几门函数式语言！我读过一堆讲它们的书！我还有一张时不时会坐进去的吊床！凭什么让我用 Python 写 CRUD 应用？偷偷塞点 Clojure 进来是个泄压阀，让我能缓和自己那个“手艺人的自我形象”跟现实之间的落差：我干的活根本不需要那种意义上的高质量代码。活干完很重要，干得多“漂亮”，就没那么重要了。</p>
 <p>有时候我不喜欢自己正在做的事，于是至少想让自己喜欢上做事的方式。承认这些挺丢人的，我也希望自己能早点看清自己身上的这套心理机制。</p>
@@ -1071,7 +1079,7 @@
 <p>我发现自己越来越少想“怎么写出质量最高的代码”，越来越多想“随便写点代码，把下游那位同事的路打通就行”。要是我钻进去抠太久、追求完美，流水线和 Jira 看板就会在我身后堵住。这可不行，对吧。</p>
 <p>工作越做越多，我稀里糊涂就当了 DBA，后来又成了 DBRE，离软件开发越来越远。我的心思转到了可靠性、值班表，还有确保我们做的变更安全、不会把系统搞崩上面。</p>
 <p>我开始在业余时间学 Rust，因为它看起来挺有意思。我发现，当我为那些受别人写的系统牵累的系统值班时，我更在意的是整体上一切够不够可靠。系统别崩、别半夜把我叫醒，对我来说比架构图好不好看重要得多。代码质量和可靠性常常是连在一起的，但说到底，它们不是一回事。</p>
-<p>容我岔开一下话题：你知道以前有人上街抗议强制系安全带的法规吗？真的，没骗你！</p>
+<h2 id="岔开一段：安全带是怎么被逼着系上的"><a href="#岔开一段：安全带是怎么被逼着系上的" class="headerlink" title="岔开一段：安全带是怎么被逼着系上的"></a>岔开一段：安全带是怎么被逼着系上的</h2><p>容我岔开一下话题：你知道以前有人上街抗议强制系安全带的法规吗？真的，没骗你！</p>
 <p>汽车是 1886 年由 Carl Benz 发明的。1901 年 Ransom Olds 开始批量生产汽车（Oldsmobile 这个牌子就是以他命名的，涨知识了吧），到 1908 年的福特 Model T 才算真正打开局面。车越普及，事故和死亡也越多。先说清楚，我不是历史学家，也不打算严谨：随着美国人越来越多地开车，再加上 Congress 在 1916、1921、1926 年出钱修的一堆公路，交通事故死亡人数在 1937 年到达顶峰，每 10 万美国人里大约有 30 人死于车祸。接下来那场战争和一直没彻底过去的大萧条，似乎让每十万人死亡率大幅下滑；1950 年代又爬了回去，到 1960 年前后大约是每 10 万人 20 人。可 1956 年《联邦资助公路法》一通过，高速公路大规模开建，死亡率又蹿了上去，1960 年代末达到每 10 万人约 26 人。之后才开始缓慢、平缓地往下滑，一直滑到今天每 10 万人约 12 人。发生了什么？</p>
 <p>人们不再那么频繁地死于车祸，原因很多，这段历史又长又复杂。所以恕我偷个懒，只讲其中一部分：三点式安全带这个奇迹是怎么发明、怎么普及的，以及美国政府为了让不情愿、爱唱反调的普罗大众系上它，都做过哪些干预。</p>
 <p>现代三点式安全带是 1959 年由 Volvo 工程师 Nils Bohlin 发明的。Volvo 坚信自己有责任救人命，干脆把专利免费开放给竞争对手用。十来年过去，全国每天还有人在车祸里无谓地送命，于是美国联邦政府在 1968 年下令：所有汽车出厂必须装安全带。</p>
@@ -1094,7 +1102,7 @@
                       alt="图片：1960—2012 年轿车与 LTV 乘员的车辆致死风险指数折线图，以 1960 年为 100，曲线急剧下降，终点远低于“死于疾病”的对照指数。"
                 ></p>
 <p>1960—2012 年轿车与 LTV 乘员的车辆致死风险指数（1960 年 &#x3D; 100），与死于疾病的风险做对照。来源：NHTSA（美国国家公路交通安全管理局），《Lives Saved by Vehicle Safety Technologies… 1960 to 2012》（DOT HS 812 069）。</p>
-<blockquote>
+<h2 id="护目镜、安全帽，和不肯用类型系统的人"><a href="#护目镜、安全帽，和不肯用类型系统的人" class="headerlink" title="护目镜、安全帽，和不肯用类型系统的人"></a>护目镜、安全帽，和不肯用类型系统的人</h2><blockquote>
 <p>护目镜是我的噩梦。十六年了，我还没找到过一副戴着舒服的……勉强能忍吧，但绝对谈不上舒服。</p>
 <p>— sii，《comfortable hard hat》，Mike Holt Forums，2012 年 5 月 31 日</p>
 </blockquote>
@@ -1118,7 +1126,7 @@
 <p>你在工地上看见有人抱怨安全帽和护目镜，回头就看着他戴着棒球帽和墨镜开车回家。很大程度上这是个心理问题。这毛病我跟所有人一样都有。</p>
 <p>— Strathead，《comfortable hard hat》，Mike Holt Forums，2012 年 6 月 1 日</p>
 </blockquote>
-<blockquote>
+<h2 id="Bun-为什么要迁到-Rust"><a href="#Bun-为什么要迁到-Rust" class="headerlink" title="Bun 为什么要迁到 Rust"></a>Bun 为什么要迁到 Rust</h2><blockquote>
 <p>对 Bun 来说，正确处理垃圾回收值和手动管理值的生命周期，一直是稳定性问题的主要来源——多数时候是小内存泄漏，偶尔是崩溃。每一次内存分配都得仔细过一遍。这些字节在哪里释放？怎么保证它只被释放一次？我们有没有正确检查 JavaScript 异常？这个被垃圾回收的指针对保守式栈扫描器可见吗？这块内存是垃圾回收的，还是手动管理的？</p>
 <p>— Jarred Sumner，《Rewriting Bun in Rust》，bun.com，2026</p>
 </blockquote>
@@ -1141,12 +1149,12 @@
 </blockquote>
 <p>我编程生涯里最美好的回忆之一，就是整整一个周六窝在房间里解第 22 天这道题。题目要算空间里各种形状的东西，我记得得做某种挺绕的空间压缩之类的处理。但那种感觉真是难以形容：花上好几个小时琢磨，拿脑袋撞键盘，就为了找出那个诀窍。最后终于想到解法，再用半小时用 Rust 敲出来——那一下太爽了，我摇摇晃晃走出公寓去找夜宵吃的时候，人都飘着。</p>
 <p>当时我不可能知道，2021 年是最后一次真正做 Advent of Code 的机会——之后编程机器人大举杀到，整个科技行业被裹着卷走、卷散。所以我很庆幸，赶在 ChatGPT 出现、把我们所有人一枪打进未来之前，体验到了 Advent of Code 本该有的样子。</p>
-<p>我对 LLM 的立场是：我宁愿这套数学最后算不通，宁愿把该乘的矩阵乘上足够多次，也没法让机器显出智能的样子。生成式 AI 会在世界经济里掀起变动，接下来一二十年，政治和社会上都不会好过。</p>
+<h2 id="我怎么看这波-LLM"><a href="#我怎么看这波-LLM" class="headerlink" title="我怎么看这波 LLM"></a>我怎么看这波 LLM</h2><p>我对 LLM 的立场是：我宁愿这套数学最后算不通，宁愿把该乘的矩阵乘上足够多次，也没法让机器显出智能的样子。生成式 AI 会在世界经济里掀起变动，接下来一二十年，政治和社会上都不会好过。</p>
 <p>就算模型从此不再变聪明，也照样意味着一场白领灭绝事件。就算我们把所有模型锁死，再也不训练新的，只让眼下这点智能水平在社会里慢慢扩散，你也没法说服我社会不会被从根上撕开。我知道它们会胡编，我知道它们会犯错，我也知道企业根本不在乎——它们只想拿 AI 顶掉昂贵的人力，能顶多少顶多少。这么一想，LLM 挺让我沮丧的。</p>
 <p>但反过来，我对用电脑做事的兴奋也是前所未有的。出门散个步，在手机上跟 Claude 摆弄两下，回来就有 20 个 PR 等着我审——它们未必把我感兴趣的事全做完，但至少开了个像样的头。没错，我和所有人能碰到这种技术，背后有大影响。可我脑子里有一千个点子，还有十亿 token 可以烧着去追，谁有空抑郁，我还有垃圾要产。</p>
 <p>我学 Clojure，部分原因是它承诺：用更高层的语言，能比在低层语言里走得更快更远。如果你认这份精神、这份愿望，如果这真是你的主要目标，那你为什么不把亲手写代码也一并甩到身后？我要的是快速前进、把东西做出来，代码由我敲，本来就只是个附带环节。</p>
 <p>真正让我坐下来写这篇文章、也把很多想法一下子想清楚的，是 Andrew Kelley 那句话：Jarred Sumner“在有 LLM 可用之前很久，就已经在写垃圾了”。越想越有味道。自从生成式 AI 登场，slop 这个词背上了又大又新的含义，我几乎忘了在我们被猛地推进未来之前它是什么意思。Andrew Kelley 是憋着气说的，可我真心觉得，有时候人心里的歌，唱得最响的时候就是在生气。</p>
-<blockquote>
+<h2 id="什么算-slop，谁说了算"><a href="#什么算-slop，谁说了算" class="headerlink" title="什么算 slop，谁说了算"></a>什么算 slop，谁说了算</h2><blockquote>
 <p>Cmd+s，加一个编辑器 &#x3D; 保存即格式化。你可以随便写垃圾，缩进永远不碰 Tab 键，诸如此类，然后按下 Cmd+s，一切就神奇地对齐归位。这能省下极大的精力。而放到一个工作周里看，省下的精力量非常可观。</p>
 <p>— damassi，“Feature Request: breakBeforeElse”，prettier GitHub 仓库，2020</p>
 <p>SLOP（slop）n. 1. 单边凑数项（见该词条）。常常是为了避免差一错误的可能才加上的（见该词条）。2. （编译器怪人的用法）编译器生成的代码量与手工编译的代码量之比再减 1；也就是你没亲自动手而损失的空间（或者时间）。</p>
@@ -1207,7 +1215,7 @@
 </ul>
 <p>总的说来，我看到的是软件继续朝工业化生产走，几十年来一直如此。想亲手解那些刁钻编程难题的人，可以在自己的时间、下班回家当爱好去做。但在工作上，期望会越来越明确：让编程 agent 尽可能多干、尽可能常干。</p>
 <p>我最后一个预测，也是开头那个问题的答案：借助编程 agent，软件开发进一步工业化，会把代码的“质量”推到任何一个匠人都做不出来的高度。模型会继续变聪明，我们用来保证代码质量的自动化工具会继续变便宜、变好。大多数软件本来就不该靠手艺活做出来——不管是手工做的还是个人做的；在全球竞争的市场里，这条路的经济性会越来越差。</p>
-<p>软件工程、软件开发、编程，随你怎么叫，这门行当自存在那天起就在不停吃自己。指望它稳下来，变成一个再也不会把人晃得七荤八素的老派行业，那就是不认这头野兽的本性。差不多每十年，这个行业就被掀个底朝天，谁都没辙。凭什么这个循环现在就该停？一说到跟计算机打交道，我们总以为自己已经走到了历史的终点：不会再有新工具、新硬件、新什么玩意冒出来，一下子把一切掀翻。可老天，人类跟木头打了几千年交道，到现在还在发明新的用法！我们连怎么生产木头都还没琢磨完，怎么可能已经找到了生产代码的正确答案？</p>
+<h2 id="收个尾"><a href="#收个尾" class="headerlink" title="收个尾"></a>收个尾</h2><p>软件工程、软件开发、编程，随你怎么叫，这门行当自存在那天起就在不停吃自己。指望它稳下来，变成一个再也不会把人晃得七荤八素的老派行业，那就是不认这头野兽的本性。差不多每十年，这个行业就被掀个底朝天，谁都没辙。凭什么这个循环现在就该停？一说到跟计算机打交道，我们总以为自己已经走到了历史的终点：不会再有新工具、新硬件、新什么玩意冒出来，一下子把一切掀翻。可老天，人类跟木头打了几千年交道，到现在还在发明新的用法！我们连怎么生产木头都还没琢磨完，怎么可能已经找到了生产代码的正确答案？</p>
 <p>这篇写得太长的文章，收尾说件事。前几天我合了一个 PR，连读都没打算读。很小，只改一个文件，一个配置项，我很清楚里面该是什么，而当时我手上正同时忙着一百万件事。Claude 知道自己该干什么，这个改动我们一起讨论过，是为了解开某个重要环节的阻塞，我相信她做对了，这种改动很难弄错。测试全过，linter 满意，CI 里一切看着都该是那样。那我干嘛还要去看代码？刚我还回头查了一下，没问题，真的，没什么可担心的。就一个小文件里的一个小改动。能出什么大事？重要的东西我还是看的，我保证！</p>
 <p>我们活在有意思的时代里，我能说的只是：去其中找到你的快乐，它在哪儿都行。对我来说，保证并让编程 agent 的产出带上质量——这份前景里我闻到了一种新手艺的味道，我很好奇它能走多深。</p>
 <p>至少我的手不疼了，不再像从前那样疼。这挺好的。</p>
@@ -1354,7 +1362,7 @@
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
 		<div class="page-title">制表符、空格、手工工具与安全带</div>
-		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B"><span class="nav-number">1.</span> <span class="nav-text">预测</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%9C%BA%E9%AA%82%E6%88%98%E5%BC%95%E5%87%BA%E7%9A%84%E8%80%81%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">一场骂战引出的老问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B6%E8%A1%A8%E7%AC%A6%E8%BF%98%E6%98%AF%E7%A9%BA%E6%A0%BC%EF%BC%8C%E7%9C%9F%E8%83%BD%E5%90%B5%E4%B8%89%E5%8D%81%E5%B9%B4"><span class="nav-number">2.</span> <span class="nav-text">制表符还是空格，真能吵三十年</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%B8%80%E6%AE%B5%EF%BC%9A247-%E8%A1%8C-C-%E5%86%99%E5%87%BA%E6%9D%A5%E7%9A%84-J"><span class="nav-number">3.</span> <span class="nav-text">插一段：247 行 C 写出来的 J</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-%E5%92%8C-gofmt%EF%BC%9A%E6%8A%8A%E9%A3%8E%E6%A0%BC%E4%B9%8B%E4%BA%89%E4%BA%A4%E7%BB%99%E6%9C%BA%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">Go 和 gofmt：把风格之争交给机器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clojure-%E7%9A%84%E8%AF%B1%E6%83%91"><span class="nav-number">5.</span> <span class="nav-text">Clojure 的诱惑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%A8%E5%B7%A5%E5%9C%88%E7%9A%84%E4%B8%A4%E6%B4%BE%EF%BC%9A%E7%94%B5%E5%8A%A8%E5%B7%A5%E5%85%B7%E8%BF%98%E6%98%AF%E6%89%8B%E5%B7%A5%E5%B7%A5%E5%85%B7"><span class="nav-number">6.</span> <span class="nav-text">木工圈的两派：电动工具还是手工工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8F%9B%E5%8F%98%EF%BC%9A%E4%BB%8E-Emacs-%E5%88%B0-VS-Code"><span class="nav-number">7.</span> <span class="nav-text">我自己的叛变：从 Emacs 到 VS Code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B2%94%E5%BC%80%E4%B8%80%E6%AE%B5%EF%BC%9A%E5%AE%89%E5%85%A8%E5%B8%A6%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E9%80%BC%E7%9D%80%E7%B3%BB%E4%B8%8A%E7%9A%84"><span class="nav-number">8.</span> <span class="nav-text">岔开一段：安全带是怎么被逼着系上的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%A4%E7%9B%AE%E9%95%9C%E3%80%81%E5%AE%89%E5%85%A8%E5%B8%BD%EF%BC%8C%E5%92%8C%E4%B8%8D%E8%82%AF%E7%94%A8%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%BA"><span class="nav-number">9.</span> <span class="nav-text">护目镜、安全帽，和不肯用类型系统的人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bun-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%81%E5%88%B0-Rust"><span class="nav-number">10.</span> <span class="nav-text">Bun 为什么要迁到 Rust</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E6%80%8E%E4%B9%88%E7%9C%8B%E8%BF%99%E6%B3%A2-LLM"><span class="nav-number">11.</span> <span class="nav-text">我怎么看这波 LLM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E7%AE%97-slop%EF%BC%8C%E8%B0%81%E8%AF%B4%E4%BA%86%E7%AE%97"><span class="nav-number">12.</span> <span class="nav-text">什么算 slop，谁说了算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B"><span class="nav-number">13.</span> <span class="nav-text">预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B6%E4%B8%AA%E5%B0%BE"><span class="nav-number">14.</span> <span class="nav-text">收个尾</span></a></li></ol>
 
 	</div>
 </div>
