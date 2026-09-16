@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://www.kanes.top/2026/09/16/%E5%88%B6%E8%A1%A8%E7%AC%A6%E3%80%81%E7%A9%BA%E6%A0%BC%E3%80%81%E6%89%8B%E5%B7%A5%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%AE%89%E5%85%A8%E5%B8%A6/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="2026 年 Bun 从 Zig 迁到 Rust 引发的那场骂战，让我重新想一个困扰了整个职业生涯的问题：写软件到底是手艺活，还是工业化生产？一篇从制表符之争聊到安全带立法的长文。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="制表符、空格、手工工具与安全带">
+<meta property="og:url" content="https://www.kanes.top/2026/09/16/%E5%88%B6%E8%A1%A8%E7%AC%A6%E3%80%81%E7%A9%BA%E6%A0%BC%E3%80%81%E6%89%8B%E5%B7%A5%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%AE%89%E5%85%A8%E5%B8%A6/">
+<meta property="og:site_name" content="Moye的日常">
+<meta property="og:description" content="2026 年 Bun 从 Zig 迁到 Rust 引发的那场骂战，让我重新想一个困扰了整个职业生涯的问题：写软件到底是手艺活，还是工业化生产？一篇从制表符之争聊到安全带立法的长文。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-09-16T03:45:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T03:45:00.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="AI编程">
+<meta property="article:tag" content="Bun">
+<meta property="article:tag" content="翻译">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.kanes.top/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            制表符、空格、手工工具与安全带 | Moye活着的记录
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"www.kanes.top","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":true,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":true},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":null},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/banner-light.webp","dark":"/images/banner-dark.webp"},"title":"OK, so what?","subtitle":{"text":["What matters most in life is often invisible."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn/?c=a&c=d&c=i&c=k"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/moye12325","instagram":null,"zhihu":null,"twitter":null,"email":null,"music":"https://music.163.com/#/user/home?id=609685181","bilibili":"https://space.bilibili.com/180380237"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","style":{"light":"neutral","dark":"dark"}}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/links/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives/","icon":"fa-regular fa-book"},"随笔":{"path":"/notes/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"友链":{"path":"/links/","icon":"fa-regular fa-link"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Moye的日常","url":"https://www.kanes.top/"},{"@context":"https://schema.org","@type":"BlogPosting","headline":"制表符、空格、手工工具与安全带","description":"2026 年 Bun 从 Zig 迁到 Rust 引发的那场骂战，让我重新想一个困扰了整个职业生涯的问题：写软件到底是手艺活，还是工业化生产？一篇从制表符之争聊到安全带立法的长文。","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.kanes.top/2026/09/16/%E5%88%B6%E8%A1%A8%E7%AC%A6%E3%80%81%E7%A9%BA%E6%A0%BC%E3%80%81%E6%89%8B%E5%B7%A5%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%AE%89%E5%85%A8%E5%B8%A6/"},"author":{"@type":"Person","name":"moye12325"},"publisher":{"@type":"Organization","name":"Moye的日常","url":"https://www.kanes.top/"},"datePublished":"2026-09-16T03:45:00.000Z","dateModified":"2026-09-16T03:45:00.000Z","image":"https://www.kanes.top/images/powderworks/01-richard-and-winnie-sitting-on-a-couch-mid-arg.jpg","keywords":"软件工程, AI编程, 翻译, Bun"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.kanes.top/"},{"@type":"ListItem","position":2,"name":"制表符、空格、手工工具与安全带","item":"https://www.kanes.top/2026/09/16/%E5%88%B6%E8%A1%A8%E7%AC%A6%E3%80%81%E7%A9%BA%E6%A0%BC%E3%80%81%E6%89%8B%E5%B7%A5%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%AE%89%E5%85%A8%E5%B8%A6/"}]}]</script></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Moye活着的记录
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Moye活着的记录
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects/"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories/"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">63</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">195</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">制表符、空格、手工工具与安全带</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv6</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-09-16 11:45</span>
+        <span class="mobile">2026-09-16 11:45</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-09-16 11:45</span>
+            <span class="mobile">2026-09-16 11:45</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/AI%E7%BC%96%E7%A8%8B/">AI编程</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BF%BB%E8%AF%91/">翻译</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Bun/">Bun</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>【译】本文为转载翻译，非原创</strong></p>
+<p><strong>原文标题</strong>：Tabs, Spaces, Hand Tools, and Seat Belts<br><strong>副标题</strong>：The Great Bun Migration of 2026 and the Future of Software Craftsmanship<br><strong>作者</strong>：Powderworks<br><strong>发表日期</strong>：2026 年 8 月 12 日<br><strong>原文链接</strong>：<a class="link"   target="_blank" rel="noopener" href="https://newsletter.powderworks.dev/p/tabs-spaces-hand-tools-and-seat-belts" >https://newsletter.powderworks.dev/p/tabs-spaces-hand-tools-and-seat-belts<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>本文由 AI 翻译整理，仅供学习交流，版权归原作者及刊物所有。文中的引文均保留原作者与原始出处。如需引用请以原文为准；若原作者认为不妥，请联系删除。</p>
+</blockquote>
+<hr>
+<p>过去这几个月，Bun 从 Zig 迁到 Rust 这件事闹成了一场老派的骂战，迁移过程重度依赖 Claude Code。上个月，Bun 的作者 Jarred Sumner 发了一篇长文，详细讲了 Bun 为什么迁、怎么迁，读起来跟任何一家大工程部门的科技公司博客没什么两样。没过多久，Zig 语言的作者 Andrew Kelley 甩出一篇传世檄文，把 Zig 和 Bun 之间显然积怨已久的关系、以及他本人和其他人跟 Jarred 共事的糟糕经历全倒了出来。Andrew 管 Jarred 叫“臭烘烘的管理者”，还说“Jarred 早在能用上 LLM 之前就已经在写垃圾产出了”。两篇文章都值得读：前者的价值在于它展示了一条真正新鲜、大胆的软件工程路子，后者则是一封本该烧掉、却偏偏寄了出去的信的典范。这场闹剧让我挺感激，因为它给了我理由，重新捡起一个几乎困扰了我整个软件工程生涯的问题。</p>
+<p>先说我的看法：绝大多数软件的生产是工业化生产，不是手艺活。我们在几千人的大组织里干活，用的硬件和系统都是大路货，岗位职责在部门之间、公司之间乃至国家之间都高度标准化。早在生成式 AI 出现之前，我们就已经给软件生产套上了一整套最佳实践，把个人对“软件究竟怎么做出来”这类基本环节的自主权削掉了大半。几十年前，软件生产也许真算得上一门手艺活——一个熟练的人手工在卡片上打孔，干到深夜。但在我看来，今天软件生产的实际形态毫无疑问是大规模的工业化生产。这一点我不接受讨论，它是明摆着的。</p>
+<p>我长期琢磨的是另一个问题：软件生产“应不应该”是手艺活？更好的软件，是来自把自己当手艺人、年复一年打磨得意之作的开发者和工程师？还是来自把工业化、可重复、自动化的流程压进来，让开发者和工程师只当代码工厂里熟练却可替换的工人？写代码的时候，到底是坚持并追求自己那套匠人标准更好，还是彻底拥抱工业化最佳实践、不带感情也不带个人色彩地产出代码更好？</p>
+<p>如果你在做软件开发，我请你先坐一会儿，问问自己的心：你对这个问题到底什么感觉？你是想做出得意之作，还是觉得当颗螺丝钉、造点大路货也挺好？想完了？好。现在带着你这套新觉悟，出门去把你遇到的每个人都烦一遍。不同意你的人都错得离谱、人品有问题，你完全有理由动用一切必要手段纠正他，并阻止他的观点继续扩散。去吧，玩得开心点！</p>
+<p>至于那些还没激动到立刻出门布道、去传播自己这套根深蒂固且绝对正确的观点的人，我给你们引一条路——tab 与空格之争。搞懂它，你就能明白 2026 年的 Bun 大迁移为什么能预示软件开发里匠人精神的未来。</p>
+<blockquote>
+<p>错。tab 生来就是邪物。</p>
+<p>— Dennis Draheim, “Tabs vs. Spaces”, comp.lang.c, Dec 29, 1988</p>
+</blockquote>
+<p>要是我早想通过，答案本就该知道。可等我坐下来查资料、写这篇文章，我是真被惊到了：人们为 tab 和空格吵架的时间比我活过的年头还长。我现在稳稳的三十五岁上下，有人告诉我说必须严格坚持锻炼，不然往后的日子有得受，所以偶尔被这种事吓一跳、把心率拉起来一次，也不算坏事。</p>
+<blockquote>
+<p>tab 去死！</p>
+<p>此致，</p>
+<p>Dan，我会一直用 3 空格——呃，3 个 tab。</p>
+<p>— Daniel Berger, “Using TABs vs. spaces II. (the Philosophy flamewar reloaded ;-))”, RubyTalk, Jul 2007</p>
+</blockquote>
+<p>给这几年才入行的人交代一下：我们以前经常为代码该用空格还是 tab 缩进大声吵架。现在有格式化工具自动处理这类事，搞得我已经说不清自己写的代码到底用的是哪种。不过在过去二十年左右的时间里，情况完全不是这样。</p>
+<blockquote>
+<p>我说过花括号是冗余信息。换句话说，只要缩进写对了，花括号并不带来额外信息。其实这话是同义反复：如果花括号真带来了额外信息，那就说明你的缩进写错了。花括号不是“编译器废话”。</p>
+<p>— T. William Wells, “Braces are not Compiler-Fluff.”, comp.lang.c, Jan 4, 1989</p>
+</blockquote>
+<p>十几年前我刚入行时，对这类讨论特别着迷：tab&#x2F;空格的头头是道的好处，对上空格&#x2F;tab 的种种罪状。午饭时前辈们围坐一圈，长篇大论地讲自己偏好的缩进方式。而且不只 tab 还是空格，还包括换行该放哪儿、为什么该放那儿。一个单行的 while 循环，能写一行是不是就该写一行？还是该拆成 3 行（手头宽裕的话 4 行），把逻辑讲清楚，以后也好改？每种语言都有一堆这样的小地方，容你对它该长什么样发表意见——而人们当然没放过！</p>
+<blockquote>
+<p>C 代码的排版是“规则支配行为”的经典案例：规则不成文，常常连自己都说不清楚，但效力明显极强。</p>
+<p>— Eric S. Raymond, comp.lang.c, Dec 23, 1988</p>
+</blockquote>
+<p>我记得自己当年非常在意 tab 和空格，也在意更广义的排版，那种在意是很深的。我会为偏好的空白字符争上很久，论证它为什么意义重大、而且永远会。至于我现在到底觉得哪个更好——说不出，也懒得翻旧代码去确认。</p>
+<blockquote>
+<p>在 tab 与空格的争论里，我看到有人说“用 tab 才能自定义 tab 宽度”，好像这是图个乐子——可这关乎的是真实的人、真实的障碍需求——怎么就没人把它当成一个再简单不过的无障碍问题？</p>
+<p>— ChaseMoskal, “Nobody talks about the real reason to use Tabs over Spaces”, &#x2F;r&#x2F;javascript, 2019</p>
+</blockquote>
+<p>这不只是偏好问题，人们给 tab 和空格赋予了实实在在的意义！站错队会影响别人怎么看你，今天听起来再荒唐也没用。要说这话题在文化上扎得多深，《硅谷》那部剧专门有一场戏把它永载史册：主角 Richard 跟一个他本来想上床的姑娘吹了，理由是她一直用空格缩进代码。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/01-richard-and-winnie-sitting-on-a-couch-mid-arg.jpg"
+                      alt="图片：《硅谷》里 Richard 和 Winnie 坐在沙发上吵到一半，他说话时她眯着眼看他。"
+                ></p>
+<p>tab 与空格的争论，出自 aksonai 的 “Tabs versus Spaces (From Silicon Valley)”。</p>
+<blockquote>
+<p>我不想再听任何人的意见。锁掉这个议题就是要说明这一点，尽管我又一次被人钓进了讨论。我掌握全部信息，任何能提的观点都已经提过了。这个话题是自行车棚里的自行车棚，而我作为 BDFN，由我来选颜色。</p>
+<p>— Andrew Kelley, Zig GitHub Issues, Oct 28, 2023</p>
+</blockquote>
+<p>Andrew Kelley 本人对 Zig 代码该怎么排版，态度明确得很。Zig 程序里只要出现 tab，或者行尾换行符用错了类型，直接编译不过；zig fmt 也不准你用 2 个空格缩进代替 4 个。你对此有意见，那就去把编辑器配成自动处理，或者换门语言。这显然引发了争议，随便花半分钟就能在网上到处翻到又长又激烈的讨论。这又是我坐下来写这篇文章之前不知道的事——不过一个人准备把“真理”付印的时候，运气总会自己送上门来。</p>
+<p>入行几年后，大概是 2014 年，我记得有同事在争论要不要在我们那家公司的 Python 代码库里引入 flake8。flake8 检查的是 Python Enhancement Proposal 8，也就是 PEP8，里面规定了 Python 代码该怎么排版。PEP8 是 2001 年的老提案；linter 存在已经有些年头了，但真正会指出代码库里哪些地方排版“不对”、再顺手替你改好的自动格式化工具，大约是 2010 年代初才出现的。tab 和空格它都支持，但代码库里混用的话它大概会唠叨几句——时间太久，同样记不清了。</p>
+<p>我和同事们为 tab 和空格做了最后一次讨论，争了大概有点久，最后定下来一个，这事就算完了，代码库开始向单一样式收敛。大家都装了 flake8，基本照着它的建议走，后来又用上 autopep8，让格式化自动完成。不过那最后一次辩论没什么意思，不像以前那些。我想不起来之后我们还有没有认真聊过 tab 和空格——大家转头去聊别的老掉牙话题了。</p>
+<p>回头看，我记得自动格式化出现之前，代码库的个性要强得多。打开一个文件，不用 git blame 之类的，我就知道谁最后动过它——除了他，谁会在一堆 and 上折腾得那么怪！我会多花半小时，确保排版处处到位，因为团队里的资深工程师只要发现不符合他的审美，会直接打回整个改动。靠这个我也抓到过不少好 bug——为了把代码看顺眼，就得逐行读。学一个新代码库，一半功夫是学会读懂这个团队长出来的怪排版，更别提照着写了。我写了不少小脚本保证自己不出格；我记得自己的 shell 脚本水平因此见长，因为一想到可能被那些年纪更大、经验更丰富的同事骂一句“菜鸟”，我晚上就睡不着。</p>
+<p>我认为我们引入格式化工具时丢掉的东西，是每个人对代码、对写下这些代码的人都还留着的那份明确而切身的联系感。代码干什么你也许管不了，但至少你和你的团队对它的长相还有发言权。而现在，所有个性、所有玩心、所有拿语言语法本身做实验的乐趣，都被磨平抛光，只剩下一堆不带个人色彩的功能。</p>
+<p>作为一个负责在团队里落实最佳实践之类的资深工程师，上面两段幼稚又愚蠢；要是有初级工程师拿这套说辞跟我解释他为什么关掉了格式化工具，我会罚他值一个月的客服轮班。可下了班，我得问自己一句：你就没有过想撒开了干的念头吗？</p>
+<blockquote>
+<p>有人问起代码库。“目前是 247 行 C。”有人表示难以置信。Whitney 展示了源码，拆成五个文本文件，这样每个都能完整铺在他的显示器上。“我讨厌滚动，”他嘟囔道。</p>
+<p>— Stephen Taylor, “Impending kOS”, Vector, Sep 1, 2014</p>
+</blockquote>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> C;<span class="keyword">typedef</span> <span class="type">long</span> I;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">a</span>&#123;</span>I t,r,d[<span class="number">3</span>],p[<span class="number">2</span>];&#125;*A;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> P printf</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> R return</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> V1(f) A f(w)A w;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> V2(f) A f(a,w)A a,w;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DO(n,x) &#123;I i=0,_n=(n);for(;i&lt;_n;++i)&#123;x;&#125;&#125;</span></span><br><span class="line">I *<span class="title function_">ma</span><span class="params">(n)</span>&#123;R(I*)<span class="built_in">malloc</span>(n*<span class="number">4</span>);&#125;mv(d,s,n)I *d,*s;&#123;DO(n,d[i]=s[i]);&#125;</span><br><span class="line">tr(r,d)I *d;&#123;I z=<span class="number">1</span>;DO(r,z=z*d[i]);R z;&#125;</span><br><span class="line">A <span class="title function_">ga</span><span class="params">(t,r,d)</span>I *d;&#123;A z=(A)ma(<span class="number">5</span>+tr(r,d));z-&gt;t=t,z-&gt;r=r,mv(z-&gt;d,d,r);</span><br><span class="line"> R z;&#125;</span><br><span class="line">V1(iota)&#123;I n=*w-&gt;p;A z=ga(<span class="number">0</span>,<span class="number">1</span>,&amp;n);DO(n,z-&gt;p[i]=i);R z;&#125;</span><br><span class="line">V2(plus)&#123;I r=w-&gt;r,*d=w-&gt;d,n=tr(r,d);A z=ga(<span class="number">0</span>,r,d);</span><br><span class="line"> DO(n,z-&gt;p[i]=a-&gt;p[i]+w-&gt;p[i]);R z;&#125;</span><br><span class="line">V2(from)&#123;I r=w-&gt;r<span class="number">-1</span>,*d=w-&gt;d+<span class="number">1</span>,n=tr(r,d);</span><br><span class="line"> A z=ga(w-&gt;t,r,d);mv(z-&gt;p,w-&gt;p+(n**a-&gt;p),n);R z;&#125;</span><br><span class="line">V1(box)&#123;A z=ga(<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);*z-&gt;p=(I)w;R z;&#125;</span><br><span class="line">V2(cat)&#123;I an=tr(a-&gt;r,a-&gt;d),wn=tr(w-&gt;r,w-&gt;d),n=an+wn;</span><br><span class="line"> A z=ga(w-&gt;t,<span class="number">1</span>,&amp;n);mv(z-&gt;p,a-&gt;p,an);mv(z-&gt;p+an,w-&gt;p,wn);R z;&#125;</span><br><span class="line">V2(find)&#123;&#125;</span><br><span class="line">V2(rsh)&#123;I r=a-&gt;r?*a-&gt;d:<span class="number">1</span>,n=tr(r,a-&gt;p),wn=tr(w-&gt;r,w-&gt;d);</span><br><span class="line"> A z=ga(w-&gt;t,r,a-&gt;p);mv(z-&gt;p,w-&gt;p,wn=n&gt;wn?wn:n);</span><br><span class="line"> <span class="keyword">if</span>(n-=wn)mv(z-&gt;p+wn,z-&gt;p,n);R z;&#125;</span><br><span class="line">V1(sha)&#123;A z=ga(<span class="number">0</span>,<span class="number">1</span>,&amp;w-&gt;r);mv(z-&gt;p,w-&gt;d,w-&gt;r);R z;&#125;</span><br><span class="line">V1(id)&#123;R w;&#125;V1(size)&#123;A z=ga(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);*z-&gt;p=w-&gt;r?*w-&gt;d:<span class="number">1</span>;R z;&#125;</span><br><span class="line">pi(i)&#123;P(“%d ”,i);&#125;nl()&#123;P(“\n”);&#125;</span><br><span class="line">pr(w)A w;&#123;I r=w-&gt;r,*d=w-&gt;d,n=tr(r,d);DO(r,pi(d[i]));nl();</span><br><span class="line"> <span class="keyword">if</span>(w-&gt;t)DO(n,P(“&lt; ”);pr(w-&gt;p[i]))<span class="keyword">else</span> DO(n,pi(w-&gt;p[i]));nl();&#125;</span><br><span class="line"></span><br><span class="line">C vt[]=“+&#123;~&lt;#,”;</span><br><span class="line">A(*vd[])()=&#123;<span class="number">0</span>,plus,from,find,<span class="number">0</span>,rsh,cat&#125;,</span><br><span class="line"> (*vm[])()=&#123;<span class="number">0</span>,id,size,iota,box,sha,<span class="number">0</span>&#125;;</span><br><span class="line">I st[<span class="number">26</span>]; qp(a)&#123;R  a&gt;=<span class="string">&#x27;a&#x27;</span>&amp;&amp;a&lt;=<span class="string">&#x27;z&#x27;</span>;&#125;qv(a)&#123;R a&lt;<span class="string">&#x27;a&#x27;</span>;&#125;</span><br><span class="line">A <span class="title function_">ex</span><span class="params">(e)</span>I *e;&#123;I a=*e;</span><br><span class="line"> <span class="keyword">if</span>(qp(a))&#123;<span class="keyword">if</span>(e[<span class="number">1</span>]==<span class="string">&#x27;=&#x27;</span>)R st[a-<span class="string">&#x27;a&#x27;</span>]=ex(e+<span class="number">2</span>);a= st[ a-<span class="string">&#x27;a&#x27;</span>];&#125;</span><br><span class="line"> R <span class="title function_">qv</span><span class="params">(a)</span>?<span class="params">(*vm[a])</span><span class="params">(ex(e+<span class="number">1</span>))</span>:e[1]?<span class="params">(*vd[e[<span class="number">1</span>]])</span><span class="params">(a,ex(e+<span class="number">2</span>))</span>:<span class="params">(A)</span>a;&#125;</span><br><span class="line">noun(c)&#123;A z;<span class="keyword">if</span>(c&lt;<span class="string">&#x27;0&#x27;</span>||c&gt;<span class="string">&#x27;9&#x27;</span>)R <span class="number">0</span>;z=ga(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);*z-&gt;p=c-<span class="string">&#x27;0&#x27;</span>;R z;&#125;</span><br><span class="line">verb(c)&#123;I i=<span class="number">0</span>;<span class="keyword">for</span>(;vt[i];)<span class="keyword">if</span>(vt[i++]==c)R i;R <span class="number">0</span>;&#125;</span><br><span class="line">I *<span class="title function_">wd</span><span class="params">(s)</span>C *s;&#123;I a,n=<span class="built_in">strlen</span>(s),*e=ma(n+<span class="number">1</span>);C c;</span><br><span class="line"> DO(n,e[i]=(a=noun(c=s[i]))?a:(a=verb(c))?a:c);e[n]=<span class="number">0</span>;R e;&#125;</span><br><span class="line"></span><br><span class="line">main()&#123;C s[<span class="number">99</span>];<span class="keyword">while</span>(gets(s))pr(ex(wd(s)));&#125;</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<p>— Arthur Whitney, “An Implementation of J” (Incunabulum), jsoftware.com, summer 1989</p>
+</blockquote>
+<p>Go 语言由 Google 在 2009 年 11 月对外公布，此前从 2007 年起已在内部开发。设计它的是 Ken Thompson、Rob Pike 这类 Unix 和 C 的元老级人物。发布第二天，就有人发了下面这段，谈随语言一起提供的格式化工具 gofmt。</p>
+<blockquote>
+<p>我觉得随语言提供格式化工具挺不错的。parser&#x2F;ast&#x2F;pretty printer 还能当模块用，也是好事。</p>
+<p>不过我不确定用“禁止配置格式化工具”这种办法（FAQ 里提到的）来强推某种排版风格是不是好主意。至少让 go&#x2F;printer 包支持更灵活的配置会是好事，哪怕命令行上的 gofmt 工具不支持。</p>
+<p>我不觉得不同的 C&#x2F;C++ 项目用不同约定有什么不好，也怀疑靠让 go&#x2F;printer 不可配置来推动所有人用统一样式的计划真能成。我猜很多人会照我打算做的那样去改它，哪怕代价是把 go&#x2F;printer 抠出来、塞一个改过的版本进格式化工具的源码树（if&#x2F;else 之类的左花括号跟在行尾、而不是单独占一行，对我来说可读性直接暴跌）</p>
+<p>— Antoine Chavasse, golang-nuts, Nov 11, 2009</p>
+</blockquote>
+<p>Go 团队早期成员 Russ Cox 直接回应道：</p>
+<blockquote>
+<p>我们希望人们接受 gofmt 的输出，正是因为它终结了这类风格之争。C 里到底有多少种花括号风格？太多了。</p>
+<p>就我个人而言，让 gofmt 替我排版是一种解脱，这意味着我能腾出更多脑细胞去对付真正有趣的编程问题。gofmt 的输出有些地方我不喜欢，但我很喜欢不用再为它们操心这件事。</p>
+<p>— Russ Cox, golang-nuts, Nov 11, 2009</p>
+</blockquote>
+<p>一个月后，Cox 又写了一篇讲 gofmt 的文章，里面这么说：</p>
+<blockquote>
+<p>用 gofmt 最明显的好处是：当你打开一个陌生的 Go 程序，你的大脑不会分心，哪怕是下意识地，去想那个大括号为什么放错了地方；你可以专注于代码，而不是格式。</p>
+<p>— Russ Cox, “Gofmt”, swtch.com, Dec 15, 2009</p>
+</blockquote>
+<p>那篇文章值得一读。它讲的是：当一门编程语言为所有程序规定了唯一的规范格式，会带来什么好处，以及为什么为此在编译器里费那么大劲是值得的。linting 和类型的话题我们后面还会回头讲，别急。不过现在，先看几条 Go 团队自己说的话。</p>
+<blockquote>
+<p>Go 高效、可扩展、生产力高。有些程序员觉得写 Go 有意思，有些人则觉得它缺乏想象力，甚至无聊。本文会说明这两种看法为什么并不矛盾。Go 是为了解决 Google 在软件开发中遇到的问题而设计的，这让它算不上什么突破性的研究语言，但用来做大工程的软件，它是一把极好的工具。</p>
+<p>— Rob Pike, “Go at Google: Language Design in the Service of Software Engineering”, 2012</p>
+<p>软件工程，我个人的定义：让一组特定的程序员能造出的软件质量最大化。我们的程序员是 Googler，不是研究者。对一门新语言来说，实用和容易上手至关重要。</p>
+<p>这里的重点是：我们的程序员是 Googler，不是研究者。他们通常相当年轻，刚出校门，大概学过 Java，也许学过 C 或 C++，多半还学过 Python。他们没能力理解一门精妙的语言，但我们又需要靠他们做出好软件。所以我们给他们的语言，必须容易理解、容易上手。</p>
+<p>— Rob Pike, “From Parallel to Concurrent”, Lang.NEXT, 2014, 20:40</p>
+</blockquote>
+<p>Go 有一条明确的设计目标：随便哪个 Cornell、Columbia 这类二流大学出来的阿猫阿狗，都能进 Google 写出上规模的高性能代码，不必再要求一个“C++ 模板学”博士学位。另外，我在翻设计文档、听这些演讲的时候发现，Go 团队非常看重一件事：用 Go 写的大程序要编译得快。事实上，Go 最初的想法，就是在等一个大型 C++ 代码库编译的时候冒出来的。</p>
+<blockquote>
+<p>我又启动了一次编译，把椅子转过去对着 Robert，开始问一些尖锐的问题。编译还没跑完，我们就把 Ken 也拉了进来，决定动手做点什么。我们不想一辈子写 C++，而且我们——尤其是我——希望写 Google 代码的时候，并发能随手就用。我们还打算正面解决“大规模编程”这个问题，这个之后再细说。</p>
+<p>— Rob Pike, “Less is exponentially more”, 2012</p>
+</blockquote>
+<p>我之所以盯住这两件事——让写高性能代码变简单，让编译变快——是因为它们都能干净利落地对应到经济学概念上：去技能化和劳动强化。Google 花了数不清的钱做出这门编程语言，好让他们能雇技能更低、更便宜的劳动力，同时还让人在更短的时间里干出更多的活。</p>
+<blockquote>
+<p>在经济学里，去技能化指的是某个行业或经济体中，熟练劳动被半熟练、非熟练工人操作的技术所取代的过程。人力资本投入降低带来成本节约，同时降低了准入门槛，削弱了人力资本的议价能力。去技能化也指：引入机器或技术，把工人与生产过程隔开，从而让工作岗位减少。</p>
+<p>— Wikipedia, “Deskilling”, Jul 2026</p>
+<p>劳动强化被定义为“工作日内投入到工作任务中的体力／脑力付出强度”。劳动强度包含若干要素：任务执行的速率；这些任务在体力、认知和情绪要求上的强度；它们是同时做还是依次做，是连续不断还是有中断；以及任务之间的间隔。</p>
+<p>— Trades Union Congress, “Work intensification”, Jul 2023</p>
+</blockquote>
+<p>我这辈子只有一份工作要天天跟 C++ 代码库打交道，那份工作烂透了。我按下编译，然后离开电脑走上半小时，去看那位资深开发怎么开车一样的 Emacs——他拿 elisp 把一支摇杆接到 etags 上，硬凑出一套操作方案。到现在我想起自己当实习生那会儿还会脸红：我跟他说我对 Emacs 挺熟的，然后问他桌上那支摇杆是干嘛用的，接着就眼睁睁看着他像他妈的王牌飞行员一样在 Mathematica 内核里翻飞，我当场心态崩了。Cameron，希望你一切都好，你是个传奇，我从你身上学到的太多了，谢谢你！</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/02-two-stick-figures-sword-fight-in-office-chair.jpg"
+                      alt="图片：两个火柴人坐在办公椅里，一边等代码编译一边击剑；配文：“程序员名正言顺摸鱼的第一大借口：‘我的代码在编译。’”"
+                ></p>
+<p>— Randall Munroe, “Compiling”, xkcd, Aug 15, 2007.</p>
+<p>把话说清楚：我不觉得 Google 做 Go 有什么错。当年 Google 投钱做 Go，未必是显而易见的好选择；但十多年一个接一个的成功之后，现在它显然是正确选择。这是一笔长期投资，让 Google 一路做大，长成了世界历史上最值钱的公司之一。而这套增长策略里有很大一块，就是他们能雇技能更低的劳动力来干比以前更多的活，还能从这些人身上榨出更多工作量，因为 Go 从设计上就比 C++ 编译得快得多。</p>
+<blockquote>
+<p>几周前有人问我：“推广 Go 的过程中，最让你意外的发现是什么？”我立刻就知道答案：我们本来以为 C++ 程序员会把 Go 当成一个替代选项，结果大多数 Go 程序员来自 Python、Ruby 这类语言，从 C++ 转过来的极少。</p>
+<p>— Rob Pike, “Less is exponentially more”, 2012</p>
+</blockquote>
+<p>不过我也明白 C++ 那拨人为什么没往 Go 这边涌。他们凭什么要涌？Go 削弱了他们在劳动力市场和职场里的议价能力！要是用 Go，他们白天想摸鱼的借口就少了，那些关于 C++ 性能的知识对他们和雇主都不再那么值钱，他们也就没那么特别了。反过来，对一个以前干不了“在 Google 规模上写代码”这种肥活的低技能程序员来说，一项把某种经济活动去技能化的技术简直是天大的赋能。哦，我从来没正经上过编程语言课，并发的坑一个都不懂，但我能用 Go 写个 Web 服务器跑出变态的性能，说不定还能混个升职？算我一个！</p>
+<p>至于我自己，我一直不太喜欢 Go。我本来能一眼看出 Go 是对卑微的手工 C++ 模板匠人的攻击，所以出于阶级情谊，一开始就该断然拒绝！——倒也不是这么回事。我试着爱它爱了一个星期，就是没找着什么特别喜欢的地方。它从来没让我心动。</p>
+<p>至少不像 Clojure 那样让我心动。</p>
+<blockquote>
+<p>[屏幕上放着开发速度的幻灯片] 什么样的跑者能在比赛一开始就用尽全力跑？只有跑超短程的人。可我们程序员显然比跑者聪明，因为我们知道怎么解决这个问题——每隔一百码就朝天开一枪发令，然后管这叫新一轮冲刺。</p>
+<p>— Rich Hickey, “Simple Made Easy”, 2011, 17:10</p>
+</blockquote>
+<p>如果你过去十来年逛够了编程和软件的论坛，那我得道个歉：刚才这一下可能让你条件反射地一哆嗦，以为又要来一篇 Clojure 布道文。至于其他人，Clojure 是 Rich Hickey 造的一门强力编程语言，它能把不论老少的易感心灵变成狂热的手艺人、简单性的追寻者，让他们走上 Decomplection（拆解纠缠）之路，同时一步也不用离开吊床的舒适区。</p>
+<p>我当年就是这样一个心灵，而且我很感激这段经历。现在虽然很少手写代码了，但我真动手写的时候，不管用什么语言，其实都在偷偷写 Clojure：大量函数，干净的数据结构，一堆 map。我也当过那种往公司里偷塞 Clojure 的人，这边塞一个微服务，那边塞一个微服务，理由永远是 Clojure 有某个特别的库，能让我们无比在意的某件重要事情变得容易太多太多，我保证！</p>
+<p>网上有成百上千篇文章讲你为什么该学 Clojure，哪怕你永远找不到一份写 Clojure 的工作。大体上我同意：开阔眼界是好事，Clojure 里确实有好东西，大多数人接触一下，并把它融进自己思考软件开发的方式里，都会有收获。但你要当心的是跟着它一起来的那套意识形态。</p>
+<p>论“让人看完就想冲进公司代码库里放把火”的演讲产量，Rich Hickey 的战绩大概是同行里最惊人的之一。任何资深开发只要通过公司 VPN 看了《Simple Made Easy》，CTO 办公室就该响起《杀死比尔》那种警报，吊顶板里就该掉下一把武士刀——因为接下来这个季度，这位 CTO 得靠十几场会来给自己和排期辩护，会议主题全都是“我们必须紧急处理 Mutable State 这个蔓延中的恐怖”。项目经理也该有个像 D.A.R.E. 那样的课后项目，教他们怎么识别那些开始享受“吊床驱动开发”的开发。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/03-a-round-kids-sticker-a-cartoon-cat-and-dog-in.jpg"
+                      alt="图片：一张圆形的儿童贴纸：卡通猫和狗穿着彩虹色上衣竖起大拇指，上面写着“FRIENDS”，外圈围着一行字“DON&#39;T LET FRIENDS TRY IMMUTABLE STATE”（别让朋友碰不可变状态）。"
+                ></p>
+<p>别误会：Rich Hickey 和他背后的 Clojure 社区讲的都是关于好想法的精彩演讲，我要说的正是这一点。我想提醒的是，他们身上深深体现着、并且极有说服力地论证着一套观念：软件的产出应该是一门手艺活。你作为个体，该在写之前把要写的程序想透；你该偏爱那些简单、易懂的工具，并用出大师水准，而不是用复杂、玄乎的工具——那种工具招来过多复杂度，于是（可惜，但也很显然）招来灾难。一个手握强力语言、技艺纯熟的人，能比一整个团队走得更远、更快，而那些人想得没那么深，手里的工具也没那么锋利。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/04-a-cartoon-in-the-style-of-gary-larson-s-cow-t.jpg"
+                      alt="图片：一幅 Gary Larson《奶牛的工具》风格的漫画：一头奶牛站在摆着几件粗陋器具的桌子后面——一个 lambda、一个标着链表和树的方块、一把写着“a b c”的放大镜——身后一间谷仓吊在吊床里。配文：“函数式工具”。"
+                ></p>
+<p>我早年也曾在融入社会这件事上挣扎过，所以我能体会：Clojure 和其他 Lisp，以及把软件当成匠人手艺这整套想法，底下藏着一种吸引力——只要找到合适的工具，把自己训练得够好，能写出足够好的代码，别的一切就不重要了，我也不用去跟人打交道。只要我能把括号配平，我就能拥有自己的独处，按自己的节奏、自己的方式过日子。</p>
+<p>随着年纪渐长、有了社交生活、更好地融入社会、整个人也放松下来，这些感觉就散了。但对我来说问题依旧在：我们该不该以成为软件的男女匠人为志向？Hickey 式的生产方式对软件来说是最优解吗？我建议你拿这个问题问问自己，然后拦住朋友、家人、同事和陌生人，把你的答案讲给他们听。</p>
+<blockquote>
+<p>— Tim Ewald, “Clojure: Programming with Hand Tools”, ClojureTV, Jan 8, 2014</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/05-tim-ewald-s-clojure-programming-with-hand-too.jpg"
+                      alt="Tim Ewald 在 ClojureTV 的演讲“Clojure: Programming with Hand Tools”"
+                ></p>
+<blockquote>
+<p>凡是手工做起来让人厌烦的活，都由大幅改进的机器代劳；凡是手工做起来是种享受的活，就没有机器来插手。</p>
+<p>— William Morris, News from Nowhere, 1890</p>
+</blockquote>
+<p>想回到用简单工具、亲手做出自己设计的完美物件，这种愿望并不是 Clojure 社区独有的。这些年里，我共事过的人中有一大群业余爱好木工的，多得出乎意料。</p>
+<blockquote>
+<p>机器也许站在生命的对立面，但它确实替人省下不少工夫。</p>
+<p>— Janet Malcolm, “About the House”, The New Yorker, May 13, 1967</p>
+</blockquote>
+<p>有一次站会开始前那段空档里，我听同事聊他们最近的项目，察觉出里面藏着一场争论，就追着问了问。结果挺让我意外：在业余木工圈子里，关于要不要用电动工具，居然有相当多而且相当平和的讨论。这事在工业界基本已经定论：活要干，钱要挣，电动工具当然是有多好用就用多好。</p>
+<blockquote>
+<p>Norm! Norm! Norm! Norm!（观众疯了）再来四年，再来四年……</p>
+<p>有些人大概已经猜到了，我对电动工具有点着迷。我是个工程师（至少学位证上是这么写的……），所以在任何运转良好的机器上都能看到一种特别的美，不管是工具、相机还是飞机。我就是喜欢好工具，这是我玩这门爱好时很大一部分乐趣所在。</p>
+<p>话虽如此，我也开始理解为什么会有人享受用一把调好的手刨了。他们说得没错，一把好刨子干活时那种声音和手感，真没什么能比……不过别担心……我不会放弃电动工具的，绝不！</p>
+<p>— Just_George, “Neander or Normite?”（木工圈黑话：Neander 指手工工具派，Normite 指电动工具派，得名于电视木工节目主持人 Norm Abram）, Southeast Michigan Woodworkers Forum, Mar 29, 2004</p>
+</blockquote>
+<p>但在业余玩家这边，一条线把电动工具爱好者跟手工工具爱好者分开了。中间还夹着一群大概是沉默多数的“混用派”：他们可能也就买一两件电动工具，专门用来干那些实在不想干的活，但绝不彻底投靠电这玩意儿，那杯魔鬼的果汁。</p>
+<blockquote>
+<p>我逐渐意识到，跟木头打交道是人最根本的一种体验。[…] 传统木工不是那种来一阵就走的“技术”，它从不过时，也不会变一变就被淘汰。只要还有树、有金属、有肌肉，它就一直在那儿。[…] 用一件手工工具，你常常能用那些看起来更高级的现代工具或技法十分之一的时间把活干完。想想斧头。斧头能做出来的事，简直神了，太惊人了。</p>
+<p>— Roy Underhill, “An Interview With Roy Underhill, Host of The Woodwright’s Shop”, Mother Earth News, Nov 1, 1985</p>
+</blockquote>
+<p>这些玩票的还给自己、给彼此起了外号。手工工具派自称“Galoot”“Neanderthal”，他们的偶像 Roy Underhill 被叫做“圣 Roy”，他们最得意、保养得最好的老工具叫“Crispy”，电动工具则被贬成“长尾巴的学徒”。Normites 那边当然也有自己的一套黑话。就我粗略打听下来的情况看，两边相处得还挺和气。业余玩家自己划线，界定什么算好东西、什么算好玩，而工业界那边不停推出更猛的机器，一棵原木塞进去，一整个柜子拉出来。</p>
+<p>木工行业的专业选手和业余玩家，经历了好几个世纪，也经历了快得吓人、令人瞠目的技术进步，大致上都摆明了自己的立场，相处得挺和谐。那么，像软件业这样一个年轻的、正在上升的、满是聪明脑袋的领域，肯定能从这段历史里学到东西，平心静气、富有成效地讨论自己的行业现状和自动化工具该怎么用吧。</p>
+<p>对吧？</p>
+<blockquote>
+<p>是哪个蠢货想出来高级语言这种东西的。应该追溯性处死。谁有时光机借我用用？:-)</p>
+<p>— Neil Franklin, alt.folklore.computers, Nov 29, 1998</p>
+<p>再顺便补一句，这个‘C’编译器就是一坨彻头彻尾的狗屎。它生成的代码是我见过最烂的那一档（在 3210 上用‘C’做矩阵乘法，比 Quadra 700 上的 68k 主机慢 5 倍；同样的东西改写成汇编，快了 7 到 8 倍）。你要是认真做 3210 编程，就得学 3210 汇编。</p>
+<p>— Walter Horat, comp.sys.mac.hardware, Dec 4, 1993</p>
+<p>显然，因为这个“没用的程序”如此清楚地暴露出来的问题，在 C 编译的其他几乎所有函数里都存在。这就是 C 的优化烂成一坨的铁证。</p>
+<p>明摆着，C 的吹鼓手们就想无视这个事实。</p>
+<p>— Scott Nudds, comp.arch.embedded, Dec 29, 1996</p>
+<p>不过，一旦规格书摆出来（或者芯片被人摸透了），手写汇编写出来的东西会把编译器打得满地找牙。</p>
+<p>— Paul Hsieh, comp.os.linux.development.apps, Mar 18, 1996</p>
+<p>没错。除非汇编器看到段覆盖前缀，或者基址、变址寄存器，否则就算你写了方括号，它也不认得那是内存引用。这事在哪儿有文档记着，说到底是因为设计 MASM 的那帮脑子有坑的家伙是 C 脑残粉，把整个汇编器设计得颠倒黑白：数据带类型，操作不带类型。可汇编语言里恰恰是反过来的。它连前向引用都搞不定，这不可原谅，汇编器存在的意义就在于此！</p>
+<p>— John Wilson, alt.lang.asm, Mar 22, 1994</p>
+<p>顺便说一句，“今天的编译器比人写的汇编强”这套说法，主要适用于刚入门的菜鸟和只钻研纯理论的人。</p>
+<p>— TS, comp.lang.asm.x86, Oct 1, 2000</p>
+<p>我宁愿躲开 C 这种杂种语言。</p>
+<p>— Scott Nudds, comp.lang.asm.x86, Apr 24, 1997</p>
+<p>我觉得关键就是：要写时间敏感的代码，绝对不能信编译器。我写过很多实时驱动，几年前从汇编改用‘c’之后，我发现编译器技术还差得远。</p>
+<p>— rogerc, comp.lang.c.moderated, Apr 11, 1995</p>
+<p>我在 8051 上也写汇编，因为我不相信高级语言能把这活干好。想喷就喷吧。</p>
+<p>— Roger Ivie, alt.folklore.computers, Jan 16, 1991</p>
+<p>让一个根本不懂编译器怎么工作的自大狂去手动优化，纯属脑子坏了。</p>
+<p>— Mark C. Carroll, comp.arch, May 13, 1992</p>
+</blockquote>
+<p>啊，美好的旧时光。上面这些，一部分是 Usenet 用户互相啐的真心恶意，也有一部分算是对编译器这类自动化工具稍认真些的讨论。编译器在 Usenet 那个年代不算新东西，但也没好到哪儿去，跟今天的 GCC、LLVM 根本没法比。所以用户对它们的抱怨是有道理的，这些抱怨后来基本被时间、被编译器作者们的大量开发工作消解掉了。换成我，要是拿着一把射钉枪，结果它哪怕只有一次把钉子从反方向射出来，我骂街也合情合理。</p>
+<p>我的印象是，木工和软件开发者有个共同点：这两个行业里的人，往往在业余时间也乐意拿同样的事当爱好接着干。他们大概本来就在木头、在代码上挺有一手，也许正因为这样，才把这事干成了全职的职业。我觉得差别在于：一个木匠不会隔三差五、甚至大嗓门地主张，自己在单位干正经活时应该用他玩爱好时用的那些手工工具。</p>
+<p>可话又说回来，很多想写出高质量代码、讲究匠人精神的软件开发者，就是想把爱好里用的工具搬到公司：Clojure、Haskell、Elixir，还有别的函数式和冷门语言，用它替代公司里已经在用的那些更……怎么说呢，更工业化的语言，比如 TypeScript、Python、Java、Ruby。</p>
+<p>为什么会这样？我说过，我自己也有过这种冲动，所以我只说我自己当时在干什么、为什么。有些活确实没什么意思，我甚至觉得它配不上我这种水平的码农。我懂好几门函数式语言！我读过一堆讲它们的书！我还有一张时不时会坐进去的吊床！凭什么让我用 Python 写 CRUD 应用？偷偷塞点 Clojure 进来是个泄压阀，让我能缓和自己那个“手艺人的自我形象”跟现实之间的落差：我干的活根本不需要那种意义上的高质量代码。活干完很重要，干得多“漂亮”，就没那么重要了。</p>
+<p>有时候我不喜欢自己正在做的事，于是至少想让自己喜欢上做事的方式。承认这些挺丢人的，我也希望自己能早点看清自己身上的这套心理机制。</p>
+<p>但不知从什么时候起，我丢掉了那股朝着“高质量”爬坡的劲头。这是个渐进的过程，早在我知道 Clojure、甚至早在我对软件开发有几分了解之前就开始了。大学时，我在笔记本上装了 Emacs，把 Linux 当操作系统用，一头扎进去研究这一切到底是怎么运转的。我得装一大堆包，为了让笔记本能干别人在 MacBook 和 Windows 机器上顺手就能干的事，我得先折腾半天。我学了无数宏和快捷键，在文件系统里飞来飞去看来看去。我知道自己在更深入地了解计算机真实的运作方式，而其他人只是在学，我也说不清，只是在学我们本该学的东西。</p>
+<p>每个学期至少有一次，我会把电脑搞成一团烧起来的废轮胎。有一次我好像想装一个新版本的 Python，结果把旧的卸了，所有东西当场就崩，我也说不清为什么。我花了一两天修好，顺便把 Python 版本管理和备份学了个透。但接下来一阵子我基本上别的啥也没干成，这开始让我相当烦躁。除了伺候我的笔记本，我还有别的事想做。于是我叛变了。</p>
+<p>我记得刚拿到 MacBook Air 时特别喜欢它。干活太省事了！升级各种软件版本，什么都不崩。我看不到操作系统的源码，而我发现自己压根不在乎。我要去干更大更好的事了，比如学 Clojure！</p>
+<p>回头想想，那大概就是第一个信号：我骨子里可能根本不是什么手艺人。一个手艺人，怎么可能因为不会好好用某件好工具就把它扔了？后来我从 Emacs 换到 VS Code 时，又有过同样的解脱感。那是我毕业后的第三份工作，VS Code 正火，团队里人人都在用。我想跟他们结对编程，而 VS Code 的会话共享插件对我这种远程工作者来说就是塞壬的歌声。也许我可以只用 VS Code 结对，正经活还是回 Emacs 干？嗯，这方案行得通。</p>
+<p>总之，我现在就只用 VS Code，已经好几年没在 Emacs 里干过正经活了。同样，我也说不出上次用 Clojure 是什么时候。现在我成了 Rust、Python 和 TypeScript 的用户，而且用得出乎意料地满意，同时还是跟 Terraform 搏斗中满腹牢骚的那位。在行业里待得越久，在团队里、跨部门合作得越多，我就越发觉得自己不算什么手艺人，倒更像个还算好用的干活的。</p>
+<p>我发现自己越来越少想“怎么写出质量最高的代码”，越来越多想“随便写点代码，把下游那位同事的路打通就行”。要是我钻进去抠太久、追求完美，流水线和 Jira 看板就会在我身后堵住。这可不行，对吧。</p>
+<p>工作越做越多，我稀里糊涂就当了 DBA，后来又成了 DBRE，离软件开发越来越远。我的心思转到了可靠性、值班表，还有确保我们做的变更安全、不会把系统搞崩上面。</p>
+<p>我开始在业余时间学 Rust，因为它看起来挺有意思。我发现，当我为那些受别人写的系统牵累的系统值班时，我更在意的是整体上一切够不够可靠。系统别崩、别半夜把我叫醒，对我来说比架构图好不好看重要得多。代码质量和可靠性常常是连在一起的，但说到底，它们不是一回事。</p>
+<p>容我岔开一下话题：你知道以前有人上街抗议强制系安全带的法规吗？真的，没骗你！</p>
+<p>汽车是 1886 年由 Carl Benz 发明的。1901 年 Ransom Olds 开始批量生产汽车（Oldsmobile 这个牌子就是以他命名的，涨知识了吧），到 1908 年的福特 Model T 才算真正打开局面。车越普及，事故和死亡也越多。先说清楚，我不是历史学家，也不打算严谨：随着美国人越来越多地开车，再加上 Congress 在 1916、1921、1926 年出钱修的一堆公路，交通事故死亡人数在 1937 年到达顶峰，每 10 万美国人里大约有 30 人死于车祸。接下来那场战争和一直没彻底过去的大萧条，似乎让每十万人死亡率大幅下滑；1950 年代又爬了回去，到 1960 年前后大约是每 10 万人 20 人。可 1956 年《联邦资助公路法》一通过，高速公路大规模开建，死亡率又蹿了上去，1960 年代末达到每 10 万人约 26 人。之后才开始缓慢、平缓地往下滑，一直滑到今天每 10 万人约 12 人。发生了什么？</p>
+<p>人们不再那么频繁地死于车祸，原因很多，这段历史又长又复杂。所以恕我偷个懒，只讲其中一部分：三点式安全带这个奇迹是怎么发明、怎么普及的，以及美国政府为了让不情愿、爱唱反调的普罗大众系上它，都做过哪些干预。</p>
+<p>现代三点式安全带是 1959 年由 Volvo 工程师 Nils Bohlin 发明的。Volvo 坚信自己有责任救人命，干脆把专利免费开放给竞争对手用。十来年过去，全国每天还有人在车祸里无谓地送命，于是美国联邦政府在 1968 年下令：所有汽车出厂必须装安全带。</p>
+<p>可新车虽然都装了，1973、1974 年人们照样不系。尼克松政府翻了翻车祸死亡数据，下令从 1974 车型年起，每辆新车都必须配安全带点火联锁：驾驶座的安全带没扣好，发动机就别想打着火。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/06-a-still-from-a-1974-gm-dealership-training-fi.jpg"
+                      alt="图片：1974 年 GM 经销商培训影片里的一帧，一位驾驶正在雪佛兰车里扣安全带。"
+                ></p>
+<p>在 1974 年款雪佛兰里系安全带，出自《1974 Chevrolet &#x2F; GM Safety Belt System Dealership Promotional Sales Training Film》，The Emulsion Alchemist。</p>
+<p>不到一年，Congress 就立法把这套行政命令撤掉了，还顺手禁止以后的任何一届政府再搞这类花样。司机们恨透了联锁系统，投诉多得把国会办公室淹了。而且这玩意儿经常坏，明明系好了安全带，车就是打不着火。大家对点火联锁恨之入骨，美国政府一看这架势，怂了，收手。</p>
+<p>但人们每天还是死在车祸里，而这些死亡本来靠安全带就能避免。到 1980 年代初，安全带使用率依然很低，前排乘客里真正系的只有 11% 左右。于是里根政府发起行动，推动各州立法强制系安全带，由地方执法部门负责处罚；接下来几年，还真有几个州立了法。</p>
+<p>抗议于是又来了。电台主持人纷纷开骂，说强制系安全带是遥远而专制的“老大哥”在越权。不少人还主张，事故发生时被“甩出去”——穿过前挡风玻璃或者从车窗飞出去——比被安全带拽住更安全。离谱吧，可那会儿还没有互联网呢。这些运动里有些还真赢了：1986 年 11 月，马萨诸塞州选民公投废掉了刚出炉的安全带法，该州直到 1994 年才重新立法。但总的来说，人们还是开始系了，无谓的死亡终于少了。如今在文化层面，我能想到还经常不系安全带的，只有那些把反社会当成时髦、正在重新发明古老叛逆套路的傻青少年。</p>
+<p>总之，虽然还有很多很多其他因素在起作用，安全带在美国救了数十万条命，靠的是一波又一波公私两方齐心协力的家长式推动，有些时候还是明摆着违背美国人民的意愿推的。如今系安全带已经平常到没人会提一句，也神奇地没被卷进美国内外那些打得火热的文化战争里。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/07-a-line-chart-of-the-vehicular-fatality-risk-i.jpg"
+                      alt="图片：1960—2012 年轿车与 LTV 乘员的车辆致死风险指数折线图，以 1960 年为 100，曲线急剧下降，终点远低于“死于疾病”的对照指数。"
+                ></p>
+<p>1960—2012 年轿车与 LTV 乘员的车辆致死风险指数（1960 年 &#x3D; 100），与死于疾病的风险做对照。来源：NHTSA（美国国家公路交通安全管理局），《Lives Saved by Vehicle Safety Technologies… 1960 to 2012》（DOT HS 812 069）。</p>
+<blockquote>
+<p>护目镜是我的噩梦。十六年了，我还没找到过一副戴着舒服的……勉强能忍吧，但绝对谈不上舒服。</p>
+<p>— sii，《comfortable hard hat》，Mike Holt Forums，2012 年 5 月 31 日</p>
+</blockquote>
+<p>抱歉又跑题了。回到正题：你知道有些程序员主动不用带强类型系统和其他安全特性的编程语言吗？真的！像飞蛾扑火一样，有些人死死抱着动态类型，以及手动内存管理之类不安全语言的特性不放，在被竞态条件、缓冲区溢出和空指针异常反复烫伤的那份熟悉的温暖里找到了安慰。</p>
+<blockquote>
+<p>这事我抱怨好多年了，除非必须或者被逼，我就是不戴。戴上护目镜之后，我突然就切不准标高坡度了，那问题就大了。</p>
+<p>— Dozerboy，《Improvements in Safety Glasses…》，Heavy Equipment Forums，2012 年 6 月 16 日</p>
+</blockquote>
+<p>每年还要出多少起重大安全事故——Heartbleed、Cloudbleed、Stagefright、EternalBlue——我们才肯长记性？还要修多少在安全语言里压根不可能出现的 bug？那些语言现在就摆在眼前，而且免费。也别以为我是 Rust 优越论者。你想用 C、Python 或者随便什么语言，请便，我自己也是哪个趁手用哪个。可既然能用，为什么不把所有安全特性全打开呢？</p>
+<blockquote>
+<p>当然，系上、解开这玩意儿花的时间，比我在梁上干活的时间还长。</p>
+<p>— iwire，《OSHA Policy on Subcontractors》，Mike Holt Forums，2006 年 11 月 15 日</p>
+</blockquote>
+<p>听那些从根本上反对类型系统、反对编程语言内建其他安全特性的人讲道理，我听到的是一个手被烫得起泡留疤的小孩在哭着求：这次让我舔一下炉子好不好。你不过是做点日常的活儿，计算机却非要保证你不踩上那些众所周知、标记清楚、理解起来毫无难度的地雷，那还哪来的刺激？那些专制分子凭什么限制我给自己、给同事、给老板埋雷的自由？类型和内存管理纯属家长式管制，是象牙塔里那帮一辈子没干过一天真活儿的学者硬塞给干活的人的。有人可能会这么说！我不这么想。我喜欢出车祸的时候留在车里，软件崩溃的时候也别把我甩出去。</p>
+<blockquote>
+<p>所以护目镜也就那么回事，合不合 ANSI 标准都一样。那种软塌塌的夹式侧挡片，我怀疑它的本事除了把一只营养不良的蚊子挡上半秒，也没别的了。</p>
+<p>— JST，《eye protection for eyeglass wearers》，Practical Machinist，2006 年 8 月 23 日</p>
+</blockquote>
+<p>因为一套安全系统慢、有 bug、难用就不想用它，嗯，这种我也不想用！我在这件事上一直是矛盾的。我记得自己在 Rust 里折腾生命周期时的怨气和崩溃，第一次、第五次、第一百次都一样。要是我代码里的生命周期真能跑通，谁写的你可以猜三次——我，还是那帮 agent——前两次不算。我不喜欢写能过 Rust 借用检查器的代码，但我喜欢手里有能过借用检查器的代码。说得更明白点：我认为写代码的时候，每个人都应该一直系着那条比喻意义上的安全带；可要是有人逼我用那种一身毛病又烦人的东西，那套点火联锁以及它在软件里的同类，我也会用牙把它咬下来拆了。</p>
+<blockquote>
+<p>你在工地上看见有人抱怨安全帽和护目镜，回头就看着他戴着棒球帽和墨镜开车回家。很大程度上这是个心理问题。这毛病我跟所有人一样都有。</p>
+<p>— Strathead，《comfortable hard hat》，Mike Holt Forums，2012 年 6 月 1 日</p>
+</blockquote>
+<blockquote>
+<p>对 Bun 来说，正确处理垃圾回收值和手动管理值的生命周期，一直是稳定性问题的主要来源——多数时候是小内存泄漏，偶尔是崩溃。每一次内存分配都得仔细过一遍。这些字节在哪里释放？怎么保证它只被释放一次？我们有没有正确检查 JavaScript 异常？这个被垃圾回收的指针对保守式栈扫描器可见吗？这块内存是垃圾回收的，还是手动管理的？</p>
+<p>— Jarred Sumner，《Rewriting Bun in Rust》，bun.com，2026</p>
+</blockquote>
+<p>Jarred Sumner 下决心重写的一个主要原因，是 Bun 身上有一大堆 bug，这些 bug 在 Zig 里很常见，在 Rust 里则根本不可能出现。手动管内存的时候，Zig 给你的绳子足够把你自己吊死。Rust 从设计上就内置了借用检查器，编译器里坐着一个中央权威，你一干出可能引发竞态条件或内存管理失误的事，它就冲你摇手指。你确实得改变写软件的方式，这话没错，而我说：好得很！我给那些反对安全特性的硬汉个人主义者写的软件值过班，半夜被叫起来过，因为他们的软件质量从来没他们自己以为的那么高；到了事后复盘会上，看他们闷头跟那些让人喘不过气的安全毯子较劲——那些毯子是我们强加给他们的，为的是别让他们的软件把公司撞到墙上——那场面实在太解气了。</p>
+<blockquote>
+<p>Andrew Kelley @ 11:30：这门语言处理不了内存分配失败。我拿 JavaScript 开的刀，但 Python、Ruby、Perl、PHP、Haskell、Lisp、Swift、NIM、Go 都有这毛病，它们全都无可救药。它们都有隐藏的内存分配。用这些语言里的任何一种你都写不出完美的软件，写个 hello world 就已经完蛋了。</p>
+<p>Q&amp;A 环节提问者 @ 43:23：我可能刚才没太专心，但你做语言对比的时候，Rust 好像明显缺席，我想问问为什么。</p>
+<p>Andrew Kelley：这个……哦，好问题，行吧。说到内存分配，Rust 的情况是这样。以前标准库遇到分配失败直接 panic，我记不清现在 nightly 或者 stable 里是哪种处理了，不过他们给所有容器都加了一些函数来缓解这个问题。所以你可以预留内存，比如你有个 list，先预留二十个位置，接下来二十次 append 就不会失败。答案有两条。第一，以前标准库自己就把自己排除在外了，轮不到用，核心部分没问题，语言本身没问题。现在他们给标准库补了些东西，有点像事后想起来才加的，有点像纽约市的自行车道，但好歹能用了——就是说用 Rust 你能写出完美的软件。Rust 是 Zig 的强敌。我觉得 Rust 差不多就是 Zig 的主要竞争对手。关于这点我就说这么多。向 Steve Klabnik 致个意。</p>
+<p>— Andrew Kelley，《Zig: A programming language designed for robustness, optimality, and clarity》，Recurse Center，2018 年 3 月 20 日</p>
+</blockquote>
+<p>Bun 从 Zig 迁到 Rust 这件事，让我意外的不是说他们想这么干，而是他们真能干得这么快、成本这么低。最终成不成还得看，时间会给出答案；不过到目前为止，Bun 好像还在那儿一路 Bunning on，没出什么大岔子。</p>
+<p>补充一句，我也没说 Rust 在各方面都压倒性地强过 Zig，也没说 Haskell 这种安全体系强大的语言就比别的语言都好。我对 Zig 没什么经验，但如果你确实需要那么细粒度的内存控制，Zig 用起来大概会更舒服。我真正看不惯的是：有些人根本用不上那些不安全特性，却一次次被这些特性烫伤——完全可以预测——还坚称自己每次都能写出安全的代码，用不着系安全带。说白了，这么干的结果就是你和你的程序一次又一次脸朝下摔在马路牙子上。</p>
+<p>顺着这条滑坡加速冲进 1984 式的编程方式：2021 年我跟自己说，要用 Rust 把 Advent of Code 每天一题全做完。Advent of Code 是个在线解题平台，从 12 月 1 日到 25 日每天放出一道更难的题，人们提交解法，互相比谁解得快。我不是竞技型程序员，也从来不是，我只是想看看自己能不能做到，顺便学点 Rust。</p>
+<blockquote>
+<p>— 第 22 天：反应堆重启 —</p>
+<p>在这么深的海底作业，潜艇的反应堆已经过载；需要重启。</p>
+<p>反应堆核心是一个巨大的三维网格，完全由小方块构成，每个整数三维坐标 (x,y,z) 对应一个小方块。每个方块要么是开，要么是关；重启开始时它们全都是关的。（会不会是你以前见过的那款旧型号反应堆？）</p>
+<p>要重启反应堆，你只需按一份重启步骤清单（也就是你的题面输入）把所有方块设成开或关。每个步骤会指定一个长方体（即所有坐标落在给定 x、y、z 区间内的方块集合），以及要不要把这个长方体里的方块全部打开或关闭。</p>
+<p>— Advent of Code，《Day 22: Reactor Reboot》，2021</p>
+</blockquote>
+<p>我编程生涯里最美好的回忆之一，就是整整一个周六窝在房间里解第 22 天这道题。题目要算空间里各种形状的东西，我记得得做某种挺绕的空间压缩之类的处理。但那种感觉真是难以形容：花上好几个小时琢磨，拿脑袋撞键盘，就为了找出那个诀窍。最后终于想到解法，再用半小时用 Rust 敲出来——那一下太爽了，我摇摇晃晃走出公寓去找夜宵吃的时候，人都飘着。</p>
+<p>当时我不可能知道，2021 年是最后一次真正做 Advent of Code 的机会——之后编程机器人大举杀到，整个科技行业被裹着卷走、卷散。所以我很庆幸，赶在 ChatGPT 出现、把我们所有人一枪打进未来之前，体验到了 Advent of Code 本该有的样子。</p>
+<p>我对 LLM 的立场是：我宁愿这套数学最后算不通，宁愿把该乘的矩阵乘上足够多次，也没法让机器显出智能的样子。生成式 AI 会在世界经济里掀起变动，接下来一二十年，政治和社会上都不会好过。</p>
+<p>就算模型从此不再变聪明，也照样意味着一场白领灭绝事件。就算我们把所有模型锁死，再也不训练新的，只让眼下这点智能水平在社会里慢慢扩散，你也没法说服我社会不会被从根上撕开。我知道它们会胡编，我知道它们会犯错，我也知道企业根本不在乎——它们只想拿 AI 顶掉昂贵的人力，能顶多少顶多少。这么一想，LLM 挺让我沮丧的。</p>
+<p>但反过来，我对用电脑做事的兴奋也是前所未有的。出门散个步，在手机上跟 Claude 摆弄两下，回来就有 20 个 PR 等着我审——它们未必把我感兴趣的事全做完，但至少开了个像样的头。没错，我和所有人能碰到这种技术，背后有大影响。可我脑子里有一千个点子，还有十亿 token 可以烧着去追，谁有空抑郁，我还有垃圾要产。</p>
+<p>我学 Clojure，部分原因是它承诺：用更高层的语言，能比在低层语言里走得更快更远。如果你认这份精神、这份愿望，如果这真是你的主要目标，那你为什么不把亲手写代码也一并甩到身后？我要的是快速前进、把东西做出来，代码由我敲，本来就只是个附带环节。</p>
+<p>真正让我坐下来写这篇文章、也把很多想法一下子想清楚的，是 Andrew Kelley 那句话：Jarred Sumner“在有 LLM 可用之前很久，就已经在写垃圾了”。越想越有味道。自从生成式 AI 登场，slop 这个词背上了又大又新的含义，我几乎忘了在我们被猛地推进未来之前它是什么意思。Andrew Kelley 是憋着气说的，可我真心觉得，有时候人心里的歌，唱得最响的时候就是在生气。</p>
+<blockquote>
+<p>Cmd+s，加一个编辑器 &#x3D; 保存即格式化。你可以随便写垃圾，缩进永远不碰 Tab 键，诸如此类，然后按下 Cmd+s，一切就神奇地对齐归位。这能省下极大的精力。而放到一个工作周里看，省下的精力量非常可观。</p>
+<p>— damassi，“Feature Request: breakBeforeElse”，prettier GitHub 仓库，2020</p>
+<p>SLOP（slop）n. 1. 单边凑数项（见该词条）。常常是为了避免差一错误的可能才加上的（见该词条）。2. （编译器怪人的用法）编译器生成的代码量与手工编译的代码量之比再减 1；也就是你没亲自动手而损失的空间（或者时间）。</p>
+<p>— “Jargon File”，v2.1.1，编者 Guy L. Steele 与 Eric S. Raymond，1990</p>
+</blockquote>
+<p>至少在通常的说法里，slop 在被 LLM 带出新义之前就已经有含义了：低质量的产出，机器写的和人写的都算。第一条引文里，damassi 讲的是你可以只管写代码，不用操心语法，先产出一堆 slop，再交给格式化工具收拾干净。而 Jargon File 指的是编译器的输出：编译器多吐出来的那一堆汇编就是 slop；要是黑客自己动手写，那些都会被删掉。</p>
+<p>我给 slop 一个自己的定义：一个贬义词，指人做的或机器做的、品质不行、质量不到位的东西。紧接着自然会问：是哪些品质算数？我的答案是：什么算 slop 是主观的，因人而异。</p>
+<p>ChatGPT 刚出来时，我注意到一个现象。跟我聊过的每个人都觉得它挺好用——只要别碰自己那份工作。自己那行它显然没那本事做好。哦对，我当然会拿它查点医学上的事，或者顺手再核一遍合同，要不就写首“假如莎士比亚是条狗”的诗。但它写的代码我绝不放心，那得三查五查，离生产环境还有一英里都不算安全！我朋友们反应都一样：是啊，它有它的用处，那会儿他们每天都在用。可律师说，我不该让它读合同；医生说，它的医疗建议不能信；诗人则一致表示，那诗一看就是不懂诗的人写的。</p>
+<p>这种反应我现在很少听到了。模型进步得够多，人们渐渐愿意承认，它在自己那一行也许、大概、可能还是知道点门道的。你知道该看什么，就能看出东西差在哪儿；不认得那些迹象，就看不见。</p>
+<p>好！先当场驳一个反对意见：难道不存在纯粹的客观标准，单凭它就能判定某样东西有没有某种品质？有！但我要提醒你：你一旦走上这条路，把品质当成可以测量、可以量化的纯客观属性，就又要踏进编程机器的地盘了。</p>
+<p>高质量代码格式漂亮！很好，agent 自动跑格式化工具。高质量代码圈复杂度低！很好，扫描器一报警，agent 就知道该重构。高质量代码有注释！很好，agent 写注释，它爱写注释。高质量代码有“好”注释！记住，我们这儿讲客观、躲主观，那你用客观的方式告诉我，什么叫“好”？</p>
+<p>这游戏可以玩，而且挺有意思，至少我觉得有意思。因为只要你试图用纯客观的方式定义出“编程 agent 做不出来”的质量，又不肯借“好注释”之类的偏主观的标准开溜，我很快就能把你逼到墙角。我不是说高品质的东西不存在。我是说，对那份品质的感受，至少有一部分是各人主观的，没法用纯客观的方式说清楚。否则你就等于给编程 agent 和电脑打开了门，让它们每一步都去跑那些客观函数。</p>
+<p>一句话，slop 是有人说是才算是。这个标签由人来贴，全被他的偏好和经验染过色。谁都希望自己判定某样东西是 slop 时是客观的。可要是我们真能把识别 slop 客观化，那我们就能告诉 agent 怎么检测、怎么避开；于是剩下的就只有从前被算作 slop 的那些主观部分了——如果除了一堆你心不甘情不愿承认还行的产出，还能剩下点什么的话。</p>
+<p>你有没有开过这样的会：两个都自认是匠人的人，头衔通常是资深架构师或 tech lead，对“高质量代码”的理解却截然相反？我在这行待得够久了，这种会坐过几场，每次都很好看。我不是说一个人想不管花多久都要交付高质量代码，另一个只想赶紧把活干完。不是的。我说的是这两个人都想往高质量代码上使劲，只是对它长什么样根本谈不拢。你要是想知道公司系统里为什么冒出一堆微服务诸侯国，就去看看各位领主和他们各自的地盘，再找出那场 Zoom 会议的记录——会上他们为了 protobuffer 和带 schema 的 JSON 哪个效果更好，差点动起手来。</p>
+<p>我不会说软件开发里压根没有真正的匠人。但除了上面那种情形，还有一个想法越来越让我不舒服：软件就该是纯手工的手艺活。我是在网上看那些软件匠人争论时感觉到这一点的——他们一口咬定，计算机只能产出低质量的垃圾代码，编程 agent 永远成不了事。</p>
+<p>下面这个论断我没有证据：要跻身世界上最好的软件开发者，要追求并打磨你的手艺，你就得相信，你能写出一个做到人类能做的任何事的程序。也许要花十年，要有个专门的团队听你指挥，要烧掉远超它应得的资源，但你必须相信自己能做成。我甚至可以再说轻一点：软件开发者做的大部分工作，就是让计算机去干以前由人干的活；而我们写出来的软件，常常直接让那些岗位一开始就不再招人。我承认，我这儿立了个稻草人。可职业摔角也是假的，照样好看——那么，看好下面这一招。</p>
+<p>软件匠人相信天下唯一不能、也不该被自动化的工作就是他们自己那份，我认为这是顶级的狂妄。你想让我照单全收这套：你能写出把人类送上月球的软件、每秒撮合十亿笔股票的软件、协调遍布全球的巨型企业的软件，可它一旦跨进你的专业领域，就显然做不到，只会招来灾难。程序员凭什么这么特殊？凭什么只有我们该被挡在自动化之外？</p>
+<p>就是在这儿，我跟软件匠人们彻底分道扬镳，也不再信“软件就该是纯手工的手艺活”这一套。我已经没有那份狂妄，去相信自己做的事特殊到机器干不了。凭什么我们可以把自动化的威胁指向所有人，唯独不指向自己？</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/powderworks/08-a-thinkgeek-t-shirt-printed-with-the-slogan-g.jpg"
+                      alt="一件 ThinkGeek T 恤，上面印着标语“走开，不然我就用一个很小的 shell 脚本把你替换掉”。"
+                ></p>
+<p>“走开，不然我就用一个很小的 shell 脚本把你替换掉。”——一件 ThinkGeek T 恤，约 2008 年。</p>
+<p>为什么代码偏偏是唯一必须手工做的东西？</p>
+<h2 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h2><p>说完了过去和现在。关于这一整摊 AI 接下来会怎样，我确实有些预测。先从 Bun、Zig 和 Rust 说起。</p>
+<ul>
+<li><p>我勇敢地站到即将成为亿万富翁的 Jarred Sumner 这一边：大家会继续愉快地用 Bun。它会冒出一些奇怪的新 bug，多半是因为重写，但都会修好，中间夹着一大堆没有结果的讨论。</p>
+</li>
+<li><p>Zig 的新项目在企业层面基本算死了。任何有点商业头脑、稍微消息灵通的人，看到 Andrew Kelley 那副做派，下次要批准一个 Zig 的大项目或者合作，都会先掂量两遍。爱好者会接着用，直到冒出另一门语言：正好对他们的胃口，没有 Zig 这份包袱，还多少有点机会跨过那道门槛进企业。</p>
+</li>
+<li><p>会有人想拿 Rust 重写 TigerBeetle 和 Ghostty，动机一是给自己博关注，二是恨 Andrew Kelley，因为他骂 Jarred Sumner 骂得难听。要是这些人特别记仇，还会去动 Zig 编译器本身。（不过 TigerBeetle 和 Ghostty 自己搞 Rust 迁移的话我会很吃惊。感觉 Zig 那边得再犯两次大错才会走到那一步，他们看起来相当投入，那种投入 Bun 显然从来没有过。）</p>
+</li>
+<li><p>2026 年底之前，会出现一个开源工具，把“协调十亿个 agent 用 Rust 重写任意项目、而且照样通过原有全部测试”这件事变得简单、快速、便宜。Jarred 那篇博客里提到的东西，没有哪一条让我觉得（撇开 API 成本不谈）没人做不出这样一个工具，让谁都干得成。要是他们真想炫技，还会在原项目不断合并 PR 的过程中让代码实时跟住。</p>
+</li>
+</ul>
+<p>接下来说说软件里的匠人精神将来会怎样。</p>
+<ul>
+<li><p>模型会继续变聪明、变快、变便宜。</p>
+</li>
+<li><p>编程 agent 会继续变强。</p>
+</li>
+<li><p>AI 融资泡沫可能会破，动静不小，甚至一团混乱，但对我们来说，编程 agent 是留定了。它们不会消失，它们已经是软件开发流程的一部分，不管以什么形态，从今往后就是常态。</p>
+</li>
+<li><p>市场和公司高管会持续对软件开发者施压，逼他们尽可能多用编程 agent，目的说得很明白：去技能化，把他们干的活榨得更紧。市场部凭什么不能提 PR？凭什么改代码的乐子全归工程师？</p>
+</li>
+<li><p>中小型项目上的语言和框架锁定正在松动，到 2027 年底会彻底消失。</p>
+</li>
+<li><p>但一个完全用 Rust 重写、还“好”的 Linux 内核，要到 2028 年才会出现。</p>
+</li>
+<li><p>零利率时代为了让程序员留得住、心情好才有的那种“勉强容忍职场上用业余手工工具”的态度，会被一扫而空。用 Zig、Clojure、Elixir、Haskell 这类业余语言写的专业项目，如果没有非用不可、非常非常充分的理由，都会被清掉，自动重写成模型训练数据里更常见的东西，比如 Python、Ruby、TypeScript 和 Rust。</p>
+</li>
+<li><p>编程 agent 产出的代码，还有仍在手工写代码的开发者写的代码，都会被越套越紧。具体套成什么样，我自己也有些想法。总的来说，整个行业会集中力气去做一件事：把“质量”量化，然后尽可能把它的生产也自动化。</p>
+</li>
+<li><p>类型系统的普及让我有点矛盾。我认为 TypeScript 正在压过 JavaScript，但这主要是因为大家本来就讨厌写 JavaScript。至于 Ruby、Python 这类语言打开类型系统之后，agent 和人是不是真能得利，我还说不准。更强的安全系统上线总有个“强制点火锁”的阶段，看我们能不能熬过去，让用类型系统变得像今天系安全带一样普遍。</p>
+</li>
+</ul>
+<p>总的说来，我看到的是软件继续朝工业化生产走，几十年来一直如此。想亲手解那些刁钻编程难题的人，可以在自己的时间、下班回家当爱好去做。但在工作上，期望会越来越明确：让编程 agent 尽可能多干、尽可能常干。</p>
+<p>我最后一个预测，也是开头那个问题的答案：借助编程 agent，软件开发进一步工业化，会把代码的“质量”推到任何一个匠人都做不出来的高度。模型会继续变聪明，我们用来保证代码质量的自动化工具会继续变便宜、变好。大多数软件本来就不该靠手艺活做出来——不管是手工做的还是个人做的；在全球竞争的市场里，这条路的经济性会越来越差。</p>
+<p>软件工程、软件开发、编程，随你怎么叫，这门行当自存在那天起就在不停吃自己。指望它稳下来，变成一个再也不会把人晃得七荤八素的老派行业，那就是不认这头野兽的本性。差不多每十年，这个行业就被掀个底朝天，谁都没辙。凭什么这个循环现在就该停？一说到跟计算机打交道，我们总以为自己已经走到了历史的终点：不会再有新工具、新硬件、新什么玩意冒出来，一下子把一切掀翻。可老天，人类跟木头打了几千年交道，到现在还在发明新的用法！我们连怎么生产木头都还没琢磨完，怎么可能已经找到了生产代码的正确答案？</p>
+<p>这篇写得太长的文章，收尾说件事。前几天我合了一个 PR，连读都没打算读。很小，只改一个文件，一个配置项，我很清楚里面该是什么，而当时我手上正同时忙着一百万件事。Claude 知道自己该干什么，这个改动我们一起讨论过，是为了解开某个重要环节的阻塞，我相信她做对了，这种改动很难弄错。测试全过，linter 满意，CI 里一切看着都该是那样。那我干嘛还要去看代码？刚我还回头查了一下，没问题，真的，没什么可担心的。就一个小文件里的一个小改动。能出什么大事？重要的东西我还是看的，我保证！</p>
+<p>我们活在有意思的时代里，我能说的只是：去其中找到你的快乐，它在哪儿都行。对我来说，保证并让编程 agent 的产出带上质量——这份前景里我闻到了一种新手艺的味道，我很好奇它能走多深。</p>
+<p>至少我的手不疼了，不再像从前那样疼。这挺好的。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 制表符、空格、手工工具与安全带</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2026-09-16 11:45:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-09-16 11:45:00
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://www.kanes.top/2026/09/16/制表符、空格、手工工具与安全带/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">#软件工程</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI%E7%BC%96%E7%A8%8B/">#AI编程</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BF%BB%E8%AF%91/">#翻译</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Bun/">#Bun</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/09/11/%E8%AE%A9AI-Agent%E6%8E%A5%E7%AE%A1HTTPS%E8%AF%81%E4%B9%A6-%E4%B8%80%E6%AC%A1%E9%85%8D%E7%BD%AE%E6%B0%B8%E4%B9%85%E5%85%8D%E7%BB%B4%E6%8A%A4/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">让 AI Agent 接管 HTTPS 证书：一次配置，永久免维护</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-swup-reload-script defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'moye12325/moye12325.github.io',
+                'data-repo-id': 'R_kgDOQMk3jQ',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOQMk3jc4DCzwZ',
+                'data-mapping': 'pathname',
+                'data-strict': '0',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'zh-CN',
+                'data-input-position': 'bottom',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            document.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">制表符、空格、手工工具与安全带</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B"><span class="nav-number">1.</span> <span class="nav-text">预测</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 195 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
