@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://www.kanes.top/2026/09/23/%E4%B8%80%E6%96%87%E8%AF%BB%E6%87%82LLM%E4%B8%8EJev/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Jev 是 TypeSafe AI 的「System One」模型：不写字，只做判断。这篇把它和 LLM 的机制差异讲到底——为什么接龙式生成注定慢，为什么答题卡式判断可以并行，以及哪些活该交给它、哪些必须留给 LLM。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文读懂 LLM 与 Jev">
+<meta property="og:url" content="https://www.kanes.top/2026/09/23/%E4%B8%80%E6%96%87%E8%AF%BB%E6%87%82LLM%E4%B8%8EJev/">
+<meta property="og:site_name" content="Moye的日常">
+<meta property="og:description" content="Jev 是 TypeSafe AI 的「System One」模型：不写字，只做判断。这篇把它和 LLM 的机制差异讲到底——为什么接龙式生成注定慢，为什么答题卡式判断可以并行，以及哪些活该交给它、哪些必须留给 LLM。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-09-23T09:10:00.000Z">
+<meta property="article:modified_time" content="2026-09-23T09:10:00.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="Jev">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="System One">
+<meta property="article:tag" content="TypeSafe">
+<meta property="article:tag" content="非自回归">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.kanes.top/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            一文读懂 LLM 与 Jev | Moye活着的记录
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"www.kanes.top","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":true,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":true},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":null},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/banner-light.webp","dark":"/images/banner-dark.webp"},"title":"OK, so what?","subtitle":{"text":["What matters most in life is often invisible."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn/?c=a&c=d&c=i&c=k"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/moye12325","instagram":null,"zhihu":null,"twitter":null,"email":null,"music":"https://music.163.com/#/user/home?id=609685181","bilibili":"https://space.bilibili.com/180380237"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","style":{"light":"neutral","dark":"dark"}}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/links/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives/","icon":"fa-regular fa-book"},"随笔":{"path":"/notes/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"友链":{"path":"/links/","icon":"fa-regular fa-link"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Moye的日常","url":"https://www.kanes.top/"},{"@context":"https://schema.org","@type":"BlogPosting","headline":"一文读懂 LLM 与 Jev","description":"Jev 是 TypeSafe AI 的「System One」模型：不写字，只做判断。这篇把它和 LLM 的机制差异讲到底——为什么接龙式生成注定慢，为什么答题卡式判断可以并行，以及哪些活该交给它、哪些必须留给 LLM。","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.kanes.top/2026/09/23/%E4%B8%80%E6%96%87%E8%AF%BB%E6%87%82LLM%E4%B8%8EJev/"},"author":{"@type":"Person","name":"moye12325"},"publisher":{"@type":"Organization","name":"Moye的日常","url":"https://www.kanes.top/"},"datePublished":"2026-09-23T09:10:00.000Z","dateModified":"2026-09-23T09:10:00.000Z","image":"https://qiniu.kanes.top/blog/jev-llm/fig1_autoregressive_vs_jev.png","keywords":"LLM, Jev, TypeSafe, 非自回归, System One"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.kanes.top/"},{"@type":"ListItem","position":2,"name":"一文读懂 LLM 与 Jev","item":"https://www.kanes.top/2026/09/23/%E4%B8%80%E6%96%87%E8%AF%BB%E6%87%82LLM%E4%B8%8EJev/"}]}]</script></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Moye活着的记录
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Moye活着的记录
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects/"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories/"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">67</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">15</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">196</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">一文读懂 LLM 与 Jev</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv6</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-09-23 17:10</span>
+        <span class="mobile">2026-09-23 17:10</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-09-23 17:10</span>
+            <span class="mobile">2026-09-23 17:10</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI/">AI</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/LLM/">LLM</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Jev/">Jev</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/TypeSafe/">TypeSafe</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E9%9D%9E%E8%87%AA%E5%9B%9E%E5%BD%92/">非自回归</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/System-One/">System One</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<hr>
+<h2 id="一、原理介绍"><a href="#一、原理介绍" class="headerlink" title="一、原理介绍"></a>一、原理介绍</h2><h3 id="1-1-Jev-是什么，解决什么问题"><a href="#1-1-Jev-是什么，解决什么问题" class="headerlink" title="1.1 Jev 是什么，解决什么问题"></a>1.1 Jev 是什么，解决什么问题</h3><p>Jev 是 TypeSafe AI 在 2026 年 9 月 15 日发布的第一个 “System One” 模型，发布同日公司宣布完成 DCVC 领投的 4000 万美元融资。</p>
+<p>它修的是一个错配：现在的 AI 系统里大量环节只需要做个判断，但我们一直在用会写作文的模型去做判断。判断一句话属于哪个类别、判断一次请求该路由到哪、判断一份输出该不该放行，这些环节要的答案就是一个选项或一个分数。可通用大模型（LLM）被调用时，整个逐 token 生成机制都被拖着跑，既慢又贵，还可能顺嘴编出不存在的东西。</p>
+<h3 id="1-2-从双系统理论说起：System-1-与-System-2"><a href="#1-2-从双系统理论说起：System-1-与-System-2" class="headerlink" title="1.2 从双系统理论说起：System 1 与 System 2"></a>1.2 从双系统理论说起：System 1 与 System 2</h3><p>“System One” 这个名字借自卡尼曼在《思考，快与慢》里的双过程理论。人脑有两套思维系统，分工不同。</p>
+<p>System 1 是快思考：直觉式、并行、毫秒级响应、几乎不耗注意力。老司机看到前车刹车灯亮，脚已经踩下去了，中间没有推理，是模式匹配。它快、省、稳定，对同类刺激永远给同类反应；短板是只会处理见过的模式，答不了开放题，也说不出理由。</p>
+<p>System 2 是慢思考：推理式、串行、要靠主动注意力。做数学题、写方案、权衡利弊靠它。它能处理开放和复杂的问题，但慢、贵、容易疲劳走神。</p>
+<p>映射到 AI，错配就显出来了。今天的 LLM 能兼职做判断，但它的工作机制（自回归生成加大上下文窗口）本质是 System 2 形态：串行、贵、结果随上下文漂移。而一个实际跑起来的 agent 系统里，System 2 型的活（规划、写代码、生成回复）只占少数步骤，大量中间步骤是 System 1 型的微判断：这条消息转给谁、这个结果可不可信、下一步调哪个工具。这些微判断一直由 System 2 形态的 LLM 兼职，就是 Jev 想修的错配。</p>
+<p>还要说明：两套系统是分工关系，不是替代关系。人不是只靠 System 1 或只靠 System 2，而是 System 1 出直觉、System 2 在关键处复核。agent 系统同理，高频微判断交给 System 1 形态的组件，关键推理留给 LLM。Jev 补的是缺位的前者，不是要推翻后者。</p>
+<h3 id="1-3-核心工作原理"><a href="#1-3-核心工作原理" class="headerlink" title="1.3 核心工作原理"></a>1.3 核心工作原理</h3><p>Jev 的用法是”喂状态、问一组带类型的判断题、一次并行交卷”。</p>
+<p>输入是程序状态，不是聊天记录。交给它的是当前上下文（比如用户的一句话加一份选项列表）和一个问题清单。</p>
+<p>问题必须带类型（typed questions），比如”匹配项是哪个？答案限 menu 里的枚举””有无歧义？bool”。类型约束是硬的：菜单里没有的选项，它在输出格式上就表达不出来。</p>
+<p>回答是单次并行完成的，不做自回归解码（non-autoregressive，不一个字一个字往外蹦），直接给出结构化结果。</p>
+<p>输出是带校准概率的类型化决策（calibrated probability），不是文本。置信度是校准过的，0.8 大致意味着十次对八次，可以拿来做阈值。</p>
+<p>业界有人把它概括成”一个可以像调 LLM 一样调用的分类器”，因为对自动化系统而言，文本本来就是错误的输出格式。以上用法描述综合自 Eigent.ai 与 LangChain 的指南。</p>
+<h3 id="1-4-技术架构：Jev-为什么快"><a href="#1-4-技术架构：Jev-为什么快" class="headerlink" title="1.4 技术架构：Jev 为什么快"></a>1.4 技术架构：Jev 为什么快</h3><p>LLM 输出文本的方式就是接龙：每次只算出下一个字，而且必须等上一个字定了才能算下一个。回一句”您要测的是 T1 还是 T2”，十几个字就要串行走十几步。这不是工程偷懒，是任务性质决定的，写作文时下一个字是什么确实取决于前面写了什么。代价也就清楚了：回答越长越慢，整条路是串行的，没法靠并行提速。这种”下一个依赖上一个”的生成方式叫自回归（autoregressive），记住”接龙”这个画面，后面遇到这个词都是这个意思。</p>
+<p>Jev 不写字，它填答题卡。它的输出不是句子，是几个带类型的答案：选哪个选项、打几分、是还是否。这些答案彼此不依赖，”选 T1”不需要等”有无歧义”先算完，所以可以所有题同时作答、一次交卷。这就是非自回归（non-autoregressive）的全部含义：不需要接龙，因为答案天生是并行的。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/jev-llm/fig1_autoregressive_vs_jev.png"
+                      alt="生成机制对比：LLM 自回归（接龙式，逐字串行）vs Jev 非自回归（答题卡式，所有问题并行作答一次交卷）"
+                ></p>
+<p>所以 Jev 的快不是同样的路线跑得更快，而是换了一条路。判断题的答案本来就是并行的，以前的模型是被按在写作文的流水线上干判断的活。这也带来一个实用推论：加问题几乎不加延迟，新问题和老问题一起并行算，只多花问题本身的 token 钱。</p>
+<p>一次调用的完整过程：把上下文和问题清单发过去，模型一次前向计算并行出所有答案，返回的结构化结果里每个问题一个值加置信度，没有任何文本。</p>
+<p>延迟方面，AtlasCloud 的拆解称亚 500ms，Forbes 的报道称毫秒级。两个口径差着一个量级，因为测的任务和菜单大小不同，以自己的实测为准。成本方面，输入 $0.042&#x2F;百万 token，输出免费。输出免费也和架构有关：它没有”生成的输出 token”，输出就几个字段。</p>
+<p>置信度这块值得多说两句。让普通 LLM”给个置信度，0 到 100”，它吐出来的数是它写出来的一段文字，和真实对错概率没有必然关系，过度自信很常见。Jev 声称自己的概率是校准过的，官方说法是概率”对结果优化过”（optimized against outcomes），0.8 大致十次对八次。这是拿它做阈值分流的前提，比如低于 0.7 转人工、高于 0.9 自动走。校准质量要拿自己的数据重复验证过才能信。</p>
+<p>训练方面，TypeSafe 没有公开任何细节，用什么数据、模型多大、流程如何都不知道。目前唯一的公开线索来自 Latent Space 的讨论，其中提到了 RLCD 这个方法。</p>
+<p>RLCD 本身是个已公开发表的方法（ICLR 2024 论文，和 TypeSafe 无关）。传统对齐训练（RLHF）要雇大量真人给模型的回答打分，贵且慢；RLCD 换了个思路，先写一份自然语言的”原则说明书”，让模型自己针对同一个问题生成符合原则的正面回答和违反原则的反面回答，一正一反成对出现，再用这些正反例训练一个奖励模型，最后让主模型朝奖励高的方向反复练习。如果 Latent Space 的说法属实，Jev 的判断力就不是靠人一道题一道题标出来的，而是先写规则、自动造正反例、自己练自己。这也顺带解释了它为什么便宜：训练端就不依赖海量人工标注。但 TypeSafe 官方从未确认用的是 RLCD，这属于社区分析。</p>
+<p>上下文窗口多大、参数规模多少，都没公布。超大菜单（几千个选项）能不能一次塞进去，只能实测，详见第四章。</p>
+<p>延伸阅读（想看图的从这几个进去）：</p>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.mindstudio.ai/" >MindStudio 的架构拆解<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：非自回归机制的技术分解</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.atlascloud.ai/" >AtlasCloud 的拆解<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：并行采样如何压低延迟</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=lttn0licaRY" >YouTube：Jev Non-Autoregressive System Explained<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：7 分钟视频讲解</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.emergentmind.com/topics/non-autoregressive-models" >Emergent Mind：Non-autoregressive models<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：非自回归模型的概念综述页</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://machinelearning.apple.com/research/non-autoagressive-neural-machine" >Apple ML Research：非自回归机器翻译<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：单次前向 vs 逐 token 解码的经典对照</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://arxiv.org/html/2403.02249v1" >NARVL 论文（CVPR 2024，arXiv HTML 版含架构图）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：非自回归视觉语言模型，架构图能直观看到并行解码的结构</li>
+</ul>
+<hr>
+<h2 id="二、技术对比"><a href="#二、技术对比" class="headerlink" title="二、技术对比"></a>二、技术对比</h2><h3 id="2-1-Jev-与-LLM：机制差异与适用场景的分界"><a href="#2-1-Jev-与-LLM：机制差异与适用场景的分界" class="headerlink" title="2.1 Jev 与 LLM：机制差异与适用场景的分界"></a>2.1 Jev 与 LLM：机制差异与适用场景的分界</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>LLM（生成式）</th>
+<th>Jev（System One）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>生成机制</td>
+<td>自回归逐 token，串行，越长越慢</td>
+<td>并行采样，整组判断一次出</td>
+</tr>
+<tr>
+<td>输出形态</td>
+<td>自然语言（可加 schema 约束）</td>
+<td>类型化决策 + 校准概率，格式上给不出菜单外的值</td>
+</tr>
+<tr>
+<td>状态</td>
+<td>有状态，受上下文和对话历史影响，同题可能不同答</td>
+<td>无状态，同输入预期同输出</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>秒级</td>
+<td>亚秒（第三方口径 &lt;500ms）</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>输入 $0.2–10&#x2F;MTok，输出约为输入 5 倍</td>
+<td>输入 $0.042&#x2F;MTok，输出免费</td>
+</tr>
+<tr>
+<td>推理深度</td>
+<td>强：多步推理、长文、开放问题</td>
+<td>弱：单轮封闭判断</td>
+</tr>
+<tr>
+<td>领域知识</td>
+<td>预训练世界知识（在权重里，管不了）</td>
+<td>几乎为零，全靠输入里喂的”小抄”</td>
+</tr>
+<tr>
+<td>典型失效</td>
+<td>幻觉、跑题、约束被长上下文稀释</td>
+<td>排错顺序、答”无命中”，破坏面小</td>
+</tr>
+<tr>
+<td>适合的负载</td>
+<td>低频高价值的生成</td>
+<td>高频低单价的判断</td>
+</tr>
+</tbody></table>
+<p>这张表有两行容易误读。”闭卷、编不出菜单外的值”不是 Jev 独有，给 LLM 上结构化输出加枚举约束同样做得到。真正的质差在”状态”和”推理深度”两行：LLM 的判断会随历史漂移，实际系统里反复观察到的现象是，提示词要求某工具只调用一次，带长对话历史时模型调了 4 次，清空历史后仍调 2 次；而 Jev 是无状态的，全部输入就是这道题，不用在十几 KB 规则里找重点。</p>
+<p>经济账也会改变用法。判断便宜百倍之后，”每条消息都先过一遍分诊””Top-3 候选并行验证”这类用法才成立。贵的时候只能让总经理亲自接电话，便宜了才能雇前台。</p>
+<p>另外别指望 Jev 判得更聪明。它的语义理解弱于大模型，领域知识为零，买它买的是便宜、稳定、不占上下文。</p>
+<p>分界线可以这样把握。答案不封闭（要产出新内容）、输入读不完（长文档要通读）、判断依据塞不进输入（需要模型自带世界知识），占任何一条就直接用 LLM，不用再想。过了这三条硬关再看经济账：判断频率越高、单次价值越低，Jev 的优势越大；错误代价大的要有兜底；安全放行拦截类的判断两个都不该用，写确定性代码。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/jev-llm/fig2_decision_flow.png"
+                      alt="任务该归 Jev 还是 LLM 的判断路径：封闭集合、输入塞得下、非安全类、高频低成本、错误后果可控，五道关卡依次过滤的决策流程图"
+                ></p>
+<p>典型场景对号入座：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>用谁</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“用户想做哪类操作”</td>
+<td>Jev&#x2F;分诊</td>
+<td>封闭集合，高频，错了只是候选不准</td>
+</tr>
+<tr>
+<td>方案规划、参数建议</td>
+<td>LLM</td>
+<td>开放生成，要专业推理</td>
+</tr>
+<tr>
+<td>查完结果的复核确认</td>
+<td>Jev 可试（先影子对照）</td>
+<td>是&#x2F;否加存疑点，量最大</td>
+</tr>
+<tr>
+<td>拦截、审批放行</td>
+<td>都不用，代码</td>
+<td>安全权威必须可复现可审计</td>
+</tr>
+<tr>
+<td>“这句是闲聊还是办事”</td>
+<td>Jev&#x2F;分诊</td>
+<td>二分类，高频</td>
+</tr>
+<tr>
+<td>任务报错的错误族归类</td>
+<td>Jev&#x2F;分诊</td>
+<td>封闭错误族，服务侧高频</td>
+</tr>
+<tr>
+<td>报告、文档撰写</td>
+<td>LLM</td>
+<td>纯生成</td>
+</tr>
+<tr>
+<td>复杂数据归因分析</td>
+<td>LLM</td>
+<td>多步推理</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-Jev-与传统决策模型的区别"><a href="#2-2-Jev-与传统决策模型的区别" class="headerlink" title="2.2 Jev 与传统决策模型的区别"></a>2.2 Jev 与传统决策模型的区别</h3><p>“用模型做判断”不是新鲜事，Jev 之前已经有四代方案，不摆出来就说不清 Jev 新在哪。</p>
+<p>第一代是规则与专家系统（if-else、决策树、正则匹配），知识全部来自人工编写。它完全可解释、完全可复现、运行零成本，至今仍是流量网关和风控硬规则的主力。致命短板是自然语言一进来就失效：”帮我看看这玩意儿还活着吗”没法写成规则，规则数量随业务膨胀后也维护不动。</p>
+<p>第二代是经典机器学习分类器（逻辑回归、SVM、GBDT），知识来自标注数据加训练。便宜、快、可本地部署，但输入必须先做特征工程，把自然语言变成结构化字段本身就要另一套系统；任务一变就得重新标注重训，对没见过的类别也没有零样本能力。</p>
+<p>第三代是深度学习分类器（BERT 类预训练模型加微调），终于能直接吃自然语言，但每个任务仍要标注数据和微调运维，一个任务一个模型，需求改动就要重训重评。</p>
+<p>第四代是 LLM-as-judge，用提示词让通用 LLM 做判断。零样本上手、天然理解自然语言、换个任务改提示词就行，代价是贵、慢、有状态（判断随上下文漂移）、输出约束靠提示词和后处理兜底。</p>
+<p>Jev 想占的位置，是第四代的灵活性加上接近第二、三代的成本：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>规则&#x2F;专家系统</th>
+<th>经典 ML</th>
+<th>深度分类器（BERT 类）</th>
+<th>LLM-as-judge</th>
+<th>Jev</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>知识来源</td>
+<td>人工编写规则</td>
+<td>标注数据训练</td>
+<td>标注数据微调</td>
+<td>预训练 + 提示词</td>
+<td>预训练 + 输入小抄</td>
+</tr>
+<tr>
+<td>自然语言输入</td>
+<td>不支持</td>
+<td>要特征工程</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>新任务上手成本</td>
+<td>每条规则手写</td>
+<td>重新标注训练</td>
+<td>重新标注微调</td>
+<td>改提示词即用</td>
+<td>改问题 + 菜单即用</td>
+</tr>
+<tr>
+<td>输出保证</td>
+<td>完全确定</td>
+<td>概率（阈值后确定）</td>
+<td>概率</td>
+<td>约束靠提示词兜底</td>
+<td>类型硬约束 + 校准概率</td>
+</tr>
+<tr>
+<td>单次调用成本</td>
+<td>≈0</td>
+<td>≈0</td>
+<td>低（本地）</td>
+<td>高</td>
+<td>低</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>微秒–毫秒</td>
+<td>毫秒</td>
+<td>毫秒–几十毫秒</td>
+<td>秒级</td>
+<td>亚秒</td>
+</tr>
+<tr>
+<td>可复现性</td>
+<td>完全</td>
+<td>完全</td>
+<td>基本确定</td>
+<td>受上下文影响</td>
+<td>无状态设计</td>
+</tr>
+<tr>
+<td>可解释性</td>
+<td>强（规则即解释）</td>
+<td>中（特征权重）</td>
+<td>弱</td>
+<td>弱（可要求解释但不可靠）</td>
+<td>弱（选项 + 概率）</td>
+</tr>
+<tr>
+<td>部署形态</td>
+<td>进代码</td>
+<td>本地</td>
+<td>本地</td>
+<td>云 API</td>
+<td>云 API（暂无自部署）</td>
+</tr>
+</tbody></table>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/jev-llm/fig3_positioning_scatter.png"
+                      alt="四代判断方案定位散点图：横轴自然语言理解与灵活性、纵轴单次调用成本，Jev 落在&quot;灵活但贵&quot;的 LLM-as-judge 与&quot;便宜但要训练&quot;的经典方案之间的空档"
+                ></p>
+<p>反过来它也没有碾压谁。规则能写全的场景，规则永远更好，零成本、零风险、完全可解释，正确用法是规则打底、miss 再交给模型。任务稳定、标注数据充足、输入格式固定的场景（比如固定表单的风险评分），微调分类器更便宜更可控，还能本地部署；Jev 的优势场景是任务常变、没法预先标注、或判断依据需要频繁更新的。需要世界知识、开放输出、多步推理的任务，LLM 不可替代，Jev 是它门口的分诊台，不是替代品。</p>
+<h3 id="2-3-性能数字与接入渠道"><a href="#2-3-性能数字与接入渠道" class="headerlink" title="2.3 性能数字与接入渠道"></a>2.3 性能数字与接入渠道</h3><p>性能数字目前只有厂商和第三方说法。Jev 官方称在 System One 任务上达到与现有 LLM 相当的智能水平，同时快约两个数量级；DataCamp 的数字是快 40 到 200 倍、便宜 40 到 400 倍。定价上，输入 $0.042&#x2F;百万 token、输出免费，约合持续推理 $7 一小时、单次判断 $0.0004；对照 LLM 输入 $0.20 到 10 每百万 token，且输出约贵 5 倍。接入渠道有三条：TypeSafe 官方 API、OpenRouter、LiteLLM。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://qiniu.kanes.top/blog/jev-llm/fig4_latency_cost_bars.png"
+                      alt="延迟与成本对比（对数刻度）：延迟上 LLM 约秒级、Jev 亚 500ms；输入成本上 LLM 为 $0.2–10&#x2F;百万 token、Jev 仅 $0.042，两组均差出数量级"
+                ></p>
+<hr>
+<h2 id="三、应用场景"><a href="#三、应用场景" class="headerlink" title="三、应用场景"></a>三、应用场景</h2><h3 id="3-1-业界应用案例"><a href="#3-1-业界应用案例" class="headerlink" title="3.1 业界应用案例"></a>3.1 业界应用案例</h3><p>如实说明：Jev 发布仅一周多，目前公开的主要是社区实验和教程，深度生产案例还很少。可查的典型用法有四个。</p>
+<p>Jev Codex Router 让编程任务先过 Jev 判断难度，再路由给不同档位的模型，是”用便宜判断省贵的生成”的最直接玩法（LangChain 博客和 36氪都有记录）。jev-mcp 把 Jev 挂成 MCP 工具，用于 agent 的事实核验、prompt injection 检测和语义排序（LangChain）。LangChain 官方教程演示了在 agent 循环里用 Jev 做”下一步选哪个工具”的决策位，LLM 只负责需要生成的步骤。Forbes 报道了企业方向，毫秒级响应、几美分成本的 AI 决策用于企业高频判断环节，属于报道性质，尚无落地细节。</p>
+<h3 id="3-2-适用与不适用"><a href="#3-2-适用与不适用" class="headerlink" title="3.2 适用与不适用"></a>3.2 适用与不适用</h3><p>适用条件（同时满足得越多越合适）：</p>
+<ul>
+<li>答案是封闭集合里的选择（分类、路由、排序、是&#x2F;否），不需要生成新内容；</li>
+<li>判断高频发生，成本和延迟敏感；</li>
+<li>需要稳定可复现的判断（同输入同输出），最好还能离线跑题库验证；</li>
+<li>判断错误后果可控（建议级而非行动级），有兜底路径。</li>
+</ul>
+<p>不适用：</p>
+<ul>
+<li>需要生成文本的：报告、摘要、代码，这是 System 2 的活，Jev 主动不做；</li>
+<li>需要深度多步推理的：长链条规划、复杂归因；</li>
+<li>安全边界判定：凡是”必须一万次运行结果都一样、必须可审计”的放行&#x2F;拦截逻辑，应该留在确定性代码里。校准概率再好也是概率，安全机制不赌概率；</li>
+<li>知识不在输入里的问题：Jev 不带领域知识，全靠喂给它的上下文，小抄没写它就不会。</li>
+</ul>
+<h3 id="3-3-服务商与部署方式"><a href="#3-3-服务商与部署方式" class="headerlink" title="3.3 服务商与部署方式"></a>3.3 服务商与部署方式</h3><p>接入渠道（截至 2026-09-23）有三条：TypeSafe 官方 API 是主渠道；OpenRouter 已上架并公示定价；LiteLLM 提供网关接入、模型注册与计费支持。</p>
+<p>自部署目前不可行，这是两轮定向搜索后的结论。未查到 TypeSafe 开放官方权重的任何确凿信息；Hugging Face 上存在社区复现痕迹（第三方 “Jev Reproductions Tracker” Space、第三方数据集如 <code>ctaxnagomi/INSTRUCT_JEV</code>），但这些与官方模型的性能关系未知、成熟度不可考。官方 Jev 目前只有 API 一种形态，若合规要求数据不出站，这条路当前走不通，需等官方开放或改用替代方案。</p>
+<p>算力要求对官方 Jev 不适用（不部署）。若走”自建同类分诊”的私有化路线，参考当前通用口径：7B 级开源模型约需 1×24GB 显存的 GPU，70B 级需 2–4×80GB（iternal.ai、Premai 的部署指南）；用”小模型 + 结构化输出”实现同架构分诊，起步门槛远低于此。</p>
+<hr>
+<h2 id="四、已知局限与信息边界"><a href="#四、已知局限与信息边界" class="headerlink" title="四、已知局限与信息边界"></a>四、已知局限与信息边界</h2><p>讨论选型时建议把这节过一遍，明确”我们不知道什么”：</p>
+<ol>
+<li><strong>规格盲区</strong>：上下文窗口、参数规模未公布，超大输入场景能不能用、怎么用，只能实测；</li>
+<li><strong>数字口径</strong>：所有性能数字都是厂商或第三方说法，Latent Space 明确提醒宣传口径偏激进（用了 “aggressive claims” 的说法）；引入方自建的评测基线才是最终裁判；</li>
+<li><strong>生产验证空白</strong>：发布一周，公开内容以教程和社区实验为主，没有可引用的深度生产案例；</li>
+<li><strong>无法私有化</strong>：官方仅 API 形态，数据出站合规过不了就一票否决，没有折中；</li>
+<li><strong>校准概率质量待验</strong>：0.8 是否真的十次对八次，要用重复实验验证，这是设阈值的前提；</li>
+<li><strong>社区复现不可考</strong>：Hugging Face 上的复现版本与官方性能关系未知，生产不碰。</li>
+</ol>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a class="link"   target="_blank" rel="noopener" href="https://typesafe.ai/" >Introducing System One Models &amp; Jev — TypeSafe AI 官方博客<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（发布、性能与定价口径）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.langchain.com/" >What Is Jev? A Guide to TypeSafe AI’s System One Model — LangChain<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（agent loop 用法、Codex Router、jev-mcp、校准概率口径）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.datacamp.com/" >Jev: TypeSafe’s System One Model That Never Hallucinates — DataCamp<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（40–200x&#x2F;40–400x 第三方数字）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.eigent.ai/" >What Is Jev? TypeSafe AI’s System One Model, Explained — Eigent.ai<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（并行回答带类型问题、校准概率）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://innfactory.ai/" >Jev: A System One Model, Not an LLM — innfactory.ai<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（”可像 LLM 一样调用的分类器”）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.mindstudio.ai/" >Typesafe AI’s Non-Autoregressive System-1 Model — MindStudio<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（非自回归架构拆解）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.latent.space/" >Jev: a “System One Model” that only decides — Latent Space<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（RLCD 训练方式、对宣传口径的审慎态度）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.atlascloud.ai/" >How TypeSafe Jev Delivers Zero Hallucination AI at Ultra-Low Latency — AtlasCloud<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（亚 500ms 延迟口径、微服务路由场景）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.forbes.com/" >Why Everyone Is Talking About Jev — Forbes<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（企业决策场景报道）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://openrouter.ai/" >OpenRouter<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> &#x2F; <a class="link"   target="_blank" rel="noopener" href="https://litellm.ai/" >LiteLLM<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（第三方接入渠道与定价）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://iternal.ai/" >On-Prem LLM Deployment: GPU Sizing — iternal.ai<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link"   target="_blank" rel="noopener" href="https://premai.io/" >Self-Hosted LLM Guide — Premai<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（自建路线的算力参考）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=lttn0licaRY" >Jev Non-Autoregressive System Explained — YouTube<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（7 分钟视频讲解）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.emergentmind.com/topics/non-autoregressive-models" >Non-Autoregressive Models — Emergent Mind<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link"   target="_blank" rel="noopener" href="https://machinelearning.apple.com/research/non-autoagressive-neural-machine" >Apple ML Research<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（非自回归概念与经典对照）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://arxiv.org/html/2403.02249v1" >NARVL 论文（CVPR 2024）— arXiv HTML 版<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（含架构图的非自回归模型实例）</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://openreview.net/" >RLCD: Reinforcement Learning from Contrastive Distillation — OpenReview（ICLR 2024）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（Latent Space 提到的训练方法原文）</li>
+</ol>
+<p>注：System 1&#x2F;System 2 双系统理论出自卡尼曼《思考，快与慢》（<em>Thinking, Fast and Slow</em>, 2011），为心理学经典背景，无需在线来源；传统决策模型（规则系统、经典 ML、BERT 类分类器）的对比基于机器学习通用知识。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 一文读懂 LLM 与 Jev</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2026-09-23 17:10:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-09-23 17:10:00
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://www.kanes.top/2026/09/23/一文读懂LLM与Jev/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/LLM/">#LLM</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Jev/">#Jev</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/TypeSafe/">#TypeSafe</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E9%9D%9E%E8%87%AA%E5%9B%9E%E5%BD%92/">#非自回归</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/System-One/">#System One</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/09/16/%E5%88%B6%E8%A1%A8%E7%AC%A6%E3%80%81%E7%A9%BA%E6%A0%BC%E3%80%81%E6%89%8B%E5%B7%A5%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%AE%89%E5%85%A8%E5%B8%A6/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">制表符、空格、手工工具与安全带</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-swup-reload-script defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'moye12325/moye12325.github.io',
+                'data-repo-id': 'R_kgDOQMk3jQ',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOQMk3jc4DCzwZ',
+                'data-mapping': 'pathname',
+                'data-strict': '0',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'zh-CN',
+                'data-input-position': 'bottom',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            document.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">一文读懂 LLM 与 Jev</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">一、原理介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Jev-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Jev 是什么，解决什么问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%BB%8E%E5%8F%8C%E7%B3%BB%E7%BB%9F%E7%90%86%E8%AE%BA%E8%AF%B4%E8%B5%B7%EF%BC%9ASystem-1-%E4%B8%8E-System-2"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 从双系统理论说起：System 1 与 System 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%A0%B8%E5%BF%83%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 核心工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%EF%BC%9AJev-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%AB"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 技术架构：Jev 为什么快</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%8A%80%E6%9C%AF%E5%AF%B9%E6%AF%94"><span class="nav-number">2.</span> <span class="nav-text">二、技术对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Jev-%E4%B8%8E-LLM%EF%BC%9A%E6%9C%BA%E5%88%B6%E5%B7%AE%E5%BC%82%E4%B8%8E%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%E7%9A%84%E5%88%86%E7%95%8C"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Jev 与 LLM：机制差异与适用场景的分界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Jev-%E4%B8%8E%E4%BC%A0%E7%BB%9F%E5%86%B3%E7%AD%96%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Jev 与传统决策模型的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%80%A7%E8%83%BD%E6%95%B0%E5%AD%97%E4%B8%8E%E6%8E%A5%E5%85%A5%E6%B8%A0%E9%81%93"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 性能数字与接入渠道</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text">三、应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%B8%9A%E7%95%8C%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 业界应用案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%80%82%E7%94%A8%E4%B8%8E%E4%B8%8D%E9%80%82%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 适用与不适用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%9C%8D%E5%8A%A1%E5%95%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 服务商与部署方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%B7%B2%E7%9F%A5%E5%B1%80%E9%99%90%E4%B8%8E%E4%BF%A1%E6%81%AF%E8%BE%B9%E7%95%8C"><span class="nav-number">4.</span> <span class="nav-text">四、已知局限与信息边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 196 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
