@@ -217,6 +217,9 @@ navbar:
     随笔: 
       path: /categories/随笔/ 
       icon: fa-regular fa-pen # can be empty
+    AI日报:
+      path: /categories/AI日报/
+      icon: fa-regular fa-newspaper # can be empty
     项目:
       path: /projects/
       icon: fa-regular fa-folder # can be empty

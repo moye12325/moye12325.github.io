@@ -120,3 +120,12 @@ search:
   path: search.xml
   field: post
   content: true
+
+# 隐藏「AI日报」类文章：不出现在首页 / 归档 / 标签 / 站内搜索，只在分类页可见
+# 依赖 hexo-hide-posts，front matter 里用 hidden: true 标记
+hide_posts:
+  enable: true
+  filter: hidden
+  noindex: false
+  allowlist_generators:
+    - category
