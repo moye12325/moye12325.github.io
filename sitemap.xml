@@ -362,6 +362,15 @@
   </url>
   
   <url>
+    <loc>https://www.kanes.top/archives/</loc>
+    
+    <lastmod>2024-10-31</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.kanes.top/categories/</loc>
     
     <lastmod>2024-10-31</lastmod>
@@ -372,15 +381,6 @@
   
   <url>
     <loc>https://www.kanes.top/links/</loc>
-    
-    <lastmod>2024-10-31</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.kanes.top/archives/</loc>
     
     <lastmod>2024-10-31</lastmod>
     
@@ -884,7 +884,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2024/07/22/RabbitMQ/</loc>
+    <loc>https://www.kanes.top/2024/07/22/RabbitMQ%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</loc>
     
     <lastmod>2024-07-22</lastmod>
     
@@ -893,7 +893,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2024/07/22/RabbitMQ%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</loc>
+    <loc>https://www.kanes.top/2024/07/22/RabbitMQ/</loc>
     
     <lastmod>2024-07-22</lastmod>
     
@@ -1163,7 +1163,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2023/08/16/Llama%202%E6%A8%A1%E5%9E%8B%E7%BB%86%E8%8A%82/</loc>
+    <loc>https://www.kanes.top/2023/08/16/Llama%202%E5%8F%AF%E6%8E%A5%E5%8F%97%E4%BD%BF%E7%94%A8%E6%94%BF%E7%AD%96/</loc>
     
     <lastmod>2023-08-16</lastmod>
     
@@ -1172,7 +1172,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2023/08/16/Llama%202%E5%8F%AF%E6%8E%A5%E5%8F%97%E4%BD%BF%E7%94%A8%E6%94%BF%E7%AD%96/</loc>
+    <loc>https://www.kanes.top/2023/08/16/Llama%202%E6%A8%A1%E5%9E%8B%E7%BB%86%E8%8A%82/</loc>
     
     <lastmod>2023-08-16</lastmod>
     
@@ -1190,15 +1190,6 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/Domain%20Adaptation/</loc>
-    
-    <lastmod>2022-08-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.kanes.top/2022/08/16/Explainable%20AI/</loc>
     
     <lastmod>2022-08-16</lastmod>
@@ -1208,7 +1199,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/HW10%20%20Attact/</loc>
+    <loc>https://www.kanes.top/2022/08/16/Domain%20Adaptation/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1227,6 +1218,15 @@
   
   <url>
     <loc>https://www.kanes.top/2022/08/16/HW9/</loc>
+    
+    <lastmod>2022-08-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.kanes.top/2022/08/16/HW10%20%20Attact/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1379,7 +1379,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E6%89%B9%E9%87%8F%E8%A7%84%E8%8C%83%E5%8C%96/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E4%BD%BF%E7%94%A8%E5%9D%97%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1388,7 +1388,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E4%BD%BF%E7%94%A8%E5%9D%97%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E6%89%B9%E9%87%8F%E8%A7%84%E8%8C%83%E5%8C%96/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1406,7 +1406,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%89%E8%8A%82-SoftMax/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%EF%BC%88NiN%EF%BC%89/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1415,7 +1415,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%83%E8%8A%82-%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E7%BD%91%E7%BB%9C%EF%BC%88NiN%EF%BC%89/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%89%E8%8A%82-SoftMax/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1433,15 +1433,6 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%89%E8%8A%82-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</loc>
-    
-    <lastmod>2022-08-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E5%BA%8F%E5%88%97%E5%88%B0%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0%EF%BC%88seq2seq%EF%BC%89/</loc>
     
     <lastmod>2022-08-16</lastmod>
@@ -1451,7 +1442,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E6%9D%9F%E6%90%9C%E7%B4%A2/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B8%89%E8%8A%82-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1487,7 +1478,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E3%80%81%E5%BE%AE%E7%A7%AF%E5%88%86%E3%80%81%E6%A6%82%E7%8E%87/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E6%93%8D%E4%BD%9C/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1496,7 +1487,16 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E6%9D%9F%E6%90%9C%E7%B4%A2/</loc>
+    
+    <lastmod>2022-08-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E3%80%81%E5%BE%AE%E7%A7%AF%E5%88%86%E3%80%81%E6%A6%82%E7%8E%87/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1514,7 +1514,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E6%93%8D%E4%BD%9C/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1532,7 +1532,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1541,7 +1541,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%85%AB%E8%8A%82-%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1586,7 +1586,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%80%E8%8A%82-OptimizationAlgorithms/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1604,7 +1604,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9CFCN/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%80%E8%8A%82-OptimizationAlgorithms/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1676,24 +1676,6 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E9%94%9A%E6%A1%86/</loc>
-    
-    <lastmod>2022-08-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%BA%8C%E8%8A%82-%E5%A4%9AGPU%E8%AE%AD%E7%BB%83/</loc>
-    
-    <lastmod>2022-08-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%BA%8C%E8%8A%82-%E5%8F%82%E6%95%B0%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97/</loc>
     
     <lastmod>2022-08-16</lastmod>
@@ -1703,7 +1685,25 @@
   </url>
   
   <url>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E9%94%9A%E6%A1%86/</loc>
+    
+    <lastmod>2022-08-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%BA%8C%E8%8A%82-%E7%A1%AC%E4%BB%B6%E3%80%81CPU%E3%80%81GPU/</loc>
+    
+    <lastmod>2022-08-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%BA%8C%E8%8A%82-%E5%A4%9AGPU%E8%AE%AD%E7%BB%83/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1730,15 +1730,6 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-TransformerModel/</loc>
-    
-    <lastmod>2022-08-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-BahdanauAttention/</loc>
     
     <lastmod>2022-08-16</lastmod>
@@ -1748,7 +1739,7 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%B1%87%E8%81%9A%EF%BC%9ANadaraya-Watson%E6%A0%B8%E5%9B%9E%E5%BD%92/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%8F%90%E7%A4%BA/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1757,7 +1748,16 @@
   </url>
   
   <url>
-    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%8F%90%E7%A4%BA/</loc>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-TransformerModel/</loc>
+    
+    <lastmod>2022-08-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.kanes.top/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%B1%87%E8%81%9A%EF%BC%9ANadaraya-Watson%E6%A0%B8%E5%9B%9E%E5%BD%92/</loc>
     
     <lastmod>2022-08-16</lastmod>
     
@@ -1831,7 +1831,7 @@
 
   <url>
     <loc>https://www.kanes.top/</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
