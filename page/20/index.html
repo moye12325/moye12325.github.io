@@ -952,17 +952,27 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-Dropout%E6%9A%82%E9%80%80%E6%B3%95/">
-                            深度学习-李沐-第四节-Dropout暂退法
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E8%BD%AC%E7%BD%AE%E5%8D%B7%E7%A7%AF/">
+                            深度学习-李沐-第十三节-转置卷积
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            Dropout暂退法暂退法的思想是在隐藏层中丢弃某些单元，以减少模型对某些特征的依赖。删除了h2和h5，因此输出的计算不再依赖于h2或h5，并且它们各⾃的梯度在执⾏反向传播时也会消失。这样，输出层的计算不能过度依赖于h1, . . . , h5的任何⼀个元素。
-实现神经元的丢弃假设某个神经元被丢弃的概率为p，那么该神经元的输出可以表示为：计算h{}’期望值:    
-这种插入方式使得在插入了...
+                            转置卷积在空间维度被卷积神经网络层缩小后，可以使用转置卷积用于逆转下采样导致的空间尺寸减小。
+基本操作
+填充、步幅和多通道
+与矩阵变换的联系
+小结
+与通过卷积核减少输入元素的常规卷积相反，转置卷积通过卷积核广播输入元素，从而产生形状大于输入的输出。
+
+
+
+我们可以使用矩阵乘法来实现卷积。转置卷积层能够交换卷积层的正向传播函数和反向传播函数。
+
+
+
                         
                     </div>
 
@@ -999,6 +1009,11 @@
                     
                         <li>
                             
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
                             <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
                         </li>
                     
@@ -1007,7 +1022,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-Dropout%E6%9A%82%E9%80%80%E6%B3%95/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-Dropout暂退法</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E8%BD%AC%E7%BD%AE%E5%8D%B7%E7%A7%AF/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-转置卷积</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1022,22 +1037,18 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0/">
-                            深度学习-李沐-第十节-注意力评分函数
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E9%94%9A%E6%A1%86/">
+                            深度学习-李沐-第十三节-锚框
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            注意力评分函数
-使用高斯核来对查询和键之间的关系建模
-高斯核指数部分视为注意力评分函数（attention scoring function）， 简称评分函数（scoring function）
-把这个函数的输出结果输入到softmax函数中进行运算。 
-通过上述步骤，我们将得到与键对应的值的概率分布（即注意力权重）
-最后，注意力汇聚的输出就是基于这些注意力权重的值的加权和。
-
-掩蔽soft...
+                            锚框以每个像素为中心，生成多个缩放比和宽高比（aspect ratio）不同的边界框。 这些边界框被称为锚框（anchor box）
+生成多个锚框
+指定输入图像、尺寸列表和宽高比列表，然后此函数将返回所有的锚框
+1234567891011121314151617181920212223242526272829303132333435363738#@savedef multibox_prior...
                         
                     </div>
 
@@ -1075,6 +1086,11 @@
                         <li>
                             
                             <a href="/tags/Python/">Python</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a>&nbsp;
                         </li>
                     
                         <li>
@@ -1082,179 +1098,12 @@
                             <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
                         </li>
                     
-                        <li>
-                            | 
-                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
                 </ul>
             </span>
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十节-注意力评分函数</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%95%B0%E5%80%BC%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96/">
-                            深度学习-李沐-第四节-数值稳定性与参数初始化
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            数值稳定性与参数初始化神经网络的梯度
-数值稳定性常见两个问题
-梯度爆炸：梯度是一个大于1的数，一百层求梯度之后会是一个很大的数字  
-梯度消失：与上面相反，当梯度小于1的时候……
-
-123456789101112131415from matplotlib.pyplot import figure%matplotlib inlineimport torchfrom d2l import tor...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Python/">Python</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%95%B0%E5%80%BC%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-数值稳定性与参数初始化</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E3%80%81%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/">
-                            深度学习-李沐-第四节-前向传播、反向传播
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            前向传播、反向传播前向传播前向传播过程，即神经网络从输入层到输出层的计算过程。前向传播过程
-反向传播反向传播（backward propagation或backpropagation）指的是计算神经网络参数梯度的方法。该方法根据微积分中的链式规则，按相反的顺序从输出层到输入层遍历网络。 该算法存储了计算某些参数梯度时所需的任何中间变量（偏导数）。神经网络经过前向传播之后，接下来就可以计算其损...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E3%80%81%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-前向传播、反向传播</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E4%B8%89%E8%8A%82-%E9%94%9A%E6%A1%86/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十三节-锚框</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1410,6 +1259,168 @@
     </div>
 
     <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9%E3%80%81%E2%BD%8B%E6%8B%9F%E5%90%88%E5%92%8C%E8%BF%87%E6%8B%9F%E5%90%88/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-模型选择、⽋拟合和过拟合</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E3%80%81%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/">
+                            深度学习-李沐-第四节-前向传播、反向传播
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            前向传播、反向传播前向传播前向传播过程，即神经网络从输入层到输出层的计算过程。前向传播过程
+反向传播反向传播（backward propagation或backpropagation）指的是计算神经网络参数梯度的方法。该方法根据微积分中的链式规则，按相反的顺序从输出层到输入层遍历网络。 该算法存储了计算某些参数梯度时所需的任何中间变量（偏导数）。神经网络经过前向传播之后，接下来就可以计算其损...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E3%80%81%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-前向传播、反向传播</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%95%B0%E5%80%BC%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96/">
+                            深度学习-李沐-第四节-数值稳定性与参数初始化
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            数值稳定性与参数初始化神经网络的梯度
+数值稳定性常见两个问题
+梯度爆炸：梯度是一个大于1的数，一百层求梯度之后会是一个很大的数字  
+梯度消失：与上面相反，当梯度小于1的时候……
+
+123456789101112131415from matplotlib.pyplot import figure%matplotlib inlineimport torchfrom d2l import tor...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/Python/">Python</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%9B%9B%E8%8A%82-%E6%95%B0%E5%80%BC%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96/">阅读全文<span class="seo-reader-text">深度学习-李沐-第四节-数值稳定性与参数初始化</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
