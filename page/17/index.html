@@ -952,16 +952,17 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E6%93%8D%E4%BD%9C/">
-                            深度学习-李沐-第二节-数据处理与操作
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E7%BC%96%E7%A0%81%E5%99%A8-%E8%A7%A3%E7%A0%81%E5%99%A8%E7%BB%93%E6%9E%84/">
+                            深度学习-李沐-第九节-编码器-解码器结构
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            数据操作及数据预处理定义n维数组，也称为张量（tensor）。张量类（在MXNet中为ndarray，在PyTorch和TensorFlow中为Tensor） 都与Numpy的ndarray类似。但深度学习框架⼜⽐Numpy的ndarray多⼀些重要功能：⾸先，GPU很好地⽀持加速计算，⽽NumPy仅⽀持CPU计算；其次，张量类⽀持⾃动微分。这些功能使得张量类更适合深度学习。
-数据操作创造张...
+                            编码器-解码器结构机器翻译是序列转换模型的一个核心问题， 其输入和输出都是长度可变的序列。 为了处理这种类型的输入和输出， 我们可以设计一个包含两个主要组件的架构： 第一个组件是一个编码器（encoder）： 它接受一个长度可变的序列作为输入， 并将其转换为具有固定形状的编码状态。 第二个组件是解码器（decoder）： 它将固定形状的编码状态映射到长度可变的序列。
+架构
+代码实现12345...
                         
                     </div>
 
@@ -998,12 +999,12 @@
                     
                         <li>
                             
-                            <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
+                            <a href="/tags/Python/">Python</a>&nbsp;
                         </li>
                     
                         <li>
                             | 
-                            <a href="/tags/TensorFlow/">TensorFlow</a>&nbsp;
+                            <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
                         </li>
                     
                         <li>
@@ -1016,7 +1017,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E6%93%8D%E4%BD%9C/">阅读全文<span class="seo-reader-text">深度学习-李沐-第二节-数据处理与操作</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E7%BC%96%E7%A0%81%E5%99%A8-%E8%A7%A3%E7%A0%81%E5%99%A8%E7%BB%93%E6%9E%84/">阅读全文<span class="seo-reader-text">深度学习-李沐-第九节-编码器-解码器结构</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1031,21 +1032,103 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">
-                            深度学习-李沐-第二节-线性回归
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%94%E8%8A%82-%E5%B1%82%E5%92%8C%E5%9D%97/">
+                            深度学习-李沐-第五节-层和块
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            线性回归难点、疑点
-梯度下降  
-线性回归的代码实现
+                            层和块块块（block）：描述单个层、由多个层组成的组件或整个模型本身。使用块进行抽象的一个好处是可以将一些块组合成更大的组件， 这一过程通常是递归的。 通过定义代码来按需生成任意复杂度的块， 我们可以通过简洁的代码实现复杂的神经网络。代码实现：从编程的角度来看，块由类（class）表示。 它的任何子类都必须定义一个将其输入转换为输出的前向传播函数，并且必须存储任何必需的参数（有些块不需要任...
+                        
+                    </div>
 
-定义回归（regression）是能为一个或多个自变量与因变量之间关系建模的一类方法。在自然科学和社会科学领域，回归经常用来表示输入和输出之间的关系。y &#x3D; w1x1 + w2x2 + w3x3 + b
-损失评估
-梯度下降
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
+                
+                    2022-08-16
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/Python/">Python</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%94%E8%8A%82-%E5%B1%82%E5%92%8C%E5%9D%97/">阅读全文<span class="seo-reader-text">深度学习-李沐-第五节-层和块</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E6%9D%9F%E6%90%9C%E7%B4%A2/">
+                            深度学习-李沐-第九节-束搜索
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            束搜索逐个预测输出序列， 直到预测序列中出现特定的序列结束词元“”
+小结
+序列搜索策略包括贪心搜索、穷举搜索和束搜索。
+
+贪心搜索所选取序列的计算量最小，但精度相对较低。
+
+穷举搜索所选取序列的精度最高，但计算量最大。
+
+束搜索通过灵活选择束宽，在正确率和计算代价之间进行权衡。
+
+
 
                         
                     </div>
@@ -1091,7 +1174,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%8C%E8%8A%82-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">阅读全文<span class="seo-reader-text">深度学习-李沐-第二节-线性回归</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%B9%9D%E8%8A%82-%E6%9D%9F%E6%90%9C%E7%B4%A2/">阅读全文<span class="seo-reader-text">深度学习-李沐-第九节-束搜索</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1171,84 +1254,6 @@
     </div>
 
     <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%94%E8%8A%82-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%82%E3%80%81%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E3%80%81GPU/">阅读全文<span class="seo-reader-text">深度学习-李沐-第五节-自定义层、读写文件、GPU</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%94%E8%8A%82-%E5%B1%82%E5%92%8C%E5%9D%97/">
-                            深度学习-李沐-第五节-层和块
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            层和块块块（block）：描述单个层、由多个层组成的组件或整个模型本身。使用块进行抽象的一个好处是可以将一些块组合成更大的组件， 这一过程通常是递归的。 通过定义代码来按需生成任意复杂度的块， 我们可以通过简洁的代码实现复杂的神经网络。代码实现：从编程的角度来看，块由类（class）表示。 它的任何子类都必须定义一个将其输入转换为输出的前向传播函数，并且必须存储任何必需的参数（有些块不需要任...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Aug 16 2022 15:00:46 GMT+0800">
-                
-                    2022-08-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Python/">Python</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E4%BA%94%E8%8A%82-%E5%B1%82%E5%92%8C%E5%9D%97/">阅读全文<span class="seo-reader-text">深度学习-李沐-第五节-层和块</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
