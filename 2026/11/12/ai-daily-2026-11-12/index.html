@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://www.kanes.top/2026/11/12/ai-daily-2026-11-12/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="从 70 条内容中筛选出 11 条重要资讯。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 日报 · 2026-11-12">
+<meta property="og:url" content="https://www.kanes.top/2026/11/12/ai-daily-2026-11-12/">
+<meta property="og:site_name" content="Moye的日常">
+<meta property="og:description" content="从 70 条内容中筛选出 11 条重要资讯。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-11-12T01:09:33.000Z">
+<meta property="article:modified_time" content="2026-11-12T01:09:33.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="AI 日报">
+<meta property="article:tag" content="Horizon">
+<meta property="article:tag" content="自动生成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.kanes.top/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            AI 日报 · 2026-11-12 | Moye活着的记录
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"www.kanes.top","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":true,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":true},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":null},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/banner-light.webp","dark":"/images/banner-dark.webp"},"title":"OK, so what?","subtitle":{"text":["What matters most in life is often invisible."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn/?c=a&c=d&c=i&c=k"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/moye12325","instagram":null,"zhihu":null,"twitter":null,"email":null,"music":"https://music.163.com/#/user/home?id=609685181","bilibili":"https://space.bilibili.com/180380237"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","style":{"light":"neutral","dark":"dark"}}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"AI日报":{"path":"/categories/AI日报/","icon":"fa-regular fa-newspaper"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/links/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives/","icon":"fa-regular fa-book"},"随笔":{"path":"/notes/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"友链":{"path":"/links/","icon":"fa-regular fa-link"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Moye的日常","url":"https://www.kanes.top/"},{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI 日报 · 2026-11-12","description":"从 70 条内容中筛选出 11 条重要资讯。","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.kanes.top/2026/11/12/ai-daily-2026-11-12/"},"author":{"@type":"Person","name":"moye12325"},"publisher":{"@type":"Organization","name":"Moye的日常","url":"https://www.kanes.top/"},"datePublished":"2026-11-12T01:09:33.000Z","dateModified":"2026-11-12T01:09:33.000Z","image":"https://www.kanes.top/images/redefine-og.webp","keywords":"AI 日报, 自动生成, Horizon"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.kanes.top/"},{"@type":"ListItem","position":2,"name":"AI 日报 · 2026-11-12","item":"https://www.kanes.top/2026/11/12/ai-daily-2026-11-12/"}]}]</script></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Moye活着的记录
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Moye活着的记录
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/AI%E6%97%A5%E6%8A%A5/"
+                                        >
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    AI日报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/AI%E6%97%A5%E6%8A%A5/"
+                        >
+                            <span>
+                                AI日报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects/"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories/"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">16</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">197</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">AI 日报 · 2026-11-12</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv6</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-12 09:09:33</span>
+        <span class="mobile">2026-11-12 09:09:33</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-11-12 09:09:33</span>
+            <span class="mobile">2026-11-12 09:09:33</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AI-%E6%97%A5%E6%8A%A5/">AI 日报</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/">自动生成</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Horizon/">Horizon</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p>从 70 条内容中筛选出 11 条重要资讯。</p>
+</blockquote>
+<hr>
+<p><strong>AI 实战方法</strong></p>
+<ol>
+<li><a href="#item-ai-practice-1">Gemini Decision 1：多模态决策模型 API 上线</a> ⭐️ 8.0&#x2F;10</li>
+<li><a href="#item-ai-practice-2">AWS 发布官方本地模拟器 aws-emulator</a> ⭐️ 7.0&#x2F;10</li>
+<li><a href="#item-ai-practice-3">便宜模型写码 + 跨厂商前沿模型审 diff：自测同通过率、约 1&#x2F;16 成本</a> ⭐️ 7.0&#x2F;10</li>
+<li><a href="#item-ai-practice-4">Claude 聊天内可直接打开 Asana、Canva、Vercel 等第三方应用</a> ⭐️ 7.0&#x2F;10</li>
+<li><a href="#item-ai-practice-5">华为公开本地推理量化工具 MACaQ</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-6">Yogurt：本地模型驱动的开源会议记录桌面应用</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-7">Atuin Threads：跨机器同步 AI 代理会话的尝试</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-8">Claude Code 的 WebFetch 会漏掉 HTML head，附一条强制引用证据的审计提示词</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-9">仓库同时有 CLAUDE.md 和 AGENTS.md 时，Claude Code 可能不读 AGENTS.md</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-10">同价不同账单：Gemini 4 carbon 与 argon 的默认思考成本差 3–4.5 倍</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-11">RefTrail：给编码代理加上外部验收与需求覆盖</a> ⭐️ 6.0&#x2F;10</li>
+</ol>
+<hr>
+<h2 id="AI-实战方法"><a href="#AI-实战方法" class="headerlink" title="AI 实战方法"></a>AI 实战方法</h2><div id="item-ai-practice-1"></div>
+
+<h3 id="Gemini-Decision-1：多模态决策模型-API-上线-⭐️-8-0-10"><a href="#Gemini-Decision-1：多模态决策模型-API-上线-⭐️-8-0-10" class="headerlink" title="Gemini Decision 1：多模态决策模型 API 上线 ⭐️ 8.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://simonwillison.net/2026/Nov/11/gemini-decisions-api/" >Gemini Decision 1：多模态决策模型 API 上线<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 8.0&#x2F;10</h3><p>Google 发布 Gemini Decision 1，加入 Jev 和 OpenAI 之后的决策模型类别；该 API 面向三类问题：是&#x2F;否、选项选择和按 rubric 打分，并沿用 Jev 对是&#x2F;否问题的“Noul”叫法。价格是每百万输入 token 10 美分、输出免费，与 GPT-6 Luna 决策模型相同，Jev 则为每百万 4.2 美分。能力差异主要在输入模态：Jev 仅文本和 JSON，OpenAI 支持文本与图像，Gemini 覆盖文本、图像、音频、视频和 PDF。作者用一段视频测试四个是&#x2F;否问题，Gemini 返回概率值而非 1.0&#x2F;0.0，例如“有机器人”为 0.923、“在美国”为 0.923，但这是一次样本有限的测试。</p>
+<p>rss · Simon Willison · 11月11日 22:03</p>
+<p><strong>「怎么用」</strong> 适合先用于内容审核、媒体库打标、工单分流或 rubric 评分等需要结构化判断的环节。若现有流程依赖 0&#x2F;1 输出，接入时要设概率阈值并保留人工复核；可以先用一批自有样本对比 Jev、OpenAI 的准确率与成本，再决定是否迁移。材料未给出具体请求格式、限流和延迟，正式接入前需查官方文档。</p>
+<p><strong>「为什么现在值得看」</strong> 决策模型在约两个月内从 Jev、OpenAI 扩展到 Google，且 Gemini 以全模态输入和与 GPT-6 Luna 相同的价格切入，值得关注它能否替代“通用模型加提示词再加解析”的临时分类方案。实际准确率、延迟和稳定性尚未在材料中验证。</p>
+<p><strong>标签</strong>: <code>#decision-models</code>, <code>#gemini</code>, <code>#api</code>, <code>#multimodal</code>, <code>#new-paradigm</code></p>
+<hr>
+<div id="item-ai-practice-2"></div>
+
+<h3 id="AWS-发布官方本地模拟器-aws-emulator-⭐️-7-0-10"><a href="#AWS-发布官方本地模拟器-aws-emulator-⭐️-7-0-10" class="headerlink" title="AWS 发布官方本地模拟器 aws-emulator ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://simonwillison.net/2026/Nov/11/aws-emulator/" >AWS 发布官方本地模拟器 aws-emulator<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>AWS 推出官方本地模拟器 aws-emulator，让开发者可以在本机针对 AWS 各服务的本地克隆运行测试，而不必为测试开通付费 API key 或准备真实云资源。项目用 Rust 编写；据博文所述，它由大量 agent 协作开发，前三周产生了 29,684 次提交，Swaminathan（Swami）Sivasubramanian 在 Werner Vogels 博客的客座文章中讲述了它的由来。目前它在 macOS 和 Windows 上需要依赖 Docker 运行。与过去必须开通付费 API key 才能测试相比，它提供了一条官方支持的本地路径；不过博文没有给出服务覆盖范围、与真实服务的保真度差异，也没有可量化的效率或成本收益。</p>
+<p>rss · Simon Willison · 11月11日 21:18</p>
+<p><strong>「怎么用」</strong> 可以从 GitHub 上的 aws-emulator 仓库入手，在本地测试流程中用它替代对真实 AWS 环境的调用；在 macOS 或 Windows 上，需要先准备好 Docker。博文没有提供安装命令、支持的服务清单和配置方式，首次尝试前应先到仓库文档确认这些信息，再判断它是否覆盖你实际依赖的服务。</p>
+<p><strong>「为什么值得注意」</strong> 值得注意的变化是 AWS 官方亲自提供了本地模拟器，而不只是由社区或第三方来实现；同时它本身也是一个由 agent 大规模产出代码的公开案例。至于它实际能替代多少真实云端测试、保真度如何，现有材料尚不足以判断。</p>
+<p><strong>标签</strong>: <code>#aws</code>, <code>#local-emulator</code>, <code>#testing</code>, <code>#developer-tools</code>, <code>#agent-generated-code</code></p>
+<hr>
+<div id="item-ai-practice-3"></div>
+
+<h3 id="便宜模型写码-跨厂商前沿模型审-diff：自测同通过率、约-1-16-成本-⭐️-7-0-10"><a href="#便宜模型写码-跨厂商前沿模型审-diff：自测同通过率、约-1-16-成本-⭐️-7-0-10" class="headerlink" title="便宜模型写码 + 跨厂商前沿模型审 diff：自测同通过率、约 1&#x2F;16 成本 ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.reddit.com/r/ChatGPTCoding/comments/1xthm3v/i_tested_a_cheapbuilder_frontierreviewer_loop_on/" >便宜模型写码 + 跨厂商前沿模型审 diff：自测同通过率、约 1&#x2F;16 成本<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>作者在 r&#x2F;ChatGPTCoding 公开了一套自建流程“Krystal Loop Protocol”：便宜模型在沙箱里写改动并跑测试，再由另一家厂商的前沿模型只评审“任务 + diff + 测试输出”这一小包；评审要想打回必须写出一个能失败的测试来证明 bug，测试通过则投诉作废，如此循环到干净或触上限。他在 CooperBench 的 66 个任务（Click、Jinja、dirty-equals）上用模型没见过的测试评分，称单用 gpt-6-astra 解出 56 个、每任务 $0.721，deepseek-flash 单用 54–57 个、$0.014–0.027，而“deepseek-flash 构建 + gpt-6.1-sol 评审”的循环 54–59 个、$0.046–0.061。作者自己也承认评审只多解出 0–2 个任务，收益主要来自价格而非分数。另在 30 对互相冲突的功能上，结构化短消息交接成功 28 对、约 10 美分一对，纯 git merge 只有 2 对，单个前沿模型从零建两个功能只有 22 对、$0.196。上述数字均为作者自测，尚未被独立复现。</p>
+<p>rss · r&#x2F;ChatGPTCoding · 11月11日 13:22</p>
+<p><strong>「怎么用」</strong> 仓库公开（source-available，个人和小公司免费），作者称 <code>python3 -m bench.verify</code> 可在不填 API key 的情况下重算全部数字，重跑一遍该循环约 $3，也可以在相同任务和隐藏测试上评自己的方案。最小可行做法是：让便宜模型写改动、先跑测试、只把“任务 + diff + 测试输出”这一小包交给另一家厂商的模型评审，并要求评审必须给出可失败的测试才允许修改；作者还提到评审方可以是已付费的 CLI 订阅（Gemini、Kimi、Grok、Qwen 在他的测试里结果相近）。接入前需要额外信息：它在你真实仓库、真实测试集上的表现——66 个开源任务和隐藏测试不足以说明长尾缺陷与误报率，建议先在自己的若干 PR 上对比“有评审”和“无评审”的实际差异。</p>
+<p><strong>「为什么值得现在看」</strong> 作者的关键观察是便宜模型单独跑已经接近前沿模型（54–57 对 56），所以这一轮省钱主要来自选便宜模型写代码，而不是评审提高了分数；可以确认的变化是“跨厂商评审 + 测试门禁”这种组合现在能以几美分一次跑起来，至于它是否普遍成立，只有单一自测，尚无第三方复现。</p>
+<p><strong>标签</strong>: <code>#AI coding</code>, <code>#multi-model workflow</code>, <code>#cost optimization</code>, <code>#code review</code>, <code>#agent workflow</code>, <code>#empirical test</code></p>
+<hr>
+<div id="item-ai-practice-4"></div>
+
+<h3 id="Claude-聊天内可直接打开-Asana、Canva、Vercel-等第三方应用-⭐️-7-0-10"><a href="#Claude-聊天内可直接打开-Asana、Canva、Vercel-等第三方应用-⭐️-7-0-10" class="headerlink" title="Claude 聊天内可直接打开 Asana、Canva、Vercel 等第三方应用 ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.reddit.com/r/ClaudeAI/comments/1xt7krc/claude_can_now_open_apps_like_asana_canva_and/" >Claude 聊天内可直接打开 Asana、Canva、Vercel 等第三方应用<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>据 Reddit 转述，Anthropic 于 11 月 10 日宣布 interactive connectors（交互式连接器）：在连接器支持的情况下，第三方应用可以在 Claude 内打开，Claude 能与你一起在应用中操作。首批合作方包括 Asana、Canva、Carta、Dropbox、monday.com、Smartsheet、Vercel、Webflow，Figma、Harvey、Shopify 也在开发集成。应用会显示在聊天旁或全屏，你能看到改动过程而非只收到文字总结；Claude 的每一步操作仍需你批准。面向开发者，MCP Apps 支持进入公开预览，可自行构建聊天内应用。该功能在网页版和桌面端、所有套餐上逐步推出，部分账号需切换到「新版 Claude」或由组织开启；帖子本身是二手转述，没有实测、价格与额度限制信息。</p>
+<p>rss · r&#x2F;ClaudeAI · 11月11日 03:43</p>
+<p><strong>「怎么用」</strong> 先看账号是否已出现入口（可能需要切到新版 Claude 或由管理员开启），再挑一个具体的小任务试，例如帖主想做的「不离开聊天就查看 Vercel 部署」，重点确认操作审批提示是否清晰、改动是否真的可见。开发者可直接从 MCP Apps 公开预览入手，把已有的 agent 流程包装成带界面的聊天内应用。目前还缺少连接器完整清单、权限范围和调用额度等信息，正式接入前需自行核实。</p>
+<p><strong>「为什么现在值得注意」</strong> 如果该功能如描述落地，agent 工作流的形态会从「输出一段文字总结」变成「在可见界面里执行并逐项确认」，对需要人工把关的操作类任务更有用。但目前只有转述的公告，没有实测和限制数据，覆盖范围和实际体验仍未证实。</p>
+<p><strong>标签</strong>: <code>#Anthropic</code>, <code>#MCP</code>, <code>#interactive-connectors</code>, <code>#agent-workflow</code>, <code>#tooling</code>, <code>#public-preview</code></p>
+<hr>
+<div id="item-ai-practice-5"></div>
+
+<h3 id="华为公开本地推理量化工具-MACaQ-⭐️-6-0-10"><a href="#华为公开本地推理量化工具-MACaQ-⭐️-6-0-10" class="headerlink" title="华为公开本地推理量化工具 MACaQ ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://github.com/huawei-csl/MACaQ" >华为公开本地推理量化工具 MACaQ<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>华为在 GitHub 上公开了其内部量化工具 MACaQ，定位是本地推理。现有材料没有给出基准结果、精度与体积的取舍、支持的模型范围或具体上手步骤；可验证的只有项目已发布，以及社区有人称正在复现并生成 GGUF 文件。因此它目前更适合作为待评估的参考工具，而不是已被确认的工作流改进。</p>
+<p>hackernews · thefox96 · 11月11日 20:23 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50458166" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「怎么用」</strong> 如果要从头试，先查仓库文档确认它支持哪些模型、输出是否为你所用的 GGUF 工具链接受，再决定是否投入时间；在缺少基准和参数说明的情况下，不建议直接替换现有量化流程。当前材料不足以给出具体命令或推荐配置。</p>
+<p><strong>「社区讨论」</strong> 评论里有人报告社区已在复现并产出 GGUF，另有人关注官方博客链接、GitHub 页面可能消失的风险，以及是否一并发布了模型。上述都是零散使用反馈和疑问，尚不能据此判断量化质量或稳定性。</p>
+<p><strong>标签</strong>: <code>#quantization</code>, <code>#local-inference</code>, <code>#llm</code>, <code>#tooling</code>, <code>#gguf</code></p>
+<hr>
+<div id="item-ai-practice-6"></div>
+
+<h3 id="Yogurt：本地模型驱动的开源会议记录桌面应用-⭐️-6-0-10"><a href="#Yogurt：本地模型驱动的开源会议记录桌面应用-⭐️-6-0-10" class="headerlink" title="Yogurt：本地模型驱动的开源会议记录桌面应用 ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://github.com/FrigadeHQ/yogurt" >Yogurt：本地模型驱动的开源会议记录桌面应用<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>Yogurt 是一个 MIT 许可的免费桌面应用，由开发者 Eric 在业余时间构建，用本地模型完成会议转写、摘要和基于笔记的问答；它像 Granola 一样在后台运行、不加入通话，卖点是开源、免费，且录音与转写不出本机。技术栈上，它用 Electron 覆盖 Windows&#x2F;Mac&#x2F;Linux，转写用 whisper.cpp（系统支持时改用 Apple 的 on-device SpeechAnalyzer），摘要与问答用 llama.cpp 运行本地开源权重模型，并按硬件能力自动下载和配置；作者还提供本地 MCP server，可把笔记直接交给 Anthropic、OpenAI 等前沿模型，而不用付费云服务做中间商。材料中没有任何与 Granola 或前沿模型的质量、延迟、资源占用或成本对比数据，性能说法均来自作者自述。</p>
+<p>hackernews · brownrout · 11月11日 15:33 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50454625" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「怎么用」</strong> 从 GitHub 仓库（FrigadeHQ&#x2F;yogurt）下载对应平台安装包，首次启动会按硬件自动拉取本地模型，适合因隐私或成本一直没上 AI 会议工具的人，以及想从云端工具迁走的用户。建议先拿一场不敏感的会议试跑，观察转写准确率、延迟和风扇&#x2F;耗电情况，再决定是否纳入日常。材料未说明模型体积、最低硬件要求和支持语言，这些需要自行到仓库确认。</p>
+<p><strong>「为何现在值得看」</strong> 作者的判断是小型开源模型已经足够快、足够好，做会议摘要和问答不需要前沿模型——这是一个可验证的假设，但目前只有作者自述，没有基准支撑。</p>
+<p><strong>「社区反馈」</strong> 评论中有人肯定了它在双方同意录音州份的合规价值，并提到应用自带“正在录音”的默认提醒，建议再往前一步；也有人质疑差异化不足，指出 OpenWhispr 更早进入这一领域且支持更多模型，另有开发者说自己基于 Gemini API 做了类似工具。这些只是个别评论，不构成对产品质量的结论；关于“Yogurt”这类通用名在 SEO 和域名上是否吃亏，也有一段跑题讨论。</p>
+<p><strong>标签</strong>: <code>#on-device-ai</code>, <code>#open-source</code>, <code>#meeting-transcription</code>, <code>#privacy</code>, <code>#local-llm</code>, <code>#desktop-app</code></p>
+<hr>
+<div id="item-ai-practice-7"></div>
+
+<h3 id="Atuin-Threads：跨机器同步-AI-代理会话的尝试-⭐️-6-0-10"><a href="#Atuin-Threads：跨机器同步-AI-代理会话的尝试-⭐️-6-0-10" class="headerlink" title="Atuin Threads：跨机器同步 AI 代理会话的尝试 ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://blog.atuin.sh/threads-agent-sessions/" >Atuin Threads：跨机器同步 AI 代理会话的尝试<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>Atuin Threads 是 Atuin 博客介绍的一项功能，目标是让 AI 代理会话在多台机器之间同步并可搜索，面向跨设备使用代理的开发者。提供的材料没有说明它支持哪些代理、如何接入、价格、限制或可测量的效率收益，因此目前只能确认其方向，不能判断实际效果。与仅限单机的会话记录相比，它试图把代理会话也纳入跨机工作流，但评论显示“哪些会话值得同步”仍是未解问题。</p>
+<p>hackernews · linsomniac · 11月11日 14:10 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50453637" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「怎么用」</strong> 由于材料缺少安装、配置和支持范围说明，暂时无法给出可靠的上手步骤。它适合已经在多台机器上运行 AI 代理、希望集中检索历史会话的人先做小范围验证；试用前应确认它支持哪些代理、会同步哪些内容、数据存放在哪里，以及是否会把实验性会话一并带入。</p>
+<p><strong>「社区讨论」</strong> 评论中的主要疑问是同步范围和信噪比：有人希望覆盖 Claude Code 网页会话，也有人认为大量实验性会话是噪声，宁可让代理把上下文总结成文档；另有用户指出不清楚哪些 Claude 状态适合跨机同步，并提到 Atuin 曾因只读文件系统处理问题影响本地 shell。总体看，需求真实存在，但“是否值得同步全部会话”尚无共识。</p>
+<p><strong>标签</strong>: <code>#agent-workflow</code>, <code>#session-sync</code>, <code>#developer-tools</code>, <code>#atuin</code></p>
+<hr>
+<div id="item-ai-practice-8"></div>
+
+<h3 id="Claude-Code-的-WebFetch-会漏掉-HTML-head，附一条强制引用证据的审计提示词-⭐️-6-0-10"><a href="#Claude-Code-的-WebFetch-会漏掉-HTML-head，附一条强制引用证据的审计提示词-⭐️-6-0-10" class="headerlink" title="Claude Code 的 WebFetch 会漏掉 HTML head，附一条强制引用证据的审计提示词 ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.reddit.com/r/PromptEngineering/comments/1xtjs55/claude_codes_webfetch_marked_my_pages_title/" >Claude Code 的 WebFetch 会漏掉 HTML head，附一条强制引用证据的审计提示词<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>一位 Reddit 用户用 Claude Code 的 WebFetch 检查自己产品页的六项头部信息——title、meta description、canonical、hreflang、meta robots 和 JSON-LD 类型——结果六项全被标为&quot;absent&quot;；随后用 curl 拉原始 HTML，六项全部存在（包括 en、fr、x-default 三个 hreflang 和 Product、Organization、FAQPage 的 JSON-LD）。作者认为问题不在模型而在输入：WebFetch 的说明写明它会把页面转成 markdown 再交给一个小而快的模型作答，因此 &lt;head&gt; 与原始源码不在输入里。帖子给出一条可直接复制的审计提示词，要求先跑 curl -sL 读原始 HTML、每条结论必须引用 HTML 中的原字符串或 URL 及 HTTP 状态、判定&quot;缺失&quot;前必须用 grep 等命令实际检索并展示结果、拿不到原始 HTML 时只能写&quot;未验证&quot;而不能写&quot;absent&quot;，最后以&quot;发现 | 证据 | 检查方式&quot;表格收尾。需要注意：这是作者单次自测，没有给出错误率；且作者在文中披露自己在售卖付费的 SEO Claude skills 包（€25 至 11 月 17 日，之后 €99），提示词本身可脱离该产品使用。</p>
+<p>rss · r&#x2F;PromptEngineering · 11月11日 14:54</p>
+<p><strong>「怎么用」</strong> 适用于用 Claude Code 或任何带 shell 的 agent 做页面结构、SEO 标签类审计：不要让它用会把页面转成 markdown 的抓取工具读头部信息，而是先 curl -sL 取原始 HTML，再对每个待查标签做字面检索（如 grep -ci &#x27;rel&#x3D;&quot;canonical&quot;&#x27;），把命令和输出一并保留。在不能执行命令的 Claude 应用里，手动粘贴页面源码代替抓取。提示词中最关键的是第 4 条——把&quot;看不到&quot;和&quot;不存在&quot;分开表述，否则一份审计报告里会混入大量假缺失。反过来，如果只是读正文内容，markdown 转换本身不是问题，不必套用这套流程。</p>
+<p><strong>「为什么值得注意」</strong> 帖子的价值在于指出一个可复现的工具行为差异：同一页面，抓取工具与 curl 给出的头部信息结论可能完全相反。但作者只做了一次自测，未量化发生频率，也未说明 WebFetch 在不同站点上的表现是否一致，因此它更像一条需要自己复核的经验，而非已证实的普遍缺陷。</p>
+<p><strong>标签</strong>: <code>#claude-code</code>, <code>#webfetch</code>, <code>#prompt-engineering</code>, <code>#seo</code>, <code>#tool-limitations</code>, <code>#verification</code>, <code>#ai-workflow</code></p>
+<hr>
+<div id="item-ai-practice-9"></div>
+
+<h3 id="仓库同时有-CLAUDE-md-和-AGENTS-md-时，Claude-Code-可能不读-AGENTS-md-⭐️-6-0-10"><a href="#仓库同时有-CLAUDE-md-和-AGENTS-md-时，Claude-Code-可能不读-AGENTS-md-⭐️-6-0-10" class="headerlink" title="仓库同时有 CLAUDE.md 和 AGENTS.md 时，Claude Code 可能不读 AGENTS.md ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.reddit.com/r/ChatGPTCoding/comments/1xtlwh6/if_your_repo_has_both_agentsmd_and_claudemd/" >仓库同时有 CLAUDE.md 和 AGENTS.md 时，Claude Code 可能不读 AGENTS.md<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>一位用户报告：在为 Cursor 和 Codex 维护 AGENTS.md 的仓库里新增一个简短的 CLAUDE.md 之后，Claude Code 会话不再加载共享的命令和&quot;先问再做&quot;清单；文件本身没问题，只是没被读取。帖子引用 Claude Code 的 memory 文档说明，默认情况下只有当工作目录及其上层都没有 CLAUDE.md、.claude&#x2F;CLAUDE.md 或 CLAUDE.local.md 时才会读 AGENTS.md，因此个人且常被 gitignore 的 CLAUDE.local.md 也会让文件对你单独失效。修复方法是在 CLAUDE.md 第 1 行写 @AGENTS.md（真正的导入），而不是写一句&quot;请同时阅读 AGENTS.md&quot;这类自然语言说明。这属于配置层面的坑与一行修复，不是新方法或性能结果，影响范围较窄。</p>
+<p>rss · r&#x2F;ChatGPTCoding · 11月11日 16:15</p>
+<p><strong>「怎么用」</strong> 在 CLAUDE.md 第一行加 @AGENTS.md，然后执行 &#x2F;memory 或 &#x2F;context all，确认两个文件都出现在上下文中。按帖子的分工，AGENTS.md 放三个工具都需要的内容——可直接执行的具体命令（如 pnpm test path&#x2F;to&#x2F;file，而非&quot;跑测试&quot;）、简短的完成定义（typecheck &#x2F; lint &#x2F; 测试确实跑过）、需先问的边界（认证、支付、部署、任何触及生产的操作）、以及只在代理重复犯同一错误时才追加的坑列表；多步骤流程（PR 评审、排查 flaky 测试、交接笔记）则不要放进 AGENTS.md，以免每次会话都被注入。Cursor 的文件级约定继续用 .mdc 规则，而 Codex 只读 AGENTS.md。</p>
+<p><strong>标签</strong>: <code>#claude-code</code>, <code>#agents-md</code>, <code>#agent-instructions</code>, <code>#configuration</code>, <code>#workflow-gotcha</code>, <code>#coding-agents</code></p>
+<hr>
+<div id="item-ai-practice-10"></div>
+
+<h3 id="同价不同账单：Gemini-4-carbon-与-argon-的默认思考成本差-3–4-5-倍-⭐️-6-0-10"><a href="#同价不同账单：Gemini-4-carbon-与-argon-的默认思考成本差-3–4-5-倍-⭐️-6-0-10" class="headerlink" title="同价不同账单：Gemini 4 carbon 与 argon 的默认思考成本差 3–4.5 倍 ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.reddit.com/r/ChatGPTCoding/comments/1xtlk8o/same_price_per_token_345x_the_bill_gemini_4/" >同价不同账单：Gemini 4 carbon 与 argon 的默认思考成本差 3–4.5 倍<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>一位 Reddit 用户对两款标价相同的模型（Gemini 4 carbon 与 argon，均为每百万输入 2 美元、输出 10 美元，优惠至 11 月 30 日）做了代码评分的 A&#x2F;B 对比。任务包括 3 个办公类任务各跑 3 次，以及 10 道有确定答案的数学难题各跑 1 次，两者都用默认思考等级。准确率几乎持平（办公任务 45&#x2F;45 对 44&#x2F;45，难题 10&#x2F;10 对 10&#x2F;10），但碳模型消耗的思考 token 明显更多（办公 5,239 对 0，难题 10,982 对 1,018），导致实际账单在办公任务上高 4.5 倍（0.0669 对 0.0148 美元）、难题上高 3 倍（0.1461 对 0.0494 美元），中位耗时也约为 9.5 秒对 5.9 秒。作者补充：把 carbon 的 thinking_level 调到 low 后思考 token 归零，准确率不变，成本与 argon 基本一致。需要注意这是单人小样本、未重复测方差，模型名称与可用性均为作者说法，未经核实。</p>
+<p>rss · r&#x2F;ChatGPTCoding · 11月11日 16:03</p>
+<p><strong>「怎么用」</strong> 如果你在选或换 API 模型，不要只看每 token 单价：把推理、思考 token 计入总成本，并把思考等级默认值当作可调的成本开关。具体做法是先按官方默认等级跑一批自己的真实任务，记录总 token 与账单，再把 thinking_level 调低重跑同样任务；只有当答案确实变好时，才把思考等级调高。作者也提到尚未测试 carbon 主打的长时间 agentic 编码场景，若你的负载属于这类，需要自行补测。</p>
+<p><strong>「为什么现在值得看」</strong> carbon 据作者称昨天才对付费 API 用户开放，且与 argon 的当前价格相同，所以“同价是否等于同成本”正是此刻的实际选择问题。需要说明的是，这只是一个未被复现的个案数据点，3–4.5 倍的差距在更大样本或其他任务上是否稳定，材料中没有证据。</p>
+<p><strong>标签</strong>: <code>#llm-api-cost</code>, <code>#thinking-tokens</code>, <code>#model-comparison</code>, <code>#empirical-benchmark</code>, <code>#cost-optimization</code></p>
+<hr>
+<div id="item-ai-practice-11"></div>
+
+<h3 id="RefTrail：给编码代理加上外部验收与需求覆盖-⭐️-6-0-10"><a href="#RefTrail：给编码代理加上外部验收与需求覆盖-⭐️-6-0-10" class="headerlink" title="RefTrail：给编码代理加上外部验收与需求覆盖 ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.reddit.com/r/ChatGPTCoding/comments/1xtmwnk/i_got_tired_of_coding_agents_silently_dropping/" >RefTrail：给编码代理加上外部验收与需求覆盖<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>RefTrail 是一个采用 MIT 许可、零 npm 依赖、要求 Node.js &gt;&#x3D; 22.16 的开源验证工具，目标是让编码代理的运行过程可以从外部审计。它把测试输入和预期输出在代理写代码前用 SHA-256 锁定为字节级基线，并通过需求覆盖目录计算加权功能覆盖率；强制检查项缺失时，即使功能覆盖率达到 100% 也不能通过验收。作者还提供一个可直接运行的 uniq 示例，用来展示标准修订、Linux&#x2F;Windows 参考运行和快照验证的完整循环。与让代理自行编写或修改测试的做法相比，它强调先固定验收标准、再让代理实现，但帖子没有给出试用结果、成本收益或完整上手路径，实际效果尚未验证。</p>
+<p>rss · r&#x2F;ChatGPTCoding · 11月11日 16:53</p>
+<p><strong>「怎么用」</strong> 可以克隆仓库后运行 <code>node showcase/uniq/verify.mjs</code> 和 <code>node integration/verify.mjs</code>，先看一遍完整验证循环。适合用在验收标准能提前确定、且需要追踪需求覆盖的编码代理任务中：先写好有边界的代理简报并锁定 criteria，再让代理开始写产品代码。材料没有提供完整配置步骤，实际接入前需要按仓库说明补齐流程。</p>
+<p><strong>标签</strong>: <code>#coding-agents</code>, <code>#verification</code>, <code>#testing</code>, <code>#workflow</code>, <code>#open-source</code>, <code>#requirements-traceability</code></p>
+<hr>
+<p><em>本文由 <a class="link"   target="_blank" rel="noopener" href="https://github.com/Thysrael/Horizon" >Horizon<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 自动采集公开信息源生成，摘要与点评为机器产出，链接均指向原文。</em></p>
+<!-- flag of hidden posts -->
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> AI 日报 · 2026-11-12</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2026-11-12 09:09:33</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-11-12 09:09:33
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://www.kanes.top/2026/11/12/ai-daily-2026-11-12/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI-%E6%97%A5%E6%8A%A5/">#AI 日报</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/">#自动生成</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Horizon/">#Horizon</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-swup-reload-script defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'moye12325/moye12325.github.io',
+                'data-repo-id': 'R_kgDOQMk3jQ',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOQMk3jc4DCzwZ',
+                'data-mapping': 'pathname',
+                'data-strict': '0',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'zh-CN',
+                'data-input-position': 'bottom',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            document.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">AI 日报 · 2026-11-12</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AI-%E5%AE%9E%E6%88%98%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">AI 实战方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-Decision-1%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E5%86%B3%E7%AD%96%E6%A8%A1%E5%9E%8B-API-%E4%B8%8A%E7%BA%BF-%E2%AD%90%EF%B8%8F-8-0-10"><span class="nav-number">1.1.</span> <span class="nav-text">Gemini Decision 1：多模态决策模型 API 上线 ⭐️ 8.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AWS-%E5%8F%91%E5%B8%83%E5%AE%98%E6%96%B9%E6%9C%AC%E5%9C%B0%E6%A8%A1%E6%8B%9F%E5%99%A8-aws-emulator-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">1.2.</span> <span class="nav-text">AWS 发布官方本地模拟器 aws-emulator ⭐️ 7.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%BF%E5%AE%9C%E6%A8%A1%E5%9E%8B%E5%86%99%E7%A0%81-%E8%B7%A8%E5%8E%82%E5%95%86%E5%89%8D%E6%B2%BF%E6%A8%A1%E5%9E%8B%E5%AE%A1-diff%EF%BC%9A%E8%87%AA%E6%B5%8B%E5%90%8C%E9%80%9A%E8%BF%87%E7%8E%87%E3%80%81%E7%BA%A6-1-16-%E6%88%90%E6%9C%AC-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">1.3.</span> <span class="nav-text">便宜模型写码 + 跨厂商前沿模型审 diff：自测同通过率、约 1&#x2F;16 成本 ⭐️ 7.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-%E8%81%8A%E5%A4%A9%E5%86%85%E5%8F%AF%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80-Asana%E3%80%81Canva%E3%80%81Vercel-%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%94%E7%94%A8-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">1.4.</span> <span class="nav-text">Claude 聊天内可直接打开 Asana、Canva、Vercel 等第三方应用 ⭐️ 7.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8E%E4%B8%BA%E5%85%AC%E5%BC%80%E6%9C%AC%E5%9C%B0%E6%8E%A8%E7%90%86%E9%87%8F%E5%8C%96%E5%B7%A5%E5%85%B7-MACaQ-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.5.</span> <span class="nav-text">华为公开本地推理量化工具 MACaQ ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Yogurt%EF%BC%9A%E6%9C%AC%E5%9C%B0%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%BC%80%E6%BA%90%E4%BC%9A%E8%AE%AE%E8%AE%B0%E5%BD%95%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.6.</span> <span class="nav-text">Yogurt：本地模型驱动的开源会议记录桌面应用 ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Atuin-Threads%EF%BC%9A%E8%B7%A8%E6%9C%BA%E5%99%A8%E5%90%8C%E6%AD%A5-AI-%E4%BB%A3%E7%90%86%E4%BC%9A%E8%AF%9D%E7%9A%84%E5%B0%9D%E8%AF%95-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.7.</span> <span class="nav-text">Atuin Threads：跨机器同步 AI 代理会话的尝试 ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Code-%E7%9A%84-WebFetch-%E4%BC%9A%E6%BC%8F%E6%8E%89-HTML-head%EF%BC%8C%E9%99%84%E4%B8%80%E6%9D%A1%E5%BC%BA%E5%88%B6%E5%BC%95%E7%94%A8%E8%AF%81%E6%8D%AE%E7%9A%84%E5%AE%A1%E8%AE%A1%E6%8F%90%E7%A4%BA%E8%AF%8D-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.8.</span> <span class="nav-text">Claude Code 的 WebFetch 会漏掉 HTML head，附一条强制引用证据的审计提示词 ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%93%E5%BA%93%E5%90%8C%E6%97%B6%E6%9C%89-CLAUDE-md-%E5%92%8C-AGENTS-md-%E6%97%B6%EF%BC%8CClaude-Code-%E5%8F%AF%E8%83%BD%E4%B8%8D%E8%AF%BB-AGENTS-md-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.9.</span> <span class="nav-text">仓库同时有 CLAUDE.md 和 AGENTS.md 时，Claude Code 可能不读 AGENTS.md ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E4%BB%B7%E4%B8%8D%E5%90%8C%E8%B4%A6%E5%8D%95%EF%BC%9AGemini-4-carbon-%E4%B8%8E-argon-%E7%9A%84%E9%BB%98%E8%AE%A4%E6%80%9D%E8%80%83%E6%88%90%E6%9C%AC%E5%B7%AE-3%E2%80%934-5-%E5%80%8D-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.10.</span> <span class="nav-text">同价不同账单：Gemini 4 carbon 与 argon 的默认思考成本差 3–4.5 倍 ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RefTrail%EF%BC%9A%E7%BB%99%E7%BC%96%E7%A0%81%E4%BB%A3%E7%90%86%E5%8A%A0%E4%B8%8A%E5%A4%96%E9%83%A8%E9%AA%8C%E6%94%B6%E4%B8%8E%E9%9C%80%E6%B1%82%E8%A6%86%E7%9B%96-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.11.</span> <span class="nav-text">RefTrail：给编码代理加上外部验收与需求覆盖 ⭐️ 6.0&#x2F;10</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 197 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+            <div class="icp-info my-1"><a target="_blank" rel="nofollow" href="
+                
+                    https://beian.miit.gov.cn/
+                
+                ">浙ICP备2024104483号-1</a></div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
