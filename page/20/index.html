@@ -952,16 +952,22 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-TransformerModel/">
-                            深度学习-李沐-第十节-TransformerModel
+                        <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0/">
+                            深度学习-李沐-第十节-注意力评分函数
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            Transformertransformer模型完全基于注意力机制，没有任何卷积层或循环神经网络层，transformer最初是应用于在文本数据上的序列到序列学习，但现在已经推广到各种现代的深度学习中，例如语言、视觉、语音和强化学习领域。
-模型架构transformer的编码器和解码器是基于自注意力的模块叠加而成的，源（输入）序列和目标（输出）序列的嵌入（embedding）表示将加上位置编...
+                            注意力评分函数
+使用高斯核来对查询和键之间的关系建模
+高斯核指数部分视为注意力评分函数（attention scoring function）， 简称评分函数（scoring function）
+把这个函数的输出结果输入到softmax函数中进行运算。 
+通过上述步骤，我们将得到与键对应的值的概率分布（即注意力权重）
+最后，注意力汇聚的输出就是基于这些注意力权重的值的加权和。
+
+掩蔽soft...
                         
                     </div>
 
@@ -998,12 +1004,12 @@
                     
                         <li>
                             
-                            <a href="/tags/Transformer/">Transformer</a>&nbsp;
+                            <a href="/tags/Python/">Python</a>&nbsp;
                         </li>
                     
                         <li>
                             | 
-                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>&nbsp;
+                            <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
                         </li>
                     
                         <li>
@@ -1016,7 +1022,7 @@
         
     </div>
 
-    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-TransformerModel/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十节-TransformerModel</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2022/08/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%9D%8E%E6%B2%90-%E7%AC%AC%E5%8D%81%E8%8A%82-%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0/">阅读全文<span class="seo-reader-text">深度学习-李沐-第十节-注意力评分函数</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
