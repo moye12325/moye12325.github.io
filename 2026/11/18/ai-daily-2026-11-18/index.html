@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Python, 全栈开发, 编程学习, 技术分享, moye12325">
+    
+    <meta name="author" content="moye">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://www.kanes.top/2026/11/18/ai-daily-2026-11-18/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="从 43 条内容中筛选出 13 条重要资讯。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 日报 · 2026-11-18">
+<meta property="og:url" content="https://www.kanes.top/2026/11/18/ai-daily-2026-11-18/">
+<meta property="og:site_name" content="Moye的日常">
+<meta property="og:description" content="从 43 条内容中筛选出 13 条重要资讯。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.kanes.top/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-11-18T01:09:35.000Z">
+<meta property="article:modified_time" content="2026-11-18T01:09:35.000Z">
+<meta property="article:author" content="moye12325">
+<meta property="article:tag" content="AI 日报">
+<meta property="article:tag" content="Horizon">
+<meta property="article:tag" content="周刊">
+<meta property="article:tag" content="自动生成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.kanes.top/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            AI 日报 · 2026-11-18 | Moye活着的记录
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"www.kanes.top","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":true,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":true},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":null},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/banner-light.webp","dark":"/images/banner-dark.webp"},"title":"OK, so what?","subtitle":{"text":["What matters most in life is often invisible."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn/?c=a&c=d&c=i&c=k"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/moye12325","instagram":null,"zhihu":null,"twitter":null,"email":null,"music":"https://music.163.com/#/user/home?id=609685181","bilibili":"https://space.bilibili.com/180380237"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","style":{"light":"neutral","dark":"dark"}}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"博客":{"icon":"fa-regular fa-book","submenus":{"全部文章":"/archives/","分类":"/categories/","标签":"/tags/","归档":"/archives/"}},"随笔":{"path":"/categories/随笔/","icon":"fa-regular fa-pen"},"AI日报":{"path":"/categories/AI日报/","icon":"fa-regular fa-newspaper"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/links/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"博客":{"path":"/archives/","icon":"fa-regular fa-book"},"随笔":{"path":"/notes/","icon":"fa-regular fa-pen"},"项目":{"path":"/projects/","icon":"fa-regular fa-folder"},"友链":{"path":"/links/","icon":"fa-regular fa-link"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Moye的日常","url":"https://www.kanes.top/"},{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI 日报 · 2026-11-18","description":"从 43 条内容中筛选出 13 条重要资讯。","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.kanes.top/2026/11/18/ai-daily-2026-11-18/"},"author":{"@type":"Person","name":"moye12325"},"publisher":{"@type":"Organization","name":"Moye的日常","url":"https://www.kanes.top/"},"datePublished":"2026-11-18T01:09:35.000Z","dateModified":"2026-11-18T01:09:35.000Z","image":"https://www.kanes.top/images/redefine-og.webp","keywords":"AI 日报, 自动生成, Horizon, 周刊"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.kanes.top/"},{"@type":"ListItem","position":2,"name":"AI 日报 · 2026-11-18","item":"https://www.kanes.top/2026/11/18/ai-daily-2026-11-18/"}]}]</script></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Moye活着的记录
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Moye活着的记录
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-book fa-fw"></i>
+                                    博客
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    全部文章
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/categories/">
+                                                    分类
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/tags/">
+                                                    标签
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/archives/">
+                                                    归档
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/%E9%9A%8F%E7%AC%94/"
+                                        >
+                                    <i class="fa-regular fa-pen fa-fw"></i>
+                                    随笔
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/AI%E6%97%A5%E6%8A%A5/"
+                                        >
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    AI日报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/projects/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    项目
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-博客"
+                        >
+                            <span>
+                                博客
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-博客">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">全部文章</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/categories/">分类</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/tags/">标签</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/archives/">归档</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/%E9%9A%8F%E7%AC%94/"
+                        >
+                            <span>
+                                随笔
+                            </span>
+                            
+                                <i class="fa-regular fa-pen fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/AI%E6%97%A5%E6%8A%A5/"
+                        >
+                            <span>
+                                AI日报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/projects/"
+                        >
+                            <span>
+                                项目
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories/"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">16</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">197</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">AI 日报 · 2026-11-18</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">moye</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv6</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-18 09:09:35</span>
+        <span class="mobile">2026-11-18 09:09:35</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-11-18 09:09:35</span>
+            <span class="mobile">2026-11-18 09:09:35</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AI-%E6%97%A5%E6%8A%A5/">AI 日报</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/">自动生成</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Horizon/">Horizon</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%91%A8%E5%88%8A/">周刊</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p>从 43 条内容中筛选出 13 条重要资讯。</p>
+</blockquote>
+<hr>
+<p><strong>AI 实战方法</strong></p>
+<ol>
+<li><a href="#item-ai-practice-1">编码智能体改用“外置沙箱”：三个实现，共用一套本地 API</a> ⭐️ 7.0&#x2F;10</li>
+<li><a href="#item-ai-practice-2">GPT‑6.2 Astra 与 Sol 发布：API 可用，Astra 价格下调</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-3">软件工程师的推理工程：何时该离开前沿实验室 API</a> ⭐️ 6.0&#x2F;10</li>
+<li><a href="#item-ai-practice-4">用 DeepSeek 与 Kimi 生成网页肉鸽原型，成本约 20 元</a> ⭐️ 5.0&#x2F;10</li>
+</ol>
+<p><strong>科技新闻</strong></p>
+<ol>
+<li><a href="#item-tech-news-1">Java4Shell：OpenJDK Base64 处理中的远程代码执行</a> ⭐️ 8.0&#x2F;10</li>
+<li><a href="#item-tech-news-2">SolidJS 2.0 发布：服务器数据原语与诊断改进</a> ⭐️ 8.0&#x2F;10</li>
+<li><a href="#item-tech-news-3">Quad9 退出法国，Cloudflare 警示 DNS 监管风险</a> ⭐️ 7.0&#x2F;10</li>
+<li><a href="#item-tech-news-4">英伟达停披新加坡销售额，当地子公司外部营收达 1040 亿美元</a> ⭐️ 7.0&#x2F;10</li>
+<li><a href="#item-tech-news-5">Phrack 第 73 期发布，社区关注漏洞披露状态</a> ⭐️ 7.0&#x2F;10</li>
+<li><a href="#item-tech-news-6">美国机床供应链与再工业化瓶颈</a> ⭐️ 7.0&#x2F;10</li>
+</ol>
+<p><strong>AI 创作者雷达</strong></p>
+<ol>
+<li><a href="#item-ai-creator-1">OpenAI 推出 ChatGPT 销售插件与 30+ 合作方插件</a> ⭐️ 7.0&#x2F;10</li>
+</ol>
+<p><strong>中文周刊</strong></p>
+<ol>
+<li><a href="#item-weekly-1">不死鸟 11 月每日分享：仅见一条互动历史地图资源</a> ⭐️ 4.0&#x2F;10</li>
+<li><a href="#item-weekly-2">《AIGC Weekly》第 197 期导读</a> ⭐️ 3.0&#x2F;10</li>
+</ol>
+<hr>
+<h2 id="AI-实战方法"><a href="#AI-实战方法" class="headerlink" title="AI 实战方法"></a>AI 实战方法</h2><div id="item-ai-practice-1"></div>
+
+<h3 id="编码智能体改用“外置沙箱”：三个实现，共用一套本地-API-⭐️-7-0-10"><a href="#编码智能体改用“外置沙箱”：三个实现，共用一套本地-API-⭐️-7-0-10" class="headerlink" title="编码智能体改用“外置沙箱”：三个实现，共用一套本地 API ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://simonwillison.net/2026/Nov/17/external-sandboxes-for-coding-agents/" >编码智能体改用“外置沙箱”：三个实现，共用一套本地 API<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>Simon Willison 与 AI 研究实验室 Prime Radiant 合作，提出“外置沙箱（external sandbox）”模式：智能体本身留在沙箱之外，由它执行的代码则被放进独立的沙箱中运行。目的是更安全地试用本地模型，降低误操作或提示注入导致机器被破坏的风险。配套发布了三个沙箱服务器实现：external-sandbox-v86 用 Node.js 服务器借助 v86 在 WebAssembly 中运行 Alpine Linux；external-sandbox-container 是 Python Web 服务器，在 Apple Containers 实例里跑 Alpine Linux；external-sandbox-quicksand 同样是 Python Web 服务器，使用微软的 Quicksand 库，把 QEMU 和 Alpine Linux 一起打包进 Python 包。三者对外提供相同的 localhost API，可配置 Pi、Claude Code 或 Codex，在需要执行代码时把调用发到该沙箱。三者还都带有可选的 HTTP&#x2F;HTTPS 允许列表代理，用于限定智能体代码可访问的主机，并提供凭据替换机制，让智能体在不持有密钥的情况下发起带认证的 API 调用。原文未给出性能基准、资源开销或与旧做法的量化对比。</p>
+<p>rss · Simon Willison · 11月17日 22:52</p>
+<p><strong>「怎么用」</strong> 这条思路的接入方式是：先按自己的平台从三个实现里选一个，启动本地沙箱服务器，再把 Pi、Claude Code 或 Codex 中执行代码的路径指向它的 localhost API；之后可按需在运行中通过网页界面配置允许列表代理，并用凭据替换来代理需要认证的请求。可参考的选型线索是：想要纯 WebAssembly、无需虚拟化支持可选 v86 版；在 macOS 上偏好 Apple Containers 可选 container 版；希望 QEMU 与 Alpine 随 Python 包一起安装、依赖最少可选 Quicksand 版。原文在给出这些内容后被截断，未提供具体安装命令、API 定义和代理配置细节，首次尝试需要以各仓库的 README 为准。</p>
+<p><strong>标签</strong>: <code>#agent-sandboxing</code>, <code>#coding-agents</code>, <code>#prompt-injection</code>, <code>#local-models</code>, <code>#agent-workflows</code>, <code>#security</code></p>
+<hr>
+<div id="item-ai-practice-2"></div>
+
+<h3 id="GPT‑6-2-Astra-与-Sol-发布：API-可用，Astra-价格下调-⭐️-6-0-10"><a href="#GPT‑6-2-Astra-与-Sol-发布：API-可用，Astra-价格下调-⭐️-6-0-10" class="headerlink" title="GPT‑6.2 Astra 与 Sol 发布：API 可用，Astra 价格下调 ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://simonwillison.net/2026/Nov/17/gpt62-astra-and-sol/" >GPT‑6.2 Astra 与 Sol 发布：API 可用，Astra 价格下调<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>OpenAI 发布 GPT‑6.2 Astra 和 GPT‑6.2 Sol，API 模型名分别为 <code>gpt-6.2-astra</code> 与 <code>gpt-6.2-sol</code>，Simon Willison 的 LLM 0.38 已支持调用。Astra 定价为每百万输入 token 8 美元、输出 40 美元，是上一代 6 Astra 的 80%，缓存输入从每百万 1 美元降到 0.40 美元；Sol 维持 2&#x2F;10 美元，为 GPT‑5.6 Sol 的一半。材料没有给出可核对的基准分数，作者用画骑自行车鹈鹕和 Three.js 动画提示做了演示，并提到 Astra 在部分基准上不如 Claude Fable 5.2、长任务中可能因追问内部细节而卡住。</p>
+<p>rss · Simon Willison · 11月17日 22:38</p>
+<p><strong>「怎么用」</strong> 若已使用 LLM 或 OpenAI API，可先升级到 LLM 0.38，在日常低风险任务中试用 <code>gpt-6.2-sol</code>，在长链路 agent 任务中评估 Astra 的缓存输入折扣能否抵消其更高单价。正式切换前，最好用自己的一条代表性任务对比旧模型，重点观察长任务中它是否会因不必要的追问而中断；目前缺少独立基准，不适合只凭发布信息决定迁移。</p>
+<p><strong>「为何值得注意」</strong> 当下值得注意的具体变化是 Astra 相对 6 Astra 降价 20%，缓存输入价格降至原来的 40%，这对反复读取上下文的 agent 会话有直接成本意义。至于它是否真的更适合长任务，材料只给出作者体验和少量社区抱怨，尚待独立测试。</p>
+<p><strong>标签</strong>: <code>#OpenAI</code>, <code>#模型发布</code>, <code>#API</code>, <code>#成本优化</code>, <code>#agent</code></p>
+<hr>
+<div id="item-ai-practice-3"></div>
+
+<h3 id="软件工程师的推理工程：何时该离开前沿实验室-API-⭐️-6-0-10"><a href="#软件工程师的推理工程：何时该离开前沿实验室-API-⭐️-6-0-10" class="headerlink" title="软件工程师的推理工程：何时该离开前沿实验室 API ⭐️ 6.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://newsletter.pragmaticengineer.com/p/inference-engineering-for-software-engineers" >软件工程师的推理工程：何时该离开前沿实验室 API<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 6.0&#x2F;10</h3><p>这是《Pragmatic Engineer》一篇面向软件工程师的推理工程深度文章的导语，选题覆盖几个实际决策点：什么时候应该放弃前沿 AI 实验室提供的 API、如何在模型与供应商之间做选择、缓存怎么用、是否上专用 GPU，以及 KV cache 相关的顾虑。但可获取的内容只有这段导语，没有给出具体方法、测量数据、成本对比或复现细节，也没有说明与旧做法相比的具体差异。因此它的实际价值目前只能判断为选题切中工程实践，优劣无法核实。</p>
+<p>rss · Pragmatic Engineer · 11月17日 16:11</p>
+<p><strong>「怎么用」</strong> 如果你正在权衡继续使用托管 API 还是自建推理，可以把这篇当作一份问题清单来对照自己的场景：API 与自建的成本边界、模型与供应商的切换成本、缓存与 KV cache 的收益、专用 GPU 的利用率。但要拿到可执行的上手路径，还需要读全文；仅凭现有导语无法给出具体步骤或参数建议。</p>
+<p><strong>标签</strong>: <code>#inference engineering</code>, <code>#LLM deployment</code>, <code>#model providers</code>, <code>#caching</code>, <code>#dedicated GPUs</code>, <code>#KV cache</code>, <code>#cost optimization</code></p>
+<hr>
+<div id="item-ai-practice-4"></div>
+
+<h3 id="用-DeepSeek-与-Kimi-生成网页肉鸽原型，成本约-20-元-⭐️-5-0-10"><a href="#用-DeepSeek-与-Kimi-生成网页肉鸽原型，成本约-20-元-⭐️-5-0-10" class="headerlink" title="用 DeepSeek 与 Kimi 生成网页肉鸽原型，成本约 20 元 ⭐️ 5.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://news.google.com/rss/articles/CBMiVEFVX3lxTE9yWEJCX1RWUDRSOHdheFBPUU9IRkJFWjBLbmVqRUR1dGNyQTlfei14YUowUXhWWEJVOHptdnVBcDB6SGxTUl9tdW0xT2ZvLWJMM2VLUQ?oc=5" >用 DeepSeek 与 Kimi 生成网页肉鸽原型，成本约 20 元<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 5.0&#x2F;10</h3><p>虎嗅报道了一次实测：用 DeepSeek 和 Kimi 开发网页肉鸽游戏原型，给出的成本约为 20 元。但当前只能获取标题和链接，缺少模型分工、提示流程、开发耗时、成品质量及与常规做法的对比，因此无法验证其可复现性和实际收益。对读者而言，这目前只能算一个低成本尝试方向，不宜当作成熟方法直接照搬。</p>
+<p>google_news · 虎嗅 · 11月17日 12:59</p>
+<p><strong>标签</strong>: <code>#AI 编程</code>, <code>#DeepSeek</code>, <code>#Kimi</code>, <code>#游戏原型</code>, <code>#实测</code>, <code>#成本</code></p>
+<hr>
+<h2 id="科技新闻"><a href="#科技新闻" class="headerlink" title="科技新闻"></a>科技新闻</h2><div id="item-tech-news-1"></div>
+
+<h3 id="Java4Shell：OpenJDK-Base64-处理中的远程代码执行-⭐️-8-0-10"><a href="#Java4Shell：OpenJDK-Base64-处理中的远程代码执行-⭐️-8-0-10" class="headerlink" title="Java4Shell：OpenJDK Base64 处理中的远程代码执行 ⭐️ 8.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://calif.io/java4shell/" >Java4Shell：OpenJDK Base64 处理中的远程代码执行<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 8.0&#x2F;10</h3><p>一份技术报告描述了被称作 Java4Shell 的 OpenJDK 远程代码执行问题，触发路径涉及 Base64 处理，并需要通过网络进行堆布局操控（“Remote Heap Feng Shui”）。评论中引述的报告内容称，其测试曾在公网 IP 环境中实施，但该攻击对 RTT 和抖动敏感，低且稳定的往返时延更有利于提高利用可靠性。由于利用条件具体，受影响的是满足这些条件的 OpenJDK 部署，而非所有 Java 主机；现有材料未给出受影响版本或修复信息。</p>
+<p>hackernews · werrett · 11月17日 21:11 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50538240" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「背景」</strong> Java 4 Shell（CVE-2026-114938）是 OpenJDK Base64 解码器中的一处内存破坏漏洞，由 Calif 发现并上报，其命名明显在呼应 Log4Shell。据 Cyber Kendra 报道，Calif 利用该缺陷在未登录的情况下接管了 Jira、Confluence、Jenkins 和 Keycloak 服务器，Oracle 与 OpenJDK 项目随后发布了修复。The Hacker News 在报道时则称该 OpenJDK RCE 报告尚未得到确认、漏洞细节已经外泄，因此实际受影响的 Java 版本与补丁覆盖范围仍需以官方公告为准。</p>
+<p><strong>「影响」</strong> 使用 OpenJDK 17.0.6 及更高版本、并会解析不可信 Base64 数据的服务，应按 CVE-2026-114938 的修复状态尽快升级。外部报道称该漏洞无需凭据即可经网络触发，CVSS 4.0 评分为 9.2，因此暴露在公网且会走到相关解码路径的应用应优先排查并限制此类输入。</p>
+<p><strong>「社区讨论」</strong> 评论者一方面称赞这项研究的质量，另一方面强调利用条件虽具体、受影响主机仍可能很多；Semgrep 的 ievans 表示已发布免费检测脚本，并列出 HotSpot、Oracle JDK 和 GraalVM JDK 等条件。AgentME 则转述 Twitter 上尚未确认的说法，称问题与 Base64 解码的 AVX-512 实现有关，并可用 -XX:UseAVX&#x3D;2 作为规避选项。</p>
+<details><summary>参考链接</summary>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://calif.io/java4shell/" >Java 4 Shell : Write once, RCE everywhere<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.cyberkendra.com/2026/11/cve-2026-114938-pre-auth-rce-flaw-in-java-17-puts-servers-at-risk.html" >Java 4 Shell ( CVE -2026-114938): Java Base 64 Flaw... - Cyber Kendra<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://thehackernews.com/2026/11/oracle-to-patch-11-java-flaws-today-as.html" >Oracle to Patch 11 Java Flaws Today as Critical OpenJDK RCE ...<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://orca.security/resources/research/java4shell-critical-openjdk-base64-decoder-flaw-could-allow-unauthenticated-remote-code-execution/" >Java 4 Shell CVE-2026-114938: Affected Versions &amp; Mitigation<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://thehackernews.com/2026/11/oracle-to-patch-11-java-flaws-today-as.html?m=1" >Oracle to Patch 11 Java Flaws Today as Critical OpenJDK RCE...<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+
+</ul>
+</details>
+
+<p><strong>标签</strong>: <code>#OpenJDK security</code>, <code>#remote code execution</code>, <code>#vulnerability research</code>, <code>#exploit development</code>, <code>#heap grooming</code></p>
+<hr>
+<div id="item-tech-news-2"></div>
+
+<h3 id="SolidJS-2-0-发布：服务器数据原语与诊断改进-⭐️-8-0-10"><a href="#SolidJS-2-0-发布：服务器数据原语与诊断改进-⭐️-8-0-10" class="headerlink" title="SolidJS 2.0 发布：服务器数据原语与诊断改进 ⭐️ 8.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.solidjs.com/blog/solid-2-0-the-long-hold/" >SolidJS 2.0 发布：服务器数据原语与诊断改进<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 8.0&#x2F;10</h3><p>SolidJS 发布了 2.0 大版本更新，面向使用该框架的前端与全栈开发者，新增服务器数据原语并改进开发者诊断。现有信息显示，这次更新强调服务器 RPC 以及 live、broadcast 等能力，社区讨论也集中在新原语和调试体验上。由于缺少更完整的发布说明，具体 API、兼容性范围和迁移要求尚不明确。</p>
+<p>hackernews · pier25 · 11月17日 18:56 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50536387" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「背景」</strong> SolidJS 是一个以细粒度响应式（fine-grained reactivity）为核心、跳过虚拟 DOM diff 的 JavaScript UI 框架。官方此前在 GitHub 讨论帖《The Road to 2.0》中公开了 2.0 的规划，其中涉及 createEffect 等核心 API 的改动，并称存在等价的迁移路径；官网此前也已挂出 2.0 Release Candidate 的提示。此次 2.0 发布是这一路线图与候选版本之后的正式落地。</p>
+<p><strong>「影响」</strong> 对使用 Solid 构建全栈应用的开发者，2.0 的服务器 RPC 与 live&#x2F;broadcast 原语提供了在框架内处理前后端数据交互的路径；评论者认为这可能减少对独立中间层的需求。具体兼容性和迁移影响尚缺少发布材料佐证。</p>
+<p><strong>「社区讨论」</strong> 有评论者认为，发布说明中“Built to Be Written by Agents”下的改进本质上是更好的调试诊断，对人体开发者同样有用，并非代理式开发专属；另一位评论者称 Solid 的服务器 RPC 与 live&#x2F;broadcast 比 LiveView 或 htmx&#x2F;datastar 更自然。其余评论主要是对团队和发布的祝贺。</p>
+<details><summary>参考链接</summary>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://github.com/solidjs/solid/discussions/2425" >The Road to 2 . 0 · solidjs solid · Discussion #2425 · GitHub<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.solidjs.com/" >SolidJS · Reactive Javascript Library<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+
+</ul>
+</details>
+
+<p><strong>标签</strong>: <code>#SolidJS</code>, <code>#JavaScript frameworks</code>, <code>#frontend development</code>, <code>#major release</code>, <code>#server RPC</code></p>
+<hr>
+<div id="item-tech-news-3"></div>
+
+<h3 id="Quad9-退出法国，Cloudflare-警示-DNS-监管风险-⭐️-7-0-10"><a href="#Quad9-退出法国，Cloudflare-警示-DNS-监管风险-⭐️-7-0-10" class="headerlink" title="Quad9 退出法国，Cloudflare 警示 DNS 监管风险 ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://blog.cloudflare.com/quad9-withdrawal-from-france/" >Quad9 退出法国，Cloudflare 警示 DNS 监管风险<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>Quad9 已从法国撤出，法国用户和依赖该解析器的组织需要改用其他 DNS 服务。Cloudflare 在分析文章中把这一退出视为 DNS 基础设施的监管警示，核心问题是解析器是否要因内容屏蔽义务承担法律责任。文章属于政策风险与先例讨论，不是 Cloudflare 发布新技术能力或具体应对措施的公告。</p>
+<p>hackernews · subset · 11月17日 22:13 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50538994" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「背景」</strong> DNS 解析器负责把域名转换成 IP 地址，是用户访问网站前的必经环节；因此，一旦监管机构要求屏蔽某些内容，这种要求就会直接落到解析服务运营方身上，而不再只针对网站本身。Quad9 是提供公共 DNS 解析服务的运营方，在围绕解析器责任与内容屏蔽的争议中退出了法国市场，当地用户因此失去这一解析选项。</p>
+<p><strong>「影响」</strong> 对法国用户和机构而言，直接后果是 DNS 解析配置需要迁移到其他公共解析器；对 DNS 运营者而言，这一案例显示内容屏蔽义务可能演变为是否继续在特定司法辖区提供服务的法律与商业风险。</p>
+<p><strong>「社区讨论」</strong> Quad9 CTO johnhtodd 在评论中称，IETF 127 现场对其立场迄今获得 100% 支持，并称同行对 DNS 面临的监管压力普遍感到担忧。driverdan 则批评 Cloudflare 文章未作出具体承诺，并追问 Cloudflare 是否会在类似判决不利时也退出受影响国家；这些是评论者观点，不是已证实的事实。</p>
+<p><strong>标签</strong>: <code>#DNS</code>, <code>#internet policy</code>, <code>#content blocking</code>, <code>#Cloudflare</code>, <code>#Quad9</code></p>
+<hr>
+<div id="item-tech-news-4"></div>
+
+<h3 id="英伟达停披新加坡销售额，当地子公司外部营收达-1040-亿美元-⭐️-7-0-10"><a href="#英伟达停披新加坡销售额，当地子公司外部营收达-1040-亿美元-⭐️-7-0-10" class="headerlink" title="英伟达停披新加坡销售额，当地子公司外部营收达 1040 亿美元 ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://www.ft.com/content/dbde7a30-548c-4f9d-a4be-7898a0c24dcf" >英伟达停披新加坡销售额，当地子公司外部营收达 1040 亿美元<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>据《金融时报》报道，英伟达已停止单独披露新加坡销售额，而其新加坡子公司的外部营收在 2025 年达到 1040 亿美元。该报道与社区讨论将这一变化置于美国对经新加坡路由芯片的出口管制审查背景下，但按法律实体记账的营收并不等同于芯片在新加坡使用，也不能单独证明最终客户所在地。对投资者和分析师而言，单独披露的缺失降低了从地理销售数据判断芯片最终流向的可见度。</p>
+<p>hackernews · louiereederson · 11月17日 17:12 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50534631" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「背景」</strong> 新加坡子公司的收入按开票实体归属，包含经由新加坡实体下单、但最终可能交付到其他市场的 GPU 订单，因此并不等同于芯片在新加坡本地使用。据报美国当局正在调查新加坡公司 Megaspeed 是否参与将英伟达芯片走私至中国；《华尔街日报》报道称，英伟达在 2025 年 6 月已将 Megaspeed 列入内部禁售名单，并在针对该公司的审查升温之际停止单独披露新加坡收入。</p>
+<p><strong>「影响」</strong> 对经由新加坡实体下单的芯片采购方而言，这一披露变化削弱了外界追踪 GPU 最终流向的能力：路透以外的报道指出，美国国会议员已就相关情况呼吁展开调查并推动出口管制立法；而新加坡方面表示不执行美国的单边出口管制，仅对经由新加坡的欺诈性贸易行为提起诉讼。因此，把订单放在新加坡主体名下，并不能免除企业遵守美国出口管制的义务。</p>
+<p><strong>「社区讨论」</strong> 评论区中，tamarind44 和 legitster 认为这是对实体营收口径的误读：1040 亿美元包含经新加坡实体下单、再由 OEM&#x2F;ODM 或经销商交付的订单，属于会计归属问题，不能说明芯片最终去向；另有评论则据此推测存在规避制裁行为。</p>
+<details><summary>参考链接</summary>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.wsj.com/business/earnings/nvidias-disappearing-singapore-sales-deepen-mystery-around-megaspeed-7d483180" >Nvidia’s Disappearing Singapore Sales Deepen Mystery Around ...<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/stocks/articles/nvidia-abruptly-changed-reported-revenue-004426232.html?fr=sycsrp_catchall" >Nvidia abruptly changed how it reported revenue in Singapore ...<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://fourweekmba.com/ai-chip-export-rules-explained-nvidia-billed-52b-to-singapore/" >Chip Export Rules Explained: Nvidia Billed $52B to Singapore<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.explainx.ai/blog/singapore-nvidia-ai-chip-routing-megaspeed-ft-export-networks-2026" >Singapore AI Chip Trade: Megaspeed FT Report (2026 ...<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+
+</ul>
+</details>
+
+<p><strong>标签</strong>: <code>#Nvidia</code>, <code>#AI hardware</code>, <code>#export controls</code>, <code>#semiconductor industry</code>, <code>#corporate disclosure</code></p>
+<hr>
+<div id="item-tech-news-5"></div>
+
+<h3 id="Phrack-第-73-期发布，社区关注漏洞披露状态-⭐️-7-0-10"><a href="#Phrack-第-73-期发布，社区关注漏洞披露状态-⭐️-7-0-10" class="headerlink" title="Phrack 第 73 期发布，社区关注漏洞披露状态 ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://phrack.org/issues/73/introduction_md" >Phrack 第 73 期发布，社区关注漏洞披露状态<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>Phrack 第 73 期已发布，面向安全研究人员和系统从业者。现有评论提到，本期内容涉及 Docker 逃逸类漏洞利用和一篇 SSH1 漏洞历史文章，但给定材料没有说明这些漏洞是否经过负责任披露，也未说明是否已分配 CVE。</p>
+<p>hackernews · notmine1337 · 11月17日 18:31 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50535992" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「背景」</strong> Phrack 是一本长期出版的黑客技术杂志；搜索结果称其于 1985 年 11 月 17 日首次发布，名称取自“phreak”和“hack”。因此，第 73 期是该出版物长期系列中的新一期。</p>
+<p><strong>「使用者需注意」</strong> 本期 Phrack 提到一种 Docker 逃逸手法，运行容器工作负载的运维者应留意；但现有材料并未说明该问题是否已提前通知厂商、是否分配了 CVE，因此在核实补丁状态前，不能假定它已被修复。对这类研究，读者应把“是否经过负责任披露”视为待核实项，而不是既成事实。</p>
+<p><strong>「社区讨论」</strong> 评论者 ashleyn 追问，本期提到的 Docker 逃逸漏洞是否经过负责任披露或已分配 CVE，还是直接公开。其他评论者则回顾 Phrack 旧期，提到 1996 年第 49 期的《Smashing The Stack For Fun And Profit》，以及第 36 期等经典内容。</p>
+<details><summary>参考链接</summary>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://mwmbl.org/search?q=Phrack" >Phrack - MWMBL<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+
+</ul>
+</details>
+
+<p><strong>标签</strong>: <code>#security research</code>, <code>#exploit development</code>, <code>#responsible disclosure</code>, <code>#hacker culture</code></p>
+<hr>
+<div id="item-tech-news-6"></div>
+
+<h3 id="美国机床供应链与再工业化瓶颈-⭐️-7-0-10"><a href="#美国机床供应链与再工业化瓶颈-⭐️-7-0-10" class="headerlink" title="美国机床供应链与再工业化瓶颈 ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://read.corematter.com/p/section-232-us-machine-tools" >美国机床供应链与再工业化瓶颈<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>这篇文章审视美国机床供应链，以及制造“制造机器的机器”所需的工业基础，关注再工业化是否受制于上游设备、精密零部件和工艺能力，而不只是工厂或机器人数量。条目未提供文章正文，因此文章中的具体数据和结论无法在此核实。Hacker News 评论者进一步围绕资本开支、工艺知识、供应商反馈和生态系统规模展开争论，并有评论者把美国精密制造能力与中国深圳的产业密度作对比。</p>
+<p>hackernews · gmays · 11月17日 17:45 · <a class="link"   target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=50535208" >社区讨论<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><strong>「背景：第 232 条调查」</strong> 美国商务部于 2025 年 9 月 2 日启动第 232 条国家安全调查，审查机器人及工业机械的进口是否可能损害国家安全；公开征求意见于 2025 年 10 月 17 日截止，按法定要求提交总统的报告期限为 2026 年 5 月 30 日。该调查范围相当具体，明确点名了电火花加工设备等机床品类，而机床正是所谓“制造机器的机器”。贸易法律追踪机构 strtrade 目前仍将机器人及工业机械列为尚无具体关税或配额的状态，因此文中所讨论的瓶颈更多落在资本开支、精密零部件与工艺知识上。</p>
+<p><strong>「社区讨论」</strong> 评论中最有用的分歧在于追赶路径：一名评论者认为深圳的制造密度带来类似硅谷风投规模的集聚效应，美国难以快速复制；另一名评论者则主张美国在火箭、卫星、喷气和导弹等复杂制造上仍有产量优势，重学或重建设备能力比想象中容易。还有评论者提到，一家为全球客户生产工具的企业并不预先测试工具，而是依据材料、温度和精密计量方面的客户反馈迭代。</p>
+<details><summary>参考链接</summary>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://ironmachinetool.com/machine-tool-tariffs-section-232-edm/" >Machine Tool Tariffs and the Section 232 Probe | Iron Machine ...<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.manufacturingmag.com/article/section-232-june-2026-machinery-tariffs-imported-automation-reshoring-paradox" >The &#x27;25% Tax on Robots&#x27; — Section 232 Explained ...<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.strtrade.com/trade-news-resources/tariff-actions-resources/section-232-investigation-robotics-industrial-machinery" >Section 232 Investigation of Robotics &amp; Industrial Machinery<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+
+</ul>
+</details>
+
+<p><strong>标签</strong>: <code>#machine tools</code>, <code>#US manufacturing</code>, <code>#industrial policy</code>, <code>#supply chains</code>, <code>#robotics</code></p>
+<hr>
+<h2 id="AI-创作者雷达"><a href="#AI-创作者雷达" class="headerlink" title="AI 创作者雷达"></a>AI 创作者雷达</h2><div id="item-ai-creator-1"></div>
+
+<h3 id="OpenAI-推出-ChatGPT-销售插件与-30-合作方插件-⭐️-7-0-10"><a href="#OpenAI-推出-ChatGPT-销售插件与-30-合作方插件-⭐️-7-0-10" class="headerlink" title="OpenAI 推出 ChatGPT 销售插件与 30+ 合作方插件 ⭐️ 7.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://openai.com/index/introducing-chatgpt-for-sales" >OpenAI 推出 ChatGPT 销售插件与 30+ 合作方插件<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 7.0&#x2F;10</h3><p>OpenAI 在官方博客介绍 ChatGPT 的 Sales 插件，以及 30 多个新增和扩展的合作方插件。官方给出的使用场景包括研究潜在客户、准备推介话术、更新 CRM 和推进交易。材料没有披露这些插件的具体可用范围、定价、合作方名单或效果数据，因此目前可确认的是官方定位，尚不能判断实际表现。</p>
+<p>rss · OpenAI Blog · 11月17日 08:00</p>
+<p><strong>「为何值得关注」</strong> 这次更新值得注意的地方在于，ChatGPT 被明确指向销售与 CRM 工作流，而不只是通用问答；但可用性、定价和效果尚未在材料中说明，实际影响仍不确定。</p>
+<p><strong>「内容角度」</strong> 可做角度：围绕“ChatGPT 进入销售流程”梳理官方已明确的潜在客户研究、话术准备、CRM 更新和交易推进等环节，并对照原文核查 30+ 合作方插件的范围，避免把宣传性描述当成效果结论。</p>
+<p><strong>标签</strong>: <code>#ChatGPT</code>, <code>#OpenAI</code>, <code>#销售插件</code>, <code>#插件生态</code>, <code>#CRM</code></p>
+<hr>
+<h2 id="中文周刊"><a href="#中文周刊" class="headerlink" title="中文周刊"></a>中文周刊</h2><div id="item-weekly-1"></div>
+
+<h3 id="不死鸟-11-月每日分享：仅见一条互动历史地图资源-⭐️-4-0-10"><a href="#不死鸟-11-月每日分享：仅见一条互动历史地图资源-⭐️-4-0-10" class="headerlink" title="不死鸟 11 月每日分享：仅见一条互动历史地图资源 ⭐️ 4.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://iui.su/215/" >不死鸟 11 月每日分享：仅见一条互动历史地图资源<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 4.0&#x2F;10</h3><p>这是「不死鸟」官网 2026 年 11 月每日分享栏目的汇总页，页面目前只显示栏目导语和 11 月 17 日的一条更新，其余日期内容缺失，整体信息量较少，难以评估整期质量。已可见的一条推荐是互动历史地图集「江山时序」，涵盖中国 2400 多年的领土演变、行政家谱与主要战役等。本期没有 AI、Skill、MCP 或 Python 相关的内容。</p>
+<p>rss · 不死鸟月刊分享 · 11月17日 03:43</p>
+<p><strong>标签</strong>: <code>#每日分享</code>, <code>#资源合集</code>, <code>#互动历史地图</code>, <code>#历史地理</code>, <code>#不死鸟</code></p>
+<hr>
+<div id="item-weekly-2"></div>
+
+<h3 id="《AIGC-Weekly》第-197-期导读-⭐️-3-0-10"><a href="#《AIGC-Weekly》第-197-期导读-⭐️-3-0-10" class="headerlink" title="《AIGC Weekly》第 197 期导读 ⭐️ 3.0&#x2F;10"></a><a class="link"   target="_blank" rel="noopener" href="https://quaily.com/op7418/p/aigc-weekly-iy4yikrf" >《AIGC Weekly》第 197 期导读<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> ⭐️ 3.0&#x2F;10</h3><p>这是归藏《AIGC Weekly》的第 197 期更新，定位是 AIGC 方向的周刊。但抓取到的正文只有一句开场欢迎语，没有出现任何具体条目、工具、模型或栏目信息，因此无法统计本期有几条 AI&#x2F;skill&#x2F;MCP&#x2F;Python 相关内容，也无法判断主题与亮点。若想确认本期是否有值得看的内容，建议直接点开原文链接查看完整版本。</p>
+<p>rss · AIGC Weekly · 11月17日 16:05</p>
+<p><strong>标签</strong>: <code>#AIGC周刊</code>, <code>#第197期</code>, <code>#周刊更新</code>, <code>#内容不完整</code></p>
+<hr>
+<p><em>本文由 <a class="link"   target="_blank" rel="noopener" href="https://github.com/Thysrael/Horizon" >Horizon<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 自动采集公开信息源生成，摘要与点评为机器产出，链接均指向原文。</em></p>
+<!-- flag of hidden posts -->
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> AI 日报 · 2026-11-18</li>
+        <li><strong>作者:</strong> moye</li>
+        <li><strong>创建于
+                :</strong> 2026-11-18 09:09:35</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-11-18 09:09:35
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://www.kanes.top/2026/11/18/ai-daily-2026-11-18/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI-%E6%97%A5%E6%8A%A5/">#AI 日报</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/">#自动生成</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Horizon/">#Horizon</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%91%A8%E5%88%8A/">#周刊</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-swup-reload-script defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'moye12325/moye12325.github.io',
+                'data-repo-id': 'R_kgDOQMk3jQ',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOQMk3jc4DCzwZ',
+                'data-mapping': 'pathname',
+                'data-strict': '0',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'zh-CN',
+                'data-input-position': 'bottom',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            document.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">AI 日报 · 2026-11-18</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AI-%E5%AE%9E%E6%88%98%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">AI 实战方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%99%BA%E8%83%BD%E4%BD%93%E6%94%B9%E7%94%A8%E2%80%9C%E5%A4%96%E7%BD%AE%E6%B2%99%E7%AE%B1%E2%80%9D%EF%BC%9A%E4%B8%89%E4%B8%AA%E5%AE%9E%E7%8E%B0%EF%BC%8C%E5%85%B1%E7%94%A8%E4%B8%80%E5%A5%97%E6%9C%AC%E5%9C%B0-API-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">1.1.</span> <span class="nav-text">编码智能体改用“外置沙箱”：三个实现，共用一套本地 API ⭐️ 7.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPT%E2%80%916-2-Astra-%E4%B8%8E-Sol-%E5%8F%91%E5%B8%83%EF%BC%9AAPI-%E5%8F%AF%E7%94%A8%EF%BC%8CAstra-%E4%BB%B7%E6%A0%BC%E4%B8%8B%E8%B0%83-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.2.</span> <span class="nav-text">GPT‑6.2 Astra 与 Sol 发布：API 可用，Astra 价格下调 ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%8E%A8%E7%90%86%E5%B7%A5%E7%A8%8B%EF%BC%9A%E4%BD%95%E6%97%B6%E8%AF%A5%E7%A6%BB%E5%BC%80%E5%89%8D%E6%B2%BF%E5%AE%9E%E9%AA%8C%E5%AE%A4-API-%E2%AD%90%EF%B8%8F-6-0-10"><span class="nav-number">1.3.</span> <span class="nav-text">软件工程师的推理工程：何时该离开前沿实验室 API ⭐️ 6.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8-DeepSeek-%E4%B8%8E-Kimi-%E7%94%9F%E6%88%90%E7%BD%91%E9%A1%B5%E8%82%89%E9%B8%BD%E5%8E%9F%E5%9E%8B%EF%BC%8C%E6%88%90%E6%9C%AC%E7%BA%A6-20-%E5%85%83-%E2%AD%90%EF%B8%8F-5-0-10"><span class="nav-number">1.4.</span> <span class="nav-text">用 DeepSeek 与 Kimi 生成网页肉鸽原型，成本约 20 元 ⭐️ 5.0&#x2F;10</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB"><span class="nav-number">2.</span> <span class="nav-text">科技新闻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java4Shell%EF%BC%9AOpenJDK-Base64-%E5%A4%84%E7%90%86%E4%B8%AD%E7%9A%84%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C-%E2%AD%90%EF%B8%8F-8-0-10"><span class="nav-number">2.1.</span> <span class="nav-text">Java4Shell：OpenJDK Base64 处理中的远程代码执行 ⭐️ 8.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SolidJS-2-0-%E5%8F%91%E5%B8%83%EF%BC%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8E%9F%E8%AF%AD%E4%B8%8E%E8%AF%8A%E6%96%AD%E6%94%B9%E8%BF%9B-%E2%AD%90%EF%B8%8F-8-0-10"><span class="nav-number">2.2.</span> <span class="nav-text">SolidJS 2.0 发布：服务器数据原语与诊断改进 ⭐️ 8.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quad9-%E9%80%80%E5%87%BA%E6%B3%95%E5%9B%BD%EF%BC%8CCloudflare-%E8%AD%A6%E7%A4%BA-DNS-%E7%9B%91%E7%AE%A1%E9%A3%8E%E9%99%A9-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">2.3.</span> <span class="nav-text">Quad9 退出法国，Cloudflare 警示 DNS 监管风险 ⭐️ 7.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8B%B1%E4%BC%9F%E8%BE%BE%E5%81%9C%E6%8A%AB%E6%96%B0%E5%8A%A0%E5%9D%A1%E9%94%80%E5%94%AE%E9%A2%9D%EF%BC%8C%E5%BD%93%E5%9C%B0%E5%AD%90%E5%85%AC%E5%8F%B8%E5%A4%96%E9%83%A8%E8%90%A5%E6%94%B6%E8%BE%BE-1040-%E4%BA%BF%E7%BE%8E%E5%85%83-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">2.4.</span> <span class="nav-text">英伟达停披新加坡销售额，当地子公司外部营收达 1040 亿美元 ⭐️ 7.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Phrack-%E7%AC%AC-73-%E6%9C%9F%E5%8F%91%E5%B8%83%EF%BC%8C%E7%A4%BE%E5%8C%BA%E5%85%B3%E6%B3%A8%E6%BC%8F%E6%B4%9E%E6%8A%AB%E9%9C%B2%E7%8A%B6%E6%80%81-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">2.5.</span> <span class="nav-text">Phrack 第 73 期发布，社区关注漏洞披露状态 ⭐️ 7.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%8E%E5%9B%BD%E6%9C%BA%E5%BA%8A%E4%BE%9B%E5%BA%94%E9%93%BE%E4%B8%8E%E5%86%8D%E5%B7%A5%E4%B8%9A%E5%8C%96%E7%93%B6%E9%A2%88-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">2.6.</span> <span class="nav-text">美国机床供应链与再工业化瓶颈 ⭐️ 7.0&#x2F;10</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AI-%E5%88%9B%E4%BD%9C%E8%80%85%E9%9B%B7%E8%BE%BE"><span class="nav-number">3.</span> <span class="nav-text">AI 创作者雷达</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenAI-%E6%8E%A8%E5%87%BA-ChatGPT-%E9%94%80%E5%94%AE%E6%8F%92%E4%BB%B6%E4%B8%8E-30-%E5%90%88%E4%BD%9C%E6%96%B9%E6%8F%92%E4%BB%B6-%E2%AD%90%EF%B8%8F-7-0-10"><span class="nav-number">3.1.</span> <span class="nav-text">OpenAI 推出 ChatGPT 销售插件与 30+ 合作方插件 ⭐️ 7.0&#x2F;10</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E5%91%A8%E5%88%8A"><span class="nav-number">4.</span> <span class="nav-text">中文周刊</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E6%AD%BB%E9%B8%9F-11-%E6%9C%88%E6%AF%8F%E6%97%A5%E5%88%86%E4%BA%AB%EF%BC%9A%E4%BB%85%E8%A7%81%E4%B8%80%E6%9D%A1%E4%BA%92%E5%8A%A8%E5%8E%86%E5%8F%B2%E5%9C%B0%E5%9B%BE%E8%B5%84%E6%BA%90-%E2%AD%90%EF%B8%8F-4-0-10"><span class="nav-number">4.1.</span> <span class="nav-text">不死鸟 11 月每日分享：仅见一条互动历史地图资源 ⭐️ 4.0&#x2F;10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%8AAIGC-Weekly%E3%80%8B%E7%AC%AC-197-%E6%9C%9F%E5%AF%BC%E8%AF%BB-%E2%AD%90%EF%B8%8F-3-0-10"><span class="nav-number">4.2.</span> <span class="nav-text">《AIGC Weekly》第 197 期导读 ⭐️ 3.0&#x2F;10</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">moye</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 197 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+            <div class="icp-info my-1"><a target="_blank" rel="nofollow" href="
+                
+                    https://beian.miit.gov.cn/
+                
+                ">浙ICP备2024104483号-1</a></div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+	
+</body>
+
+</html>
